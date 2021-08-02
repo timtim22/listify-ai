@@ -13,7 +13,7 @@ class TextFromSpeech
     end
   end
 
-  def run_for(blob)
+  def from(blob)
     audio      = { content: audio_as_wav(blob) }
     config     = { language_code: "en-GB" }
     response   = speech_client.recognize(config: config, audio: audio)

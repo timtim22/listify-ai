@@ -50,3 +50,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'react-rails', '~> 2.6', '>= 2.6.1'
+gem 'google-cloud-speech', '~> 1.2'

@@ -2,7 +2,7 @@ class GptClient
   attr_reader :prompt
 
   TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
-  URL = "https://api.openai.com/v1/engines/curie/completions"
+  URL = "https://api.openai.com/v1/engines/davinci-instruct-beta/completions"
 
   def initialize(prompt)
     @prompt = prompt
@@ -33,18 +33,21 @@ class GptClient
   end
 
   def request(method, url, headers, body)
-    #binding.pry
-    #response = HTTParty.send(method, *[url, {
-      #headers: headers,
-      #body: body,
-      ##debug_output: $stdout
-    #}])
+    response = HTTParty.send(method, *[url, {
+      headers: headers,
+      body: body,
+      #debug_output: $stdout
+    }])
 
-   #if response.code == 200
-      #body = JSON.parse(response.body)
-      #{ response_text: body["choices"].first.dig("text"), success: true }
-    #else
-      #{ error: response.body, success: false }
-    #end
+   puts "GPT RESPONSE"
+   puts response
+   puts "------"
+
+   if response.code == 200
+      body = JSON.parse(response.body)
+      { response_text: body["choices"].first.dig("text"), success: true }
+    else
+      { error: response.body, success: false }
+    end
   end
 end

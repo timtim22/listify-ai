@@ -3,7 +3,7 @@ class Prompt
   def self.correct_grammar(text)
     OpenStruct.new(
       title: "grammar",
-      body: "Write this email in standard British English:\n#{text}",
+      body: "Write the following text in standard British English based on the following:\n#{text}",
       stop: "\\n",
       max_tokens: 100,
       temperature: 0.0,

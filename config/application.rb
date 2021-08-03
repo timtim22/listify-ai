@@ -35,7 +35,5 @@ module VoiceChromeBackend
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-    config.hosts << "e18359644e9c.ngrok.io"
   end
 end

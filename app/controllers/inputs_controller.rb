@@ -4,8 +4,17 @@ class InputsController < ApplicationController
   def create
     text = params[:text] || TextFromSpeech.new.from(params[:blob])
     prompt = Prompt.correct_grammar(text)
-    #@response = GptClient.new(prompt).generate_request
-    @response = { success: true, response_text: text }
+
+    puts "PROMPT"
+    puts prompt
+    puts "-----"
+
+    if false #testing without gpt calls
+      @response = { success: true, response_text: text }
+    else
+      @response = GptClient.new(prompt).generate_request
+    end
+
     respond_to do |format|
       if true
         format.json { render status: :ok }

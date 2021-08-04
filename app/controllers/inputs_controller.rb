@@ -3,7 +3,7 @@ class InputsController < ApplicationController
 
   def create
     text = params[:text] || TextFromSpeech.new.from(params[:blob])
-    prompt = Prompt.correct_grammar(text)
+    prompt = Prompt.for(params[:task_type], text)
 
     puts "PROMPT"
     puts prompt

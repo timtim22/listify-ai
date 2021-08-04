@@ -1,5 +1,5 @@
 class Prompt
-  TASK_TYPES = ["tidy_grammar", "bullet_list"].freeze
+  TASK_TYPES = ["tidy_grammar", "bullet_list", "experimental"].freeze
 
   def self.for(task_type, text)
     if TASK_TYPES.include?(task_type)
@@ -37,4 +37,17 @@ class Prompt
     )
   end
 
+  def self.experimental(text)
+    OpenStruct.new(
+      title: "experimental",
+      body: "Convert the following text to standard British English:\n#{text}",
+      stop: "\\n",
+      max_tokens: 200,
+      temperature: 0.0,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      engine: "davinci-instruct-beta"
+    )
+  end
 end

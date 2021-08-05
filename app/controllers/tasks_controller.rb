@@ -1,11 +1,16 @@
 class TasksController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_admin, only: [:index]
+
+  def index
+    @tasks = Task.all.order(created_at: :desc)
+  end
 
   def create
     #text = params[:text] || TextFromSpeech.new.from(params[:blob])
     #prompt = Prompt.for(params[:task_type], text)
 
-    if true #testing without gpt calls
+    if false #testing without gpt calls
       input_text = params[:text] || TextFromSpeech.new.from(params[:blob])
       @task = Task.new(input_text: input_text, result_text: input_text)
     else

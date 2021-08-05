@@ -40,7 +40,7 @@ class Prompt
   def self.experimental(text)
     OpenStruct.new(
       title: "experimental",
-      body: "Convert the following text to standard British English:\n#{text}",
+      body: "Convert the following text to standard South African English:\n#{text}",
       stop: "\\n",
       max_tokens: 200,
       temperature: 0.0,

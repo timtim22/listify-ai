@@ -1,11 +1,12 @@
 class GptClient
-  attr_reader :prompt
+  attr_reader :prompt, :original_text
 
   TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
   URL = "https://api.openai.com/v1/engines/davinci-instruct-beta/completions"
 
-  def initialize(prompt)
+  def initialize(prompt, text)
     @prompt = prompt
+    @original_text = text
   end
 
   def generate_request
@@ -45,7 +46,11 @@ class GptClient
 
    if response.code == 200
       body = JSON.parse(response.body)
-      { response_text: body["choices"].first.dig("text"), success: true }
+      {
+        response_text: body["choices"].first.dig("text"),
+        original_text: original_text,
+        success: true
+      }
     else
       { error: response.body, success: false }
     end

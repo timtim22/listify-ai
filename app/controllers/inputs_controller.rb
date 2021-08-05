@@ -10,9 +10,9 @@ class InputsController < ApplicationController
     puts "-----"
 
     if false #testing without gpt calls
-      @response = { success: true, response_text: text }
+      @response = { success: true, original_text: text, response_text: text }
     else
-      @response = GptClient.new(prompt).generate_request
+      @response = GptClient.new(prompt, text).generate_request
     end
 
     respond_to do |format|

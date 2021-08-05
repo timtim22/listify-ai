@@ -1,9 +1,13 @@
-class TasksController < ApplicationController
+class TaskRunsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
-  before_action :authenticate_admin, only: [:index]
+  before_action :authenticate_admin, except: [:create]
 
   def index
-    @tasks = Task.all.order(created_at: :desc)
+    @task_runs = TaskRun.all.order(created_at: :desc).includes(:prompt)
+  end
+
+  def show
+    @task_run = TaskRun.find(params[:id])
   end
 
   def create
@@ -12,9 +16,9 @@ class TasksController < ApplicationController
 
     if false #testing without gpt calls
       input_text = params[:text] || TextFromSpeech.new.from(params[:blob])
-      @task = Task.new(input_text: input_text, result_text: input_text)
+      @task_run = TaskRun.new(input_text: input_text, result_text: input_text)
     else
-      @task = TaskRunner.run_for!(
+      @task_run = TaskRunner.run_for!(
         params[:text],
         params[:blob],
         params[:task_type]

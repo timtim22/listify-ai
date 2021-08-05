@@ -1,0 +1,9 @@
+<h1>Showing task run </h1>
+<% @task_run.attributes.except('created_at', 'updated_at').each do |key, val| %>
+  <p><%= "#{key}: #{val}" %></p>
+<% end %>
+<p>------</p>
+<h2>Showing prompt as ran </h2>
+<% @task_run.prompt.attributes.except('created_at', 'updated_at').each do |key, val| %>
+  <p><%= "#{key}: #{val}" %></p>
+<% end %>

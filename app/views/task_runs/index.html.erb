@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 <div class="w-full px-8">
   <div class="w-full flex items-center justify-start">
-    <h1 class="text-xl text-gray-900 font-medium my-4">Tasks</h1>
+    <h1 class="text-xl text-gray-900 font-medium my-4">Task Runs</h1>
   </div>
 
-  <% if @tasks.any? %>
+  <% if @task_runs.any? %>
     <div class="border border-gray-200 rounded-lg overflow-hidden">
       <table class="w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
@@ -18,13 +18,16 @@
         </thead>
 
         <tbody class="divide-y divide-gray-200">
-          <% @tasks.each do |task| %>
+          <% @task_runs.each do |task_run| %>
             <tr class="text-xs">
-              <td class="px-6 py-3"><%= task.task_type %></td>
-              <td class="px-6 py-3"><%= task.input_text %></td>
-              <td class="px-6 py-3"><%= task.result_text %></td>
-              <td class="px-6 py-3"><%= task.error %></td>
-              <td class="px-6 py-3"><%= task.created_at.strftime("%H:%M, %d %b") %></td>
+              <td class="px-6 py-3">
+                <%= link_to task_run.task_type, task_run %>
+                <%= task_run.prompt.active ? "" : " (old version)" %>
+              </td>
+              <td class="px-6 py-3"><%= task_run.input_text %></td>
+              <td class="px-6 py-3"><%= task_run.result_text %></td>
+              <td class="px-6 py-3"><%= task_run.error %></td>
+              <td class="px-6 py-3"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
             </tr>
           <% end %>
         </tbody>

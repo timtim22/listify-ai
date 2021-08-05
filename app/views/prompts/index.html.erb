@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Prompts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Active</th>
+      <th>Content</th>
+      <th>Stop</th>
+      <th>Temperature</th>
+      <th>Max tokens</th>
+      <th>Top p</th>
+      <th>Frequency penalty</th>
+      <th>Presence penalty</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @prompts.each do |prompt| %>
+      <tr>
+        <td><%= prompt.title %></td>
+        <td><%= prompt.active %></td>
+        <td><%= prompt.content %></td>
+        <td><%= prompt.stop %></td>
+        <td><%= prompt.temperature %></td>
+        <td><%= prompt.max_tokens %></td>
+        <td><%= prompt.top_p %></td>
+        <td><%= prompt.frequency_penalty %></td>
+        <td><%= prompt.presence_penalty %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

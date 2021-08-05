@@ -31,12 +31,4 @@ class TaskRunsController < ApplicationController
     end
 
   end
-
-  def check_token
-    auth_token = Rails.application.credentials.base_ext_token
-    if request.headers['HTTP_AUTHORIZATION'] != auth_token
-      raise "Token invalid!"
-    end
-  end
-
 end

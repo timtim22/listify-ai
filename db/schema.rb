@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_094212) do
+ActiveRecord::Schema.define(version: 2021_08_05_163734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_run_id", null: false
+    t.string "sentiment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_run_id"], name: "index_feedbacks_on_task_run_id"
+  end
 
   create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
@@ -60,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_094212) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "feedbacks", "task_runs"
   add_foreign_key "task_runs", "prompts"
   add_foreign_key "task_runs", "users"
 end

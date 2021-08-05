@@ -11,8 +11,7 @@ class TaskRunsController < ApplicationController
   end
 
   def create
-    #text = params[:text] || TextFromSpeech.new.from(params[:blob])
-    #prompt = Prompt.for(params[:task_type], text)
+    check_token
 
     if false #testing without gpt calls
       input_text = params[:text] || TextFromSpeech.new.from(params[:blob])
@@ -32,4 +31,12 @@ class TaskRunsController < ApplicationController
     end
 
   end
+
+  def check_token
+    auth_token = Rails.application.credentials.base_ext_token
+    if request.headers['HTTP_AUTHORIZATION'] != auth_token
+      raise "Token invalid!"
+    end
+  end
+
 end

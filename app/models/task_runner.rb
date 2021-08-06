@@ -9,8 +9,8 @@ class TaskRunner
 
     log(prompt_with_query)
 
-    #response   = GptClient.new.execute_request(prompt_with_query)
-    response = { result_text: input_text, success: true }
+    response   = GptClient.new.execute_request(prompt_with_query)
+    #response = { result_text: input_text, success: true }
 
     task_run = TaskRun.create!(
       task_type: task_type,

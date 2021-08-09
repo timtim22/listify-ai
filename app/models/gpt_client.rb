@@ -24,9 +24,9 @@ class GptClient
       "max_tokens" => prompt.max_tokens,
       "top_p" => prompt.top_p,
       "frequency_penalty" => prompt.frequency_penalty,
-      "presence_penalty" => prompt.presence_penalty,
-      "stop" => [prompt.stop]
+      "presence_penalty" => prompt.presence_penalty
     }.to_json
+      #"stop" => [prompt.stop]
   end
 
   def request(method, url, headers, body)

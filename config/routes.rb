@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :task_runs, only: [:index, :show, :create]
-  resources :prompts, only: [:index]
+  resources :prompts, only: [:index, :new, :create]
   resources :feedbacks, only: [:create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -1,3 +1,31 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.field {
+  @apply mb-2
+}
+
+.form-field {
+  @apply w-full mt-1 px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500
+}
+
+.form-label {
+  @apply text-gray-700 text-sm font-medium
+}
+
+.form-block {
+  @apply block w-full px-4 py-3 leading-4 border rounded;
+}
+
+.form-text-area {
+  @apply w-full mt-1 px-4 py-2 h-48 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 resize-none
+}
+
+.primary-form-btn {
+  @apply px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none
+}
+
+.add-button {
+  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white bg-green-600 hover:bg-green-700
+}

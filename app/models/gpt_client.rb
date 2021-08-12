@@ -1,11 +1,14 @@
 class GptClient
 
   TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
-  URL = "https://api.openai.com/v1/engines/davinci-instruct-beta/completions"
 
   def execute_request(prompt)
     body = generate_body(prompt)
-    request('post', URL, headers, body)
+    request('post', url_for(prompt), headers, body)
+  end
+
+  def url_for(prompt)
+    "https://api.openai.com/v1/engines/#{prompt.engine}/completions"
   end
 
   private
@@ -18,15 +21,18 @@ class GptClient
   end
 
   def generate_body(prompt)
-    {
+    body_params = {
       "prompt" => prompt.body,
       "temperature" => prompt.temperature,
       "max_tokens" => prompt.max_tokens,
       "top_p" => prompt.top_p,
       "frequency_penalty" => prompt.frequency_penalty,
       "presence_penalty" => prompt.presence_penalty
-    }.to_json
+    }
+
       #"stop" => [prompt.stop]
+    body_params["stop"] = prompt.stop if prompt.stop.present?
+    body_params.to_json
   end
 
   def request(method, url, headers, body)

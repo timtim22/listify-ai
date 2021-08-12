@@ -20,12 +20,17 @@ class Prompt < ApplicationRecord
   end
 
   def to_object_with(input_text)
-    req = ["stop", "max_tokens", "temperature", "top_p", "frequency_penalty", "presence_penalty", "engine"]
+    req   = ["stop", "max_tokens", "temperature", "top_p", "frequency_penalty", "presence_penalty", "engine"]
     attrs = attributes.select { |a| req.include? a }
-    OpenStruct.new(attrs.merge(body: "#{content}#{input_text}"))
+    body  = construct_prompt_body(input_text)
+    OpenStruct.new(attrs.merge(body: body))
   end
 
   private
+
+  def construct_prompt_body(input_text)
+    content.gsub("{input}", input_text)
+  end
 
   def set_previous_version_inactive
     previous_version = Prompt.for(title)

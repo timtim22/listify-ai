@@ -29,3 +29,16 @@
 .add-button {
   @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white bg-green-600 hover:bg-green-700
 }
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "▼";
+  font-size: 1rem;
+  top: 12px;
+  right: 12px;
+  position: absolute;
+  color: #9CA3AF;
+}

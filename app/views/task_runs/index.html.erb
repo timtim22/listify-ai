@@ -12,6 +12,7 @@
             <th class="px-6 py-3">task_type</th>
             <th class="px-6 py-3">input_text</th>
             <th class="px-6 py-3">result_text</th>
+            <th class="px-6 py-3">input_source</th>
             <th class="px-6 py-3">error</th>
             <th class="px-6 py-3">created_at</th>
           </tr>
@@ -24,8 +25,13 @@
                 <%= link_to task_run.task_type, task_run %>
                 <%= task_run.prompt.active ? "" : " (old version)" %>
               </td>
-              <td class="px-6 py-3"><%= task_run.input_text %></td>
-              <td class="px-6 py-3"><%= task_run.result_text %></td>
+              <td class="px-6 py-3">
+                <p class="whitespace-pre-wrap"><%= highlight(task_run.input_text, task_run.input_text, highlighter: '<span class="bg-red-50">\1</span>') %></p>
+              </td>
+              <td class="px-6 py-3">
+                <p class="whitespace-pre-wrap bg-red-50"><%= task_run.result_text %></p>
+              </td>
+              <td class="px-6 py-3"><%= task_run.input_source %></td>
               <td class="px-6 py-3"><%= task_run.error %></td>
               <td class="px-6 py-3"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
             </tr>

@@ -13,16 +13,11 @@ class TaskRunsController < ApplicationController
   def create
     check_token
 
-    if false #testing without gpt calls
-      input_text = params[:text] || TextFromSpeech.new.from(params[:blob])
-      @task_run = TaskRun.new(input_text: input_text, result_text: input_text)
-    else
-      @task_run = TaskRunner.run_for!(
+     @task_run = TaskRunner.run_for!(
         params[:text],
         params[:blob],
         params[:task_type]
       )
-    end
 
     respond_to do |format|
       if true

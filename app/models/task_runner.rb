@@ -2,20 +2,17 @@ class TaskRunner
 
   def self.run_for!(typed_text, recording, task_type)
     input_text = typed_text || TextFromSpeech.new.from(recording)
-    prompt     = Prompt.for(task_type)
-    raise "Unknown task type!" if prompt.nil?
-
-    prompt_with_query = prompt.to_object_with(input_text)
-
-    log(prompt_with_query)
-
-    #binding.pry
 
     if input_too_short?(input_text)
       raise Errors::ShortRequest
+    end
+
+    prompt = Prompt.for(task_type)
+    if task_type == "transcription"
+      response = { result_text: input_text, success: true }
     else
+      prompt_with_query = generate_prompt_with_query(prompt, input_text)
       response = GptClient.new.execute_request(prompt_with_query)
-      #response = { result_text: input_text, success: true }
     end
 
     task_run = TaskRun.create!(
@@ -28,6 +25,18 @@ class TaskRunner
       user: User.first
     )
     task_run
+  end
+
+  private
+
+  def self.generate_prompt_with_query(prompt, input_text)
+    if prompt.nil?
+      raise "Unknown task type!"
+    else
+      prompt_with_query = prompt.to_object_with(input_text)
+      log(prompt_with_query)
+      prompt_with_query
+    end
   end
 
   def self.input_too_short?(input_text)

@@ -14,7 +14,7 @@ class TextFromSpeech
   end
 
   def from(blob)
-    audio      = { content: audio_as_wav(blob) }
+    audio      = { content: File.binread(blob.tempfile) }
     config     = { language_code: "en-GB" }
     response   = speech_client.recognize(config: config, audio: audio)
 
@@ -23,11 +23,6 @@ class TextFromSpeech
     else
       response.results.first.alternatives.first.transcript
     end
-  end
-
-  def audio_as_wav(blob)
-    File.open('tmp/recorded.wav', 'wb') { |f| f.write blob.read }
-    File.binread 'tmp/recorded.wav'
   end
 
   def fetch_credentials

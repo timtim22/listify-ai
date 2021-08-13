@@ -3,7 +3,7 @@ class TaskRunsController < ApplicationController
   before_action :authenticate_admin, except: [:create]
 
   def index
-    @task_runs = TaskRun.all.order(created_at: :desc).includes(:prompt)
+    @task_runs = TaskRun.all.where.not(task_type: 'transcription').order(created_at: :desc).includes(:prompt)
   end
 
   def show

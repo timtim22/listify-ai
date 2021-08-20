@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_163734) do
+ActiveRecord::Schema.define(version: 2021_08_20_104242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_163734) do
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "gpt_model_id"
   end
 
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

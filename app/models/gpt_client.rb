@@ -3,8 +3,17 @@ class GptClient
   TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
 
   def execute_request(prompt)
-    body = generate_body(prompt)
-    request('post', url_for(prompt), headers, body)
+    if prompt.model
+      body = { "prompt" => prompt.body, max_tokens: 150, "stop" => [" END"], "model" => prompt.model }.to_json
+      request('post', model_url, headers, body)
+    else
+      body = generate_body(prompt)
+      request('post', url_for(prompt), headers, body)
+    end
+  end
+
+  def model_url
+    "https://api.openai.com/v1/completions"
   end
 
   def url_for(prompt)

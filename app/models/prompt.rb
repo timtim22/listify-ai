@@ -19,7 +19,12 @@ class Prompt < ApplicationRecord
     )
   end
 
-  def to_object_with(input_text)
+  def to_object_with_model(input_text)
+    body = construct_prompt_body(input_text).gsub("\\n", "\n")
+    OpenStruct.new(model: gpt_model_id, body: body)
+  end
+
+  def to_object_with_text(input_text)
     req   = ["stop", "max_tokens", "temperature", "top_p", "frequency_penalty", "presence_penalty", "engine"]
     attrs = attributes.select { |a| req.include? a }
     body  = construct_prompt_body(input_text)

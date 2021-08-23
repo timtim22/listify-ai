@@ -32,8 +32,12 @@ class TaskRunner
   def self.generate_prompt_with_query(prompt, input_text)
     if prompt.nil?
       raise "Unknown task type!"
+    elsif prompt.gpt_model_id.present?
+      prompt_with_query = prompt.to_object_with_model(input_text)
+      log(prompt_with_query)
+      prompt_with_query
     else
-      prompt_with_query = prompt.to_object_with(input_text)
+      prompt_with_query = prompt.to_object_with_text(input_text)
       log(prompt_with_query)
       prompt_with_query
     end

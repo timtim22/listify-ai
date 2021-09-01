@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
   devise_for :users
   root to: 'home#index'
   get '/listings', to: 'home#listings'
@@ -7,5 +9,6 @@ Rails.application.routes.draw do
   resources :prompts, only: [:index, :new, :create]
   resources :feedbacks, only: [:create]
   resource :version, only: [:show]
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  resources :listings, only: [:show, :new, :create]
 end

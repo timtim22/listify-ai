@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'home#index'
+  get '/listings', to: 'home#listings'
 
   resources :task_runs, only: [:index, :show, :create]
   resources :prompts, only: [:index, :new, :create]

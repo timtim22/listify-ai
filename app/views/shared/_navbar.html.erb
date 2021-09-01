@@ -1,18 +1,18 @@
 <div>
-  <nav class="bg-gradient-to-r from-purple-700 to-purple-400">
+  <nav class="bg-gradient-to-r from-purple-700 to-purple-500">
     <div class="px-4 mx-auto sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
-          <div class="flex justify-center items-center mx-2 w-7 h-7 bg-gray-200 rounded-full border border-gray-700 shadow-sm">
+          <div class="flex justify-center items-center mx-2 w-7 h-7 bg-white rounded-full border border-gray-700 shadow-sm">
             <div class="flex-shrink-0 mx-2">
-              <i class="text-md fas fa-user-tie"></i>
+              <i class="text-md fas fa-shield-virus"></i>
             </div>
           </div>
 
           <div>
             <a
               href="/"
-              class="text-2xl font-semibold tracking-wider text-gray-200 hover:text-white">
+              class="text-2xl font-semibold tracking-wider text-white">
               Minotaur
             </a>
           </div>
@@ -27,9 +27,9 @@
         <div class="hidden md:block">
           <div class="flex items-center ml-4 md:ml-6">
             <% if user_signed_in? %>
-              <%= link_to "Settings", root_url, { class: "p-1 text-gray-100 hover:text-white focus:outline-none" } %>
-              <span class="mx-2 text-gray-100"> | </span>
-              <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 text-gray-100 hover:text-white focus:outline-none" } %>
+              <%= link_to "Settings", root_url, { class: "p-1 text-white focus:outline-none" } %>
+              <span class="mx-1 text-gray-100"> | </span>
+              <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 text-white focus:outline-none" } %>
             <% end %>
           </div>
         </div>

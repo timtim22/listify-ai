@@ -1,5 +1,5 @@
-<div class="w-full h-screen flex flex-col items-center justify-start py-8">
-  <h1 class="tracking-wider text-xl font-medium">New Prompt</h1>
+<div class="flex flex-col justify-start items-center py-8 w-full h-screen">
+  <h1 class="text-xl font-medium tracking-wider">New Prompt</h1>
 
   <%= form_with(model: @prompt, class: "w-full px-20 my-4") do |form| %>
     <% if @prompt.errors.any? %>
@@ -63,7 +63,7 @@
           <%= form.select :engine, options_for_select(["davinci-instruct-beta"], selected: form.object.engine), {}, { class: "form-field" } %>
         </div>
 
-        <div class="actions mt-4">
+        <div class="mt-4 actions">
           <%= form.submit "Submit", class: "primary-form-btn" %>
         </div>
       </div>

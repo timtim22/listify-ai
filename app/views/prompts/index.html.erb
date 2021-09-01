@@ -1,37 +1,37 @@
 <p id="notice"><%= notice %></p>
-<div class="w-full px-8">
-  <div class="w-full flex items-center justify-between">
-    <h1 class="text-xl text-gray-900 font-medium my-4">Prompts</h1>
+<div class="px-8 w-full">
+  <div class="flex justify-between items-center w-full">
+    <h1 class="my-4 text-xl font-medium text-gray-900">Prompts</h1>
     <%= link_to 'Add Prompt', new_prompt_path, class: "add-button" %>
   </div>
-  <div class="border border-gray-200 rounded-lg overflow-hidden">
+  <div class="overflow-hidden rounded-lg border border-gray-200">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
-        <tr class="text-xs text-gray-500 text-left uppercase font-medium tracking-wider">
-          <th class="px-6 py-3">Title</th>
-          <th class="px-6 py-3">Active</th>
-          <th class="px-6 py-3">Content</th>
-          <th class="px-6 py-3">Stop</th>
-          <th class="px-6 py-3">Temperature</th>
-          <th class="px-6 py-3">Max tokens</th>
-          <th class="px-6 py-3">Top p</th>
-          <th class="px-6 py-3">Frequency penalty</th>
-          <th class="px-6 py-3">Presence penalty</th>
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Title</th>
+          <th class="py-3 px-6">Active</th>
+          <th class="py-3 px-6">Content</th>
+          <th class="py-3 px-6">Stop</th>
+          <th class="py-3 px-6">Temperature</th>
+          <th class="py-3 px-6">Max tokens</th>
+          <th class="py-3 px-6">Top p</th>
+          <th class="py-3 px-6">Frequency penalty</th>
+          <th class="py-3 px-6">Presence penalty</th>
         </tr>
       </thead>
 
       <tbody>
         <% @prompts.each do |prompt| %>
           <tr class="text-xs">
-            <td class="px-6 py-3"><%= prompt.title %></td>
-            <td class="px-6 py-3"><%= prompt.active %></td>
-            <td class="px-6 py-3 whitespace-pre-wrap"><%= prompt.content %></td>
-            <td class="px-6 py-3"><%= prompt.stop %></td>
-            <td class="px-6 py-3"><%= prompt.temperature %></td>
-            <td class="px-6 py-3"><%= prompt.max_tokens %></td>
-            <td class="px-6 py-3"><%= prompt.top_p %></td>
-            <td class="px-6 py-3"><%= prompt.frequency_penalty %></td>
-            <td class="px-6 py-3"><%= prompt.presence_penalty %></td>
+            <td class="py-3 px-6"><%= prompt.title %></td>
+            <td class="py-3 px-6"><%= prompt.active %></td>
+            <td class="py-3 px-6 whitespace-pre-wrap"><%= prompt.content %></td>
+            <td class="py-3 px-6"><%= prompt.stop %></td>
+            <td class="py-3 px-6"><%= prompt.temperature %></td>
+            <td class="py-3 px-6"><%= prompt.max_tokens %></td>
+            <td class="py-3 px-6"><%= prompt.top_p %></td>
+            <td class="py-3 px-6"><%= prompt.frequency_penalty %></td>
+            <td class="py-3 px-6"><%= prompt.presence_penalty %></td>
           </tr>
         <% end %>
       </tbody>

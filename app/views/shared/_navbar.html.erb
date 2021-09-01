@@ -1,9 +1,9 @@
 <div>
   <nav class="bg-gradient-to-r from-purple-700 to-purple-400">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+    <div class="px-4 mx-auto sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
-          <div class="mx-2 w-7 h-7 flex justify-center items-center border border-gray-700 shadow-sm rounded-full bg-gray-200">
+          <div class="flex justify-center items-center mx-2 w-7 h-7 bg-gray-200 rounded-full border border-gray-700 shadow-sm">
             <div class="flex-shrink-0 mx-2">
               <i class="text-md fas fa-user-tie"></i>
             </div>
@@ -12,20 +12,20 @@
           <div>
             <a
               href="/"
-              class="text-2xl tracking-wider text-gray-200 font-semibold hover:text-white">
+              class="text-2xl font-semibold tracking-wider text-gray-200 hover:text-white">
               Minotaur
             </a>
           </div>
          <div class="hidden md:block">
-            <div class="ml-24 flex items-baseline space-x-4">
+            <div class="flex items-baseline ml-24 space-x-4">
               <% if user_signed_in? %>
-                <%#<a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>%>
+                <%#<a href="/" class="py-2 px-3 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700">Home</a>%>
               <% end %>
             </div>
           </div>
         </div>
         <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">
+          <div class="flex items-center ml-4 md:ml-6">
             <% if user_signed_in? %>
               <%= link_to "Settings", root_url, { class: "p-1 text-gray-100 hover:text-white focus:outline-none" } %>
               <span class="mx-2 text-gray-100"> | </span>
@@ -33,16 +33,16 @@
             <% end %>
           </div>
         </div>
-        <div class="-mr-2 flex md:hidden">
+        <div class="flex -mr-2 md:hidden">
           <!-- Mobile menu button -->
-          <button type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <button type="button" class="inline-flex justify-center items-center p-2 text-gray-400 bg-gray-800 rounded-md hover:text-white hover:bg-gray-700 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
             <!--
               Heroicon name: outline/menu
 
               Menu open: "hidden", Menu closed: "block"
             -->
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <svg class="block w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <!--
@@ -50,7 +50,7 @@
 
               Menu open: "block", Menu closed: "hidden"
             -->
-            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <svg class="hidden w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>

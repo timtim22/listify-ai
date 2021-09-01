@@ -1,6 +1,9 @@
 {
   "name": "voice-chrome-backend",
   "private": true,
+  "scripts": {
+    "rustywind-fix": "rustywind --write ."
+  },
   "dependencies": {
     "@babel/preset-react": "^7.14.5",
     "@rails/actioncable": "^6.0.0",
@@ -19,6 +22,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react_ujs": "^2.6.1",
+    "rustywind": "^0.12.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",

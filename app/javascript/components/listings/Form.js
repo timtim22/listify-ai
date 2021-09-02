@@ -4,7 +4,7 @@ import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 
 const newListing = {
-  request_type: 'description',
+  request_type: 'listing_description',
   property_type: '',
   sleeps: 2,
   location: '',
@@ -20,8 +20,6 @@ const Form = () => {
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   }, [errors])
-
-
 
   const setField = (field, value) => {
     setListing({ ...listing, [field]: value });
@@ -63,10 +61,10 @@ const Form = () => {
        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
         <p className="text-sm">I want to generate a...</p>
         <div className="flex justify-center py-8">
-          {pillButton("Description", "description")}
-          {pillButton("Title", "title")}
-          {pillButton("Ad for Google", "google_ad")}
-          {pillButton("Ad for Facebook", "facebook_ad")}
+          {pillButton("Description", "listing_description")}
+          {pillButton("Title", "listing_title")}
+          {pillButton("Ad for Google", "listing_google_ad")}
+          {pillButton("Ad for Facebook", "listing_facebook_ad")}
         </div>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>

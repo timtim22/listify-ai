@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get '/listings', to: 'home#listings'
 
-  resources :task_runs, only: [:index, :show, :create]
-  resources :prompts, only: [:index, :new, :create]
+  resources :legacy_task_runs, only: [:index, :show, :create]
+  resources :legacy_prompts, only: [:index, :new, :create]
   resources :feedbacks, only: [:create]
   resource :version, only: [:show]
 

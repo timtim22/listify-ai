@@ -3,5 +3,5 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
-  has_many :task_runs
+  has_many :legacy_task_runs
 end

@@ -1,9 +1,9 @@
-class Prompt < ApplicationRecord
-  has_many :task_runs
+class LegacyPrompt < ApplicationRecord
+  has_many :legacy_task_runs
   before_create :set_previous_version_inactive
 
   def self.for(task_type)
-    Prompt.find_by(title: task_type, active: true)
+    LegacyPrompt.find_by(title: task_type, active: true)
   end
 
   def self.new_from_defaults
@@ -38,7 +38,7 @@ class Prompt < ApplicationRecord
   end
 
   def set_previous_version_inactive
-    previous_version = Prompt.for(title)
+    previous_version = LegacyPrompt.for(title)
     previous_version.update(active: false) if previous_version
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_20_104242) do
+ActiveRecord::Schema.define(version: 2021_09_02_065254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.index ["task_run_id"], name: "index_feedbacks_on_task_run_id"
   end
 
-  create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
     t.string "stop"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.string "gpt_model_id"
   end
 
-  create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "legacy_task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "input_source"
     t.text "input_text"
@@ -49,9 +49,9 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.string "error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "prompt_id"
-    t.index ["prompt_id"], name: "index_task_runs_on_prompt_id"
-    t.index ["user_id"], name: "index_task_runs_on_user_id"
+    t.uuid "legacy_prompt_id"
+    t.index ["legacy_prompt_id"], name: "index_legacy_task_runs_on_legacy_prompt_id"
+    t.index ["user_id"], name: "index_legacy_task_runs_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "feedbacks", "task_runs"
-  add_foreign_key "task_runs", "prompts"
-  add_foreign_key "task_runs", "users"
+  add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
+  add_foreign_key "legacy_task_runs", "legacy_prompts"
+  add_foreign_key "legacy_task_runs", "users"
 end

@@ -11,4 +11,8 @@ class Listing
     return false if !valid?
     true
   end
+
+  #def input_text
+    #input_text_for[request_type]
+  #end
 end

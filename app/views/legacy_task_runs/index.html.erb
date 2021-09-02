@@ -23,7 +23,7 @@
             <tr class="text-xs">
               <td class="py-3 px-6">
                 <%= link_to task_run.task_type, task_run %>
-                <%= task_run.prompt.active ? "" : " (old version)" %>
+                <%= task_run.legacy_prompt.active ? "" : " (old version)" %>
               </td>
               <td class="py-3 px-6">
                 <p class="whitespace-pre-wrap"><%= highlight(task_run.input_text, task_run.input_text, highlighter: '<span class="bg-red-50">\1</span>') %></p>

@@ -1,19 +1,19 @@
-class TaskRunsController < ApplicationController
+class LegacyTaskRunsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
   before_action :authenticate_admin, except: [:create]
 
   def index
-    @task_runs = TaskRun.all.where.not(task_type: 'transcription').order(created_at: :desc).includes(:prompt)
+    @task_runs = LegacyTaskRun.all.where.not(task_type: 'transcription').order(created_at: :desc).includes(:legacy_prompt)
   end
 
   def show
-    @task_run = TaskRun.find(params[:id])
+    @task_run = LegacyTaskRun.find(params[:id])
   end
 
   def create
     check_token
 
-     @task_run = TaskRunner.run_for!(
+     @task_run = TaskRunner.run_for_legacy!(
         params[:text],
         params[:blob],
         params[:task_type]

@@ -10,15 +10,19 @@ class ListingsController < ApplicationController
   end
 
   def create
-    @listing = Listing.new(listing_params.merge({ user_id: current_user.id }))
+    save = Input.create_with(Listing.new(listing_params), current_user)
+    if save.success
+      @listing  = save.input_object
+      @task_run = TaskRunner.run_for!(@listing, current_user)
+    end
 
     respond_to do |format|
-      if @listing.save
-        format.html { redirect_to listings_path(@listing), notice: "Listing was successfully created." }
-        format.json { redirect_to listings_path(@listing), status: :created, location: listings_path }
+      if save.success
+        format.html { redirect_to listing_path(@listing), notice: "Listing was successfully created." }
+        format.json { redirect_to listing_path(@listing), status: :created, location: listings_path }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @listing.errors, status: :unprocessable_entity }
+        format.json { render json: save.errors, status: :unprocessable_entity }
       end
     end
   end

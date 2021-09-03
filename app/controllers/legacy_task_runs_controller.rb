@@ -13,17 +13,16 @@ class LegacyTaskRunsController < ApplicationController
   def create
     check_token
 
-     @task_run = TaskRunner.run_for_legacy!(
-        params[:text],
-        params[:blob],
-        params[:task_type]
-      )
+    @task_run = TaskRunner.run_for_legacy!(
+       params[:text],
+       params[:blob],
+       params[:task_type]
+     )
 
     respond_to do |format|
       if true
         format.json { render status: :ok }
       end
     end
-
   end
 end

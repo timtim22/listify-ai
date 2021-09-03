@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
+import Spinner from '../common/Spinner';
 
 const newListing = {
   request_type: 'listing_description',
@@ -12,6 +13,7 @@ const newListing = {
 }
 
 const Form = () => {
+  const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
 
@@ -26,10 +28,12 @@ const Form = () => {
   }
 
   const handleRequestSuccess = (response) => {
+    setLoading(false);
     redirectOnSuccess(response);
   }
 
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
     const data = new FormData();
     data.append('listing', JSON.stringify(listing));
@@ -37,7 +41,7 @@ const Form = () => {
       "/listings.json",
       listing,
       (response) => { handleRequestSuccess(response) },
-      (e) => setErrors(e)
+      (e) => { setErrors(e); setLoading(false) }
     )
 
   }
@@ -54,11 +58,20 @@ const Form = () => {
     )
   }
 
+  const submitButton = () => {
+    if (loading) { return <Spinner />; }
+    return (
+      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
+        Generate!
+      </button>
+    )
+  }
+
+
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
-
-       <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
+        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
         <p className="text-sm">I want to generate a...</p>
         <div className="flex justify-center py-8">
           {pillButton("Description", "listing_description")}
@@ -73,55 +86,20 @@ const Form = () => {
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
         </div>
-        <div className="flex flex-col py-4 w-4/5 max-w-2xl">
-          <div className="flex justify-start w-full">
-            <div>
-              <span>My listing is for a</span>
-              <input
-                type="text"
-                placeholder="house, flat..."
-                value={listing.property_type}
-                onChange={(e) => {setField('property_type', e.target.value)}}
-                className="form-inline-field"
-              />
-              <span>that sleeps</span>
-                <input
-                  type="number"
-                  min="1"
-                  max="50"
-                  placeholder="2"
-                  value={listing.sleeps}
-                  onChange={(e) => {setField('sleeps', e.target.value)}}
-                  className="w-16 form-inline-field"
-                />
-              <span>people.</span>
-              <br />
-              <br />
-              <span>It is located in</span>
-              <input
-                type="text"
-                placeholder="location"
-                value={listing.location}
-                onChange={(e) => {setField('location', e.target.value)}}
-                className="form-inline-field"
-              />
-            <span>.</span>
-            <br />
-            <br />
-            </div>
-          </div>
+        <div className="flex flex-col w-4/5 max-w-2xl">
           <label className="block mt-4 w-full">
-            <span className="text-sm font-medium tracking-wider text-gray-500 uppercase">Additional details</span>
+            <span className="text-sm font-bold tracking-wider text-gray-500 uppercase">
+              Property details
+            </span>
             <textarea
               value={listing.details}
               onChange={(e) => {setField('details', e.target.value)}}
-              className="form-text-area">
+              placeholder="e.g. apartment near Covent Garden, third floor with balcony, sleeps 4..."
+              className="h-48 form-text-area">
             </textarea>
           </label>
-          <div className="flex justify-center w-full">
-            <button className="py-2 px-6 my-8 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-              Generate!
-            </button>
+          <div className="flex justify-center w-full py-8">
+            {submitButton()}
           </div>
         </div>
       </div>

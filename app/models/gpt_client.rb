@@ -40,7 +40,7 @@ class GptClient
     }
 
       #"stop" => [prompt.stop]
-    body_params["stop"] = prompt.stop if prompt.stop.present?
+    #body_params["stop"] = prompt.stop if prompt.stop.present?
     body_params.to_json
   end
 

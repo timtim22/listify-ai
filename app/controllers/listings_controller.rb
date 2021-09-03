@@ -18,10 +18,8 @@ class ListingsController < ApplicationController
 
     respond_to do |format|
       if save.success
-        format.html { redirect_to listing_path(@listing), notice: "Listing was successfully created." }
-        format.json { redirect_to listing_path(@listing), status: :created, location: listings_path }
+        format.json { render :create, status: :created }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: save.errors, status: :unprocessable_entity }
       end
     end

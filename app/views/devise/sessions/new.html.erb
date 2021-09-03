@@ -15,7 +15,7 @@
             autofocus: true,
             autocomplete: "email",
             placeholder: "you@example.com",
-            class: "block w-full px-4 py-3 leading-4 border rounded")%>
+            class: "form-text-input")%>
         </div>
 
         <div class="mb-6">
@@ -24,7 +24,7 @@
             :password,
             autocomplete: "current-password",
             placeholder: "password",
-            class: "block w-full px-4 py-3 leading-4 border rounded")%>
+            class: "form-text-input")%>
         </div>
 
         <% if devise_mapping.rememberable? %>
@@ -35,7 +35,7 @@
         <% end %>
 
         <div class="actions">
-          <%= f.submit "Log in", class: "block w-full px-4 py-3 mb-4 text-center bg-blue-600 text-white rounded hover:bg-blue-700" %>
+          <%= f.submit "Log in", class: "block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded hover:bg-purple-500" %>
         </div>
       <% end %>
 

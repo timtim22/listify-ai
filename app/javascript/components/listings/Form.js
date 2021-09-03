@@ -6,13 +6,13 @@ import Spinner from '../common/Spinner';
 
 const newListing = {
   request_type: 'listing_description',
-  property_type: '',
-  sleeps: 2,
-  location: '',
+  //property_type: '',
+  //sleeps: 2,
+  //location: '',
   details: ''
 }
 
-const Form = () => {
+const Form = ({ onResult }) => {
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
@@ -29,7 +29,7 @@ const Form = () => {
 
   const handleRequestSuccess = (response) => {
     setLoading(false);
-    redirectOnSuccess(response);
+    onResult(response);
   }
 
   const handleSubmit = (e) => {
@@ -98,7 +98,7 @@ const Form = () => {
               className="h-48 form-text-area">
             </textarea>
           </label>
-          <div className="flex justify-center w-full py-8">
+          <div className="flex justify-center py-8 w-full">
             {submitButton()}
           </div>
         </div>

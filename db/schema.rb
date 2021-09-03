@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
     t.index ["task_run_id"], name: "index_feedbacks_on_task_run_id"
   end
 
+  create_table "inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "inputable_type", null: false
+    t.uuid "inputable_id", null: false
+    t.index ["user_id"], name: "index_inputs_on_user_id"
+  end
+
   create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
@@ -55,7 +62,6 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
   end
 
   create_table "listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
     t.string "request_type"
     t.string "property_type"
     t.integer "sleeps"
@@ -63,7 +69,6 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
     t.text "details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
   create_table "prompt_sets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -84,6 +89,7 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
     t.float "frequency_penalty", null: false
     t.float "presence_penalty", null: false
     t.string "engine", null: false
+    t.string "gpt_model_id"
     t.integer "number_of_results", default: 1
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
@@ -93,11 +99,13 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
 
   create_table "task_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_run_id", null: false
+    t.uuid "prompt_id", null: false
     t.boolean "success"
     t.string "result_text"
     t.string "error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end
 
@@ -129,10 +137,11 @@ ActiveRecord::Schema.define(version: 2021_09_02_082654) do
   end
 
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
+  add_foreign_key "inputs", "users"
   add_foreign_key "legacy_task_runs", "legacy_prompts"
   add_foreign_key "legacy_task_runs", "users"
-  add_foreign_key "listings", "users"
   add_foreign_key "prompts", "prompt_sets"
+  add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
   add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"

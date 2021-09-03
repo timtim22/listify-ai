@@ -9,6 +9,7 @@ class CreateTasks < ActiveRecord::Migration[6.1]
 
     create_table :task_results, id: :uuid do |t|
       t.references :task_run, null: false, foreign_key: true, type: :uuid
+      t.references :prompt, null: false, foreign_key: true, type: :uuid
       t.boolean :success
       t.string :result_text
       t.string :error

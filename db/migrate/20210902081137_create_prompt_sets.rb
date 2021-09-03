@@ -17,6 +17,7 @@ class CreatePromptSets < ActiveRecord::Migration[6.1]
       t.float :frequency_penalty, null: false
       t.float :presence_penalty, null: false
       t.string :engine, null: false
+      t.string :gpt_model_id
       t.integer :number_of_results, default: 1
       t.integer :position
       t.timestamps

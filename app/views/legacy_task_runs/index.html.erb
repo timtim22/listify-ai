@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 <div class="px-8 w-full">
-  <div class="flex justify-start items-center w-full">
-    <h1 class="my-4 text-xl font-medium text-gray-900">Task Runs</h1>
+  <div class="flex mb-4 justify-start items-center w-full">
+    <h1 class="text-xl font-medium text-gray-900">Task Runs</h1>
   </div>
 
   <% if @task_runs.any? %>
-    <div class="overflow-hidden rounded-lg border border-gray-200">
+    <div class="bg-white overflow-hidden rounded-lg border border-gray-200">
       <table class="w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-100">
           <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
             <th class="py-3 px-6">task_type</th>
             <th class="py-3 px-6">input_text</th>

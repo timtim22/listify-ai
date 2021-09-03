@@ -20,10 +20,11 @@
 
   <body
     style="font-family: 'Poppins', sans-serif;"
-    class="subpixel-antialiased text-gray-900"
+    class="min-h-screen bg-gray-50 subpixel-antialiased text-gray-900"
   >
-
     <%= render 'shared/navbar' %>
-    <%= yield %>
+    <div class="pt-24 pb-12">
+      <%= yield %>
+    </div>
   </body>
 </html>

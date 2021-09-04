@@ -1,0 +1,63 @@
+<div class="flex justify-center py-12 w-full h-full bg-gray-50">
+  <div class="flex flex-col items-center w-4/5 max-w-3xl bg-white rounded-lg border border-gray-200 shadow-md">
+      <div class="flex flex-col items-center w-full">
+        <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
+        <p class="text-sm">I want to generate a...</p>
+        <div class="flex justify-center py-8">
+          <div class="py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-green-800 bg-green-100 rounded-full cursor-pointer">
+            Description
+          </div>
+          <div class="py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer">
+            Title
+          </div>
+          <div class="py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer">
+            Ad for Google
+          </div>
+          <div class="py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer">
+            Ad for Facebook
+          </div>
+        </div>
+        <div class="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
+      </div>
+
+      <div class="flex flex-col items-center w-full">
+        <div class="flex flex-col py-4 w-4/5 max-w-2xl">
+          <div class="flex justify-start w-full">
+            <div>
+              <span>My listing is for a</span>
+              <input
+                type="text"
+                placeholder="house, flat..."
+                class="inline-block mx-2 mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              />
+              <span>that sleeps</span>
+                <input
+                  type="number"
+                  placeholder="3"
+                  class="inline-block mx-2 mt-1 w-16 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              <span>people.</span>
+              <br />
+              <br />
+              <span>It is located in</span>
+              <input
+                type="text"
+                placeholder="location"
+                class="inline-block mx-2 mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              />
+            <span>.</span>
+            <br />
+            <br />
+            </div>
+          </div>
+          <label class="block mt-4 w-full">
+            <span class="text-sm font-medium tracking-wider text-gray-500 uppercase">Additional details</span>
+            <textarea class="form-text-area"></textarea>
+          </label>
+          <div class="flex justify-center w-full">
+            <button class="py-2 px-6 my-8 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">Generate!</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

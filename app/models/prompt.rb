@@ -1,10 +1,9 @@
 class Prompt < ApplicationRecord
-  has_many :task_runs
-  before_create :set_previous_version_inactive
+  has_many :task_results
+  belongs_to :prompt_set
+  acts_as_list scope: :prompt_set
 
-  def self.for(task_type)
-    Prompt.find_by(title: task_type, active: true)
-  end
+  validates :title, :content, presence: :true
 
   def self.new_from_defaults
     self.new(
@@ -14,10 +13,19 @@ class Prompt < ApplicationRecord
       top_p: 1.0,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
-      engine: "davinci-instruct-beta",
-      active: true
+      engine: "davinci-instruct-beta"
     )
   end
+
+  def generate_with(input_object)
+    if self.gpt_model_id.present?
+      to_object_with_model(input_object.input_text)
+    else
+      to_object_with_text(input_object.details)
+    end
+  end
+
+  private
 
   def to_object_with_model(input_text)
     body = construct_prompt_body(input_text).gsub("\\n", "\n")
@@ -31,14 +39,7 @@ class Prompt < ApplicationRecord
     OpenStruct.new(attrs.merge(body: body))
   end
 
-  private
-
   def construct_prompt_body(input_text)
     content.gsub("{input}", input_text)
-  end
-
-  def set_previous_version_inactive
-    previous_version = Prompt.for(title)
-    previous_version.update(active: false) if previous_version
   end
 end

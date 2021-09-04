@@ -1,0 +1,5 @@
+PreCommit:
+  Rustywind:
+    enabled: true
+    required: true
+    command: ['npm', 'run', 'rustywind-fix']

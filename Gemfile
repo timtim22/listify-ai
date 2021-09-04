@@ -44,6 +44,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'brakeman', '~> 5.1', '>= 5.1.1'
+  gem 'overcommit', '~> 0.58.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -54,3 +55,4 @@ gem 'font-awesome-sass', '~> 5.13'
 gem 'google-cloud-speech', '~> 1.2'
 gem 'httparty', '~> 0.18.1'
 gem 'react-rails', '~> 2.6', '>= 2.6.1'
+gem 'acts_as_list', '~> 1.0', '>= 1.0.4'

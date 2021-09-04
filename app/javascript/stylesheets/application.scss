@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 .field {
-  @apply mb-2
+  @apply mb-4
 }
 
 .form-field {
@@ -18,8 +18,16 @@
   @apply block w-full px-4 py-3 leading-4 border rounded;
 }
 
+.form-text-input {
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+}
+
 .form-text-area {
-  @apply w-full mt-1 px-4 py-2 h-48 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 resize-none
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm placeholder-gray-400 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 resize-none
+}
+
+.form-inline-field {
+  @apply inline-block mx-3 mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
 }
 
 .primary-form-btn {
@@ -27,7 +35,15 @@
 }
 
 .add-button {
-  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white bg-green-600 hover:bg-green-700
+  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-green-600 hover:bg-green-700
+}
+
+.pill-button {
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer
+}
+
+.pill-button-selected {
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-green-800 bg-green-100 rounded-full cursor-pointer
 }
 
 .select-wrapper {

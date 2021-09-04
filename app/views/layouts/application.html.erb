@@ -18,7 +18,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   </head>
 
-  <body style="font-family: 'Poppins', sans-serif;">
-    <%= yield %>
+  <body
+    style="font-family: 'Poppins', sans-serif;"
+    class="min-h-screen subpixel-antialiased text-gray-900 bg-gray-50"
+  >
+    <%= render 'shared/navbar' %>
+    <div class="pt-24 pb-12">
+      <%= yield %>
+      <%= render 'shared/notice' %>
+    </div>
   </body>
 </html>

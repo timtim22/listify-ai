@@ -1,76 +1,8 @@
-<div class="w-full h-screen flex flex-col items-center justify-start py-8">
-  <h1 class="tracking-wider text-xl font-medium">New Prompt</h1>
-
-  <%= form_with(model: @prompt, class: "w-full px-20 my-4") do |form| %>
-    <% if @prompt.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
-
-        <ul>
-          <% @prompt.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="w-full">
-      <div class="form-block">
-        <div class="field">
-          <%= form.label :title, class: "form-label" %>
-          <%= form.text_field :title, class: "form-field" %>
-        </div>
-
-        <div class="field">
-          <%= form.label :content, class: "form-label" %>
-          <%= form.text_area :content, class: "form-text-area" %>
-        </div>
-
-        <div class="field">
-          <%= form.label :stop, class: "form-label" %>
-          <%= form.text_field :stop, class: "form-field" %>
-        </div>
-
-        <div class="grid grid-cols-5 gap-2">
-          <div class="field">
-            <%= form.label :temperature, class: "form-label" %>
-            <%= form.text_field :temperature, class: "form-field" %>
-          </div>
-
-          <div class="field">
-            <%= form.label :max_tokens, class: "form-label" %>
-            <%= form.number_field :max_tokens, class: "form-field" %>
-          </div>
-
-          <div class="field">
-            <%= form.label :top_p, class: "form-label" %>
-            <%= form.text_field :top_p, class: "form-field" %>
-          </div>
-
-          <div class="field">
-            <%= form.label :frequency_penalty, class: "form-label" %>
-            <%= form.text_field :frequency_penalty, class: "form-field" %>
-          </div>
-
-          <div class="field">
-            <%= form.label :presence_penalty, class: "form-label" %>
-            <%= form.text_field :presence_penalty, class: "form-field" %>
-          </div>
-        </div>
-
-        <div class="field">
-          <%= form.label :engine, class: "form-label" %>
-          <%= form.select :engine, options_for_select(["davinci-instruct-beta"], selected: form.object.engine), {}, { class: "form-field" } %>
-        </div>
-
-        <div class="actions mt-4">
-          <%= form.submit "Submit", class: "primary-form-btn" %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-
-  <%= link_to 'Back', prompts_path, class: "text-xs" %>
+<div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+  <div class="flex flex-col items-center w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
+    <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">New Prompt</h1>
+    <%= render 'prompts/form' %>
+    <%= link_to 'Back', prompt_set_path(@prompt_set), class: "text-xs py-8" %>
+  </div>
 </div>
 

@@ -39,7 +39,6 @@ class GptClient
       "presence_penalty" => prompt.presence_penalty
     }
 
-      #"stop" => [prompt.stop]
     body_params["stop"] = prompt.stop if prompt.stop.present?
     body_params.to_json
   end

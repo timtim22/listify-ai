@@ -1,0 +1,54 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center mb-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">
+      Prompts for <%= @prompt_set.request_type %>
+    </h1>
+    <%= link_to 'Add Prompt', new_prompt_set_prompt_path(@prompt_set), class: "add-button" %>
+  </div>
+  <% if @prompt_set.prompts.any? %>
+    <div class="overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm">
+      <table class="w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 pl-6">Pos</th>
+            <th class="py-3 px-6">Title</th>
+            <th class="py-3 px-6">Content</th>
+            <th class="py-3 px-6">Stop</th>
+            <th class="py-3 px-6">Temperature</th>
+            <th class="py-3 px-6">Max tokens</th>
+            <th class="py-3 px-6">Top p</th>
+            <th class="py-3 px-6">Frequency penalty</th>
+            <th class="py-3 px-6">Presence penalty</th>
+            <th class="py-3 px-6">Finetuned</th>
+            <th class="py-3 px-6">Options</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @prompt_set.prompts.order(:position).each do |prompt| %>
+            <tr class="text-xs">
+              <td class="py-3 pl-6"><%= prompt.position %></td>
+              <td class="py-3 px-6"><%= prompt.title %></td>
+              <td class="py-3 px-6 whitespace-pre-wrap"><%= prompt.content %></td>
+              <td class="py-3 px-6"><%= prompt.stop %></td>
+              <td class="py-3 px-6"><%= prompt.temperature %></td>
+              <td class="py-3 px-6"><%= prompt.max_tokens %></td>
+              <td class="py-3 px-6"><%= prompt.top_p %></td>
+              <td class="py-3 px-6"><%= prompt.frequency_penalty %></td>
+              <td class="py-3 px-6"><%= prompt.presence_penalty %></td>
+              <td class="py-3 px-6"><%= prompt.gpt_model_id.present? %></td>
+              <td class="py-3 px-6">
+                <%= link_to 'Edit', edit_prompt_set_prompt_path(@prompt_set, prompt) %> |
+                <%= link_to 'Destroy', prompt_set_prompt_path(@prompt_set, prompt), method: :delete, data: { confirm: 'Are you sure?' } %>
+
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p>Add a prompt to get started.</p>
+  <% end %>
+  <br />
+</div>

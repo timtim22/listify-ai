@@ -1,0 +1,48 @@
+<div class="px-8 w-full">
+  <div class="flex justify-start items-center mb-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Task Runs</h1>
+  </div>
+
+  <% if @task_runs.any? %>
+    <div class="overflow-hidden bg-white rounded-lg border border-gray-200">
+      <table class="w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 px-6">task_type</th>
+            <th class="py-3 px-6">input_text</th>
+            <th class="py-3 px-6">result_text</th>
+            <th class="py-3 px-6">input_source</th>
+            <th class="py-3 px-6">error</th>
+            <th class="py-3 px-6">created_at</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          <% @task_runs.each do |task_run| %>
+            <tr class="text-xs">
+              <td class="py-3 px-6">
+                <%= link_to task_run.task_type, task_run %>
+                <%= task_run.legacy_prompt.active ? "" : " (old version)" %>
+              </td>
+              <td class="py-3 px-6">
+                <p class="whitespace-pre-wrap"><%= highlight(task_run.input_text, task_run.input_text, highlighter: '<span class="bg-red-50">\1</span>') %></p>
+              </td>
+              <td class="py-3 px-6">
+                <p class="whitespace-pre-wrap bg-red-50"><%= task_run.result_text %></p>
+              </td>
+              <td class="py-3 px-6"><%= task_run.input_source %></td>
+              <td class="py-3 px-6"><%= task_run.error %></td>
+              <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p>No tasks found.</p>
+  <% end %>
+
+  <br>
+
+</div>
+

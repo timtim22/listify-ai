@@ -1,0 +1,12 @@
+<div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+  <div class="flex flex-col items-center w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
+    <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">Edit Prompt Set</h1>
+    <%= render 'prompt_sets/form' %>
+
+    <div class="flex justify-center py-8 w-full text-xs">
+      <%= link_to 'Back', prompt_sets_path %>
+      <span class="mx-2">|</span>
+      <%= link_to 'Show Prompts', prompt_set_path(@prompt_set) %>
+    </div>
+  </div>
+</div>

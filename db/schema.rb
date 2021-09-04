@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_20_104242) do
+ActiveRecord::Schema.define(version: 2021_09_02_082654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,7 +24,14 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.index ["task_run_id"], name: "index_feedbacks_on_task_run_id"
   end
 
-  create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "inputable_type", null: false
+    t.uuid "inputable_id", null: false
+    t.index ["user_id"], name: "index_inputs_on_user_id"
+  end
+
+  create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
     t.string "stop"
@@ -40,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.string "gpt_model_id"
   end
 
-  create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "legacy_task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "input_source"
     t.text "input_text"
@@ -49,8 +56,68 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.string "error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "prompt_id"
-    t.index ["prompt_id"], name: "index_task_runs_on_prompt_id"
+    t.uuid "legacy_prompt_id"
+    t.index ["legacy_prompt_id"], name: "index_legacy_task_runs_on_legacy_prompt_id"
+    t.index ["user_id"], name: "index_legacy_task_runs_on_user_id"
+  end
+
+  create_table "listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.string "property_type"
+    t.integer "sleeps"
+    t.string "location"
+    t.text "details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "prompt_sets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "prompt_set_id", null: false
+    t.string "title", null: false
+    t.text "content", null: false
+    t.string "stop"
+    t.float "temperature", null: false
+    t.integer "max_tokens", default: 100
+    t.float "top_p", null: false
+    t.float "frequency_penalty", null: false
+    t.float "presence_penalty", null: false
+    t.string "engine", null: false
+    t.string "gpt_model_id"
+    t.integer "number_of_results", default: 1
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["prompt_set_id"], name: "index_prompts_on_prompt_set_id"
+  end
+
+  create_table "task_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_run_id", null: false
+    t.uuid "prompt_id", null: false
+    t.boolean "success"
+    t.string "result_text"
+    t.string "error"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
+    t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
+  end
+
+  create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "prompt_set_id", null: false
+    t.string "input_object_type"
+    t.uuid "input_object_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
+    t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"
   end
 
@@ -69,7 +136,13 @@ ActiveRecord::Schema.define(version: 2021_08_20_104242) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "feedbacks", "task_runs"
-  add_foreign_key "task_runs", "prompts"
+  add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
+  add_foreign_key "inputs", "users"
+  add_foreign_key "legacy_task_runs", "legacy_prompts"
+  add_foreign_key "legacy_task_runs", "users"
+  add_foreign_key "prompts", "prompt_sets"
+  add_foreign_key "task_results", "prompts"
+  add_foreign_key "task_results", "task_runs"
+  add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
 end

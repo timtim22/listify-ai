@@ -1,49 +1,31 @@
-<p id="notice"><%= notice %></p>
-<div class="w-full px-8">
-  <div class="w-full flex items-center justify-start">
-    <h1 class="text-xl text-gray-900 font-medium my-4">Task Runs</h1>
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center mb-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Task Runs (new version only)</h1>
   </div>
+  <div class="overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Request type</th>
+          <th class="py-3 px-6">Input</th>
+          <th class="py-3 px-6">Results</th>
+          <th class="py-3 px-6">Prompt set</th>
+          <th class="py-3 px-6">created_at</th>
+        </tr>
+      </thead>
 
-  <% if @task_runs.any? %>
-    <div class="border border-gray-200 rounded-lg overflow-hidden">
-      <table class="w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr class="text-xs text-gray-500 text-left uppercase font-medium tracking-wider">
-            <th class="px-6 py-3">task_type</th>
-            <th class="px-6 py-3">input_text</th>
-            <th class="px-6 py-3">result_text</th>
-            <th class="px-6 py-3">input_source</th>
-            <th class="px-6 py-3">error</th>
-            <th class="px-6 py-3">created_at</th>
+      <tbody>
+        <% @task_runs.each do |task_run| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= task_run.input_object.request_type %></td>
+            <td class="py-3 px-6"><%= task_run.input_object.details %></td>
+            <td class="py-3 px-6"><%= simple_format(task_run.task_results.map(&:result_text).join("\n---\n")) %></td>
+            <td class="py-3 px-6"><%= link_to task_run.prompt_set.request_type, task_run.prompt_set %></td>
+            <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
           </tr>
-        </thead>
-
-        <tbody class="divide-y divide-gray-200">
-          <% @task_runs.each do |task_run| %>
-            <tr class="text-xs">
-              <td class="px-6 py-3">
-                <%= link_to task_run.task_type, task_run %>
-                <%= task_run.prompt.active ? "" : " (old version)" %>
-              </td>
-              <td class="px-6 py-3">
-                <p class="whitespace-pre-wrap"><%= highlight(task_run.input_text, task_run.input_text, highlighter: '<span class="bg-red-50">\1</span>') %></p>
-              </td>
-              <td class="px-6 py-3">
-                <p class="whitespace-pre-wrap bg-red-50"><%= task_run.result_text %></p>
-              </td>
-              <td class="px-6 py-3"><%= task_run.input_source %></td>
-              <td class="px-6 py-3"><%= task_run.error %></td>
-              <td class="px-6 py-3"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% else %>
-    <p>No tasks found.</p>
-  <% end %>
-
-  <br>
-
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
 </div>
-

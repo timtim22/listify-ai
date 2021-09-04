@@ -10,6 +10,7 @@
       <table class="w-full divide-y divide-gray-200">
         <thead class="bg-gray-100">
           <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 pl-6">Pos</th>
             <th class="py-3 px-6">Title</th>
             <th class="py-3 px-6">Content</th>
             <th class="py-3 px-6">Stop</th>
@@ -24,8 +25,9 @@
         </thead>
 
         <tbody>
-          <% @prompt_set.prompts.each do |prompt| %>
+          <% @prompt_set.prompts.order(:position).each do |prompt| %>
             <tr class="text-xs">
+              <td class="py-3 pl-6"><%= prompt.position %></td>
               <td class="py-3 px-6"><%= prompt.title %></td>
               <td class="py-3 px-6 whitespace-pre-wrap"><%= prompt.content %></td>
               <td class="py-3 px-6"><%= prompt.stop %></td>

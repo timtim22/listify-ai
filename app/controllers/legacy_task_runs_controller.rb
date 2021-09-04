@@ -13,7 +13,7 @@ class LegacyTaskRunsController < ApplicationController
   def create
     check_token
 
-    @task_run = TaskRunner.run_for_legacy!(
+    @task_run = LegacyTaskRunner.run_for!(
        params[:text],
        params[:blob],
        params[:task_type]

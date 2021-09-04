@@ -6,9 +6,9 @@ class TaskRunner
 
     prompt_set.prompts.map do |prompt|
       prompt_for_client = prompt_object_from(prompt, input_object)
-      #response = GptClient.new.execute_request(prompt_for_client)
-      sleep(2)
-      response = { success: true, result_text: 'successful response' }
+      response = GptClient.new.execute_request(prompt_for_client)
+      #sleep(2)
+      #response = { success: true, result_text: 'successful response' }
       create_task_result(task_run, response, prompt)
     end
     task_run

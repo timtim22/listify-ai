@@ -1,0 +1,31 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center mb-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Task Runs (new version only)</h1>
+  </div>
+  <div class="overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Request type</th>
+          <th class="py-3 px-6">Input</th>
+          <th class="py-3 px-6">Results</th>
+          <th class="py-3 px-6">Prompt set</th>
+          <th class="py-3 px-6">created_at</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @task_runs.each do |task_run| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= task_run.input_object.request_type %></td>
+            <td class="py-3 px-6"><%= task_run.input_object.details %></td>
+            <td class="py-3 px-6"><%= simple_format(task_run.task_results.map(&:result_text).join("\n---\n")) %></td>
+            <td class="py-3 px-6"><%= link_to task_run.prompt_set.request_type, task_run.prompt_set %></td>
+            <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+</div>

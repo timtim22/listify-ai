@@ -1,8 +1,14 @@
-<% if current_user.admin? %>
-  <p>Signed in as admin</p>
-<% end %>
-<div class="flex flex-col justify-start px-4">
-  <p>1. <%= link_to "Legacy Prompts", legacy_prompts_path %></p>
-  <p>2. <%= link_to "Legacy Task Runs", legacy_task_runs_path %></p>
-  <p>3. <%= link_to "Log out", destroy_user_session_path, :method => :delete %></p>
+<div class="flex flex-col items-start px-4">
+  <% if current_user.admin? %>
+    <p>You are signed in as an admin.</p>
+    <br />
+  <% end %>
+  <ol type="1" class="list-decimal list-inside">
+    <li><%= link_to "Create a property listing", new_listing_path %></li>
+    <li><%= link_to "View task runs (currently only web app requests)", prompt_sets_path %></li>
+    <li><%= link_to "Manage prompt sets", prompt_sets_path %></li>
+    <li><%= link_to "View legacy task runs (chrome extension)", legacy_task_runs_path %></li>
+    <li><%= link_to "Manage legacy prompts (chrome extension)", legacy_prompts_path %></li>
+    <li><%= link_to "Log out", destroy_user_session_path, :method => :delete %></li>
+  </ol>
 </div>

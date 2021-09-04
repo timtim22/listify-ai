@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   devise_for :users
   root to: 'home#index'
-  get '/listings', to: 'home#listings'
 
   resources :legacy_task_runs, only: [:index, :show, :create]
   resources :legacy_prompts, only: [:index, :new, :create]

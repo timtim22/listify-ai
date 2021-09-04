@@ -14,7 +14,7 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody class="divide-y divide-gray-200">
         <% @task_runs.each do |task_run| %>
           <tr class="text-xs">
             <td class="py-3 px-6"><%= task_run.input_object.request_type %></td>

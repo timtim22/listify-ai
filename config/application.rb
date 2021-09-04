@@ -19,7 +19,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module VoiceChromeBackend
+module Minotaur
   class Application < Rails::Application
     config.application_name = Rails.application.class.module_parent_name
     # Initialize configuration defaults for originally generated Rails version.
@@ -35,7 +35,6 @@ module VoiceChromeBackend
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    config.hosts << "venturerock-test-459.loca.lt"
     config.hosts << Rails.application.credentials.deploy_url
   end
 end

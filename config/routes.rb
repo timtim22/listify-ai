@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   resource :version, only: [:show]
 
   resources :listings, only: [:show, :new, :create]
-  resources :prompt_sets
+  resources :prompt_sets do
+    resources :prompts, only: [:new, :edit, :create, :update, :destroy]
+  end
 end

@@ -17,6 +17,17 @@ class PromptSetsController < ApplicationController
   end
 
   def update
+    @prompt_set.update(prompt_set_params)
+
+    respond_to do |format|
+      if @prompt_set.save
+        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt set updated." }
+        format.json { render :show, status: :created, location: prompt_set_path(@prompt_set) }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @prompt_set.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def create
@@ -24,7 +35,7 @@ class PromptSetsController < ApplicationController
 
     respond_to do |format|
       if @prompt_set.save
-        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt set was successfully created." }
+        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt set created." }
         format.json { render :show, status: :created, location: prompt_set_path(@prompt_set) }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,7 +47,7 @@ class PromptSetsController < ApplicationController
   def destroy
     if @prompt_set.destroy
       respond_to do |format|
-        format.html { redirect_to prompt_sets_url, notice: "Prompt set was successfully destroyed." }
+        format.html { redirect_to prompt_sets_url, notice: "Prompt set deleted." }
         format.json { head :no_content }
       end
     end

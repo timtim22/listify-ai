@@ -3,6 +3,8 @@ class Prompt < ApplicationRecord
   belongs_to :prompt_set
   acts_as_list scope: :prompt_set
 
+  validates :title, :content, presence: :true
+
   def self.new_from_defaults
     self.new(
       stop: "\\n",

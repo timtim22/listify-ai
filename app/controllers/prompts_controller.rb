@@ -52,7 +52,7 @@ class PromptsController < ApplicationController
   def prompt_params
     params.require(:prompt).permit(
       :title, :content, :stop, :temperature, :max_tokens, :top_p,
-      :frequency_penalty, :presence_penalty, :engine, :gpt_model_id
+      :frequency_penalty, :presence_penalty, :engine, :gpt_model_id, :labels
     )
   end
 

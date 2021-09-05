@@ -1,6 +1,7 @@
 class Prompt < ApplicationRecord
-  has_many :task_results
   belongs_to :prompt_set
+  has_many :task_results
+
   acts_as_list scope: :prompt_set
 
   validates :title, :content, presence: :true

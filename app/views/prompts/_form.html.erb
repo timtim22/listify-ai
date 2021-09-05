@@ -64,6 +64,13 @@
       <%= form.text_field :gpt_model_id, class: "form-text-input" %>
     </div>
 
+    <div class="field">
+      <%= form.label :labels, "Labels (separate with commas, e.g. 'creative, short')", class: "form-label" %>
+      <%= form.text_field :labels, class: "form-text-input" %>
+    </div>
+
+
+
     <div class="mt-4 actions">
       <%= form.submit "Submit", class: "add-button" %>
     </div>

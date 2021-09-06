@@ -39,7 +39,9 @@ class GptClient
       "presence_penalty" => prompt.presence_penalty
     }
 
-    body_params["stop"] = prompt.stop if prompt.stop.present?
+    if stop_sequence_present?(prompt)
+      body_params["stop"] = set_stop_sequence(prompt)
+    end
     body_params.to_json
   end
 
@@ -50,15 +52,27 @@ class GptClient
       #debug_output: $stdout
     }])
 
-   puts "GPT RESPONSE"
-   puts response
-   puts "------"
+    puts "GPT RESPONSE"
+    puts response
+    puts "------"
 
-   if response.code == 200
+    if response.code == 200
       body = JSON.parse(response.body)
       { result_text: body["choices"].first.dig("text"), success: true }
     else
       { error: response.body, success: false }
+    end
+  end
+
+  def stop_sequence_present?(prompt)
+    !([nil, ""].include?(prompt.stop))
+  end
+
+  def set_stop_sequence(prompt)
+    if prompt.stop == "\\n"
+      ['\n']
+    else
+      [prompt.stop]
     end
   end
 end

@@ -70,7 +70,7 @@ class GptClient
 
   def set_stop_sequence(prompt)
     if prompt.stop == "\\n"
-      ['\n']
+      ["\n", "\n\n"]
     else
       [prompt.stop]
     end

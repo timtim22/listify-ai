@@ -9,7 +9,7 @@ const newListing = {
   //property_type: '',
   //sleeps: 2,
   //location: '',
-  details: ''
+  input_text: ''
 }
 
 const Form = ({ onResult }) => {
@@ -115,8 +115,8 @@ const Form = ({ onResult }) => {
               Property details
             </span>
             <textarea
-              value={listing.details}
-              onChange={(e) => {setField('details', e.target.value)}}
+              value={listing.input_text}
+              onChange={(e) => {setField('input_text', e.target.value)}}
               placeholder="e.g. apartment near Covent Garden, third floor with balcony, sleeps 4..."
               className="h-48 form-text-area">
             </textarea>

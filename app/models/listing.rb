@@ -3,5 +3,5 @@ class Listing < ApplicationRecord
 
   has_many :task_runs, as: :input_object, dependent: :destroy
 
-  validates :request_type, :details, presence: true
+  validates :request_type, :input_text, presence: true
 end

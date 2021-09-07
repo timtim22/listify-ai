@@ -4,7 +4,7 @@ class TaskRunsController < ApplicationController
   def index
     @task_runs = TaskRun
       .all
-      .includes(:input_object, :prompt_set, :task_results)
+      .includes(:user, :input_object, :prompt_set, :task_results)
       .order(created_at: :desc)
   end
 end

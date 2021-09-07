@@ -16,6 +16,7 @@ const Form = ({ onResult }) => {
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
+  const [disabledMsg, setDisabledMsg] = useState(null);
 
   useEffect(() => {
     if (errors) {
@@ -44,14 +45,39 @@ const Form = ({ onResult }) => {
 
   }
 
+  const disabledPopup = (value) => {
+    if (disabledMsg === value) {
+      return (
+        <div className="relative">
+          <div className="absolute flex justify-center top-1 left-0 w-32">
+            <span className="text-xs text-gray-500">Coming Soon!</span>
+          </div>
+        </div>
+      )
+    }
+  }
+
   const pillButton = (title, value) => {
     const selected = listing.request_type === value;
-    const styles   = selected ? 'pill-button-selected' : 'pill-button';
     return (
       <div
-        className={styles}
+        className={selected ? 'pill-button-selected' : 'pill-button'}
         onClick={() => setField('request_type', value)}>
         {title}
+      </div>
+    )
+  }
+
+  const disabledPillButton = (title, value) => {
+    return (
+      <div className="flex flex-col items-start">
+        <div
+          className="pill-button-disabled"
+          onMouseOver={() => { !disabledMsg && setDisabledMsg(value) }}
+          onMouseOut={() => { setDisabledMsg(null) }}>
+          {title}
+        </div>
+        {disabledPopup(value)}
       </div>
     )
   }
@@ -65,7 +91,6 @@ const Form = ({ onResult }) => {
     )
   }
 
-
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
@@ -74,8 +99,8 @@ const Form = ({ onResult }) => {
         <div className="flex justify-center py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          {pillButton("Ad for Google", "listing_google_ad")}
-          {pillButton("Ad for Facebook", "listing_facebook_ad")}
+          {disabledPillButton("Ad for Google", "listing_google_ad")}
+          {disabledPillButton("Ad for Facebook", "listing_facebook_ad")}
         </div>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>

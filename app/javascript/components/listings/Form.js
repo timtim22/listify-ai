@@ -61,7 +61,7 @@ const Form = ({ onResult }) => {
     const selected = listing.request_type === value;
     return (
       <div
-        className={selected ? 'pill-button-selected' : 'pill-button'}
+        className={`mt-6 md:mt-0 ${selected ? 'pill-button-selected' : 'pill-button'}`}
         onClick={() => setField('request_type', value)}>
         {title}
       </div>
@@ -70,9 +70,9 @@ const Form = ({ onResult }) => {
 
   const disabledPillButton = (title, value) => {
     return (
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col">
         <div
-          className="pill-button-disabled"
+          className="mt-6 md:mt-0 pill-button-disabled self-center"
           onMouseOver={() => { !disabledMsg && setDisabledMsg(value) }}
           onMouseOut={() => { setDisabledMsg(null) }}>
           {title}
@@ -96,7 +96,7 @@ const Form = ({ onResult }) => {
       <div className="flex flex-col items-center w-full">
         <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
         <p className="text-sm">I want to generate a...</p>
-        <div className="flex justify-center py-8">
+        <div className="flex flex-col items-center md:items-start md:flex-row md:justify-center py-2 md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
           {disabledPillButton("Ad for Google", "listing_google_ad")}

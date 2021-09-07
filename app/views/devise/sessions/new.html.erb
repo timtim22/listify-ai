@@ -2,7 +2,7 @@
   <div class="m-auto w-full md:w-1/3">
     <div class="p-4 bg-white rounded-lg border border-gray-300 shadow-sm">
       <div class="mb-4 text-center">
-        <h2 class="py-4 text-4xl font-bold">Log in</h2>
+        <h2 class="log-in-header">Log in</h2>
       </div>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="mb-4 text-red-800">
@@ -35,7 +35,7 @@
         <% end %>
 
         <div class="actions">
-          <%= f.submit "Log in", class: "block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded hover:bg-purple-500" %>
+          <%= f.submit "Log in", class: "log-in-button" %>
         </div>
       <% end %>
 

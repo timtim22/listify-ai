@@ -38,6 +38,10 @@
   @apply block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded cursor-pointer hover:bg-purple-500
 }
 
+.log-in-header {
+  @apply py-4 text-3xl font-bold text-gray-700 tracking-wider
+}
+
 .add-button {
   @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-green-600 hover:bg-green-700
 }

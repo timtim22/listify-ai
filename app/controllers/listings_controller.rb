@@ -5,10 +5,6 @@ class ListingsController < ApplicationController
     @listing = Listing.new
   end
 
-  def show
-    @listing = Listing.find(params[:id])
-  end
-
   def create
     save = Input.create_with(Listing.new(listing_params), current_user)
     if save.success

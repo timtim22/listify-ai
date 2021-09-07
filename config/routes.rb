@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :feedbacks, only: [:create]
   resource :version, only: [:show]
 
-  resources :listings, only: [:show, :new, :create]
+  resources :listings, only: [:new, :create]
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end

@@ -27,7 +27,7 @@
         <div class="hidden md:block">
           <div class="flex items-center ml-4 md:ml-6">
             <% if user_signed_in? %>
-              <%= link_to "Settings", root_url, { class: "p-1 text-white focus:outline-none" } %>
+              <%= link_to "Account", edit_user_registration_path, { class: "p-1 text-white focus:outline-none" } %>
               <span class="mx-1 text-gray-100"> | </span>
               <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 text-white focus:outline-none" } %>
             <% end %>

@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 .field {
-  @apply mb-4
+  @apply mb-6
 }
 
 .form-field {
@@ -32,6 +32,10 @@
 
 .primary-form-btn {
   @apply px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none
+}
+
+.log-in-button {
+  @apply block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded cursor-pointer hover:bg-purple-500
 }
 
 .add-button {

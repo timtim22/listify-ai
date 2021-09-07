@@ -22,7 +22,7 @@ class Prompt < ApplicationRecord
     if self.gpt_model_id.present?
       to_object_with_model(input_object.input_text)
     else
-      to_object_with_text(input_object.details)
+      to_object_with_text(input_object.input_text)
     end
   end
 
@@ -43,4 +43,5 @@ class Prompt < ApplicationRecord
   def construct_prompt_body(input_text)
     content.gsub("{input}", input_text)
   end
+
 end

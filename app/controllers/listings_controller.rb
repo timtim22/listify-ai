@@ -22,7 +22,7 @@ class ListingsController < ApplicationController
   end
 
   def listing_params
-    params.require(:listing).permit(:request_type, :property_type, :sleeps, :location, :details)
+    params.require(:listing).permit(:request_type, :property_type, :sleeps, :location, :input_text)
   end
 end
 

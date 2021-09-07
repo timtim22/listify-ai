@@ -18,7 +18,7 @@
         <% @task_runs.each do |task_run| %>
           <tr class="text-xs">
             <td class="py-3 px-6"><%= link_to task_run.input_object.request_type, task_run.prompt_set %></td>
-            <td class="py-3 px-6 whitespace-pre-wrap"><%= task_run.input_object.details %></td>
+            <td class="py-3 px-6 whitespace-pre-wrap"><%= task_run.input_object.input_text %></td>
             <td class="py-3 px-6"><%= simple_format(task_run.task_results.map(&:result_text).join("\n---\n")) %></td>
             <td class="py-3 px-6"><%= task_run.user.email %></td>
             <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resource :version, only: [:show]
 
   resources :listings, only: [:new, :create]
+  resources :writings, only: [:new, :create]
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end

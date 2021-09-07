@@ -4,19 +4,15 @@ import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 
-const newListing = {
-  request_type: 'listing_description',
-  //property_type: '',
-  //sleeps: 2,
-  //location: '',
+const newWriting = {
+  request_type: 'tidy_grammar',
   input_text: ''
 }
 
 const Form = ({ onResult }) => {
   const [loading, setLoading] = useState(false);
-  const [listing, setListing] = useState(newListing);
+  const [writing, setWriting] = useState(newWriting);
   const [errors, setErrors] = useState(null);
-  const [disabledMsg, setDisabledMsg] = useState(null);
 
   useEffect(() => {
     if (errors) {
@@ -25,7 +21,7 @@ const Form = ({ onResult }) => {
   }, [errors])
 
   const setField = (field, value) => {
-    setListing({ ...listing, [field]: value });
+    setWriting({ ...writing, [field]: value });
   }
 
   const handleRequestSuccess = (response) => {
@@ -37,49 +33,12 @@ const Form = ({ onResult }) => {
     setLoading(true);
     e.preventDefault();
     createRequest(
-      "/listings.json",
-      listing,
+      "/writings.json",
+      writing,
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
 
-  }
-
-  const disabledPopup = (value) => {
-    if (disabledMsg === value) {
-      return (
-        <div className="relative">
-          <div className="absolute flex justify-center top-1 left-0 w-32">
-            <span className="text-xs text-gray-500">Coming Soon!</span>
-          </div>
-        </div>
-      )
-    }
-  }
-
-  const pillButton = (title, value) => {
-    const selected = listing.request_type === value;
-    return (
-      <div
-        className={selected ? 'pill-button-selected' : 'pill-button'}
-        onClick={() => setField('request_type', value)}>
-        {title}
-      </div>
-    )
-  }
-
-  const disabledPillButton = (title, value) => {
-    return (
-      <div className="flex flex-col items-start">
-        <div
-          className="pill-button-disabled"
-          onMouseOver={() => { !disabledMsg && setDisabledMsg(value) }}
-          onMouseOut={() => { setDisabledMsg(null) }}>
-          {title}
-        </div>
-        {disabledPopup(value)}
-      </div>
-    )
   }
 
   const submitButton = () => {
@@ -94,14 +53,8 @@ const Form = ({ onResult }) => {
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
-        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
-        <p className="text-sm">I want to generate a...</p>
-        <div className="flex justify-center py-8">
-          {pillButton("Description", "listing_description")}
-          {pillButton("Title", "listing_title")}
-          {disabledPillButton("Ad for Google", "listing_google_ad")}
-          {disabledPillButton("Ad for Facebook", "listing_facebook_ad")}
-        </div>
+        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Writing assistant</h1>
+        <p className="text-sm">Enter your text for the writing assistant to tidy up.</p>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
 
@@ -112,12 +65,12 @@ const Form = ({ onResult }) => {
         <div className="flex flex-col w-4/5 max-w-2xl">
           <label className="block mt-4 w-full">
             <span className="text-sm font-bold tracking-wider text-gray-500 uppercase">
-              Property details
+              Text
             </span>
             <textarea
-              value={listing.input_text}
+              value={writing.input_text}
               onChange={(e) => {setField('input_text', e.target.value)}}
-              placeholder="e.g. apartment near Covent Garden, third floor with balcony, sleeps 4..."
+              placeholder=""
               className="h-48 form-text-area">
             </textarea>
           </label>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_150510) do
+ActiveRecord::Schema.define(version: 2021_09_07_160110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_150510) do
     t.string "property_type"
     t.integer "sleeps"
     t.string "location"
-    t.text "details"
+    t.text "input_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -146,6 +146,13 @@ ActiveRecord::Schema.define(version: 2021_09_06_150510) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "writings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.text "input_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"

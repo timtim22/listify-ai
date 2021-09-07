@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'home#index'
 
-  resources :task_runs, only: [:index] do
-    resources :task_run_feedbacks, only: [:create, :index]
-  end
+  resources :task_runs, only: [:index]
+  resources :task_run_feedbacks, only: [:index, :create]
+
   resources :legacy_task_runs, only: [:index, :show, :create]
   resources :legacy_prompts, only: [:index, :new, :create]
   resources :feedbacks, only: [:create]

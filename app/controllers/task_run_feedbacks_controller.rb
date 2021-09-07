@@ -3,14 +3,11 @@ class TaskRunFeedbacksController < ApplicationController
   before_action :authenticate_admin, only: [:index]
 
   def index
-    @task_run_feedbacks = TaskRunFeedback.all
+    @task_run_feedbacks = TaskRunFeedback.all.includes(:user, task_run: [:input_object, :task_results]).order(created_at: :desc)
   end
 
   def create
-    @task_run = TaskRun.find(params[:task_run_id])
-    @feedback = current_user.task_run_feedbacks.new(
-      task_run_feedback_params.merge(task_run: @task_run)
-    )
+    @feedback = current_user.task_run_feedbacks.new(task_run_feedback_params)
     respond_to do |format|
       if @feedback.save
         format.json { render :create, status: :created }
@@ -23,6 +20,6 @@ class TaskRunFeedbacksController < ApplicationController
   private
 
   def task_run_feedback_params
-    params.require(:task_run_feedback).permit(:score, :comment)
+    params.require(:task_run_feedback).permit(:task_run_id, :score, :comment)
   end
 end

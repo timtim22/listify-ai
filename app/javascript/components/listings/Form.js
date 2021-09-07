@@ -35,8 +35,6 @@ const Form = ({ onResult }) => {
   const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
-    const data = new FormData();
-    data.append('listing', JSON.stringify(listing));
     createRequest(
       "/listings.json",
       listing,

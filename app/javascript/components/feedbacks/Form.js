@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 
+const newFeedback = { score: 0, comment: '' };
+
 const FeedbackForm = ({ taskRunId }) => {
-  const [feedback, setFeedback] = useState({ score: 0, comment: '' });
+  const [feedback, setFeedback] = useState(newFeedback);
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
-    if (completed) { setCompleted(false); }
+    if (completed) { resetForm(); }
   }, [taskRunId])
+
+  const resetForm = () => {
+    setCompleted(false);
+    setFeedback(newFeedback);
+  }
 
   const setField = (field, value) => {
     setFeedback({ ...feedback, [field]: value });
@@ -23,11 +30,10 @@ const FeedbackForm = ({ taskRunId }) => {
   const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
-    const data = new FormData();
-    data.append('task_run_feedback', JSON.stringify(feedback));
+    const task_run_feedback = { ...feedback, task_run_id: taskRunId };
     createRequest(
-      `/task_runs/${taskRunId}/task_run_feedbacks.json`,
-      feedback,
+      `/task_run_feedbacks.json`,
+      task_run_feedback,
       (response) => { handleRequestSuccess(response) },
       (e) => { console.log(e) }
     )
@@ -74,7 +80,7 @@ const FeedbackForm = ({ taskRunId }) => {
               type="text"
               value={feedback.comment}
               onChange={(e) => {setField('comment', e.target.value)}}
-              className="block px-1 mt-0 w-full border-0 border border-gray-200 focus:border-gray-300 focus:ring-0">
+              className="block px-2 mt-0 w-full border-0 border border-gray-200 focus:border-gray-300 focus:ring-0">
             </input>
           </div>
           <button className="add-button">Submit</button>

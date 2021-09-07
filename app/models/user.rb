@@ -5,5 +5,6 @@ class User < ApplicationRecord
 
   has_many :legacy_task_runs
   has_many :task_runs, dependent: :destroy
+  has_many :task_run_feedbacks, dependent: :destroy
   has_many :listings, dependent: :destroy
 end

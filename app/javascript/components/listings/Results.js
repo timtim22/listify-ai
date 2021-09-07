@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import FeedbackForm from '../feedbacks/Form';
 
-const Results = ({ results }) => {
+const Results = ({ results, taskRunId }) => {
 
   const renderResult = (result) => {
     return (
       <div
         key={result.id}
-        className="py-3 px-4 mb-4 w-4/5 bg-green-50 rounded-lg border border-gray-200"
+        className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200"
       >
         <p>{result.result_text}</p>
         <br />
@@ -32,6 +33,7 @@ const Results = ({ results }) => {
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             {results.map(result => renderResult(result))}
+            <FeedbackForm taskRunId={taskRunId} />
           </div>
         </div>
       </div>

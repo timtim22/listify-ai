@@ -5,6 +5,7 @@ import Results from './Results';
 
 const New = () => {
   const [results, setResults] = useState([]);
+  const [taskRunId, setTaskRunId] = useState(null);
 
   useEffect(() => {
     if (results.length > 0) {
@@ -16,15 +17,15 @@ const New = () => {
 
   const handleNewResults = (response) => {
     setResults(response.data.task_results);
+    setTaskRunId(response.data.task_run.id);
   }
 
   return (
     <>
       <Form onResult={handleNewResults} />
-      <Results results={results} />
+      <Results results={results} taskRunId={taskRunId} />
     </>
   )
-
 }
 
 export default New;

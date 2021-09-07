@@ -9,6 +9,7 @@ export const createRequest = (url, params, onSuccess, onFailure) => {
     onSuccess(response);
   })
   .catch(error => {
+    console.log(error)
     onFailure(error.response.data);
   })
 }

@@ -4,7 +4,7 @@ class GptClient
 
   def execute_request(prompt)
     if prompt.model
-      body = { "prompt" => prompt.body, max_tokens: 150, "stop" => [" END"], "model" => prompt.model }.to_json
+      body = generate_model_body(prompt)
       request('post', model_url, headers, body)
     else
       body = generate_body(prompt)
@@ -43,6 +43,15 @@ class GptClient
       body_params["stop"] = set_stop_sequence(prompt)
     end
     body_params.to_json
+  end
+
+  def generate_model_body(prompt)
+    {
+      "prompt" => prompt.body,
+      "max_tokens" => prompt.max_tokens,
+      "stop" => [" END"],
+      "model" => prompt.model
+    }.to_json
   end
 
   def request(method, url, headers, body)

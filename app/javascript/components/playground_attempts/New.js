@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
-import Results from './Results';
+import Results from '../inputs/Results';
 
 const New = ({ promptSets }) => {
   const [results, setResults] = useState([]);

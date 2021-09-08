@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
+import InputLengthWarning from '../common/InputLengthWarning';
+
+const maxInput = 400;
 
 const newWriting = {
   request_type: 'tidy_grammar',
@@ -43,6 +46,14 @@ const Form = ({ onResult }) => {
 
   const submitButton = () => {
     if (loading) { return <Spinner />; }
+    if (writing.input_text.length > maxInput) {
+      return (
+        <InputLengthWarning
+          input={writing.input_text}
+          maxInput={maxInput}
+        />
+      )
+    }
     return (
       <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
         Generate!

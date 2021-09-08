@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'home#index'
 
+  resources :usages, only: [:index]
   resources :task_runs, only: [:index]
   resources :task_run_feedbacks, only: [:index, :create]
 

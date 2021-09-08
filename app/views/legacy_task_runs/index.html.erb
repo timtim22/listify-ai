@@ -32,7 +32,7 @@
               </td>
               <td class="py-3 px-6"><%= task_run.input_source %></td>
               <td class="py-3 px-6"><%= task_run.error %></td>
-              <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
+              <td class="py-3 px-6"><%= format_table_date(task_run.created_at) %></td>
             </tr>
           <% end %>
         </tbody>

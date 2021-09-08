@@ -21,7 +21,7 @@
             <td class="py-3 px-6 whitespace-pre-wrap"><%= task_run.input_object.input_text %></td>
             <td class="py-3 px-6"><%= simple_format(task_run.task_results.map(&:result_text).join("\n---\n")) %></td>
             <td class="py-3 px-6"><%= task_run.user.email %></td>
-            <td class="py-3 px-6"><%= task_run.created_at.localtime.strftime("%H:%M%P, %d %b") %></td>
+            <td class="py-3 px-6"><%= format_table_date(task_run.created_at) %></td>
           </tr>
         <% end %>
       </tbody>

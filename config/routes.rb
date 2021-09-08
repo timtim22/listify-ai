@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   resources :listings, only: [:new, :create]
   resources :writings, only: [:new, :create]
+  resources :playground_attempts, only: [:new, :create]
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end

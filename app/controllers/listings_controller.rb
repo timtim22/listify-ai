@@ -3,6 +3,7 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
+    @runs_remaining = TaskRun.runs_remaining_today(current_user)
   end
 
   def create
@@ -10,6 +11,7 @@ class ListingsController < ApplicationController
     if save.success
       @listing  = save.input_object
       @task_run = TaskRunner.run_for!(@listing, current_user)
+      @runs_remaining = TaskRun.runs_remaining_today(current_user)
     end
 
     respond_to do |format|
@@ -20,6 +22,8 @@ class ListingsController < ApplicationController
       end
     end
   end
+
+  private
 
   def listing_params
     params.require(:listing).permit(:request_type, :property_type, :sleeps, :location, :input_text)

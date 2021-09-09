@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 
-const Results = ({ results, taskRunId }) => {
+const Results = ({ runsRemaining, results, taskRun }) => {
 
   const renderResult = (result) => {
     return (
@@ -25,6 +25,22 @@ const Results = ({ results, taskRunId }) => {
     }
   }
 
+  const remainingRequests = () => {
+    if (runsRemaining) {
+      const count = runsRemaining;
+      const s = count !== 1 ? 's' : '';
+      const countColor = count > 5 ? "text-green-600" : "text-red-600";
+      return (
+        <p className="mt-4 text-sm text-gray-500">
+          You have
+        <span className={`${countColor} font-extrabold`}> {count} request{s} </span>
+          remaining today.
+        </p>
+      )
+    }
+  }
+
+
   if (results.length > 0) {
     return (
       <div className="w-full h-full">
@@ -33,7 +49,8 @@ const Results = ({ results, taskRunId }) => {
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             {results.map(result => renderResult(result))}
-            <FeedbackForm taskRunId={taskRunId} />
+            {remainingRequests()}
+            <FeedbackForm taskRunId={taskRun.id} />
           </div>
         </div>
       </div>

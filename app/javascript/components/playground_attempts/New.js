@@ -5,7 +5,7 @@ import Results from '../inputs/Results';
 
 const New = ({ promptSets }) => {
   const [results, setResults] = useState([]);
-  const [taskRunId, setTaskRunId] = useState(null);
+  const [taskRun, setTaskRun] = useState(null);
 
   useEffect(() => {
     if (results.length > 0) {
@@ -16,14 +16,14 @@ const New = ({ promptSets }) => {
 
 
   const handleNewResults = (response) => {
+    setTaskRun(response.data.task_run);
     setResults(response.data.task_results);
-    setTaskRunId(response.data.task_run.id);
   }
 
   return (
     <>
       <Form promptSets={promptSets.prompt_sets} onResult={handleNewResults} />
-      <Results results={results} taskRunId={taskRunId} />
+      <Results results={results} taskRun={taskRun} />
     </>
   )
 }

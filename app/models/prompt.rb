@@ -6,6 +6,8 @@ class Prompt < ApplicationRecord
 
   validates :title, :content, presence: :true
 
+  ENGINES = ["ada", "babbage", "curie", "curie-instruct-beta", "davinci", "davinci-instruct-beta"].freeze
+
   def self.new_from_defaults
     self.new(
       stop: "\\n",
@@ -30,7 +32,7 @@ class Prompt < ApplicationRecord
 
   def to_object_with_model(input_text)
     body = construct_prompt_body(input_text).gsub("\\n", "\n")
-    OpenStruct.new(model: gpt_model_id, body: body)
+    OpenStruct.new(model: gpt_model_id, body: body, max_tokens: max_tokens)
   end
 
   def to_object_with_text(input_text)

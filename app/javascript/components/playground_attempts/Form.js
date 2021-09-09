@@ -25,6 +25,7 @@ const Form = ({ onResult, promptSets }) => {
   }
 
   const handleRequestSuccess = (response) => {
+    setErrors(null);
     setLoading(false);
     onResult(response);
   }

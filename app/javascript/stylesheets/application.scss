@@ -6,16 +6,8 @@
   @apply mb-6
 }
 
-.form-field {
-  @apply w-full mt-1 px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500
-}
-
 .form-label {
   @apply text-gray-700 text-sm font-medium
-}
-
-.form-block {
-  @apply block w-full px-4 py-3 leading-4 border rounded;
 }
 
 .form-text-input {
@@ -34,16 +26,12 @@
   @apply inline-block mx-3 mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
 }
 
-.primary-form-btn {
-  @apply px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none
+.log-in-header {
+  @apply py-4 text-3xl font-bold text-gray-700 tracking-wider
 }
 
 .log-in-button {
   @apply block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded cursor-pointer hover:bg-purple-500
-}
-
-.log-in-header {
-  @apply py-4 text-3xl font-bold text-gray-700 tracking-wider
 }
 
 .add-button {
@@ -60,17 +48,4 @@
 
 .pill-button-disabled {
   @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-default
-}
-
-.select-wrapper {
-  position: relative;
-}
-
-.select-wrapper::after {
-  content: "▼";
-  font-size: 1rem;
-  top: 12px;
-  right: 12px;
-  position: absolute;
-  color: #9CA3AF;
 }

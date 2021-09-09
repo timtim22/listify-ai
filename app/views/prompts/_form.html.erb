@@ -19,7 +19,7 @@
 
     <div class="field">
       <%= form.label :content, class: "form-label" %>
-      <%= form.text_area :content, class: "form-text-area" %>
+      <%= form.text_area :content, class: "h-48 form-text-area" %>
     </div>
 
     <div class="field">
@@ -56,7 +56,7 @@
 
     <div class="field">
       <%= form.label :engine, class: "form-label" %>
-      <%= form.select :engine, options_for_select(["davinci-instruct-beta"], selected: form.object.engine), {}, { class: "form-text-input" } %>
+      <%= form.select :engine, options_for_select(Prompt::ENGINES, selected: form.object.engine), {}, { class: "form-text-input" } %>
     </div>
 
     <div class="field">

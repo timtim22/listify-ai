@@ -58,7 +58,7 @@ const FeedbackForm = ({ taskRunId }) => {
 
   if (completed) {
     return (
-      <div className="flex flex-col items-center py-3 px-4 mt-12 w-4/5 bg-gray-50 rounded-lg border border-gray-200">
+      <div className="flex flex-col items-center py-3 px-4 mt-8 w-4/5 bg-gray-50 rounded-lg border border-gray-200">
         <p className="text-sm">Feedback submitted, thank you!</p>
       </div>
     )
@@ -66,7 +66,7 @@ const FeedbackForm = ({ taskRunId }) => {
     return (
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col py-3 px-4 mt-12 w-4/5 bg-gray-50 rounded-lg border border-gray-200">
+        className="flex flex-col py-3 px-4 mt-8 w-4/5 bg-gray-50 rounded-lg border border-gray-200">
         <div className="flex justify-between items-center">
           <span className="tracking-wider text-gray-700">How did we do?</span>
           <div className="flex justify-start items-center text-yellow-400">

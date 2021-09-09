@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
-import Results from './Results';
+import Results from '../inputs/Results';
 
-const New = () => {
+const New = ({ initialRunsRemaining }) => {
   const [results, setResults] = useState([]);
-  const [taskRunId, setTaskRunId] = useState(null);
+  const [taskRun, setTaskRun] = useState(null);
+  const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
 
   useEffect(() => {
     if (results.length > 0) {
@@ -16,14 +17,22 @@ const New = () => {
 
 
   const handleNewResults = (response) => {
+    setRunsRemaining(response.data.runs_remaining);
+    setTaskRun(response.data.task_run);
     setResults(response.data.task_results);
-    setTaskRunId(response.data.task_run.id);
   }
 
   return (
     <>
-      <Form onResult={handleNewResults} />
-      <Results results={results} taskRunId={taskRunId} />
+      <Form
+        runsRemaining={runsRemaining}
+        onResult={handleNewResults}
+      />
+      <Results
+        runsRemaining={runsRemaining}
+        results={results}
+        taskRun={taskRun}
+      />
     </>
   )
 }

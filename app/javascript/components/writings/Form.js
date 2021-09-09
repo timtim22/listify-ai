@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
+import Submit from '../inputs/Submit';
+
+const maxInput = 400;
 
 const newWriting = {
   request_type: 'tidy_grammar',
   input_text: ''
 }
 
-const Form = ({ onResult }) => {
+const Form = ({ runsRemaining, onResult }) => {
   const [loading, setLoading] = useState(false);
   const [writing, setWriting] = useState(newWriting);
   const [errors, setErrors] = useState(null);
@@ -25,6 +28,7 @@ const Form = ({ onResult }) => {
   }
 
   const handleRequestSuccess = (response) => {
+    setErrors(null);
     setLoading(false);
     onResult(response);
   }
@@ -39,15 +43,6 @@ const Form = ({ onResult }) => {
       (e) => { setErrors(e); setLoading(false) }
     )
 
-  }
-
-  const submitButton = () => {
-    if (loading) { return <Spinner />; }
-    return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-        Generate!
-      </button>
-    )
   }
 
   return (
@@ -75,7 +70,12 @@ const Form = ({ onResult }) => {
             </textarea>
           </label>
           <div className="flex justify-center py-8 w-full">
-            {submitButton()}
+            <Submit
+              inputObject={writing}
+              loading={loading}
+              runsRemaining={runsRemaining}
+              maxInput={maxInput}
+            />
           </div>
         </div>
       </div>

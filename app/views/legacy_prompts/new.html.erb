@@ -18,7 +18,7 @@
       <div class="py-3 px-4 leading-4 bg-white rounded-lg border border-gray-200 shadow-md">
         <div class="field">
           <%= form.label :title, class: "form-label" %>
-          <%= form.text_field :title, class: "form-field" %>
+          <%= form.text_field :title, class: "form-text-input" %>
         </div>
 
         <div class="field">
@@ -28,43 +28,43 @@
 
         <div class="field">
           <%= form.label :stop, class: "form-label" %>
-          <%= form.text_field :stop, class: "form-field" %>
+          <%= form.text_field :stop, class: "form-text-input" %>
         </div>
 
         <div class="grid grid-cols-5 gap-2">
           <div class="field">
             <%= form.label :temperature, class: "form-label" %>
-            <%= form.text_field :temperature, class: "form-field" %>
+            <%= form.text_field :temperature, class: "form-text-input" %>
           </div>
 
           <div class="field">
             <%= form.label :max_tokens, class: "form-label" %>
-            <%= form.number_field :max_tokens, class: "form-field" %>
+            <%= form.number_field :max_tokens, class: "form-text-input" %>
           </div>
 
           <div class="field">
             <%= form.label :top_p, class: "form-label" %>
-            <%= form.text_field :top_p, class: "form-field" %>
+            <%= form.text_field :top_p, class: "form-text-input" %>
           </div>
 
           <div class="field">
             <%= form.label :frequency_penalty, class: "form-label" %>
-            <%= form.text_field :frequency_penalty, class: "form-field" %>
+            <%= form.text_field :frequency_penalty, class: "form-text-input" %>
           </div>
 
           <div class="field">
             <%= form.label :presence_penalty, class: "form-label" %>
-            <%= form.text_field :presence_penalty, class: "form-field" %>
+            <%= form.text_field :presence_penalty, class: "form-text-input" %>
           </div>
         </div>
 
         <div class="field">
           <%= form.label :engine, class: "form-label" %>
-          <%= form.select :engine, options_for_select(["davinci-instruct-beta"], selected: form.object.engine), {}, { class: "form-field" } %>
+          <%= form.select :engine, options_for_select(Prompt::ENGINES, selected: form.object.engine), {}, { class: "form-text-input" } %>
         </div>
 
         <div class="mt-4 actions">
-          <%= form.submit "Submit", class: "primary-form-btn" %>
+          <%= form.submit "Submit", class: "add-button" %>
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ const Form = ({ runsRemaining, onResult }) => {
   }
 
   const handleRequestSuccess = (response) => {
+    setErrors(null);
     setLoading(false);
     onResult(response);
   }

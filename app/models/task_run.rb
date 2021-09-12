@@ -10,7 +10,11 @@ class TaskRun < ApplicationRecord
   USER_DAILY_RUN_LIMIT = 30
 
   def self.runs_remaining_today(user)
-    USER_DAILY_RUN_LIMIT - runs_today(user)
+    if user.admin?
+      USER_DAILY_RUN_LIMIT
+    else
+      USER_DAILY_RUN_LIMIT - runs_today(user)
+    end
   end
 
   def self.runs_today(user)

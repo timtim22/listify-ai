@@ -7,9 +7,9 @@ const MobileMenu = () => {
   const menuDropdown = () => {
     if (menuOpen) {
       return (
-        <div className="origin-top-right absolute right-0 mt-4 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-          <a href="/users/edit" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="dd-account-link">Account</a>
-          <a href="/users/sign_out" className="block px-4 py-2 text-sm text-gray-700" data-method="delete" role="menuitem" tabIndex="-1" id="dd-sign-out-link">Sign out</a>
+        <div className="absolute right-0 py-1 mt-4 w-48 bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+          <a href="/users/edit" className="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="dd-account-link">Account</a>
+          <a href="/users/sign_out" className="block py-2 px-4 text-sm text-gray-700" data-method="delete" role="menuitem" tabIndex="-1" id="dd-sign-out-link">Sign out</a>
         </div>
       )
     }

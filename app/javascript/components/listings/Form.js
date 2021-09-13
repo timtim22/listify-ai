@@ -53,7 +53,7 @@ const Form = ({ runsRemaining, onResult }) => {
     if (disabledMsg === value) {
       return (
         <div className="relative">
-          <div className="absolute flex justify-center top-1 left-0 w-32">
+          <div className="flex absolute left-0 top-1 justify-center w-32">
             <span className="text-xs text-gray-500">Coming Soon!</span>
           </div>
         </div>
@@ -76,7 +76,7 @@ const Form = ({ runsRemaining, onResult }) => {
     return (
       <div className="flex flex-col">
         <div
-          className="mt-6 md:mt-0 pill-button-disabled self-center"
+          className="self-center mt-6 md:mt-0 pill-button-disabled"
           onMouseOver={() => { !disabledMsg && setDisabledMsg(value) }}
           onMouseOut={() => { setDisabledMsg(null) }}>
           {title}
@@ -91,7 +91,7 @@ const Form = ({ runsRemaining, onResult }) => {
       <div className="flex flex-col items-center w-full">
         <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
         <p className="text-sm">I want to generate a...</p>
-        <div className="flex flex-col items-center md:items-start md:flex-row md:justify-center py-2 md:py-8">
+        <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
           {disabledPillButton("Ad for Google", "listing_google_ad")}

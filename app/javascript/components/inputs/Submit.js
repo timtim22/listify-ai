@@ -23,7 +23,7 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
   const warningText = (text) => {
     return (
       <div className="py-2 h-9">
-        <p className="text-sm text-gray-500 font-semibold">
+        <p className="text-sm font-semibold text-gray-500">
           {text}
         </p>
       </div>

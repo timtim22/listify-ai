@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
+import Filter from 'bad-words';
+
+const profanityFilter = new Filter();
 
 const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
 
@@ -14,6 +17,15 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
   const requestLimitWarning = () => {
     const text = "You've hit your request limit for today. This is a safety feature - contact us for help.";
     return  warningText(text);
+  }
+
+  const profanityWarning = () => {
+    const text = "Our filters think that text might be unsafe. Please let us know if this is a false positive."
+    return  warningText(text);
+  }
+
+  const isProfane = () => {
+    return profanityFilter.isProfane(inputObject.input_text);
   }
 
   const invalidInputLength = () => {
@@ -41,6 +53,7 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
   if (loading) { return <Spinner />; }
   if (runsRemaining < 1) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
+  if (isProfane()) { return profanityWarning(); }
   return submitButton();
 }
 

@@ -12,7 +12,11 @@ class LegacyTaskRunner
       response = { result_text: input_text, success: true }
     else
       prompt_with_query = generate_prompt_with_query(prompt, input_text)
-      response = GptClient.new.execute_request(prompt_with_query)
+      if prompt.gpt_model_id.present?
+        response = GptClient.new.request_with_model(prompt_with_query)
+      else
+        response = GptClient.new.request_with_text(prompt_with_query, prompt.engine)
+      end
       #response = { success: true, result_text: 'successful response' }
     end
 

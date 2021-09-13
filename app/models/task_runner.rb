@@ -5,9 +5,8 @@ class TaskRunner
     task_run = create_task_run(user, prompt_set, input_object)
 
     prompt_set.prompts.map do |prompt|
-      prompt_for_client = prompt_object_from(prompt, input_object)
-      response = GptClient.new.execute_request(prompt_for_client)
-      #sleep(2)
+      gpt_call = GptCallGenerator.generate_for(prompt, input_object)
+      response = gpt_call.execute!
       #response = { success: true, result_text: 'successful response' }
       create_task_result(task_run, response, prompt)
     end
@@ -35,19 +34,8 @@ class TaskRunner
       result_text: response[:result_text],
       error: response[:error]
     )
+    #if response has content check, save it, and if fails, set erorr
   end
 
   private
-
-  def self.prompt_object_from(prompt, input_object)
-    prompt_object = prompt.generate_with(input_object)
-    log(prompt_object)
-    prompt_object
-  end
-
-  def self.log(prompt)
-    puts "PROMPT"
-    puts prompt
-    puts "-----"
-  end
 end

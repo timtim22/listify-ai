@@ -39,8 +39,8 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
   }
 
   if (loading) { return <Spinner />; }
-  if (invalidInputLength()) { return inputLengthWarning(); }
   if (runsRemaining < 1) { return requestLimitWarning(); }
+  if (invalidInputLength()) { return inputLengthWarning(); }
   return submitButton();
 }
 

@@ -112,7 +112,7 @@ const Form = ({ runsRemaining, onResult }) => {
             <textarea
               value={listing.input_text}
               onChange={(e) => {setField('input_text', e.target.value)}}
-              placeholder="e.g. apartment near Covent Garden, third floor with balcony, sleeps 4..."
+              placeholder={`- apartment near Covent Garden\n- third floor with private balcony\n- close to theatres, bars and shops`}
               className="h-48 form-text-area">
             </textarea>
           </label>

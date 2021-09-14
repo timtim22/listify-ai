@@ -1,9 +1,21 @@
 class GptCallGenerator
 
+  CHECK_CONTENT = true
+
   def self.generate_for(prompt, input_object)
     request_object = generate_request_object(prompt, input_object.input_text)
-    request_config = { engine: prompt.engine, model: prompt.gpt_model_id }
+    request_config = generate_config(prompt)
     GptCall.new(request_object, request_config)
+  end
+
+  private
+
+  def self.generate_config(prompt)
+   {
+     engine: prompt.engine,
+     model: prompt.gpt_model_id,
+     check_content: CHECK_CONTENT
+   }
   end
 
   def self.generate_request_object(prompt, input_text)

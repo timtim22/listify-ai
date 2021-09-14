@@ -10,6 +10,11 @@ class GptClient
     request('post', url_for(engine), headers, body)
   end
 
+  def request_content_filter(body)
+    engine = "content-filter-alpha-c4"
+    request('post', url_for(engine), headers, body)
+  end
+
   private
 
   def model_url
@@ -39,8 +44,7 @@ class GptClient
     puts "------"
 
     if response.code == 200
-      body = JSON.parse(response.body)
-      { result_text: body["choices"].first.dig("text"), success: true }
+      JSON.parse(response.body)
     else
       { error: response.body, success: false }
     end

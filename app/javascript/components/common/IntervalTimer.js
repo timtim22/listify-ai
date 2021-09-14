@@ -17,15 +17,15 @@ const IntervalTimer = ({ triggerSeconds, callback }) => {
     }
   }, [duration])
 
-  //const tick = () => {
-    //setDuration(duration + 1000);
-    //console.log(duration)
-  //}
-  //
-
   return null;
-
 }
+
+IntervalTimer.propTypes = {
+  triggerSeconds: PropTypes.number,
+  callback: PropTypes.func
+};
+
+
 
 export default IntervalTimer;
 

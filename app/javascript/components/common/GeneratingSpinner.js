@@ -21,7 +21,7 @@ const GeneratingSpinner = ({ color }) => {
      <div className="flex justify-center items-center py-2 w-9 h-9">
        <div className={`border-${spinnerColor} animate-spin rounded-full h-6 w-6 border-t-2 border-b-2`}></div>
       </div>
-      <p className="mt-4 text-sm">{messages[messageIndex]}</p>
+      <p className="mt-4 text-sm text-center">{messages[messageIndex]}</p>
       <IntervalTimer
         triggerSeconds={5}
         callback={() => setSpinnerTextIndex(spinnerTextIndex + 1)}

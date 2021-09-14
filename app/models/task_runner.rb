@@ -28,14 +28,23 @@ class TaskRunner
   end
 
   def self.create_task_result(task_run, response, prompt)
-    task_run.task_results.create!(
+    result = task_run.task_results.create!(
       prompt: prompt,
       success: response[:success],
       result_text: response[:result_text],
       error: response[:error]
     )
-    #if response has content check, save it, and if fails, set erorr
+    if response[:check_result]
+      create_filter_result(result, response[:check_result])
+    end
   end
 
-  private
+  def self.create_filter_result(result, filter_result)
+    result.content_filter_results.create!(
+      decision: filter_result[:decision],
+      label: filter_result[:label],
+      data: filter_result[:data],
+    )
+  end
+
 end

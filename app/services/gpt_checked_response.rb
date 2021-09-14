@@ -42,9 +42,9 @@ class GptCheckedResponse
     logprobs = check_response["choices"][0]["logprobs"]["top_logprobs"][0]
     if logprobs["2"] > TOXIC_THRESHOLD
       "2"
-    elsif log_probs["0"] && logprobs["0"] > logprobs["2"]
+    elsif logprobs["0"] && logprobs["0"] > logprobs["2"]
       "0"
-    elsif log_probs["1"] && logprobs["1"] > logprobs["2"]
+    elsif logprobs["1"] && logprobs["1"] > logprobs["2"]
       "1"
     else
       "2"

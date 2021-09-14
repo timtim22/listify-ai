@@ -5,9 +5,8 @@ class TaskRunner
     task_run = create_task_run(user, prompt_set, input_object)
 
     prompt_set.prompts.map do |prompt|
-      prompt_for_client = prompt_object_from(prompt, input_object)
-      response = GptClient.new.execute_request(prompt_for_client)
-      #sleep(2)
+      gpt_call = GptCallGenerator.generate_for(prompt, input_object)
+      response = gpt_call.execute!
       #response = { success: true, result_text: 'successful response' }
       create_task_result(task_run, response, prompt)
     end
@@ -29,25 +28,23 @@ class TaskRunner
   end
 
   def self.create_task_result(task_run, response, prompt)
-    task_run.task_results.create!(
+    result = task_run.task_results.create!(
       prompt: prompt,
       success: response[:success],
       result_text: response[:result_text],
       error: response[:error]
     )
+    if response[:check_result]
+      create_filter_result(result, response[:check_result])
+    end
   end
 
-  private
-
-  def self.prompt_object_from(prompt, input_object)
-    prompt_object = prompt.generate_with(input_object)
-    log(prompt_object)
-    prompt_object
+  def self.create_filter_result(result, filter_result)
+    result.content_filter_results.create!(
+      decision: filter_result[:decision],
+      label: filter_result[:label],
+      data: filter_result[:data],
+    )
   end
 
-  def self.log(prompt)
-    puts "PROMPT"
-    puts prompt
-    puts "-----"
-  end
 end

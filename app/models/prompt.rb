@@ -20,30 +20,7 @@ class Prompt < ApplicationRecord
     )
   end
 
-  def generate_with(input_object)
-    if self.gpt_model_id.present?
-      to_object_with_model(input_object.input_text)
-    else
-      to_object_with_text(input_object.input_text)
-    end
+  def stop_sequence_present?
+    !([nil, ""].include?(self.stop))
   end
-
-  private
-
-  def to_object_with_model(input_text)
-    body = construct_prompt_body(input_text).gsub("\\n", "\n")
-    OpenStruct.new(model: gpt_model_id, body: body, max_tokens: max_tokens)
-  end
-
-  def to_object_with_text(input_text)
-    req   = ["stop", "max_tokens", "temperature", "top_p", "frequency_penalty", "presence_penalty", "engine"]
-    attrs = attributes.select { |a| req.include? a }
-    body  = construct_prompt_body(input_text)
-    OpenStruct.new(attrs.merge(body: body))
-  end
-
-  def construct_prompt_body(input_text)
-    content.gsub("{input}", input_text)
-  end
-
 end

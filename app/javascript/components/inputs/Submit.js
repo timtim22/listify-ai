@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Spinner from '../common/Spinner';
 import Filter from 'bad-words';
+import GeneratingSpinner from '../common/GeneratingSpinner';
 
 const profanityFilter = new Filter();
 
@@ -50,7 +50,7 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
     )
   }
 
-  if (loading) { return <Spinner />; }
+  if (loading) { return <GeneratingSpinner />; }
   if (runsRemaining < 1) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }

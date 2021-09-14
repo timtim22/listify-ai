@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_08_092603) do
+ActiveRecord::Schema.define(version: 2021_09_14_113443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "content_filter_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_result_id", null: false
+    t.string "decision"
+    t.string "label"
+    t.jsonb "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_result_id"], name: "index_content_filter_results_on_task_result_id"
+  end
 
   create_table "feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_run_id", null: false
@@ -162,6 +172,7 @@ ActiveRecord::Schema.define(version: 2021_09_08_092603) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "content_filter_results", "task_results"
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "inputs", "users"
   add_foreign_key "legacy_task_runs", "legacy_prompts"

@@ -1,6 +1,6 @@
 class GptCallGenerator
 
-  CHECK_CONTENT = true
+  CHECK_CONTENT = false
 
   def self.generate_for(prompt, input_object)
     request_object = generate_request_object(prompt, input_object.input_text)

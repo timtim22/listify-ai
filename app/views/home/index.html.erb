@@ -1,58 +1,41 @@
 <div class="flex flex-col items-start px-4 md:px-8">
-  <% if current_user.admin? %>
-    <p>You are signed in as an admin.</p>
-    <br />
-    <ol type="1" class="list-decimal list-inside">
-      <li><%= link_to "Create a property listing", new_listing_path %></li>
-      <li><%= link_to "Writing assistant", new_writing_path %></li>
-      <li><%= link_to "Playground", new_playground_attempt_path %></li>
-      <li><%= link_to "View task runs (web app requests)", task_runs_path %></li>
-      <li><%= link_to "View usages (web app requests)", usages_path %></li>
-      <li><%= link_to "View feedback (web app requests)", task_run_feedbacks_path %></li>
-      <li><%= link_to "Manage prompt sets", prompt_sets_path %></li>
-      <li><%= link_to "View legacy task runs (chrome extension)", legacy_task_runs_path %></li>
-      <li><%= link_to "Manage legacy prompts (chrome extension)", legacy_prompts_path %></li>
-      <li><%= link_to "Log out", destroy_user_session_path, :method => :delete %></li>
-    </ol>
-  <% else %>
-    <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
-      <div class="flex flex-col items-center w-full md:w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
-        <div class="w-full h-full p-12 leading-loose text-center md:text-left">
-          <h1 class="text-2xl font-medium tracking-wide mb-4">Welcome! 👋</h1>
-          <br />
-          <p>
-            Minotaur helps you create awesome copy for your property listings, using an AI copywriter.
-            It lets you generate engaging, original content in seconds.
-          </p>
-          <br />
-          <p>
-            To get started, we recommend <%= link_to "trying an example", new_listing_path(show_example: true), class: "text-blue-700 underline" %>.
-            If you've been here before, you can jump right in <%= link_to "here", new_listing_path, class: "text-blue-700 underline" %>.
-          </p>
+  <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+    <div class="flex flex-col items-center w-full md:w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
+      <div class="w-full h-full p-12 leading-loose text-center md:text-left">
+        <h1 class="text-2xl font-medium tracking-wide mb-4">Welcome! 👋</h1>
+        <br />
+        <p>
+          Minotaur helps you create awesome copy for your property listings using an AI copywriter.
+          It lets you generate engaging, original content in seconds.
+        </p>
+        <br />
+        <p>
+          To get started, we recommend <%= link_to "trying an example", new_listing_path(show_example: true), class: "text-blue-700 underline" %>.
+          If you've been here before, you can jump right in <%= link_to "here", new_listing_path, class: "text-blue-700 underline" %>.
+        </p>
 
-          <br />
-          <br />
-          <h3 class="font-bold tracking-wide text-lg">How Minotaur works</h3>
-          <br />
-          <p>
-            Minotaur is built on GPT-3, the world’s most advanced language AI.
-            Unlike a human copywriter, the AI can create several drafts in seconds, varying from the basic to the poetic.
-          </p>
-          <br />
-          <p>
-            We are currently in private beta, with a daily cap on the amount of copy you can create.
-            We will announce our pricing and limits beyond the private beta shortly.
-          </p>
-          <br />
-          <p>
-            If you have questions, need help, or have ideas for how we can improve, please <%= mail_to "hello@getminotaur.app", "get in touch", class: "text-blue-700 underline" %>.
-            Thanks for giving us a try!
-          </p>
-          <br />
-          <p class="font-bold">The Minotaur Team</p>
-        </div>
+        <br />
+        <br />
+        <h3 class="font-bold tracking-wide text-lg">How Minotaur works</h3>
+        <br />
+        <p>
+          Minotaur is built on GPT-3, the world’s most advanced language AI.
+          Unlike a human copywriter, the AI can create several drafts in seconds, varying from the basic to the poetic.
+        </p>
+        <br />
+        <p>
+          We are currently in private beta, with a daily cap on the amount of copy you can create.
+          We will announce our pricing and limits beyond the private beta shortly.
+        </p>
+        <br />
+        <p>
+          If you have questions, need help, or have ideas for how we can improve, please <%= mail_to "hello@getminotaur.app", "get in touch", class: "text-blue-700 underline" %>.
+          Thanks for giving us a try!
+        </p>
+        <br />
+        <p class="font-bold">The Minotaur Team</p>
       </div>
     </div>
-  <% end %>
+  </div>
   <br />
 </div>

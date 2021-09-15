@@ -22,4 +22,8 @@ Rails.application.routes.draw do
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
+
+  namespace :admin do
+    get 'index', to: 'home#index'
+  end
 end

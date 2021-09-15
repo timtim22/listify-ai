@@ -5,17 +5,31 @@ import TaskRerunButton from './TaskRerunButton';
 
 const Results = ({ runsRemaining, results, taskRun, onRerun }) => {
 
+  const resultsList = () => {
+    if (results.some(r => r.result_text)) {
+      return results.map(result => renderResult(result))
+    } else {
+      return (
+        <div className="flex justify-center py-8 w-full">
+          <p className="text-sm">Hm, this query didn't generate any valid results. Sorry about that - we will look into it.</p>
+        </div>
+      )
+    }
+  }
+
   const renderResult = (result) => {
-    return (
-      <div
-        key={result.id}
-        className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200"
-      >
-        <p>{result.result_text}</p>
-        <br />
-        {tags(result)}
-     </div>
-    )
+    if (result.result_text) {
+      return (
+        <div
+          key={result.id}
+          className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200"
+        >
+          <p>{result.result_text}</p>
+          <br />
+          {tags(result)}
+       </div>
+      )
+    }
   }
 
   const tags = (result) => {
@@ -49,7 +63,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun }) => {
           <div className="mt-4 mb-4 w-3/4 h-px bg-gray-300"></div>
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
-            {results.map(result => renderResult(result))}
+            {resultsList()}
             <div className="flex justify-center py-8 w-full">
               <TaskRerunButton taskRun={taskRun} onResult={onRerun} />
             </div>

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   devise_for :users
   root to: 'home#index'
+  get "/terms", to: "home#terms"
+  get "/privacy", to: "home#privacy"
 
   resources :usages, only: [:index]
   resources :task_runs, only: [:index]

@@ -1,5 +1,5 @@
-<div class="flex flex-col items-start px-8">
-  <% if !current_user.admin? %>
+<div class="flex flex-col items-start px-4 md:px-8">
+  <% if current_user.admin? %>
     <p>You are signed in as an admin.</p>
     <br />
     <ol type="1" class="list-decimal list-inside">
@@ -16,8 +16,8 @@
     </ol>
   <% else %>
     <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
-      <div class="flex flex-col items-center w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
-        <div class="w-full h-full p-12 leading-loose">
+      <div class="flex flex-col items-center w-full md:w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
+        <div class="w-full h-full p-12 leading-loose text-center md:text-left">
           <h1 class="text-2xl font-medium tracking-wide mb-4">Welcome! 👋</h1>
           <br />
           <p>
@@ -26,7 +26,7 @@
           </p>
           <br />
           <p>
-            To get started, we recommend <%= link_to "trying an example", new_listing_path, class: "text-blue-700 underline" %>.
+            To get started, we recommend <%= link_to "trying an example", new_listing_path(show_example: true), class: "text-blue-700 underline" %>.
             If you've been here before, you can jump right in <%= link_to "here", new_listing_path, class: "text-blue-700 underline" %>.
           </p>
 

@@ -8,17 +8,9 @@ import Submit from '../inputs/Submit';
 
 const maxInput = 400;
 
-const newListing = {
-  request_type: 'listing_description',
-  //property_type: '',
-  //sleeps: 2,
-  //location: '',
-  input_text: ''
-}
-
-const Form = ({ runsRemaining, onResult }) => {
+const Form = ({ templateListing, runsRemaining, onResult }) => {
   const [loading, setLoading] = useState(false);
-  const [listing, setListing] = useState(newListing);
+  const [listing, setListing] = useState(templateListing);
   const [errors, setErrors] = useState(null);
   const [disabledMsg, setDisabledMsg] = useState(null);
 

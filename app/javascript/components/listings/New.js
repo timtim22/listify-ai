@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Form from './Form';
 import Results from '../inputs/Results';
 
-const New = ({ initialRunsRemaining }) => {
+const New = ({ templateListing, initialRunsRemaining }) => {
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
   const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
@@ -27,6 +27,7 @@ const New = ({ initialRunsRemaining }) => {
       <Form
         runsRemaining={runsRemaining}
         onResult={handleNewResults}
+        templateListing={templateListing}
       />
       <Results
         runsRemaining={runsRemaining}

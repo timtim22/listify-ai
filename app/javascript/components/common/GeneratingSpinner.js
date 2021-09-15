@@ -6,6 +6,7 @@ const messages = [
   "Alright! Lets see what we can do. This may take a few seconds...",
   "Generating some great results for you...",
   "Almost there...",
+  "Just a moment more...",
   "Sorry, this is taking longer than usual. We're working on it...",
   "This is much slower than we'd like. Please let us know, we'll look into it."
 ]

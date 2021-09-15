@@ -22,8 +22,15 @@ const New = ({ promptSets }) => {
 
   return (
     <>
-      <Form promptSets={promptSets.prompt_sets} onResult={handleNewResults} />
-      <Results results={results} taskRun={taskRun} />
+      <Form
+      promptSets={promptSets.prompt_sets}
+      onResult={handleNewResults}
+      />
+      <Results
+        results={results}
+        taskRun={taskRun}
+        onRerun={handleNewResults}
+      />
     </>
   )
 }

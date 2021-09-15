@@ -32,6 +32,7 @@ const New = ({ initialRunsRemaining }) => {
         runsRemaining={runsRemaining}
         results={results}
         taskRun={taskRun}
+        onRerun={handleNewResults}
       />
     </>
   )

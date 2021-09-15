@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createRequest, redirectOnSuccess } from '../../helpers/requests';
+import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
+import TaskRerunButton from './TaskRerunButton';
 
-const Results = ({ runsRemaining, results, taskRun }) => {
+const Results = ({ runsRemaining, results, taskRun, onRerun }) => {
 
   const renderResult = (result) => {
     return (
@@ -49,6 +50,9 @@ const Results = ({ runsRemaining, results, taskRun }) => {
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             {results.map(result => renderResult(result))}
+            <div className="flex justify-center py-8 w-full">
+              <TaskRerunButton taskRun={taskRun} onResult={onRerun} />
+            </div>
             {remainingRequests()}
             <FeedbackForm taskRunId={taskRun.id} />
           </div>

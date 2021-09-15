@@ -36,5 +36,6 @@ module Minotaur
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.hosts << Rails.application.credentials.deploy_url
+    config.hosts << Rails.application.credentials.alt_deploy_url
   end
 end

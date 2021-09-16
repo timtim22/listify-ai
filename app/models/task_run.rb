@@ -7,7 +7,7 @@ class TaskRun < ApplicationRecord
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
 
-  USER_DAILY_RUN_LIMIT = 30
+  USER_DAILY_RUN_LIMIT = 40
 
   def self.runs_remaining_today(user)
     if user.admin?

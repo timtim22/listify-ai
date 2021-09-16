@@ -6,7 +6,7 @@ import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 import Submit from '../inputs/Submit';
 
-const maxInput = 400;
+const maxInput = 250;
 
 const Form = ({ templateListing, runsRemaining, onResult }) => {
   const [loading, setLoading] = useState(false);
@@ -87,8 +87,7 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          {disabledPillButton("Ad for Google", "listing_google_ad")}
-          {disabledPillButton("Ad for Facebook", "listing_facebook_ad")}
+          {disabledPillButton("Other listing copy", "listing_other_copy")}
         </div>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>

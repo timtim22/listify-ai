@@ -5,7 +5,7 @@ import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 import Submit from '../inputs/Submit';
 
-const maxInput = 400;
+const maxInput = 250;
 
 const newWriting = {
   request_type: 'tidy_grammar',

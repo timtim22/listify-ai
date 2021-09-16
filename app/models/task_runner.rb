@@ -57,7 +57,7 @@ class TaskRunner
   end
 
   def flag_result(filter_result)
-    if !(["0", "1"].include?(filter_result.label))
+    if filter_result.label != "0"
       @unsafe_result = true
     end
   end

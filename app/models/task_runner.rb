@@ -1,25 +1,33 @@
 class TaskRunner
+  attr_reader :unsafe_result
 
-  def self.run_for!(input_object, user)
+  def initialize
+    @unsafe_result = false
+  end
+
+  def run_for!(input_object, user)
     prompt_set = prompt_set_for(input_object.request_type)
     task_run = create_task_run(user, prompt_set, input_object)
 
     prompt_set.prompts.map do |prompt|
-      gpt_call = GptCallGenerator.generate_for(prompt, input_object)
-      response = gpt_call.execute!
-      #response = { success: true, result_text: 'successful response' }
-      create_task_result(task_run, response, prompt)
+      if !unsafe_result
+        gpt_call = GptCallGenerator.generate_for(prompt, input_object)
+        response = gpt_call.execute!
+        #response = { check_result: { decision: "fail", label: "1", data: "" }, success: true, result_text: 'test' }
+        #sleep(4)
+        create_task_result(task_run, response, prompt)
+      end
     end
     task_run
   end
 
-  def self.prompt_set_for(request_type)
+  def prompt_set_for(request_type)
     prompt_set = PromptSet.for(request_type)
     raise "No prompts for #{request_type}" if prompt_set.nil?
     prompt_set
   end
 
-  def self.create_task_run(user, prompt_set, input_object)
+  def create_task_run(user, prompt_set, input_object)
     TaskRun.create!(
       user: user,
       prompt_set: prompt_set,
@@ -27,7 +35,7 @@ class TaskRunner
     )
   end
 
-  def self.create_task_result(task_run, response, prompt)
+  def create_task_result(task_run, response, prompt)
     result = task_run.task_results.create!(
       prompt: prompt,
       success: response[:success],
@@ -35,11 +43,12 @@ class TaskRunner
       error: response[:error]
     )
     if response[:check_result]
-      create_filter_result(result, response[:check_result])
+      filter_result = create_filter_result(result, response[:check_result])
+      flag_result(filter_result)
     end
   end
 
-  def self.create_filter_result(result, filter_result)
+  def create_filter_result(result, filter_result)
     result.content_filter_results.create!(
       decision: filter_result[:decision],
       label: filter_result[:label],
@@ -47,4 +56,9 @@ class TaskRunner
     )
   end
 
+  def flag_result(filter_result)
+    if !(["0", "1"].include?(filter_result.label))
+      @unsafe_result = true
+    end
+  end
 end

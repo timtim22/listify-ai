@@ -6,7 +6,7 @@ import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 import Submit from '../inputs/Submit';
 
-const maxInput = 250;
+const maxInput = 240;
 
 const Form = ({ templateListing, runsRemaining, onResult }) => {
   const [loading, setLoading] = useState(false);

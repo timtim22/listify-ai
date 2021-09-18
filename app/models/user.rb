@@ -9,4 +9,20 @@ class User < ApplicationRecord
 
   attr_accessor :early_access_code
   validates :early_access_code, inclusion: { in: ['MIN39210'] }, on: :create
+
+  DAILY_RUN_LIMIT = 20
+
+  def runs_remaining_today
+    if admin?
+      DAILY_RUN_LIMIT
+    elsif custom_run_limit
+      custom_run_limit - runs_today
+    else
+      DAILY_RUN_LIMIT - runs_today
+    end
+  end
+
+  def runs_today
+    task_runs.today.count
+  end
 end

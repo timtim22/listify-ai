@@ -7,7 +7,7 @@ class TaskRerunsController < ApplicationController
     save = Input.create_with(new_input_object, current_user)
     if save.success
       @object = save.input_object
-      @task_run = TaskRunner.run_for!(@object, current_user)
+      @task_run = TaskRunner.new.run_for!(@object, current_user)
       @runs_remaining = TaskRun.runs_remaining_today(current_user)
     end
 

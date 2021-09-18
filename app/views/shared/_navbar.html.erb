@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="flex -mr-2 md:hidden">
-            <%= react_component "common/MobileMenu" %>
+            <%= react_component "common/MobileMenu", { admin: current_user.admin? } %>
           </div>
         <% end %>
       </div>

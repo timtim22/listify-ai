@@ -5,6 +5,7 @@ import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 import Submit from '../inputs/Submit';
+import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
 const maxInput = 240;
 
@@ -18,7 +19,7 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
     if (errors) {
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
-  }, [errors])
+  }, [errors]);
 
   const setField = (field, value) => {
     setListing({ ...listing, [field]: value });
@@ -101,12 +102,16 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
             <span className="text-sm font-bold tracking-wider text-gray-500 uppercase">
               Property details
             </span>
-            <textarea
+            <TextareaWithPlaceholder
               value={listing.input_text}
-              onChange={(e) => {setField('input_text', e.target.value)}}
-              placeholder={`- apartment near Covent Garden\n- third floor with private balcony\n- close to theatres, bars and shops`}
-              className="h-48 form-text-area">
-            </textarea>
+              onChange={value => setField('input_text', value)}
+              placeholderContent={
+              <>
+                <p className="mt-px">- e.g. 3 bed apartment near Covent Garden</p>
+                <p className="">- third floor with private balcony</p>
+                <p className="">- close to West End theatres, bars and shops</p>
+              </>
+            } />
           </label>
           <div className="flex justify-center py-8 w-full">
             <Submit
@@ -123,5 +128,3 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
 }
 
 export default Form;
-
-

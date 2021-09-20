@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   def from_template(template)
     JSON.parse(render(template: template))

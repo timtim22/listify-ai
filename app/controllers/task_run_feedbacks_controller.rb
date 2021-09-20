@@ -4,6 +4,7 @@ class TaskRunFeedbacksController < ApplicationController
 
   def index
     @task_run_feedbacks = TaskRunFeedback.all.includes(:user, task_run: [:input_object, :task_results]).order(created_at: :desc)
+    @pagy, @task_run_feedbacks = pagy(@task_run_feedbacks)
   end
 
   def create

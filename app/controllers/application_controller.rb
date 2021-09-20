@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
   before_action :configure_permitted_parameters, if: :devise_controller?
-
   rescue_from Errors::ShortRequest, with: :render_error_response
 
   def check_token

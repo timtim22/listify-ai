@@ -2,8 +2,14 @@ class TaskRunsController < ApplicationController
   before_action :authenticate_admin
 
   def index
+    if params[:user]
+      users = User.where(email: params[:user])
+    else
+      users = User.all
+    end
+
     @task_runs = TaskRun
-      .all
+      .where(user: users)
       .includes(:user, :input_object, :prompt_set, :task_results)
       .order(created_at: :desc)
 

@@ -14,13 +14,13 @@ const messages = [
 const GeneratingSpinner = ({ color }) => {
   const [spinnerTextIndex, setSpinnerTextIndex] = useState(0);
 
-  const spinnerColor = color || "green-500";
+  const spinnerColor = color || "border-green-500";
   const messageIndex = Math.min(spinnerTextIndex, messages.length - 1);
 
   return (
    <div className="flex flex-col items-center">
      <div className="flex justify-center items-center py-2 w-9 h-9">
-       <div className={`border-${spinnerColor} animate-spin rounded-full h-6 w-6 border-t-2 border-b-2`}></div>
+       <div className={`${spinnerColor} animate-spin rounded-full h-6 w-6 border-t-2 border-b-2`}></div>
       </div>
       <p className="mt-4 text-sm text-center">{messages[messageIndex]}</p>
       <IntervalTimer

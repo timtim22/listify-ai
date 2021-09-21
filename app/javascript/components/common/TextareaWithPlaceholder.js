@@ -13,7 +13,7 @@ const TextareaWithPlaceholder = ({ value, onChange, placeholderContent }) => {
   }, [value]);
 
   return (
-    <div className="relative z-10">
+    <div className="w-full relative z-10">
       <textarea
         value={value}
         onChange={(e) => { onChange(e.target.value) }}

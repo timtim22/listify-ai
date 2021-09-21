@@ -6,10 +6,12 @@ import ErrorNotice from '../common/ErrorNotice';
 import Spinner from '../common/Spinner';
 import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import SingleInput from './SingleInput';
+import SplitInput from './SplitInput';
 
 const maxInput = 240;
 
-const Form = ({ templateListing, runsRemaining, onResult }) => {
+const Form = ({ templateListing, runsRemaining, onResult, betaFeatures }) => {
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(templateListing);
   const [errors, setErrors] = useState(null);
@@ -32,15 +34,16 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
   }
 
   const handleSubmit = (e) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
+    const request_type = listing.request_type === 'beta_form' ? 'listing_description' : listing.request_type;
+    const listingToSend = { ...listing, request_type };
     createRequest(
       "/listings.json",
-      cleanObjectInputText(listing),
+      cleanObjectInputText(listingToSend),
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
-
   }
 
   const disabledPopup = (value) => {
@@ -80,6 +83,24 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
     )
   }
 
+  const formFor = (requestType) => {
+    if (requestType === 'beta_form') {
+      return (
+        <SplitInput
+          inputValue={listing.input_text}
+          onInputChange={value => setField('input_text', value)}
+        />
+      )
+    } else {
+      return (
+        <SingleInput
+          inputValue={listing.input_text}
+          onInputChange={value => setField('input_text', value)}
+        />
+      )
+    }
+  }
+
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
@@ -89,6 +110,7 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
           {disabledPillButton("Other listing copy", "listing_other_copy")}
+          {betaFeatures && pillButton("Form", "beta_form")}
         </div>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
@@ -98,21 +120,7 @@ const Form = ({ templateListing, runsRemaining, onResult }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          <label className="block mt-4 w-full">
-            <span className="text-sm font-bold tracking-wider text-gray-500 uppercase">
-              Property details
-            </span>
-            <TextareaWithPlaceholder
-              value={listing.input_text}
-              onChange={value => setField('input_text', value)}
-              placeholderContent={
-              <>
-                <p className="mt-px">- e.g. 3 bed apartment near Covent Garden</p>
-                <p className="">- third floor with private balcony</p>
-                <p className="">- close to West End theatres, bars and shops</p>
-              </>
-            } />
-          </label>
+          {formFor(listing.request_type)}
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputObject={listing}

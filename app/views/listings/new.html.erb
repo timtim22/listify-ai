@@ -3,7 +3,8 @@
     <div class="w-full h-full">
       <%= react_component "listings/New", {
         templateListing: @listing,
-        initialRunsRemaining: @runs_remaining
+        initialRunsRemaining: @runs_remaining,
+        betaFeatures: current_user.admin?
       } %>
     </div>
   </div>

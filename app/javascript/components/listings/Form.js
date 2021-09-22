@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
-import Spinner from '../common/Spinner';
+import Switch from '../common/Switch';
 import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SingleInput from './SingleInput';
@@ -11,16 +11,23 @@ import SplitInput from './SplitInput';
 
 const maxInput = 240;
 
-const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult, betaFeatures }) => {
+const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState(templateListing);
   const [errors, setErrors] = useState(null);
   const [disabledMsg, setDisabledMsg] = useState(null);
+  const [inputMode, setInputMode] = useState('form');
 
   useEffect(() => {
     if (errors) {
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   }, [errors]);
+
+  const changeInputMode = () => {
+    const newMode = inputMode === 'form' ? 'text' : 'form';
+    setField('input_text', '');
+    setInputMode(newMode)
+  }
 
   const setField = (field, value) => {
     setListing({ ...listing, [field]: value });
@@ -81,8 +88,8 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult, b
     )
   }
 
-  const formFor = (requestType) => {
-    if (requestType === 'beta_form') {
+  const formInput = () => {
+    if (inputMode === 'form') {
       return (
         <SplitInput
           inputValue={listing.input_text}
@@ -99,17 +106,28 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult, b
     }
   }
 
+  const inputModeSwitch = () => {
+    return (
+      <Switch
+        handleToggle={changeInputMode}
+        isOn={inputMode === 'text'}
+        leftLabel='form'
+        rightLabel='text'
+      />
+    )
+  }
+
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
-        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings generator</h1>
+        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings Generator</h1>
         <p className="text-sm">I want to generate a...</p>
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
           {disabledPillButton("Other listing copy", "listing_other_copy")}
-          {betaFeatures && pillButton("Form", "beta_form")}
         </div>
+        {inputModeSwitch()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
 
@@ -118,7 +136,7 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult, b
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {formFor(listing.request_type)}
+         {formInput()}
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputObject={listing}

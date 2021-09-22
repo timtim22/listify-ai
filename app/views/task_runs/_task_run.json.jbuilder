@@ -1,5 +1,6 @@
 json.task_run do
   json.id @task_run.id
+  json.expected_results @task_run.expected_results
 end
 
 json.task_results(

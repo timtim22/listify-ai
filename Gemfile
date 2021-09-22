@@ -52,12 +52,14 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem 'acts_as_list', '~> 1.0', '>= 1.0.4'
 gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'google-cloud-speech', '~> 1.2'
-gem 'httparty', '~> 0.18.1'
-gem 'react-rails', '~> 2.6', '>= 2.6.1'
-gem 'acts_as_list', '~> 1.0', '>= 1.0.4'
-gem 'rack-attack', '~> 6.5'
-gem 'pagy', '~> 4.11'
 gem 'honeybadger', '~> 4.9'
+gem 'httparty', '~> 0.18.1'
+gem 'pagy', '~> 4.11'
+gem 'rack-attack', '~> 6.5'
+gem 'react-rails', '~> 2.6', '>= 2.6.1'
+gem 'redis', '~> 4.4'
+gem 'sidekiq', '~> 6.2', '>= 6.2.2'

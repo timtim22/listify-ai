@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
 import Results from '../inputs/Results';
+import ResultsPoll from '../inputs/ResultsPoll';
 
 const New = ({ templateListing, initialRunsRemaining, betaFeatures }) => {
+  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
   const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
@@ -14,27 +16,37 @@ const New = ({ templateListing, initialRunsRemaining, betaFeatures }) => {
     }
   }, [results])
 
+  const handleNewResults = (results) => {
+    setResults(results);
+    setLoading(false);
+  }
 
-
-  const handleNewResults = (response) => {
+  const handleTaskRun = (response) => {
     setRunsRemaining(response.data.runs_remaining);
     setTaskRun(response.data.task_run);
-    setResults(response.data.task_results);
   }
 
   return (
     <>
       <Form
+        loading={loading}
+        setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
-        onResult={handleNewResults}
+        onResult={handleTaskRun}
         templateListing={templateListing}
         betaFeatures={betaFeatures}
       />
+      <ResultsPoll
+        taskRun={taskRun}
+        onResult={handleNewResults}
+      />
       <Results
+        loading={loading}
+        setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
         results={results}
         taskRun={taskRun}
-        onRerun={handleNewResults}
+        onRerun={handleTaskRun}
       />
     </>
   )

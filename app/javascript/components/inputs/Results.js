@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
 
-const Results = ({ runsRemaining, results, taskRun, onRerun }) => {
+const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
   const resultsList = () => {
     if (results.some(r => r.result_text)) {
@@ -65,7 +65,12 @@ const Results = ({ runsRemaining, results, taskRun, onRerun }) => {
           <div className="flex flex-col items-center py-4 w-full">
             {resultsList()}
             <div className="flex justify-center py-8 w-full">
-              <TaskRerunButton taskRun={taskRun} onResult={onRerun} />
+              <TaskRerunButton
+                loading={loading}
+                setLoading={setLoading}
+                taskRun={taskRun}
+                onResult={onRerun}
+              />
             </div>
             {remainingRequests()}
             <FeedbackForm taskRunId={taskRun.id} />

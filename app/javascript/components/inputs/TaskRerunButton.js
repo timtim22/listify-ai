@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 
-const TaskRerunButton = ({ taskRun, onResult }) => {
-  const [loading, setLoading] = useState(false);
+const TaskRerunButton = ({ taskRun, onResult, loading, setLoading }) => {
 
   const handleSubmit = (e) => {
     setLoading(true);
@@ -12,7 +11,7 @@ const TaskRerunButton = ({ taskRun, onResult }) => {
     createRequest(
       "/task_reruns.json",
       { task_run_id: taskRun.id },
-      (response) => { onResult(response); setLoading(false) },
+      (response) => { onResult(response) },
       (e) => { console.log(e); setLoading(false) }
     )
   }

@@ -11,11 +11,7 @@ class TaskRunner
 
     prompt_set.prompts.map do |prompt|
       if !unsafe_result
-        gpt_call = GptCallGenerator.generate_for(prompt, input_object)
-        response = gpt_call.execute!
-        #response = { check_result: { decision: "fail", label: "1", data: "" }, success: true, result_text: 'test' }
-        #sleep(4)
-        create_task_result(task_run, response, prompt)
+        GptResultWorker.perform_async(task_run.id, prompt.id)
       end
     end
     task_run
@@ -32,27 +28,7 @@ class TaskRunner
       user: user,
       prompt_set: prompt_set,
       input_object: input_object,
-    )
-  end
-
-  def create_task_result(task_run, response, prompt)
-    result = task_run.task_results.create!(
-      prompt: prompt,
-      success: response[:success],
-      result_text: response[:result_text],
-      error: response[:error]
-    )
-    if response[:check_result]
-      filter_result = create_filter_result(result, response[:check_result])
-      flag_result(filter_result)
-    end
-  end
-
-  def create_filter_result(result, filter_result)
-    result.content_filter_results.create!(
-      decision: filter_result[:decision],
-      label: filter_result[:label],
-      data: filter_result[:data],
+      expected_results: prompt_set.prompts.count
     )
   end
 

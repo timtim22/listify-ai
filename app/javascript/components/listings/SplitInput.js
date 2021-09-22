@@ -78,15 +78,15 @@ const SplitInput = ({ inputValue, onInputChange }) => {
 
   const textRow = (title, key, placeholder, required) => {
     return (
-      <div className="flex justify-start items-center w-full mb-2">
-        <label className="w-1/3 flex-shrink-0">{title}</label>
+      <div className="flex justify-start items-center mb-2 w-full">
+        <label className="flex-shrink-0 w-1/3">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          className="form-inline-field w-full"
+          className="w-full form-inline-field"
         />
       </div>
     )
@@ -94,7 +94,7 @@ const SplitInput = ({ inputValue, onInputChange }) => {
 
   const bedroomRow = () => {
     return (
-      <div className="flex justify-start items-center w-full mb-2">
+      <div className="flex justify-start items-center mb-2 w-full">
         <label className="w-1/3">Bedrooms</label>
         <input
           type="number"
@@ -118,8 +118,8 @@ const SplitInput = ({ inputValue, onInputChange }) => {
         {textRow('Location', 'location', '')}
         {textRow('Ideal for', 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
-          <label className="w-1/3 flex-shrink-0">Key features</label>
-          <div className="w-full px-3">
+          <label className="flex-shrink-0 w-1/3">Key features</label>
+          <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}
               onChange={(value) => setField('keyFeatures', value)}

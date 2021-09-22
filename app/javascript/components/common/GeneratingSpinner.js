@@ -24,7 +24,7 @@ const GeneratingSpinner = ({ color }) => {
       </div>
       <p className="mt-4 text-sm text-center">{messages[messageIndex]}</p>
       <IntervalTimer
-        triggerSeconds={5}
+        triggerSeconds={7}
         callback={() => setSpinnerTextIndex(spinnerTextIndex + 1)}
       />
     </div>

@@ -11,8 +11,7 @@ import SplitInput from './SplitInput';
 
 const maxInput = 240;
 
-const Form = ({ templateListing, runsRemaining, onResult, betaFeatures }) => {
-  const [loading, setLoading] = useState(false);
+const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult, betaFeatures }) => {
   const [listing, setListing] = useState(templateListing);
   const [errors, setErrors] = useState(null);
   const [disabledMsg, setDisabledMsg] = useState(null);
@@ -29,7 +28,6 @@ const Form = ({ templateListing, runsRemaining, onResult, betaFeatures }) => {
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    setLoading(false);
     onResult(response);
   }
 

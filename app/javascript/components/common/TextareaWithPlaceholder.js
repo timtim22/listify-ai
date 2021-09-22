@@ -13,13 +13,13 @@ const TextareaWithPlaceholder = ({ value, onChange, placeholderContent }) => {
   }, [value]);
 
   return (
-    <div className="w-full relative z-10">
+    <div className="relative z-10 w-full">
       <textarea
         value={value}
         onChange={(e) => { onChange(e.target.value) }}
         className={`h-48 form-text-area z-20 ${showPlaceholder ? "bg-transparent" : "bg-white" }`}>
       </textarea>
-      <div className="h-48 px-3 py-2 top-0 left-0 absolute -z-10 w-full rounded-md text-gray-400">
+      <div className="absolute top-0 left-0 py-2 px-3 w-full h-48 text-gray-400 rounded-md -z-10">
         {placeholderContent}
       </div>
     </div>

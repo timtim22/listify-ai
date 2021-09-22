@@ -10,7 +10,7 @@ class TaskRunsController < ApplicationController
 
     @task_runs = TaskRun
       .where(user: users)
-      .includes(:user, :input_object, :prompt_set, :task_results)
+      .includes(:user, :input_object, :prompt_set, :task_results, task_results: :content_filter_results)
       .order(created_at: :desc)
 
     @pagy, @task_runs = pagy(@task_runs)

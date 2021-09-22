@@ -5,8 +5,8 @@ class GptResult
     prompt   = Prompt.find(prompt_id)
     gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
     response = gpt_call.execute!
-    #response = { check_result: { decision: "fail", label: "1", data: "" }, success: true, result_text: 'test' }
-    #response = { success: true, result_text: 'test' }
+    #response = { check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'https://bbc.co.uk test' }
+    #response = { success: true, result_text: ['', 'test'].sample }
     #sleep(5)
     create_task_result(task_run, response, prompt)
   end
@@ -19,9 +19,8 @@ class GptResult
       error: response[:error]
     )
     if response[:check_result]
+      CustomResultFilter.run_for!(result)
       filter_result = create_filter_result(result, response[:check_result])
-      #flag_result(filter_result)
-      #
     end
   end
 

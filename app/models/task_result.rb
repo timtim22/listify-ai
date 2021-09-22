@@ -12,7 +12,8 @@ class TaskResult < ApplicationRecord
   end
 
   def safe?
-    content_filter_results.empty? || content_filter_results.all?(&:safe?)
+    !failed_custom_filter &&
+    (content_filter_results.empty? || content_filter_results.all?(&:safe?))
   end
 
   def unsafe?

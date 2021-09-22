@@ -46,6 +46,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'brakeman', '~> 5.1', '>= 5.1.1'
+  gem 'bullet', '~> 6.1', '>= 6.1.5'
   gem 'overcommit', '~> 0.58.0'
 end
 

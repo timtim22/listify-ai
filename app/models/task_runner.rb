@@ -31,10 +31,4 @@ class TaskRunner
       expected_results: prompt_set.prompts.count
     )
   end
-
-  def flag_result(filter_result)
-    if filter_result.label != "0"
-      @unsafe_result = true
-    end
-  end
 end

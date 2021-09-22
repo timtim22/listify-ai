@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_081007) do
+ActiveRecord::Schema.define(version: 2021_09_22_160016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_081007) do
     t.string "error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "failed_custom_filter", default: false
     t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end

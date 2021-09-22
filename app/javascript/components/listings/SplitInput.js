@@ -10,6 +10,14 @@ const newInputFields = {
   keyFeatures: ''
 }
 
+const exampleInputFields = {
+  propertyType: 'beach penthouse',
+  bedrooms: '1',
+  location: 'Malaga',
+  idealFor: 'romantic getaway',
+  keyFeatures: '- sea views\n- large balcony\n- 5 minutes walk to shops and restaurants',
+}
+
 const coerceWithinRange = (inputNumber, min, max) => {
   const number = parseInt(inputNumber);
   if (number < min) { return min; }
@@ -17,8 +25,8 @@ const coerceWithinRange = (inputNumber, min, max) => {
   return number;
 }
 
-const SplitInput = ({ inputValue, onInputChange }) => {
-  const [inputFields, setInputFields] = useState(newInputFields);
+const SplitInput = ({ inputValue, onInputChange, showExample }) => {
+  const [inputFields, setInputFields] = useState(showExample ? exampleInputFields : newInputFields);
 
   useEffect(() => {
     const { propertyType, bedrooms, location, idealFor, keyFeatures } = inputFields;

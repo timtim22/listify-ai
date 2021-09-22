@@ -4,7 +4,7 @@ import Form from './Form';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
-const New = ({ templateListing, initialRunsRemaining }) => {
+const New = ({ showExample, initialRunsRemaining }) => {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
@@ -33,7 +33,7 @@ const New = ({ templateListing, initialRunsRemaining }) => {
         setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
         onResult={handleTaskRun}
-        templateListing={templateListing}
+        showExample={showExample}
       />
       <ResultsPoll
         taskRun={taskRun}

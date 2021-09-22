@@ -10,12 +10,14 @@ import SingleInput from './SingleInput';
 import SplitInput from './SplitInput';
 
 const maxInput = 240;
+const newListing = { input_text: '', request_type: 'listing_description' };
 
-const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult }) => {
-  const [listing, setListing] = useState(templateListing);
+const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => {
+  const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
   const [disabledMsg, setDisabledMsg] = useState(null);
   const [inputMode, setInputMode] = useState('form');
+  const [exampleSeen, setExampleSeen] = useState(false);
 
   useEffect(() => {
     if (errors) {
@@ -26,7 +28,9 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult })
   const changeInputMode = () => {
     const newMode = inputMode === 'form' ? 'text' : 'form';
     setField('input_text', '');
-    setInputMode(newMode)
+    setErrors(null);
+    setExampleSeen(true);
+    setInputMode(newMode);
   }
 
   const setField = (field, value) => {
@@ -41,11 +45,9 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult })
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    const request_type = listing.request_type === 'beta_form' ? 'listing_description' : listing.request_type;
-    const listingToSend = { ...listing, request_type };
     createRequest(
       "/listings.json",
-      cleanObjectInputText(listingToSend),
+      cleanObjectInputText(listing),
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
@@ -92,6 +94,7 @@ const Form = ({ templateListing, loading, setLoading, runsRemaining, onResult })
     if (inputMode === 'form') {
       return (
         <SplitInput
+          showExample={showExample && !exampleSeen}
           inputValue={listing.input_text}
           onInputChange={value => setField('input_text', value)}
         />

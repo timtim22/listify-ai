@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
     <div class="w-full h-full">
       <%= react_component "listings/New", {
-        templateListing: @listing,
+        showExample: @show_example,
         initialRunsRemaining: @runs_remaining
       } %>
     </div>

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   get "/privacy", to: "home#privacy"
 
   resources :usages, only: [:index]
-  resources :task_runs, only: [:index]
+  resources :task_runs, only: [:index] do
+    resources :task_results, only: [:index]
+  end
   resources :task_run_feedbacks, only: [:index, :create]
 
   resources :legacy_task_runs, only: [:index, :show, :create]

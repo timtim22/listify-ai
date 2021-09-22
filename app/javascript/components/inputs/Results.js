@@ -18,7 +18,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 
   const renderResult = (result) => {
-    if (result.result_text) {
+    if (result.result_text && result.result_text !== "") {
       return (
         <div
           key={result.id}

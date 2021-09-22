@@ -5,8 +5,8 @@ const Switch = ({ id, isOn, handleToggle, leftLabel, rightLabel }) => {
   const switchId = id || 'toggleSwitch';
 
   return (
-    <div className="w-full md:w-auto flex justify-between md:justify-start items-center md:mr-2 mb-2">
-      {leftLabel && <label className="text-gray-400 font-medium text-xs uppercase tracking-widest mr-4">{leftLabel}</label>}
+    <div className="flex justify-between items-center mb-2 w-full md:justify-start md:mr-2 md:w-auto">
+      {leftLabel && <label className="mr-4 text-xs font-medium tracking-widest text-gray-400 uppercase">{leftLabel}</label>}
       <input
         checked={isOn || false}
         onChange={handleToggle}
@@ -20,7 +20,7 @@ const Switch = ({ id, isOn, handleToggle, leftLabel, rightLabel }) => {
       >
         <span className={`react-switch-button`} />
       </label>
-      {rightLabel && <label className="text-gray-400 font-medium text-xs uppercase tracking-widest ml-4">{rightLabel}</label>}
+      {rightLabel && <label className="ml-4 text-xs font-medium tracking-widest text-gray-400 uppercase">{rightLabel}</label>}
     </div>
   );
 };

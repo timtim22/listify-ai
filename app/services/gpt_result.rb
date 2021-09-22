@@ -21,6 +21,7 @@ class GptResult
     if response[:check_result]
       filter_result = create_filter_result(result, response[:check_result])
       #flag_result(filter_result)
+      #
     end
   end
 

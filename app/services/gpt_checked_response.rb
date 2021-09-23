@@ -64,7 +64,8 @@ class GptCheckedResponse
       "top_p" => 0,
       "frequency_penalty" => 0,
       "presence_penalty" => 0,
-      "logprobs" => 10
+      "logprobs" => 10,
+      "user" => response[:user_id]
     }.to_json
   end
 end

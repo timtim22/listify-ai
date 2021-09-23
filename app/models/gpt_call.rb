@@ -32,7 +32,11 @@ class GptCall
     if response[:error]
       response
     else
-      { result_text: result_text(response), success: true }
+      {
+        success: true,
+        result_text: result_text(response),
+        user_id: JSON.parse(request)["user"]
+      }
     end
   end
 

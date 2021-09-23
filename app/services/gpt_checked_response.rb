@@ -13,7 +13,6 @@ class GptCheckedResponse
 
   def self.run_filter_check(response, client)
     params = check_params(response)
-    puts params
     client.request_content_filter(params)
   end
 

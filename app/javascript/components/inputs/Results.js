@@ -18,13 +18,14 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 
   const renderResult = (result) => {
-    if (result.result_text && result.result_text !== "") {
+    const resultText = result.result_text.trim();
+    if (resultText !== "") {
       return (
         <div
           key={result.id}
           className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200"
         >
-          <p>{result.result_text}</p>
+          <p>{resultText}</p>
           <br />
           {tags(result)}
        </div>

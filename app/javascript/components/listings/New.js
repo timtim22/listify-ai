@@ -16,8 +16,9 @@ const New = ({ showExample, initialRunsRemaining }) => {
     }
   }, [results])
 
-  const handleNewResults = (results) => {
-    setResults(results);
+  const handleNewResults = (newResults) => {
+    const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
+    setResults(newList);
     setLoading(false);
   }
 

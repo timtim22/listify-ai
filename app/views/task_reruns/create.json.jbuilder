@@ -5,4 +5,4 @@ end
 
 json.runs_remaining @runs_remaining
 
-json.partial! @task_run, as: :task_run
+json.partial! @task_run, as: :task_run, locals: { is_rerun: true }

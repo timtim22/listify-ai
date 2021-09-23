@@ -21,7 +21,7 @@ const TaskRerunButton = ({ taskRun, onResult, loading, setLoading }) => {
     <button
       onClick={handleSubmit}
       className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-      Try Again
+      Show more
     </button>
   )
 }

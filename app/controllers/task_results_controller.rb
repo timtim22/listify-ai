@@ -4,6 +4,8 @@ class TaskResultsController < ApplicationController
 
   def index
     @task_results = @task_run.task_results
+    .includes(:prompt)
+    .order("prompts.position")
   end
 
   private

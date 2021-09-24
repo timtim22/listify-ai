@@ -8,6 +8,7 @@ import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SingleInput from './SingleInput';
 import SplitInput from './SplitInput';
+import DisabledPillButton from './DisabledPillButton';
 
 const maxInput = 250;
 const newListing = { input_text: '', request_type: 'listing_description' };
@@ -15,7 +16,6 @@ const newListing = { input_text: '', request_type: 'listing_description' };
 const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
-  const [disabledMsg, setDisabledMsg] = useState(null);
   const [inputMode, setInputMode] = useState('form');
   const [exampleSeen, setExampleSeen] = useState(false);
 
@@ -53,18 +53,6 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
     )
   }
 
-  const disabledPopup = (value) => {
-    if (disabledMsg === value) {
-      return (
-        <div className="relative">
-          <div className="flex absolute left-0 top-1 justify-center w-32">
-            <span className="text-xs text-gray-500">Coming Soon!</span>
-          </div>
-        </div>
-      )
-    }
-  }
-
   const pillButton = (title, value) => {
     const selected = listing.request_type === value;
     return (
@@ -72,20 +60,6 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         className={`mt-6 md:mt-0 ${selected ? 'pill-button-selected' : 'pill-button'}`}
         onClick={() => setField('request_type', value)}>
         {title}
-      </div>
-    )
-  }
-
-  const disabledPillButton = (title, value) => {
-    return (
-      <div className="flex flex-col">
-        <div
-          className="self-center mt-6 md:mt-0 pill-button-disabled"
-          onMouseOver={() => { !disabledMsg && setDisabledMsg(value) }}
-          onMouseOut={() => { setDisabledMsg(null) }}>
-          {title}
-        </div>
-        {disabledPopup(value)}
       </div>
     )
   }
@@ -128,7 +102,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          {disabledPillButton("Other listing copy", "listing_other_copy")}
+          <DisabledPillButton title={"Other listing copy"} />
         </div>
         {inputModeSwitch()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>

@@ -1,18 +1,11 @@
 class TaskRunner
-  attr_reader :unsafe_result
-
-  def initialize
-    @unsafe_result = false
-  end
 
   def run_for!(input_object, user)
     prompt_set = prompt_set_for(input_object.request_type)
     task_run = create_task_run(user, prompt_set, input_object)
 
     prompt_set.prompts.map do |prompt|
-      if !unsafe_result
-        GptResultWorker.perform_async(task_run.id, prompt.id)
-      end
+      GptResultWorker.perform_async(task_run.id, prompt.id)
     end
     task_run
   end

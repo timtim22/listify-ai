@@ -9,7 +9,7 @@ import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SingleInput from './SingleInput';
 import SplitInput from './SplitInput';
 
-const maxInput = 240;
+const maxInput = 250;
 const newListing = { input_text: '', request_type: 'listing_description' };
 
 const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => {

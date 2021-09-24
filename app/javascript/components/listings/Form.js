@@ -16,6 +16,7 @@ const newListing = { input_text: '', request_type: 'listing_description' };
 const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
+  const [userInputLength, setUserInputLength] = useState(0);
   const [inputMode, setInputMode] = useState('form');
   const [exampleSeen, setExampleSeen] = useState(false);
 
@@ -28,6 +29,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
   const changeInputMode = () => {
     const newMode = inputMode === 'form' ? 'text' : 'form';
     setField('input_text', '');
+    setUserInputLength(0);
     setErrors(null);
     setExampleSeen(true);
     setInputMode(newMode);
@@ -35,6 +37,11 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
 
   const setField = (field, value) => {
     setListing({ ...listing, [field]: value });
+  }
+
+  const setInputText = (value, trueUserInputLength) => {
+    setUserInputLength(trueUserInputLength);
+    setField('input_text', value);
   }
 
   const handleRequestSuccess = (response) => {
@@ -70,14 +77,14 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         <SplitInput
           showExample={showExample && !exampleSeen}
           inputValue={listing.input_text}
-          onInputChange={value => setField('input_text', value)}
+          onInputChange={setInputText}
         />
       )
     } else {
       return (
         <SingleInput
           inputValue={listing.input_text}
-          onInputChange={value => setField('input_text', value)}
+          onInputChange={setInputText}
         />
       )
     }
@@ -116,10 +123,11 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
          {formInput()}
           <div className="flex justify-center py-8 w-full">
             <Submit
-              inputObject={listing}
+              inputText={listing.input_text}
+              userInputLength={userInputLength}
+              maxUserInput={maxInput}
               loading={loading}
               runsRemaining={runsRemaining}
-              maxInput={maxInput}
             />
           </div>
         </div>

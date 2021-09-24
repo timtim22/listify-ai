@@ -25,6 +25,10 @@ const coerceWithinRange = (inputNumber, min, max) => {
   return number;
 }
 
+const trueUserInputLength = (inputFields) => {
+  return Object.values(inputFields).join("").length;
+}
+
 const SplitInput = ({ inputValue, onInputChange, showExample }) => {
   const [inputFields, setInputFields] = useState(showExample ? exampleInputFields : newInputFields);
 
@@ -33,10 +37,11 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
     const lead = bedroomStr(bedrooms) + propertyStr(propertyType) + locationStr(location);
     const ideal = idealStr(idealFor);
     const features = featureStr(keyFeatures);
+    const inputText = lead + ideal + features;
+    const trueLength = trueUserInputLength(inputFields);
 
-    onInputChange(lead + ideal + features);
+    onInputChange(inputText, trueLength);
   }, [inputFields]);
-
 
   const bedroomStr = (bedrooms) => {
     if (bedrooms) {

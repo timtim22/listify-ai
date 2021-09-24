@@ -5,10 +5,10 @@ import GeneratingSpinner from '../common/GeneratingSpinner';
 
 const profanityFilter = new Filter();
 
-const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
+const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput }) => {
 
   const inputLengthWarning = () => {
-    const charactersOver = inputObject.input_text.length - maxInput;
+    const charactersOver = userInputLength - maxUserInput;
     const s = charactersOver > 1 ? 's' : '';
     const text = `Oops - that text is ${charactersOver} character${s} over the limit.`
     return warningText(text);
@@ -20,16 +20,16 @@ const Submit = ({ inputObject, loading, runsRemaining, maxInput }) => {
   }
 
   const profanityWarning = () => {
-    const text = "Our filters think that text might be unsafe. Please let us know if this is a false positive."
+    const text = "Our filters think that text might be unsafe. Please let us know if this is a mistake."
     return  warningText(text);
   }
 
   const isProfane = () => {
-    return profanityFilter.isProfane(inputObject.input_text);
+    return profanityFilter.isProfane(inputText);
   }
 
   const invalidInputLength = () => {
-    return inputObject.input_text.length > maxInput;
+    return userInputLength > maxUserInput;
   }
 
   const warningText = (text) => {

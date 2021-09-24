@@ -4,6 +4,10 @@ import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
 const SingleInput = ({ inputValue, onInputChange }) => {
 
+  const setInput = (value) => {
+    onInputChange(value, value.length);
+  }
+
   return (
     <label className="block mt-4 w-full">
       <span className="text-sm font-bold tracking-wider text-gray-500 uppercase">
@@ -11,7 +15,7 @@ const SingleInput = ({ inputValue, onInputChange }) => {
       </span>
       <TextareaWithPlaceholder
         value={inputValue}
-        onChange={onInputChange}
+        onChange={value => setInput(value)}
         placeholderContent={
         <>
           <p className="mt-px">- e.g. 3 bed apartment near Covent Garden</p>
@@ -27,7 +31,6 @@ SingleInput.propTypes = {
   inputValue: PropTypes.string,
   onInputChange: PropTypes.func
 };
-
 
 export default SingleInput;
 

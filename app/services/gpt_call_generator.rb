@@ -33,6 +33,7 @@ class GptCallGenerator
       "max_tokens" => prompt.max_tokens,
       "stop" => [" END"],
       "model" => prompt.gpt_model_id,
+      "temperature" => prompt.temperature,
       "user" => input_object.user.id
     }.to_json
   end

@@ -2,6 +2,7 @@ class TaskRerunsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    binding.pry
     last_run = TaskRun.find(task_rerun_params[:task_run_id])
     new_input_object = last_run.input_object.dup
     save = Input.create_with(new_input_object, current_user)

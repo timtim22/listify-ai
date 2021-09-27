@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
-import Spinner from '../common/Spinner';
+import Submit from '../inputs/Submit';
 
 const newPlaygroundAttempt = {
   request_type: 'tidy_grammar',
   input_text: ''
 }
 
-const Form = ({ onResult, promptSets }) => {
-  const [loading, setLoading] = useState(false);
+const maxInput = 250;
+
+const Form = ({ onResult, loading, setLoading, promptSets }) => {
   const [playgroundAttempt, setPlaygroundAttempt] = useState(newPlaygroundAttempt);
   const [errors, setErrors] = useState(null);
 
@@ -26,7 +27,6 @@ const Form = ({ onResult, promptSets }) => {
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    setLoading(false);
     onResult(response);
   }
 
@@ -40,15 +40,6 @@ const Form = ({ onResult, promptSets }) => {
       (e) => { setErrors(e); setLoading(false) }
     )
 
-  }
-
-  const submitButton = () => {
-    if (loading) { return <Spinner />; }
-    return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-        Generate!
-      </button>
-    )
   }
 
   const promptSelector = () => {
@@ -115,7 +106,13 @@ const Form = ({ onResult, promptSets }) => {
             </textarea>
           </label>
           <div className="flex justify-center py-8 w-full">
-            {submitButton()}
+            <Submit
+              inputText={playgroundAttempt.input_text}
+              userInputLength={playgroundAttempt.input_text.length}
+              maxUserInput={maxInput}
+              loading={loading}
+              runsRemaining={20}
+            />
           </div>
         </div>
       </div>

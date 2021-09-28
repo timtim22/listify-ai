@@ -1,7 +1,7 @@
 <div class="px-10 w-full">
   <div class="flex justify-between items-center mb-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">
-      Prompts for <%= @prompt_set.request_type %>
+      Prompts for <%= link_to @prompt_set.request_type, edit_prompt_set_path(@prompt_set) %>
     </h1>
     <%= link_to 'Add Prompt', new_prompt_set_prompt_path(@prompt_set), class: "add-button" %>
   </div>
@@ -51,4 +51,10 @@
     <p>Add a prompt to get started.</p>
   <% end %>
   <br />
+  <div class="flex justify-center py-8 w-full text-xs">
+    <%= link_to "Back to all", prompt_sets_path %>
+    <span class="mx-2">|</span>
+    <%= link_to "Edit prompt set", edit_prompt_set_path(@prompt_set) %>
+  </div>
+
 </div>

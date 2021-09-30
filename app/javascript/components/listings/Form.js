@@ -104,6 +104,12 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
   return (
     <form className="w-full h-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full">
+        <div className="w-full p-4 font-semibold bg-purple-100 tracking-wide text-gray-800">
+          <p>
+            Thanks for joining our private beta! We're still building our product, and making lots of improvements.
+            Please do give us feedback, it really helps!
+          </p>
+        </div>
         <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Listings Generator</h1>
         <p className="text-sm">I want to generate a...</p>
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">

@@ -34,6 +34,7 @@ class GptCallGenerator
       "stop" => [" END"],
       "model" => prompt.gpt_model_id,
       "temperature" => prompt.temperature,
+      "frequency_penalty" => prompt.frequency_penalty,
       "user" => input_object.user.id
     }.to_json
   end

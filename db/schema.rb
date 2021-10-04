@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_160016) do
+ActiveRecord::Schema.define(version: 2021_10_04_105103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_160016) do
 
   create_table "task_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_run_id", null: false
-    t.uuid "prompt_id", null: false
+    t.uuid "prompt_id"
     t.boolean "success"
     t.string "result_text"
     t.string "error"

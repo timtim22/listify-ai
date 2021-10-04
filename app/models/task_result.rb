@@ -1,6 +1,6 @@
 class TaskResult < ApplicationRecord
   belongs_to :task_run
-  belongs_to :prompt
+  belongs_to :prompt, optional: true
   has_many :content_filter_results, dependent: :destroy
 
   def filtered_result_text

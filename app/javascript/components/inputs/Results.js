@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
+import CopyButton from '../common/CopyButton';
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
@@ -27,18 +28,23 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
         >
           <p>{resultText}</p>
           <br />
-          {tags(result)}
+          <div className="flex justify-between items-center">
+            {tags(result)}
+            <CopyButton result={result} />
+          </div>
        </div>
       )
     }
   }
 
   const tags = (result) => {
+    let text = "";
     if (result.prompt_labels && result.prompt_labels.length > 0) {
-      return (
-        <p className="text-xs font-medium text-gray-500">Tags: {result.prompt_labels}</p>
-      )
+      text = `Tags: ${result.prompt_labels}`;
     }
+    return (
+      <p className="text-xs font-medium text-gray-500">{text}</p>
+    )
   }
 
   const remainingRequests = () => {

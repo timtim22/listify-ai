@@ -2,7 +2,11 @@
 <html>
   <head>
     <title><%= Rails.configuration.application_name %></title>
-    <%= favicon_link_tag 'favicon.ico' %>
+    <% if Rails.env.development? %>
+      <%= favicon_link_tag 'favicon_dev.ico' %>
+    <% else %>
+      <%= favicon_link_tag 'favicon.ico' %>
+    <% end %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 

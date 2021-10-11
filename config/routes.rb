@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]
+  resources :copy_events, only: [:create]
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end

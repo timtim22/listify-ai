@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { createRequest } from '../../helpers/requests';
 
 const CopyButton = ({ result }) => {
-  console.log(result)
+  const [copied, setCopied] = useState(false);
+
+  const registerClick = (result_id) => {
+    setCopied(true);
+    createRequest(
+      `/copy_events.json`,
+      { result_id },
+      (response) => {},
+      (e) => { console.log(e) }
+    )
+  }
+
+  const handleClick = () => {
+    if (!copied) {
+      registerClick(result.id);
+    }
+    copyTextToClipboard(result.result_text)
+  }
 
   const copyTextToClipboard = (text) => {
     if ('clipboard' in navigator) {
@@ -15,7 +33,7 @@ const CopyButton = ({ result }) => {
   return (
     <button
       title="copy"
-      onClick={() => copyTextToClipboard(result.result_text)}
+      onClick={handleClick}
       className="flex justify-center items-center py-0.5 px-2 bg-gray-50 hover:bg-gray-100 active:bg-gray-200 rounded-lg border border-gray-100"
     >
       <span className="text-xs font-medium tracking-wide">COPY</span>

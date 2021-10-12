@@ -19,7 +19,7 @@
           <tr class="text-xs">
             <td class="py-3 px-6"><%= link_to task_run.input_object.request_type, task_run.prompt_set %></td>
             <td class="py-3 px-6 whitespace-pre-wrap"><%= task_run.input_object.input_text %></td>
-            <td class="py-3 px-6"><%= format_results(task_run.task_results) %></td>
+            <td class="py-3 px-6"><%= format_results(task_run.task_results, @prompts) %></td>
             <td class="py-3 px-6"><%= task_run.user.email %></td>
             <td class="py-3 px-6"><%= format_table_date(task_run.created_at) %></td>
           </tr>

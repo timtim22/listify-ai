@@ -13,6 +13,8 @@ class TaskRunsController < ApplicationController
       .includes(:user, :input_object, :prompt_set, :task_results, task_results: :content_filter_results)
       .order(created_at: :desc)
 
+    @prompts = Prompt.all
+
     @pagy, @task_runs = pagy(@task_runs)
   end
 end

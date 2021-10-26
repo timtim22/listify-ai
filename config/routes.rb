@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resource :version, only: [:show]
 
   resources :listings, only: [:new, :create]
+  resources :area_descriptions, only: [:create]
   resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]

@@ -10,6 +10,15 @@ class GoogleClient
     request('get', url, {}, {})
   end
 
+  def nearby_request(location:, type: nil, radius: nil)
+    location_string = "#{location.latitude}%2C#{location.longitude}"
+    url  = "#{NEARBY_URL}location=#{location_string}&key=#{KEY}"
+    url += "&type=#{type}" if type
+    url += "&radius=#{radius}" if radius
+    binding.pry
+    request('get', url, {}, {})
+  end
+
   def request(method, url, headers, body)
     response = HTTParty.send(method, *[url, {
       headers: headers,
@@ -18,7 +27,8 @@ class GoogleClient
     }])
 
     puts "Google RESPONSE"
-    puts response
+    binding.pry
+    #puts response
     puts "------"
 
     if response.code == 200

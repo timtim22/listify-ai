@@ -19,7 +19,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 
   const renderResult = (result) => {
-    const resultText = result.result_text.trim();
+    const resultText = result.result_text ? result.result_text.trim() : "";
     if (resultText !== "") {
       return (
         <div

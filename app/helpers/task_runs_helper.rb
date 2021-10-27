@@ -4,7 +4,7 @@ module TaskRunsHelper
     sorted_results.map do |result_with_prompt|
       result = result_with_prompt[:result]
       if result.safe?
-        formatted_result = display_result(result, result_with_prompt[:position])
+        formatted_result = display_result(result, result_with_prompt[:prompt_title])
         result.user_copied? ? display_copied(formatted_result) : formatted_result
       else
         display_filtered(result)

@@ -1,0 +1,2 @@
+class SearchLocation < ApplicationRecord
+end

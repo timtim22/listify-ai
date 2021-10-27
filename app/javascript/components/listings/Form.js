@@ -9,11 +9,13 @@ import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SingleInput from './SingleInput';
 import SplitInput from './SplitInput';
 import DisabledPillButton from './DisabledPillButton';
+import AreaForm from './AreaForm';
 
 const maxInput = 250;
 const newListing = { input_text: '', request_type: 'listing_description' };
 
 const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => {
+  const [formType, setFormType] = useState('listing_description');
   const [listing, setListing] = useState(newListing);
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
@@ -65,7 +67,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
     return (
       <div
         className={`mt-6 md:mt-0 ${selected ? 'pill-button-selected' : 'pill-button'}`}
-        onClick={() => setField('request_type', value)}>
+        onClick={() => { setFormType(value); setField('request_type', value) }}>
         {title}
       </div>
     )
@@ -101,10 +103,10 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
     )
   }
 
-  return (
-    <form className="w-full h-full" onSubmit={handleSubmit}>
+  const header = () => {
+    return (
       <div className="flex flex-col items-center w-full">
-        <div className="w-full p-4 font-semibold bg-purple-100 tracking-wide text-gray-800">
+        <div className="p-4 w-full font-semibold tracking-wide text-gray-800 bg-purple-100">
           <p>
             Thanks for joining our private beta! We're still building our product, and making lots of improvements.
             Please do give us feedback, it really helps!
@@ -120,8 +122,22 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         {inputModeSwitch()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
+    )
+  }
 
-      <div className="flex flex-col items-center w-full">
+  if (formType === 'neighbourhood') {
+    return (
+      <div className="w-full h-full">
+        {header()}
+        <AreaForm />
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-full h-full">
+      {header()}
+      <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
         </div>
@@ -137,8 +153,8 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
             />
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
 

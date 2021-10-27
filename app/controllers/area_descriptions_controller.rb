@@ -10,8 +10,8 @@ class AreaDescriptionsController < ApplicationController
       Geocoder.get_coordinates(search_location)
     end
 
-    attractions = AttractionFinder.new(search_location).find!
-    @area_description = attractions.join(", ")
+    @area_description = AttractionFinder.new(search_location).find!
+    #@area_description = attractions.join(", ")
     ##@area_description = AreaDescription.generate_from(attractions)
 
 

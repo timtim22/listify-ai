@@ -117,7 +117,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          <DisabledPillButton title={"Other listing copy"} />
+          {pillButton("Area description", "neighbourhood")}
         </div>
         {inputModeSwitch()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>

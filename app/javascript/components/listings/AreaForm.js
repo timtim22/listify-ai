@@ -36,8 +36,6 @@ const AreaForm = () => {
     )
   }
 
-
-
   const textRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center mb-2 w-full">
@@ -62,6 +60,19 @@ const AreaForm = () => {
     )
   }
 
+  const resultPanel = () => {
+    if (result) {
+      return (
+        <div className="w-full flex justify-center">
+          <div className="w-4/5">
+            <p className="font-semibold">Attractions</p>
+            <p>{result}</p>
+          </div>
+        </div>
+      )
+    }
+  }
+
   return (
     <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
       <div className="w-4/5">
@@ -73,8 +84,8 @@ const AreaForm = () => {
           {submitButton()}
         </div>
       </div>
-      <div className="py-4">
-        {result}
+      <div className="w-full py-4">
+        {resultPanel()}
       </div>
     </form>
   )

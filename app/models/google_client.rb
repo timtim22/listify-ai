@@ -11,11 +11,25 @@ class GoogleClient
   end
 
   def nearby_request(location:, type: nil, radius: nil)
-    location_string = "#{location.latitude}%2C#{location.longitude}"
-    url  = "#{NEARBY_URL}location=#{location_string}&key=#{KEY}"
+    url  = "#{NEARBY_URL}location=#{location_string(location)}&key=#{KEY}"
     url += "&type=#{type}" if type
     url += "&radius=#{radius}" if radius
     request('get', url, {}, {})
+  end
+
+  def distance_request(location:, attractions:)
+    origin_str = "origins=#{location_string(location)}"
+    destination_str = "destinations=#{destinations_string(attractions)}"
+    url = "#{DISTANCE_URL}&#{origin_str}&#{destination_str}&mode=walking&key=#{KEY}"
+    request('get', url, {}, {})
+  end
+
+  def location_string(location)
+    "#{location.latitude}%2C#{location.longitude}"
+  end
+
+  def destinations_string(attractions)
+    "place_id:#{attractions.map(&:place_id).join("%7Cplace_id:")}"
   end
 
   def request(method, url, headers, body)

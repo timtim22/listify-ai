@@ -16,6 +16,6 @@ class AttractionFinder
       type: 'train_station',
       radius: 5000
     )
-    binding.pry
+    names = results["results"].first(3).map { |r| r["name"] }
   end
 end

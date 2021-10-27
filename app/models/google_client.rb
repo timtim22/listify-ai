@@ -15,7 +15,6 @@ class GoogleClient
     url  = "#{NEARBY_URL}location=#{location_string}&key=#{KEY}"
     url += "&type=#{type}" if type
     url += "&radius=#{radius}" if radius
-    binding.pry
     request('get', url, {}, {})
   end
 
@@ -25,11 +24,6 @@ class GoogleClient
       body: body,
       #debug_output: $stdout
     }])
-
-    puts "Google RESPONSE"
-    binding.pry
-    #puts response
-    puts "------"
 
     if response.code == 200
       JSON.parse(response.body)

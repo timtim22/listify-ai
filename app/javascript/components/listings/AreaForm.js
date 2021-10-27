@@ -8,6 +8,7 @@ const AreaForm = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [inputFields, setInputFields] = useState({ search_text: '' });
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     if (errors) {
@@ -21,7 +22,7 @@ const AreaForm = () => {
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    onResult(response);
+    setResult(response.data.area_description);
   }
 
   const handleSubmit = (e) => {
@@ -71,6 +72,9 @@ const AreaForm = () => {
         <div className="flex justify-center py-8 w-full">
           {submitButton()}
         </div>
+      </div>
+      <div className="py-4">
+        {result}
       </div>
     </form>
   )

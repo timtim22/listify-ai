@@ -11,16 +11,15 @@ class AreaDescriptionsController < ApplicationController
     end
 
     attractions = AttractionFinder.new(search_location).find!
+    @area_description = attractions.join(", ")
     ##@area_description = AreaDescription.generate_from(attractions)
 
-
-    save = OpenStruct.new
 
     respond_to do |format|
       if true
         format.json { render :create, status: :created }
       else
-        format.json { render json: save.errors, status: :unprocessable_entity }
+        format.json { render json: @area_description.errors, status: :unprocessable_entity }
       end
     end
   end

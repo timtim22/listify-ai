@@ -106,7 +106,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
   const header = () => {
     return (
       <div className="flex flex-col items-center w-full">
-        <div className="w-full p-4 font-semibold bg-purple-100 tracking-wide text-gray-800">
+        <div className="p-4 w-full font-semibold tracking-wide text-gray-800 bg-purple-100">
           <p>
             Thanks for joining our private beta! We're still building our product, and making lots of improvements.
             Please do give us feedback, it really helps!
@@ -117,7 +117,7 @@ const Form = ({ showExample, loading, setLoading, runsRemaining, onResult }) => 
         <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-8">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          {pillButton("Neighbourhood info", "neighbourhood")}
+          <DisabledPillButton title={"Other listing copy"} />
         </div>
         {inputModeSwitch()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>

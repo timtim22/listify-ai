@@ -12,7 +12,7 @@ const newInputFields = {
 
 const exampleInputFields = {
   propertyType: 'beach penthouse',
-  bedrooms: '1',
+  bedrooms: '3',
   location: 'Malaga',
   idealFor: 'romantic getaway',
   keyFeatures: '- sea views\n- large balcony\n- 5 minutes walk to shops and restaurants',

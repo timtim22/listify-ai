@@ -1,5 +1,5 @@
 class Geocoder
-  def self.get_coordinates(search_location, client = GoogleClient.new)
+  def self.set_coordinates(search_location, client = GoogleClient.new)
     response = client.geocode_request(search_location.search_text)
     begin
       coordinates = response["results"][0]["geometry"]["location"]

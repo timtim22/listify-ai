@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
-import CopyButton from '../common/CopyButton';
+import ResultItem from '../common/ResultItem';
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
   const resultsList = () => {
     if (results.some(r => r.result_text)) {
-      return results.map(result => renderResult(result))
+      return results.map(result => <ResultItem key={result.id} result={result} />)
     } else {
       return (
         <div className="flex justify-center py-8 w-full">
@@ -16,35 +16,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
         </div>
       )
     }
-  }
-
-  const renderResult = (result) => {
-    const resultText = result.result_text ? result.result_text.trim() : "";
-    if (resultText !== "") {
-      return (
-        <div
-          key={result.id}
-          className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200"
-        >
-          <p>{resultText}</p>
-          <br />
-          <div className="flex justify-between items-center">
-            {tags(result)}
-            <CopyButton result={result} />
-          </div>
-       </div>
-      )
-    }
-  }
-
-  const tags = (result) => {
-    let text = "";
-    if (result.prompt_labels && result.prompt_labels.length > 0) {
-      text = `Tags: ${result.prompt_labels}`;
-    }
-    return (
-      <p className="text-xs font-medium text-gray-500">{text}</p>
-    )
   }
 
   const remainingRequests = () => {
@@ -61,7 +32,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
       )
     }
   }
-
 
   if (results.length > 0) {
     return (
@@ -88,7 +58,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   } else {
     return null;
   }
-
 }
 
 export default Results;

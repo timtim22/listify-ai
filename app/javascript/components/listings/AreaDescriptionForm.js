@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
-import Submit from '../inputs/Submit';
-
-const classificationGroups = {
-  attraction: ['tourist_attraction'],
-  restaurant: ['restaurant', 'bar'],
-  station: ['train_station', 'subway_station', 'light_rail_station']
-}
+import GeneratingSpinner from '../common/GeneratingSpinner';
 
 const AreaDescriptionForm = ({
   searchResult,
   selectedIds,
-  toggleSelected,
+  setSelectedIds,
+  descriptionResult,
   setDescriptionResult,
   setErrors,
   loading,
@@ -21,6 +16,7 @@ const AreaDescriptionForm = ({
 }) => {
 
   const handleRequestSuccess = (response) => {
+    setLoading(false);
     setErrors(null);
     setDescriptionResult(response.data.area_description);
   }
@@ -36,17 +32,37 @@ const AreaDescriptionForm = ({
       "/area_descriptions.json",
       { area_description: selectedResults() },
       (response) => { handleRequestSuccess(response) },
-      (e) => { setErrors(e); setLoading(false) }
+      (e) => { setErrors(e); setLoading(false); }
     )
+  }
+
+  const toggleSelected = (placeId) => {
+    if (descriptionResult) { setDescriptionResult(null); }
+    if (selectedIds.includes(placeId)) {
+      setSelectedIds(selectedIds.filter(id => id !== placeId));
+    } else {
+      setSelectedIds([ ...selectedIds, placeId ]);
+    }
+  }
+
+  const filterRestaurants = (restaurants) => {
+    const hotels = restaurants.filter((r) => {
+      return r.categories.includes("lodging")
+    }).map(r => r.place_id);
+    if (hotels.length > 5) {
+      return restaurants.filter(r => !(hotels.includes(r.place_id))).slice(0, 8);
+    } else {
+      return restaurants.slice(0, 8);
+    }
   }
 
   const checkboxFor = (attraction) => {
     return (
       <input
-      type="checkbox"
-      checked={selectedIds.includes(attraction.place_id)}
-      onChange={() => toggleSelected(attraction.place_id)}
-      className="mx-1 cursor-pointer focus:ring-0"
+        type="checkbox"
+        checked={selectedIds.includes(attraction.place_id)}
+        onChange={() => toggleSelected(attraction.place_id)}
+        className="mx-1 cursor-pointer focus:ring-0"
       />
     )
   }
@@ -58,7 +74,7 @@ const AreaDescriptionForm = ({
         <label className="flex justify-between items-center py-1 w-full cursor-pointer">
           <span className="flex-grow">{attraction.name}
             <span className="ml-2 text-xs font-semibold">
-              4.2
+              {attraction.rating}
             </span>
             <span className="mr-2 text-xs italic text-gray-600">
               <i className="mx-1 text-yellow-400 fas fa-star"></i>
@@ -72,12 +88,14 @@ const AreaDescriptionForm = ({
   }
 
   const stationRow = (station) => {
+    const { distance, duration } = station.distance;
+    const durationSubstring =  duration < 26 ? `, ${duration} min walk` : "";
     return (
       <div key={station.place_id} className="w-full hover:bg-gray-100">
         <label className="flex justify-between items-center py-1 w-full cursor-pointer">
           <span className="flex-grow">{station.name}
             <span className="ml-2 text-xs">
-              ({station.distance.distance} km, {station.distance.duration} min walk)
+              ({distance} km{durationSubstring})
             </span>
           </span>
           {checkboxFor(station)}
@@ -96,41 +114,36 @@ const AreaDescriptionForm = ({
     )
   }
 
-  const resultPanel = () => {
-    const topAttractions = searchResult.attractions.slice(0,8);
-    const filteredRestaurants = searchResult.restaurants.filter(r => !(r.categories.includes("lodging")));
+  const submitButton = () => {
+    if (loading) { return <GeneratingSpinner />; }
     return (
-      <div className="flex justify-center w-full">
-        <form className="w-4/5 text-sm" onSubmit={handleSubmit}>
-          <p>Here's what we found nearby. Select the key features for your description and tap generate.</p>
-          <br />
-          {attractionSection(topAttractions, 'Attractions', attractionRow)}
-          <br />
-          {attractionSection(searchResult.stations, 'Stations & Subways', stationRow)}
-          <br />
-          {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
-          <br />
-          {searchResult.takeaways.length > 0 && <p className="font-semibold">Takeaways</p>}
-          {searchResult.takeaways.map(e => <p>{e.name} {e.rating} ({e.total_ratings}, {e.categories.join(",")})</p>)}
-          <br />
-          {searchResult.cafes.length > 0 && <p className="font-semibold">Cafes</p>}
-          {searchResult.cafes.map(e => <p>{e.name} {e.rating} ({e.total_ratings}, {e.categories.join(",")})</p>)}
-          <div className="flex justify-center py-8 w-full">
-            <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-              Generate!
-            </button>
-          </div>
-        </form>
+      <div className="flex justify-center py-4 w-full">
+        <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
+          Generate!
+        </button>
       </div>
     )
   }
 
-
-
   if (searchResult) {
+    const topAttractions = searchResult.attractions.slice(0,8);
+    const filteredRestaurants = filterRestaurants(searchResult.restaurants);
+
     return (
       <div className="py-4 w-full">
-        {resultPanel()}
+        <div className="flex justify-center w-full">
+          <form className="w-4/5 text-sm" onSubmit={handleSubmit}>
+            <p>Here's what we found nearby. Select the key features for your description and tap generate.</p>
+            <br />
+            {attractionSection(topAttractions, 'Attractions', attractionRow)}
+            <br />
+            {attractionSection(searchResult.stations, 'Stations & Subways', stationRow)}
+            <br />
+            {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
+            <br />
+            {submitButton()}
+          </form>
+        </div>
       </div>
     )
   } else {

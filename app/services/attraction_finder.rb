@@ -5,16 +5,15 @@ class AttractionFinder
   def initialize(search_location, client = GoogleClient.new)
     @search_location = search_location
     @client = client
-    @found = { attractions: [], stations: [], restaurants: [], takeaways: [], cafes: [] }
+    @found = { attractions: [], stations: [], restaurants: [] }
   end
 
   def find!
-    #find_attractions
-    #find_stations
-    #find_restaurants
-    MockData.new.rural
-    #AreaDescriptionGenerator.new(result).run!
-    #found
+    find_attractions
+    find_stations
+    find_restaurants
+    #MockData.new.town
+    found
   end
 
   def find_attractions
@@ -22,23 +21,41 @@ class AttractionFinder
     if results.any?
       by_ratings = filter_by_ratings(results)
       by_ratings.map do |r|
-        puts "{ name: #{r.name}, categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
+        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
       end
       found[:attractions] = by_ratings
     end
   end
 
   def find_stations
-    results = nearby_request('subway_station', 5000)
-    binding.pry
+    get_train_stations("train_station", 3)
+    get_subway_stations("subway_station", 2)
+    found[:stations] = found[:stations].uniq { |s| s.place_id }.sort_by { |s| s.distance[:distance] }
+  end
+
+  def get_train_stations(station_type, record_count = 3)
+    results = nearby_request(station_type, 5000)
     if results.any?
-      top_results = results.first(3)
+      top_results = results.first(record_count)
       with_distance = distance_request(top_results).sort_by { |a| a.distance[:distance] }
-      puts with_distance.inspect
       with_distance.map do |r|
-        puts "{ name: #{r.name}, categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, distance: { distance: #{r.distance[:distance]}, duration: #{r.distance[:duration]} }, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
+        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, distance: { distance: #{r.distance[:distance]}, duration: #{r.distance[:duration]} }, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
       end
-      found[:stations] = with_distance
+      with_distance.map { |s| found[:stations] << s }
+    else
+      get_train_stations("light_rail_station", 2)
+    end
+  end
+
+  def get_subway_stations(station_type, record_count = 3)
+    results = nearby_distance_request(station_type, 5000)
+    if results.any?
+      top_results = results.first(record_count)
+      with_distance = distance_request(top_results).sort_by { |a| a.distance[:distance] }
+      with_distance.map do |r|
+        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, distance: { distance: #{r.distance[:distance]}, duration: #{r.distance[:duration]} }, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
+      end
+      with_distance.map { |s| found[:stations] << s }
     end
   end
 
@@ -51,11 +68,10 @@ class AttractionFinder
         filtered = filtered.flatten.uniq { |a| a.place_id }
       end
       filtered.map do |r|
-        puts "{ name: #{r.name}, categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
+        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
       end
-      found[:takeaways], rest = filtered.partition { |r| r.categories.include?("meal_takeaway") }
-      found[:cafes], found[:restaurants] = rest.partition { |r| r.categories.include?("cafe") }
-    end
+      found[:restaurants] = filtered
+   end
   end
 
   def find_bars
@@ -78,8 +94,6 @@ class AttractionFinder
       elements.map.with_index do |distance, index|
         attractions[index].set_distance(distance)
       end
-    else
-      binding.pry
     end
     attractions
   end
@@ -90,8 +104,21 @@ class AttractionFinder
       type: type,
       radius: radius
     )
+    attractions_from(response, type)
+  end
+
+  def nearby_distance_request(type, radius)
+    response = client.nearby_distance_request(
+      location: search_location,
+      type: type,
+      radius: radius
+    )
+    attractions_from(response, type)
+  end
+
+  def attractions_from(response, search_type)
     response["results"].map do |result|
-      result_with_search_type = result.merge({ "search_type" => type })
+      result_with_search_type = result.merge({ "search_type" => search_type })
       Attraction.from_remote_object(result_with_search_type)
     end
   end

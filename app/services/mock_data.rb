@@ -24,7 +24,7 @@ class MockData
         { name: "Flanders Fields Memorial Garden", categories: ["tourist_attraction", "point_of_interest", "establishment"], total_ratings: 16, location: {"lat": 51.5005394, "lng": -0.1357828}, place_id: "ChIJWe8waNkEdkgRjTnMWd4ga-w", distance: nil }
       ],
       stations: [
-        { name: "Waterloo Station", categories: ["train_station", "transit_station", "point_of_interest", "establishment"], total_ratings: 1473, location: {"lat": 51.5031653, "lng": -0.1123051}, place_id: "ChIJHVKfwLkEdkgRugNQexmYBR0", distance: {distance: 0.4, duration: 5} },
+        { name: "Waterloo Station", categories: ["train_station", "subway_station", "transit_station", "point_of_interest", "establishment"], total_ratings: 1473, location: {"lat": 51.5031653, "lng": -0.1123051}, place_id: "ChIJHVKfwLkEdkgRugNQexmYBR0", distance: {distance: 0.4, duration: 5} },
         { name: "Charing Cross", categories: ["train_station", "transit_station", "point_of_interest", "establishment"], total_ratings: 388, location: {"lat": 51.5081373, "lng": -0.1247624}, place_id: "ChIJEbut6s4EdkgRNxY-NezJYd8", distance: {distance: 1.8, duration: 24} },
         { name: "London Bridge", categories: ["train_station", "transit_station", "point_of_interest", "establishment"], total_ratings: 840, location: {"lat": 51.5042558, "lng": -0.0847756}, place_id: "ChIJbwtYnFADdkgRvFSPI4jzWjM", distance: {distance: 2.0, duration: 26 } },
       ],
@@ -49,9 +49,7 @@ class MockData
         { name: "Premier Inn London Southwark (Tate Modern) hotel", categories: ["lodging", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 650, location: {"lat": 51.50510649999999, "lng": -0.1010337}, place_id: "ChIJgXlxzVcDdkgRE655BH_LVLk", distance: nil },
         { name: "Covent Garden Hotel", categories: ["lodging", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 426, location: {"lat": 51.5145353, "lng": -0.1270205}, place_id: "ChIJe0XrMc0EdkgR73cT3U4ghp4", distance: nil },
         { name: "Premier Inn London Southwark (Bankside) hotel", categories: ["lodging", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 375, location: {"lat": 51.50711429999999, "lng": -0.09289200000000002}, place_id: "ChIJgXlxzVcDdkgRWi5_YPdOOf4", distance: nil }
-      ],
-      takeaways: [],
-      cafes: []
+      ]
     }
   end
 
@@ -74,9 +72,37 @@ class MockData
         { name: "Three Ways House Hotel", categories: ["lodging", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 399, rating: 4.4, place_id: "ChIJS558oPfZcEgRO47qrKZtYnM", location: { 'lat': 52.0912556, 'lng': -1.7670583 } },
         { name: "The Butchers Arms", categories: ["bar", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 203, rating: 4.4, place_id: "ChIJS558oPfZcEgRBhJIX77nGKY", location: { 'lat': 52.09073309999999, 'lng': -1.7695408 } },
         { name: "The Kings Arms", categories: ["bar", "point_of_interest", "establishment"], total_ratings: 366, rating: 4.6, place_id: "ChIJ82hYZ_fZcEgRSQlRvakq0aM", location: { 'lat': 52.08923, 'lng': -1.767866 } },
+      ]
+    }
+  end
+
+  def town
+    {
+      attractions: [
+        { name: "Walton Pier", categories: ["bowling_alley", "tourist_attraction", "amusement_park", "food", "point_of_interest", "store", "establishment"], total_ratings: 2449, rating: 3.9, place_id: "ChIJrV2lxOBx2UcR60MjMH-ngxc", location: { 'lat': 51.846425, 'lng': 1.2723079 } },
+        { name: "Naze Tower", categories: ["art_gallery", "tourist_attraction", "museum", "point_of_interest", "establishment"], total_ratings: 1034, rating: 4.6, place_id: "ChIJYZ7YZcZx2UcRWzkOnFCYdsY", location: { 'lat': 51.8644405, 'lng': 1.2881038 } },
+        { name: "The Red Beach Hut", categories: ["tourist_attraction", "point_of_interest", "establishment"], total_ratings: 20, rating: 5, place_id: "ChIJj_1X96Rx2UcRoqcoDkjFmUU", location: { 'lat': 51.84590009999999, 'lng': 1.2694785 } },
+        { name: "Walton Maritime Museum", categories: ["museum", "tourist_attraction", "point_of_interest", "establishment"], total_ratings: 18, rating: 4.4, place_id: "ChIJLY4a8dxx2UcRg1Lcwua55Fc", location: { 'lat': 51.8551138, 'lng': 1.2799538 } }
       ],
-      takeaways: [],
-      cafes: []
+      stations: [],
+      restaurants: [
+        { name: "The Lock & Barrel", categories: ["bar", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 431, rating: 3.9, place_id: "ChIJQ_D6uONt2UcRGV4fIxqUi2Q", location: { 'lat': 51.8315321, 'lng': 1.2456718 } },
+        { name: "Young's Other Plaice", categories: ["meal_takeaway", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 404, rating: 4.3, place_id: "ChIJAbdVQ-Nt2UcRgQvzC90n6X4", location: { 'lat': 51.83414289999999, 'lng': 1.2444305 } },
+        { name: "The Essex Skipper", categories: ["bar", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 255, rating: 4.2, place_id: "ChIJg-kk0v9t2UcRIbBlu9zFDwE", location: { 'lat': 51.8438549, 'lng': 1.2488037 } },
+        { name: "Avenue Bistro", categories: ["restaurant", "food", "point_of_interest", "establishment"], total_ratings: 208, rating: 4.5, place_id: "ChIJHfkDsfxt2UcRtGzKfeExBzM", location: { 'lat': 51.834824, 'lng': 1.2445875 } },
+        { name: "Pier One", categories: ["restaurant", "food", "point_of_interest", "establishment"], total_ratings: 207, rating: 4.2, place_id: "ChIJkUZnxuNt2UcR-fxPPyY0lSo", location: { 'lat': 51.8309107, 'lng': 1.2455071 } },
+        { name: "Italian House", categories: ["restaurant", "food", "point_of_interest", "establishment"], total_ratings: 200, rating: 3.9, place_id: "ChIJARe0puNt2UcRZsj53WE9Bcw", location: { 'lat': 51.83222559999999, 'lng': 1.2454884 } },
+        { name: "Fred's Cafe", categories: ["cafe", "meal_takeaway", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 172, rating: 4.2, place_id: "ChIJfW-3u-Nt2UcRjMIy2dhgcXc", location: { 'lat': 51.83178710000001, 'lng': 1.2455902 } },
+        { name: "British India Restaurant", categories: ["meal_takeaway", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 138, rating: 4.4, place_id: "ChIJgwAXu-Nt2UcRQ3Ddl7dfcek", location: { 'lat': 51.831734, 'lng': 1.245603 } },
+        { name: "Phoenix House Chinese Takeaway", categories: ["meal_takeaway", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 132, rating: 4.3, place_id: "ChIJPXxcjvxt2UcRMFE6S8iRkcQ", location: { 'lat': 51.8370854, 'lng': 1.245071 } },
+        { name: "Greggs", categories: ["bakery", "cafe", "restaurant", "food", "point_of_interest", "store", "establishment"], total_ratings: 123, rating: 4.3, place_id: "ChIJo4YHE-Nt2UcR7wonZfXL3gI", location: { 'lat': 51.8326934, 'lng': 1.2453805 } },
+        { name: "Star of India", categories: ["meal_takeaway", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 107, rating: 4.2, place_id: "ChIJZ66Aw-Nt2UcRCNFdu7eswbE", location: { 'lat': 51.83015700000001, 'lng': 1.245542 } },
+        { name: "The Hat and The Mouse", categories: ["restaurant", "cafe", "food", "point_of_interest", "establishment"], total_ratings: 51, rating: 4.4, place_id: "ChIJg2IspeNt2UcRsJ1WCgeG27A", location: { 'lat': 51.831688, 'lng': 1.2458044 } },
+        { name: "Stanley's Restaurant", categories: ["restaurant", "food", "point_of_interest", "establishment"], total_ratings: 46, rating: 4.8, place_id: "ChIJgag4_oRt2UcRlUuDZzIhoq0", location: { 'lat': 51.83025019999999, 'lng': 1.2449098 } },
+        { name: "Caffe Gloria", categories: ["restaurant", "food", "point_of_interest", "establishment"], total_ratings: 32, rating: 4.6, place_id: "ChIJIR5LtFBt2UcR09YKW08C2bQ", location: { 'lat': 51.83024169999999, 'lng': 1.2456641 } },
+        { name: "The Garden Cafe", categories: ["cafe", "restaurant", "food", "point_of_interest", "establishment"], total_ratings: 32, rating: 4.6, place_id: "ChIJWyaF3P9t2UcRkbvvxcTXcMA", location: { 'lat': 51.84424929999999, 'lng': 1.2493347 } },
+        { name: "The Cake Kitchen", categories: ["bakery", "restaurant", "food", "point_of_interest", "store", "establishment"], total_ratings: 12, rating: 5, place_id: "ChIJuzcrv-Nt2UcRT4d25WZyzOw", location: { 'lat': 51.8313707, 'lng': 1.2452295 } }
+      ]
     }
   end
 end

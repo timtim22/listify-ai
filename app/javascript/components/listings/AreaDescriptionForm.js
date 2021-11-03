@@ -67,6 +67,14 @@ const AreaDescriptionForm = ({
     )
   }
 
+  const pillIcon = (name) => {
+    return (
+      <span className="mr-2 py-0.5 px-2 font-semibold tracking-wider bg-blue-100 rounded-full shadow-sm ">
+        {name}
+      </span>
+    )
+  }
+
   const attractionRow = (attraction) => {
     const ratingsCount = attraction.total_ratings > 1000 ? `${Math.round(attraction.total_ratings / 1000)}k` : attraction.total_ratings;
     return (
@@ -74,6 +82,8 @@ const AreaDescriptionForm = ({
         <label className="flex justify-between items-center py-1 w-full cursor-pointer">
           <span className="flex-grow">{attraction.name}
             <span className="ml-2 text-xs font-semibold">
+              {attraction.categories.includes("meal_takeaway") && !attraction.categories.includes("cafe") && pillIcon("takeaway")}
+              {attraction.categories.includes("cafe") && pillIcon("cafe")}
               {attraction.rating}
             </span>
             <span className="mr-2 text-xs italic text-gray-600">
@@ -93,8 +103,11 @@ const AreaDescriptionForm = ({
     return (
       <div key={station.place_id} className="w-full hover:bg-gray-100">
         <label className="flex justify-between items-center py-1 w-full cursor-pointer">
-          <span className="flex-grow">{station.name}
+          <span className="flex-grow">
+            {station.name}
             <span className="ml-2 text-xs">
+              {station.categories.includes("subway_station") && pillIcon("subway")}
+              {station.categories.includes("light_rail_station") && pillIcon("light rail")}
               ({distance} km{durationSubstring})
             </span>
           </span>
@@ -105,11 +118,13 @@ const AreaDescriptionForm = ({
   }
 
   const attractionSection = (attractions, sectionTitle, titleFunction) => {
+    const noResult = <p>We didn't find anything to show here. </p>;
+    const content = attractions.length > 0 ? attractions.map(a => titleFunction(a)) : noResult;
     return (
       <div className="flex-col justify-center w-full">
         <p className="font-semibold">{sectionTitle}</p>
         <div className="my-2 w-full h-px bg-gray-300"></div>
-        {attractions.map(a => titleFunction(a))}
+        {content}
       </div>
     )
   }

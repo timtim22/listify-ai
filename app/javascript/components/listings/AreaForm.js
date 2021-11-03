@@ -18,6 +18,19 @@ const AreaForm = () => {
     }
   }, [errors]);
 
+  useEffect(() => {
+    if (descriptionResult) {
+      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    }
+  }, [descriptionResult]);
+
+  useEffect(() => {
+    if (!searchResult && selectedIds) {
+      setSelectedIds([]);
+      setDescriptionResult(null);
+    }
+  }, [searchResult]);
+
   return (
     <div className="w-full flex flex-col items-center mb-8">
       <div className="w-full h-8 mb-px"></div>
@@ -42,7 +55,7 @@ const AreaForm = () => {
         setLoading={setLoading}
         setErrors={setErrors}
       />
-      {descriptionResult &&
+      {searchResult && descriptionResult &&
       <ResultItem result={{ result_text: descriptionResult }} />}
     </div>
   )

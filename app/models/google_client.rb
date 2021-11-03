@@ -11,25 +11,28 @@ class GoogleClient
   end
 
   def nearby_request(location:, type: nil, radius: nil)
-    url  = "#{NEARBY_URL}location=#{location_string(location)}&key=#{KEY}"
-    url += "&type=#{type}" if type
+    url = base_location_url(location, type)
     url += "&radius=#{radius}" if radius
     request('get', url, {}, {})
   end
 
   def nearby_distance_request(location:, type: nil, radius: nil)
-    url  = "#{NEARBY_URL}location=#{location_string(location)}&key=#{KEY}"
-    url += "&type=#{type}" if type
+    url = base_location_url(location, type)
     url += "&rankby=distance"
     request('get', url, {}, {})
   end
-
 
   def distance_request(location:, attractions:)
     origin_str = "origins=#{location_string(location)}"
     destination_str = "destinations=#{destinations_string(attractions)}"
     url = "#{DISTANCE_URL}&#{origin_str}&#{destination_str}&mode=walking&key=#{KEY}"
     request('get', url, {}, {})
+  end
+
+  def base_location_url(location, type)
+    url  = "#{NEARBY_URL}location=#{location_string(location)}&key=#{KEY}"
+    url += "&type=#{type}" if type
+    url
   end
 
   def location_string(location)
@@ -48,7 +51,6 @@ class GoogleClient
     }])
 
     if response.code == 200
-      binding.pry
       JSON.parse(response.body)
     else
       { error: response.body, success: false }

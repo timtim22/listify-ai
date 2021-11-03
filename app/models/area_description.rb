@@ -4,22 +4,15 @@ class AreaDescription
   attr_accessor :selected_ids, :search_results
 
   def generate
-    #sentences = []
-    #selected_attractions.each do |k, v|
-      #v.each { |a| sentences << sentence_for(a) }
-    #end
-    #puts sentences.join("")
-    #sentences.join("")
-    AreaDescriptionGenerator.new(selected_attractions).run!
-
+    AreaDescription::Generator.new(selected_attractions, result_counts).run!
   end
 
-  def sentence_for(attraction)
-    if attraction.distance.present?
-      "It is #{attraction.distance[:duration]} minutes walk (#{attraction.distance[:distance]}km) from #{attraction.name}. "
-    else
-      "It is near #{attraction.name}. "
+  def result_counts
+    counts = {}
+    search_results.each do |key, results|
+      counts[key] = results.length
     end
+    counts
   end
 
   def selected_attractions

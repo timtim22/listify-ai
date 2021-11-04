@@ -3,6 +3,7 @@ class TaskRun < ApplicationRecord
   belongs_to :prompt_set
   belongs_to :input_object, polymorphic: :true
   has_many :task_results, dependent: :destroy
+  has_many :text_results, dependent: :destroy
   has_many :task_run_feedbacks, dependent: :destroy
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }

@@ -1,5 +1,39 @@
 class AreaDescription::Generator
+
   attr_reader :attractions, :stations, :restaurants, :counts, :selected_attractions
+
+  def self.run!(task_run, area_description)
+    inputs = JSON.parse(area_description.input_data)
+    counts = result_counts(inputs["search_results"])
+    selected = selected_attractions(inputs["search_results"], inputs["selected_ids"])
+    result = self.new(selected, counts).run!
+    task_run.text_results.create(
+      result_text: result
+    )
+  end
+
+
+  def self.result_counts(search_results)
+    counts = {}
+    search_results.each do |key, results|
+      counts[key] = results.length
+    end
+    counts
+  end
+
+  def self.selected_attractions(search_results, selected_ids)
+    selected = {}
+    search_results.each do |key, results|
+      selected[key.to_sym] = []
+      results.each do |result|
+        if selected_ids.include?(result["place_id"])
+          selected[key.to_sym] << Attraction.from_hash(result)
+        end
+      end
+    end
+    selected
+  end
+
 
   def initialize(attractions, counts)
     @selected_attractions = attractions

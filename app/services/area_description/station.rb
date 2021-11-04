@@ -25,7 +25,7 @@ class AreaDescription::Station
   end
 
   def no_station_string
-    ["", "Note that there are no train stations close to this location. "].sample
+    ["", "", "Note that there are no train stations close to this location. "].sample
   end
 
   def single_station_string(stations)

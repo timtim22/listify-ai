@@ -15,17 +15,48 @@ class AreaDescription < ApplicationRecord
   end
 
   def input_text
+    categories = {}
     lines = []
     selected_attractions.each do |key, attractions|
       if attractions.any?
-        lines << "#{input_key(key)}: #{attractions.map(&:name).join(", ")}"
+         attractions.map do |a|
+         category = category_for(a, key)
+         if categories[category].nil?
+           categories[category] = [a]
+         else
+           categories[category] << a
+          end
+        end
       end
     end
-    lines.join("\n")
+    categories.each do |key, attractions|
+      lines << "#{key}: #{attractions.map { |a| string_for(a) }.join(", ")}"
+    end
+    lines.join("\n").gsub("&", "and")
   end
 
-  def input_key(key)
-    key == :restaurants ? "restaurants, bars and other attractions" : key.to_s
+  def string_for(attraction)
+    if attraction.distance.nil?
+      attraction.name
+    elsif attraction.distance["duration"] < 15
+      "#{attraction.name} (#{attraction.distance["duration"]} minutes walk)"
+    else
+      "#{attraction.name} (#{attraction.distance["distance"]} km)"
+    end
+  end
+
+  def category_for(a, original_key)
+    if a.categories.include?("spa")
+      "spas"
+    elsif original_key == :restaurants && a.categories.include?("cafe")
+      "cafes"
+    elsif original_key == :restaurants && a.categories.include?("meal_takeaway")
+      "takeaways"
+    elsif original_key == :restaurants
+      "restaurants and bars"
+    else
+      original_key.to_s
+    end
   end
 
   def inputs

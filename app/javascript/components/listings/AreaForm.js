@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
+import ResultsPoll from '../inputs/ResultsPoll';
 import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
 import AreaResults from './AreaResults';
@@ -38,8 +39,13 @@ const AreaForm = () => {
     setDescriptionResults([]);
   }
 
-  const handleTaskRun = (response) => {
+  const handleNewResults = (newResults) => {
+    const newList = [...descriptionResults, ...newResults];
+    setDescriptionResults(newList);
     setLoading(false);
+  }
+
+  const handleTaskRun = (response) => {
     setErrors(null);
     setDescriptionResults(response.data.task_run.text_results)
     setTaskRun(response.data.task_run)
@@ -70,7 +76,12 @@ const AreaForm = () => {
         setLoading={setLoading}
         setErrors={setErrors}
       />
+      <ResultsPoll
+        taskRun={taskRun}
+        onResult={handleNewResults}
+      />
       <AreaResults
+        taskRun={taskRun}
         results={descriptionResults}
       />
     </div>

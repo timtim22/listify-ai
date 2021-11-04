@@ -2,21 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
-import ResultItem from '../common/ResultItem';
+import ResultList from '../common/ResultList';
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
-
-  const resultsList = () => {
-    if (results.some(r => r.result_text)) {
-      return results.map(result => <ResultItem key={result.id} result={result} />)
-    } else {
-      return (
-        <div className="flex justify-center py-8 w-full">
-          <p className="text-sm">Hm, this query didn't generate any valid results. Sorry about that - we will look into it.</p>
-        </div>
-      )
-    }
-  }
 
   const remainingRequests = () => {
     if (runsRemaining) {
@@ -40,7 +28,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
           <div className="mt-4 mb-4 w-3/4 h-px bg-gray-300"></div>
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
-            {resultsList()}
+            <ResultList results={results} />
             <div className="flex justify-center py-8 w-full">
               <TaskRerunButton
                 loading={loading}

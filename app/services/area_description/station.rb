@@ -73,6 +73,6 @@ class AreaDescription::Station
   end
 
   def distance_substring(attraction)
-    attraction.distance[:duration] < 15 ? "#{attraction.distance[:duration]} minutes walk" : "#{attraction.distance[:distance]} km"
+    attraction.distance["duration"] < 15 ? "#{attraction.distance["duration"]} minutes walk" : "#{attraction.distance["distance"]} km"
   end
 end

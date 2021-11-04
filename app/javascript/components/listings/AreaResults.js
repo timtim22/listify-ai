@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import ResultItem from '../common/ResultItem';
+import ResultList from '../common/ResultList';
 
-const AreaResults = ({ results }) => {
+const AreaResults = ({ results, taskRun }) => {
 
-  const resultsList = () => {
-    if (results.some(r => r.result_text)) {
-      return results.map(result => <ResultItem key={result.id} result={result} />)
-    }
+  const noResultsExpected = () => {
+    return taskRun.expected_results === 0;
   }
 
-  if (results.length > 0) {
-    return resultsList();
+  const resultsPresent = () => {
+    return results.length > taskRun.text_results.length;
+  }
+
+  const taskResultsPresent = () => {
+    return taskRun && (noResultsExpected() || resultsPresent());
+  }
+
+  if (taskResultsPresent()) {
+    return <ResultList results={results} />
   } else {
     return null;
   }

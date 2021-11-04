@@ -4,13 +4,15 @@ import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
+import AreaResults from './AreaResults';
 
 const AreaForm = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
-  const [descriptionResult, setDescriptionResult] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [descriptionResults, setDescriptionResults] = useState([]);
+  const [taskRun, setTaskRun] = useState(null);
 
   useEffect(() => {
     if (errors) {
@@ -19,17 +21,29 @@ const AreaForm = () => {
   }, [errors]);
 
   useEffect(() => {
-    if (descriptionResult) {
+    if (descriptionResults.length > 0) {
       window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
     }
-  }, [descriptionResult]);
+  }, [descriptionResults]);
 
   useEffect(() => {
     if (!searchResult && selectedIds) {
       setSelectedIds([]);
-      setDescriptionResult(null);
+      setDescriptionResults([]);
     }
   }, [searchResult]);
+
+
+  const resetDescriptionResults = () => {
+    setDescriptionResults([]);
+  }
+
+  const handleTaskRun = (response) => {
+    setLoading(false);
+    setErrors(null);
+    setDescriptionResults(response.data.task_run.text_results)
+    setTaskRun(response.data.task_run)
+  }
 
   return (
     <div className="w-full flex flex-col items-center mb-8">
@@ -49,14 +63,16 @@ const AreaForm = () => {
         searchResult={searchResult}
         selectedIds={selectedIds}
         setSelectedIds={setSelectedIds}
-        descriptionResult={descriptionResult}
-        setDescriptionResult={setDescriptionResult}
+        descriptionResults={descriptionResults}
+        resetDescriptionResults={resetDescriptionResults}
+        handleTaskRun={handleTaskRun}
         loading={loading}
         setLoading={setLoading}
         setErrors={setErrors}
       />
-      {searchResult && descriptionResult &&
-      <ResultItem result={{ result_text: descriptionResult }} />}
+      <AreaResults
+        results={descriptionResults}
+      />
     </div>
   )
 }

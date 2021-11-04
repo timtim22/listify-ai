@@ -8,18 +8,13 @@ const AreaDescriptionForm = ({
   searchResult,
   selectedIds,
   setSelectedIds,
-  descriptionResult,
-  setDescriptionResult,
+  descriptionResults,
+  resetDescriptionResults,
+  handleTaskRun,
   setErrors,
   loading,
   setLoading
 }) => {
-
-  const handleRequestSuccess = (response) => {
-    setLoading(false);
-    setErrors(null);
-    setDescriptionResult(response.data.area_description);
-  }
 
   const selectedResults = () => {
     return { search_results: searchResult, selected_ids: selectedIds };
@@ -31,13 +26,13 @@ const AreaDescriptionForm = ({
     createRequest(
       "/area_descriptions.json",
       { area_description: selectedResults() },
-      (response) => { handleRequestSuccess(response) },
+      (response) => { handleTaskRun(response) },
       (e) => { setErrors(e); setLoading(false); }
     )
   }
 
   const toggleSelected = (placeId) => {
-    if (descriptionResult) { setDescriptionResult(null); }
+    if (descriptionResults.length > 0) { resetDescriptionResults(); }
     if (selectedIds.includes(placeId)) {
       setSelectedIds(selectedIds.filter(id => id !== placeId));
     } else {

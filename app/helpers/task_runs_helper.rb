@@ -1,18 +1,27 @@
 module TaskRunsHelper
-  def format_results(results, prompts)
-    sorted_results = sort_results_with_prompts(results, prompts)
-    sorted_results.map do |result_with_prompt|
+  def format_results(text_results, task_results, prompts)
+    [
+      displayable_text_results(text_results),
+      displayable_task_results(task_results, prompts)
+    ].flatten.join("<br />--<br />").html_safe
+  end
+
+  def displayable_text_results(text_results)
+    text_results.map { |tr| display_result(tr, "non-gpt result") }
+  end
+
+  def displayable_task_results(task_results, prompts)
+    task_results_with_prompts(task_results, prompts).map do |result_with_prompt|
       result = result_with_prompt[:result]
       if result.safe?
-        formatted_result = display_result(result, result_with_prompt[:prompt_title])
-        result.user_copied? ? display_copied(formatted_result) : formatted_result
+        display_result(result, result_with_prompt[:prompt_title])
       else
         display_filtered(result)
       end
-    end.join("<br />--<br />").html_safe
+    end
   end
 
-  def sort_results_with_prompts(results, prompts)
+  def task_results_with_prompts(results, prompts)
     results
       .map { |result| result_with_prompt_obj(result, prompts) }
       .sort_by! { |r| r[:position] || 0 }
@@ -26,7 +35,8 @@ module TaskRunsHelper
   def display_result(result, prompt_title)
     result_text = simple_format(result.result_text)
     title_html = "<span class='font-medium text-purple-800'>#{prompt_title}</span>"
-    "<div>#{result_text}#{title_html}</div>"
+    formatted_result = "<div>#{result_text}#{title_html}</div>"
+    result.user_copied? ? display_copied(formatted_result) : formatted_result
   end
 
   def display_copied(formatted_result)

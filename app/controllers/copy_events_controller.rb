@@ -2,7 +2,7 @@ class CopyEventsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @result = TaskResult.find(params[:result_id])
+    @result = TaskResult.find_by(id: params[:result_id]) || TextResult.find(params[:result_id])
 
     respond_to do |format|
       if @result.update(user_copied: true)
@@ -13,4 +13,3 @@ class CopyEventsController < ApplicationController
     end
   end
 end
-

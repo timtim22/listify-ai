@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_101814) do
   create_table "text_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_run_id", null: false
     t.text "result_text"
+    t.boolean "user_copied", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["task_run_id"], name: "index_text_results_on_task_run_id"

@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_26_164030) do
+ActiveRecord::Schema.define(version: 2021_11_04_101814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "area_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.jsonb "input_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "content_filter_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_result_id", null: false
@@ -161,6 +168,14 @@ ActiveRecord::Schema.define(version: 2021_10_26_164030) do
     t.index ["user_id"], name: "index_task_runs_on_user_id"
   end
 
+  create_table "text_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_run_id", null: false
+    t.text "result_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_run_id"], name: "index_text_results_on_task_run_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -196,4 +211,5 @@ ActiveRecord::Schema.define(version: 2021_10_26_164030) do
   add_foreign_key "task_run_feedbacks", "users"
   add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
+  add_foreign_key "text_results", "task_runs"
 end

@@ -1,4 +1,5 @@
 class SearchLocation < ApplicationRecord
+  has_many :area_descriptions, dependent: :destroy
   validates :search_text, length: { minimum: 3 }
 
   def self.find_or_create_with(search_text)

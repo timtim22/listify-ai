@@ -1,15 +1,17 @@
 class AreaDescription < ApplicationRecord
   include Inputable
 
+  belongs_to :search_location
   has_many :task_runs, as: :input_object, dependent: :destroy
   validates :request_type, presence: true
 
-  def self.new_from(*args)
+  def self.new_from(params)
     AreaDescription.new(
       request_type: "area_description",
+      search_location: SearchLocation.find(params[:search_location_id]),
       input_data: {
-        search_results: args.first["search_results"],
-        selected_ids: args.first["selected_ids"]
+        search_results: params[:search_results],
+        selected_ids: params[:selected_ids]
       }.to_json
     )
   end

@@ -13,7 +13,11 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   const handleRequestSuccess = (response) => {
     setLoading(false);
     setErrors(null);
-    setSearchResult(response.data.attractions);
+
+    setSearchResult({
+      id: response.data.search_location.id,
+      attractions: response.data.attractions
+    });
   }
 
   const handleSubmit = (e) => {

@@ -17,10 +17,12 @@ ActiveRecord::Schema.define(version: 2021_11_04_101814) do
   enable_extension "plpgsql"
 
   create_table "area_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "search_location_id", null: false
     t.string "request_type"
     t.jsonb "input_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
   end
 
   create_table "content_filter_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -200,6 +202,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_101814) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "area_descriptions", "search_locations"
   add_foreign_key "content_filter_results", "task_results"
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "inputs", "users"

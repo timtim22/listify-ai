@@ -17,7 +17,11 @@ const AreaDescriptionForm = ({
 }) => {
 
   const selectedResults = () => {
-    return { search_results: searchResult, selected_ids: selectedIds };
+    return ({
+      search_location_id: searchResult.id,
+      search_results: searchResult.attractions,
+      selected_ids: selectedIds
+    });
   }
 
   const handleSubmit = (e) => {
@@ -136,8 +140,9 @@ const AreaDescriptionForm = ({
   }
 
   if (searchResult) {
-    const topAttractions = searchResult.attractions.slice(0,8);
-    const filteredRestaurants = filterRestaurants(searchResult.restaurants);
+    const results = searchResult.attractions;
+    const topAttractions = results.attractions.slice(0,8);
+    const filteredRestaurants = filterRestaurants(results.restaurants);
 
     return (
       <div className="py-4 w-full">
@@ -147,7 +152,7 @@ const AreaDescriptionForm = ({
             <br />
             {attractionSection(topAttractions, 'Attractions', attractionRow)}
             <br />
-            {attractionSection(searchResult.stations, 'Stations & Subways', stationRow)}
+            {attractionSection(results.stations, 'Stations & Subways', stationRow)}
             <br />
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
             <br />

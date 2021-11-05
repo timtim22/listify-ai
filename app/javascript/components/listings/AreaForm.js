@@ -39,7 +39,7 @@ const AreaForm = () => {
     setDescriptionResults([]);
   }
 
-  const handleNewResults = (newResults) => {
+  const handleDescriptionResults = (newResults) => {
     const newList = [...descriptionResults, ...newResults];
     setDescriptionResults(newList);
     setLoading(false);
@@ -78,7 +78,7 @@ const AreaForm = () => {
       />
       <ResultsPoll
         taskRun={taskRun}
-        onResult={handleNewResults}
+        onResult={handleDescriptionResults}
       />
       <AreaResults
         taskRun={taskRun}

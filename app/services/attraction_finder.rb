@@ -12,49 +12,43 @@ class AttractionFinder
     find_attractions
     find_stations
     find_restaurants
-    #MockData.new.town
     found
   end
 
   def find_attractions
     results = nearby_request('tourist_attraction', 5000)
     if results.any?
-      by_ratings = filter_by_ratings(results)
-      by_ratings.map do |r|
-        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
-      end
-      found[:attractions] = by_ratings
+      found[:attractions] = filter_by_ratings(results)
     end
   end
 
   def find_stations
     get_train_stations("train_station", 3)
+    get_train_stations("light_rail_station", 2) if found[:stations].count == 0
     get_subway_stations("subway_station", 2)
-    found[:stations] = found[:stations].uniq { |s| s.place_id }.sort_by { |s| s.distance[:distance] }
+    sort_stations_by_distance
+  end
+
+  def sort_stations_by_distance
+    found[:stations] = found[:stations]
+      .uniq { |s| s.place_id }
+      .sort_by { |s| s.distance[:distance] }
   end
 
   def get_train_stations(station_type, record_count = 3)
     results = nearby_request(station_type, 5000)
-    if results.any?
-      top_results = results.first(record_count)
-      with_distance = distance_request(top_results).sort_by { |a| a.distance[:distance] }
-      with_distance.map do |r|
-        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, distance: { distance: #{r.distance[:distance]}, duration: #{r.distance[:duration]} }, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
-      end
-      with_distance.map { |s| found[:stations] << s }
-    else
-      get_train_stations("light_rail_station", 2)
-    end
+    results_with_distance(results, record_count)
   end
 
   def get_subway_stations(station_type, record_count = 3)
     results = nearby_distance_request(station_type, 5000)
+    results_with_distance(results, record_count)
+  end
+
+  def results_with_distance(results, record_count)
     if results.any?
       top_results = results.first(record_count)
       with_distance = distance_request(top_results).sort_by { |a| a.distance[:distance] }
-      with_distance.map do |r|
-        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, distance: { distance: #{r.distance[:distance]}, duration: #{r.distance[:duration]} }, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
-      end
       with_distance.map { |s| found[:stations] << s }
     end
   end
@@ -67,10 +61,7 @@ class AttractionFinder
         filtered << find_bars
         filtered = filtered.flatten.uniq { |a| a.place_id }
       end
-      filtered.map do |r|
-        puts "{ name: '#{r.name}', categories: #{r.categories}, total_ratings: #{r.total_ratings}, rating: #{r.rating}, place_id: #{r.place_id}, location: { 'lat': #{r.location["lat"]}, 'lng': #{r.location["lng"]} } }"
-      end
-      found[:restaurants] = filtered
+     found[:restaurants] = filtered
    end
   end
 

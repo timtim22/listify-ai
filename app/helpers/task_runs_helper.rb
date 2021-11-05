@@ -1,4 +1,13 @@
 module TaskRunsHelper
+
+  def displayable_input_text(input_object)
+    if input_object.respond_to?(:displayable_input_text)
+      input_object.displayable_input_text
+    else
+      input_object.input_text
+    end
+  end
+
   def format_results(text_results, task_results, prompts)
     [
       displayable_text_results(text_results),

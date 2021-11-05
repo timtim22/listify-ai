@@ -16,6 +16,11 @@ class AreaDescription < ApplicationRecord
     )
   end
 
+  def displayable_input_text
+    "Search: #{search_location.search_text}\n----\n" +
+    input_text
+  end
+
   def input_text
     categories = {}
     lines = []

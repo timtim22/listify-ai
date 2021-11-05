@@ -18,7 +18,7 @@
         <% @task_runs.each do |task_run| %>
           <tr class="text-xs">
             <td class="py-3 px-6"><%= link_to task_run.input_object.request_type, task_run.prompt_set %></td>
-            <td class="py-3 px-6 whitespace-pre-wrap"><%= task_run.input_object.input_text %></td>
+            <td class="py-3 px-6 whitespace-pre-wrap"><%= displayable_input_text(task_run.input_object) %></td>
             <td class="py-3 px-6">
               <%= format_results(task_run.text_results, task_run.task_results, @prompts) %>
             </td>

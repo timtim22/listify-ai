@@ -2,12 +2,16 @@ class AreaDescriptionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    description = AreaDescription.new_from(area_description_params)
-    save = Input.create_with(description, current_user)
-    if save.success
-      @area_description = save.input_object
-      @task_run = TaskRunner.new.run_for!(@area_description, current_user)
-      @runs_remaining = TaskRun.runs_remaining_today(current_user)
+    if area_description_params[:selected_ids].length > 0
+      description = AreaDescription.new_from(area_description_params)
+      save = Input.create_with(description, current_user)
+      if save.success
+        @area_description = save.input_object
+        @task_run = TaskRunner.new.run_for!(@area_description, current_user)
+        @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      end
+    else
+      save = OpenStruct.new(sucess: false, errors: { selected: ["Nothing was selected"] })
     end
 
     respond_to do |format|

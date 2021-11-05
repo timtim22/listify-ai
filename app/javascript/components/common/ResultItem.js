@@ -26,6 +26,8 @@ const ResultItem = ({ result }) => {
         </div>
      </div>
     )
+  } else {
+    return null;
   }
 }
 

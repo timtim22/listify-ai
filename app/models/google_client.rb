@@ -4,6 +4,13 @@ class GoogleClient
   GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json?"
   NEARBY_URL    = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
   DISTANCE_URL  = "https://maps.googleapis.com/maps/api/distancematrix/json?"
+  REQUEST_CAP   = 12
+
+  attr_accessor :request_count
+
+  def initialize
+    @request_count = 0
+  end
 
   def geocode_request(address)
     url = "#{GEOCODING_URL}address=#{address}&key=#{KEY}"
@@ -43,7 +50,14 @@ class GoogleClient
     "place_id:#{attractions.map(&:place_id).join("%7Cplace_id:")}"
   end
 
+  def raise_error_if_possible_loop
+    @request_count += 1
+    raise "Possible loop detected!" if request_count > 15
+  end
+
   def request(method, url, headers, body)
+    raise_error_if_possible_loop
+
     response = HTTParty.send(method, *[url, {
       headers: headers,
       body: body,

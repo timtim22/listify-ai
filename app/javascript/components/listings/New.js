@@ -1,54 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Form from './Form';
-import Results from '../inputs/Results';
-import ResultsPoll from '../inputs/ResultsPoll';
+import FormHeader from './FormHeader';
+import ListingFormContainer from './ListingFormContainer';
+import AreaForm from './AreaForm';
 
 const New = ({ showExample, initialRunsRemaining }) => {
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-  const [taskRun, setTaskRun] = useState(null);
-  const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
+ const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
+ const [formType, setFormType] = useState('listing_description');
 
-  useEffect(() => {
-    if (results.length > 0) {
-      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  const displayForm = () => {
+    if (formType === 'neighbourhood') {
+      return <AreaForm />;
+    } else {
+      return (
+        <ListingFormContainer
+          runsRemaining={runsRemaining}
+          setRunsRemaining={setRunsRemaining}
+          formType={formType}
+          showExample={showExample}
+        />
+      )
     }
-  }, [results])
-
-  const handleNewResults = (newResults) => {
-    const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
-    setResults(newList);
-    setLoading(false);
-  }
-
-  const handleTaskRun = (response) => {
-    setRunsRemaining(response.data.runs_remaining);
-    setTaskRun(response.data.task_run);
   }
 
   return (
-    <>
-      <Form
-        loading={loading}
-        setLoading={(state) => setLoading(state)}
-        runsRemaining={runsRemaining}
-        onResult={handleTaskRun}
-        showExample={showExample}
+    <div className="w-full h-full">
+      <FormHeader
+        formType={formType}
+        setFormType={setFormType}
       />
-      <ResultsPoll
-        taskRun={taskRun}
-        onResult={handleNewResults}
-      />
-      <Results
-        loading={loading}
-        setLoading={(state) => setLoading(state)}
-        runsRemaining={runsRemaining}
-        results={results}
-        taskRun={taskRun}
-        onRerun={handleTaskRun}
-      />
-    </>
+      {displayForm()}
+    </div>
   )
 }
 

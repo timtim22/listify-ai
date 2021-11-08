@@ -2,24 +2,23 @@ class AreaDescriptionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-
-    search_location = SearchLocation.find_or_create_by(
-      search_text: area_description_params[:search_text]
-    )
-    if !search_location.latitude
-      Geocoder.get_coordinates(search_location)
+    if area_description_params[:selected_ids].length > 0
+      description = AreaDescription.new_from(area_description_params)
+      save = Input.create_with(description, current_user)
+      if save.success
+        @area_description = save.input_object
+        @task_run = TaskRunner.new.run_for!(@area_description, current_user)
+        @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      end
+    else
+      save = OpenStruct.new(sucess: false, errors: { selected: ["Nothing was selected"] })
     end
 
-    attractions = AttractionFinder.new(search_location).find!
-    @area_description = attractions.join(", ")
-    ##@area_description = AreaDescription.generate_from(attractions)
-
-
     respond_to do |format|
-      if true
+      if save.success
         format.json { render :create, status: :created }
       else
-        format.json { render json: @area_description.errors, status: :unprocessable_entity }
+        format.json { render json: save.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -27,8 +26,6 @@ class AreaDescriptionsController < ApplicationController
   private
 
   def area_description_params
-    params.require(:area_description).permit(:search_text)
+    params.require(:area_description).permit(:search_location_id, selected_ids: [], search_results: {})
   end
 end
-
-

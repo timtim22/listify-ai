@@ -5,7 +5,7 @@ const Switch = ({ id, isOn, handleToggle, leftLabel, rightLabel }) => {
   const switchId = id || 'toggleSwitch';
 
   return (
-    <div className="flex justify-start justify-between items-center mt-2 mr-2 mb-2 md:mt-0">
+    <div className="flex justify-start justify-between items-center mt-2 mb-2 md:mt-0">
       {leftLabel && <label className="mr-4 text-xs font-medium tracking-widest text-gray-400 uppercase">{leftLabel}</label>}
       <input
         checked={isOn || false}

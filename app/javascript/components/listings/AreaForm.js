@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createRequest } from '../../helpers/requests';
+import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
-import Submit from '../inputs/Submit';
+import ResultsPoll from '../inputs/ResultsPoll';
+import AreaDescriptionForm from './AreaDescriptionForm';
+import AreaSearchForm from './AreaSearchForm';
+import AreaResults from './AreaResults';
 
 const AreaForm = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [inputFields, setInputFields] = useState({ search_text: '' });
-  const [result, setResult] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [descriptionResults, setDescriptionResults] = useState([]);
+  const [taskRun, setTaskRun] = useState(null);
 
   useEffect(() => {
     if (errors) {
@@ -16,69 +21,71 @@ const AreaForm = () => {
     }
   }, [errors]);
 
-  const setField = (field, value) => {
-    setInputFields({ ...inputFields, [field]: value });
+  useEffect(() => {
+    if (descriptionResults.length > 0) {
+      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    }
+  }, [descriptionResults]);
+
+  useEffect(() => {
+    if (!searchResult && selectedIds) {
+      setSelectedIds([]);
+      setDescriptionResults([]);
+    }
+  }, [searchResult]);
+
+
+  const resetDescriptionResults = () => {
+    setDescriptionResults([]);
   }
 
-  const handleRequestSuccess = (response) => {
+  const handleDescriptionResults = (newResults) => {
+    const newList = [...descriptionResults, ...newResults];
+    setDescriptionResults(newList);
+    setLoading(false);
+  }
+
+  const handleTaskRun = (response) => {
     setErrors(null);
-    setResult(response.data.area_description);
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    createRequest(
-      "/area_descriptions.json",
-      {area_description: inputFields },
-      (response) => { handleRequestSuccess(response) },
-      (e) => { setErrors(e); setLoading(false) }
-    )
-  }
-
-
-
-  const textRow = (title, key, placeholder, required) => {
-    return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3">{title}</label>
-        <input
-          type="text"
-          placeholder={placeholder}
-          required={required}
-          value={inputFields[key]}
-          onChange={(e) => {setField(key, e.target.value)}}
-          className="w-full form-inline-field"
-        />
-      </div>
-    )
-  }
-
-  const submitButton = () => {
-    return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-        Generate!
-      </button>
-    )
+    setDescriptionResults(response.data.task_run.text_results)
+    setTaskRun(response.data.task_run)
   }
 
   return (
-    <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
+    <div className="w-full flex flex-col items-center mb-8">
+      <div className="w-full h-8 mb-px"></div>
+      <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       <div className="w-4/5">
         <ErrorNotice errors={errors} />
       </div>
-      <div className="flex flex-col w-4/5 max-w-2xl">
-       {textRow('Location','search_text','e.g. postcode', true)}
-        <div className="flex justify-center py-8 w-full">
-          {submitButton()}
-        </div>
-      </div>
-      <div className="py-4">
-        {result}
-      </div>
-    </form>
+      <AreaSearchForm
+        setSearchResult={setSearchResult}
+        loading={loading}
+        setLoading={setLoading}
+        errors={errors}
+        setErrors={setErrors}
+      />
+      <AreaDescriptionForm
+        searchResult={searchResult}
+        selectedIds={selectedIds}
+        setSelectedIds={setSelectedIds}
+        descriptionResults={descriptionResults}
+        resetDescriptionResults={resetDescriptionResults}
+        handleTaskRun={handleTaskRun}
+        loading={loading}
+        setLoading={setLoading}
+        setErrors={setErrors}
+      />
+      <ResultsPoll
+        taskRun={taskRun}
+        onResult={handleDescriptionResults}
+      />
+      <AreaResults
+        taskRun={taskRun}
+        results={descriptionResults}
+      />
+    </div>
   )
-
 }
 
 export default AreaForm;

@@ -64,6 +64,10 @@ class GoogleClient
       #debug_output: $stdout
     }])
 
+    puts "GOOGLE RESPONSE"
+    puts response
+    puts "------"
+
     if response.code == 200
       JSON.parse(response.body)
     else

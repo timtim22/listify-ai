@@ -1,5 +1,11 @@
 AUTH_ROUTES = ['/users', '/users/sign_in']
-GPT_ROUTES = ['/listings']
+REQUEST_ROUTES = [
+  '/listings.json',
+  '/task_reruns.json',
+  '/playground_attempts.json',
+  '/search_locations.json',
+  '/area_descriptions.json'
+]
 
 Rack::Attack.throttle("requests by ip", limit: 5, period: 2) do |request|
   request.ip
@@ -11,8 +17,8 @@ Rack::Attack.throttle('limit logins per ip', limit: 6, period: 60) do |req|
   end
 end
 
-Rack::Attack.throttle('limit requests to gpt', limit: 10, period: 60) do |req|
-  if GPT_ROUTES.include?(req.path) && req.post?
+Rack::Attack.throttle('limit requests to apis', limit: 10, period: 60) do |req|
+  if REQUEST_ROUTES.include?(req.path) && req.post?
     req.ip
   end
 end

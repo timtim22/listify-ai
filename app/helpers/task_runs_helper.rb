@@ -37,7 +37,7 @@ module TaskRunsHelper
   end
 
   def result_with_prompt_obj(result, prompts)
-    prompt = prompts.first { |pr| pr.id == result.prompt_id }
+    prompt = prompts.find_by(id: result.prompt_id)
     { position: prompt&.position, prompt_title: prompt&.title, result: result }
   end
 

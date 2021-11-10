@@ -3,11 +3,12 @@ class TaskRerunsController < ApplicationController
 
   def create
     last_run = TaskRun.find(task_rerun_params[:task_run_id])
+    language = last_run.output_language
     new_input_object = last_run.input_object.dup
     save = Input.create_with(new_input_object, current_user)
     if save.success
       @object = save.input_object
-      @task_run = TaskRunner.new.run_for!(@object, current_user)
+      @task_run = TaskRunner.new.run_for!(@object, current_user, language)
       @runs_remaining = TaskRun.runs_remaining_today(current_user)
     end
 

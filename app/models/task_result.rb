@@ -2,6 +2,7 @@ class TaskResult < ApplicationRecord
   belongs_to :task_run
   belongs_to :prompt, optional: true
   has_many :content_filter_results, dependent: :destroy
+  has_many :translations, as: :translatable, dependent: :destroy
 
   def filtered_result_text
     if safe?
@@ -18,5 +19,9 @@ class TaskResult < ApplicationRecord
 
   def unsafe?
     !safe?
+  end
+
+  def awaiting_translation?
+    task_run.translation_requests.count > self.translations.count
   end
 end

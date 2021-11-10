@@ -4,8 +4,9 @@ class TaskResultsController < ApplicationController
 
   def index
     @task_results = @task_run.task_results
-    .includes(:prompt)
+    .includes(:prompt, :translations)
     .order("prompts.position")
+    .reject(&:awaiting_translation?)
   end
 
   private

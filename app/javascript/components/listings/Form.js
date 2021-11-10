@@ -40,6 +40,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     const newMode = inputMode === 'form' ? 'text' : 'form';
     setField('input_text', '');
     setUserInputLength(0);
+    setOutputLanguage('EN');
     setErrors(null);
     setExampleSeen(true);
     setInputMode(newMode);
@@ -102,20 +103,22 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   }
 
   const languageSelector = () => {
-    return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3">Output language</label>
-        <select
-          onChange={(e) => setOutputLanguage(e.target.value)}
-          className="form-select mx-3 mt-1">
-          {languageOptions.map((item) => {
-            return (
-              <option key={item.value} value={item.value}>{item.name}</option>
-            )
-          })}
-        </select>
-      </div>
-    )
+    if (inputMode === 'form') {
+      return (
+        <div className="flex justify-start items-center my-2 w-full">
+          <label className="flex-shrink-0 w-1/3">Output language</label>
+          <select
+            onChange={(e) => setOutputLanguage(e.target.value)}
+            className="form-select mx-3 mt-1">
+            {languageOptions.map((item) => {
+              return (
+                <option key={item.value} value={item.value}>{item.name}</option>
+              )
+            })}
+          </select>
+        </div>
+      )
+    }
   }
 
   return (

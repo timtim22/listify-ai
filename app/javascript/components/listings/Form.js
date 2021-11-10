@@ -11,7 +11,7 @@ import SplitInput from './SplitInput';
 import DisabledPillButton from './DisabledPillButton';
 
 const maxInput = 250;
-const newListing = { input_text: '', request_type: 'listing_description' };
+const newListing = { input_text: '' };
 
 const languageOptions = [
   { name: "English", value: "EN" },
@@ -35,6 +35,12 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (listing.request_type !== formType) {
+      setField('request_type', formType)
+    }
+  }, [formType])
 
   const changeInputMode = () => {
     const newMode = inputMode === 'form' ? 'text' : 'form';

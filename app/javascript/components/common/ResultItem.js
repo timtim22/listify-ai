@@ -32,7 +32,7 @@ const ResultItem = ({ result }) => {
         <br />
         <div className="flex justify-between items-center">
           {tags(result)}
-          <CopyButton result={result} />
+          <CopyButton result={result} copyText={resultToShow} />
         </div>
      </div>
     )

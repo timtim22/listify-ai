@@ -6,7 +6,7 @@ class DeepLClient
     url  = "https://api-free.deepl.com/v2/translate"
     body = translate_request_body(from, to, text)
     res  = request("post", url, {}, body)
-    { from: from, to: to, text: res["translations"][0]["text"] }
+    translation_result(res, from, to)
   end
 
   def translate_request_body(from, to, text)
@@ -15,6 +15,16 @@ class DeepLClient
       target_lang: to,
       text: text,
       auth_key: AUTH_KEY
+    }
+  end
+
+  def translation_result(response, from, to)
+    {
+      from: from,
+      to: to,
+      text: response.dig("translations", 0, "text"),
+      success: !(response[:error].present?),
+      error: response[:error]
     }
   end
 

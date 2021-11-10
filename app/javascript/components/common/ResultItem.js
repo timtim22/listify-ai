@@ -15,7 +15,11 @@ const ResultItem = ({ result }) => {
   }
 
   const translatedResultText = () => {
-    return result.translations.length > 0 && result.translations[0].result_text;
+    return (
+      result.translations &&
+      result.translations.length > 0 &&
+      result.translations[0].result_text
+    )
   }
 
   const trim = (text) => {

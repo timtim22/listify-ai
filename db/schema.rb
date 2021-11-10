@@ -193,7 +193,9 @@ ActiveRecord::Schema.define(version: 2021_11_10_090825) do
     t.uuid "translatable_id"
     t.string "from", null: false
     t.string "to", null: false
+    t.boolean "success"
     t.text "result_text"
+    t.string "error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["translatable_type", "translatable_id"], name: "index_translations_on_translatable"

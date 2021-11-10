@@ -6,7 +6,9 @@ class Translation < ApplicationRecord
       translatable: translatable_object,
       from: response_object[:from],
       to: response_object[:to],
-      result_text: response_object[:text]
+      result_text: response_object[:text],
+      success: response_object[:success],
+      error: response_object[:error]
     )
   end
 end

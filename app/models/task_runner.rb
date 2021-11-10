@@ -1,8 +1,8 @@
 class TaskRunner
 
-  def run_for!(input_object, user)
+  def run_for!(input_object, user, output_language = nil)
     prompt_set = prompt_set_for(input_object.request_type)
-    task_run   = create_task_run(user, prompt_set, input_object)
+    task_run   = create_task_run(user, prompt_set, input_object, output_language)
 
     generate_gpt_results(task_run, prompt_set)
     generate_text_results(task_run, input_object)
@@ -27,12 +27,20 @@ class TaskRunner
     prompt_set
   end
 
-  def create_task_run(user, prompt_set, input_object)
-    TaskRun.create!(
+  def create_task_run(user, prompt_set, input_object, output_language)
+    task_run = TaskRun.create!(
       user: user,
       prompt_set: prompt_set,
       input_object: input_object,
       expected_results: prompt_set.prompts.count
     )
+    create_translation_request(task_run, output_language)
+    task_run
+  end
+
+  def create_translation_request(task_run, output_language)
+    if output_language
+      task_run.translation_requests.create_for!(output_language)
+    end
   end
 end

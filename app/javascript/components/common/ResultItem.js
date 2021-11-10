@@ -14,15 +14,29 @@ const ResultItem = ({ result }) => {
     )
   }
 
-  const resultText = result.result_text ? result.result_text.trim() : "";
-  if (resultText !== "") {
+  const translatedResultText = () => {
+    return (
+      result.translations &&
+      result.translations.length > 0 &&
+      result.translations[0].result_text
+    )
+  }
+
+  const trim = (text) => {
+    return text ? text.trim() : "";
+  }
+
+  const resultToShow = translatedResultText() || result.result_text;
+  const trimmedResult = trim(resultToShow);
+
+  if (trimmedResult !== "") {
     return (
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-        <p>{resultText}</p>
+        <p>{trimmedResult}</p>
         <br />
         <div className="flex justify-between items-center">
           {tags(result)}
-          <CopyButton result={result} />
+          <CopyButton result={result} copyText={resultToShow} />
         </div>
      </div>
     )

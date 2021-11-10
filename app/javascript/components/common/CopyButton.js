@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 
-const CopyButton = ({ result }) => {
+const CopyButton = ({ result, copyText }) => {
   const [copied, setCopied] = useState(false);
 
   const registerClick = (result_id) => {
@@ -19,7 +19,7 @@ const CopyButton = ({ result }) => {
     if (!copied) {
       registerClick(result.id);
     }
-    copyTextToClipboard(result.result_text)
+    copyTextToClipboard(copyText)
   }
 
   const copyTextToClipboard = (text) => {

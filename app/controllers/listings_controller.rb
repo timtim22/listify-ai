@@ -10,7 +10,7 @@ class ListingsController < ApplicationController
     save = Input.create_with(Listing.new(listing_params), current_user)
     if save.success
       @listing  = save.input_object
-      @task_run = TaskRunner.new.run_for!(@listing, current_user)
+      @task_run = TaskRunner.new.run_for!(@listing, current_user, params[:output_language])
       @runs_remaining = TaskRun.runs_remaining_today(current_user)
     end
 

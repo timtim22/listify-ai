@@ -1,27 +1,50 @@
 class GptResult
 
+  def initialize
+    @custom_filter = CustomResultFilter
+    @client        = DeepLClient.new
+  end
+
   def for(task_run_id, prompt_id)
     task_run = TaskRun.find(task_run_id)
     prompt   = Prompt.find(prompt_id)
+    response = execute_request!(prompt, task_run)
+    process_response(task_run, response, prompt)
+  end
+
+  private
+
+  def execute_request!(prompt, task_run)
     gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
-    response = gpt_call.execute!
-    #response = { check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'https://bbc.co.uk test' }
-    #response = { success: true, result_text: ['', 'test'].sample }
-    #sleep(5)
-    create_task_result(task_run, response, prompt)
+    gpt_call.execute!
+    #{ check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'this is a test message for translation' }
+    #{ success: true, result_text: ['', 'test'].sample }
+  end
+
+  def process_response(task_run, response, prompt)
+    task_result = create_task_result(task_run, response, prompt)
+    store_filter_responses(response, task_result)
+    translate(task_run, task_result)
   end
 
   def create_task_result(task_run, response, prompt)
-    result = task_run.task_results.create!(
+    task_run.task_results.create!(
       success: response[:success],
       prompt: prompt,
       result_text: response[:result_text],
       error: response[:error]
     )
+  end
+
+  def store_filter_responses(response, task_result)
     if response[:check_result]
-      CustomResultFilter.run_for!(result)
-      filter_result = create_filter_result(result, response[:check_result])
+      create_filter_result(task_result, response[:check_result])
+      run_through_custom_filter(task_result)
     end
+  end
+
+  def run_through_custom_filter(task_result)
+    @custom_filter.run_for!(task_result)
   end
 
   def create_filter_result(result, filter_result)
@@ -30,5 +53,12 @@ class GptResult
       label: filter_result[:label],
       data: filter_result[:data],
     )
+  end
+
+  def translate(task_run, task_result)
+    task_run.translation_requests.each do |req|
+      response = @client.translate(req.from, req.to, task_result.result_text)
+      Translation.create_for!(task_result, response)
+    end
   end
 end

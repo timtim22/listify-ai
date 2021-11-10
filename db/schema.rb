@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_04_101814) do
+ActiveRecord::Schema.define(version: 2021_11_10_090825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -179,6 +179,28 @@ ActiveRecord::Schema.define(version: 2021_11_04_101814) do
     t.index ["task_run_id"], name: "index_text_results_on_task_run_id"
   end
 
+  create_table "translation_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "from", default: "en-gb"
+    t.string "to"
+    t.uuid "task_run_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_run_id"], name: "index_translation_requests_on_task_run_id"
+  end
+
+  create_table "translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "translatable_type"
+    t.uuid "translatable_id"
+    t.string "from", null: false
+    t.string "to", null: false
+    t.boolean "success"
+    t.text "result_text"
+    t.string "error"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["translatable_type", "translatable_id"], name: "index_translations_on_translatable"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -216,4 +238,5 @@ ActiveRecord::Schema.define(version: 2021_11_04_101814) do
   add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
   add_foreign_key "text_results", "task_runs"
+  add_foreign_key "translation_requests", "task_runs"
 end

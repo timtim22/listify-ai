@@ -68,7 +68,7 @@ const AreaDescriptionForm = ({
 
   const pillIcon = (name) => {
     return (
-      <span className="mr-2 py-0.5 px-2 font-semibold tracking-wider bg-blue-100 rounded-full shadow-sm ">
+      <span className="py-0.5 px-2 mr-2 font-semibold tracking-wider bg-blue-100 rounded-full shadow-sm">
         {name}
       </span>
     )

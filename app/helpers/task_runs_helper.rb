@@ -23,7 +23,7 @@ module TaskRunsHelper
     task_results_with_prompts(task_results, prompts).map do |result_with_prompt|
       result = result_with_prompt[:result]
       if result.safe?
-        display_result(result, result_with_prompt[:prompt_title])
+        display_result(result, result_with_prompt[:prompt_title], result.translations.first)
       else
         display_filtered(result)
       end
@@ -37,14 +37,15 @@ module TaskRunsHelper
   end
 
   def result_with_prompt_obj(result, prompts)
-    prompt = prompts.find_by(id: result.prompt_id)
+    prompt = prompts.first { |pr| pr.id == result.prompt_id }
     { position: prompt&.position, prompt_title: prompt&.title, result: result }
   end
 
-  def display_result(result, prompt_title)
-    result_text = simple_format(result.result_text)
+  def display_result(result, prompt_title, translation = nil)
+    result_text = translation ? translation.result_text : result.result_text
+    display_text = simple_format(result_text)
     title_html = "<span class='font-medium text-purple-800'>#{prompt_title}</span>"
-    formatted_result = "<div>#{result_text}#{title_html}</div>"
+    formatted_result = "<div>#{display_text}#{title_html}</div>"
     result.user_copied? ? display_copied(formatted_result) : formatted_result
   end
 

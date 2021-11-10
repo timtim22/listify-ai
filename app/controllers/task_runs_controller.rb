@@ -10,7 +10,7 @@ class TaskRunsController < ApplicationController
 
     @task_runs = TaskRun
       .where(user: users)
-      .includes(:user, :input_object, :prompt_set, :text_results, :task_results, task_results: :content_filter_results)
+      .includes(:user, :input_object, :prompt_set, :text_results, :task_results, task_results: [:content_filter_results, :translations])
       .order(created_at: :desc)
 
     @prompts = Prompt.all

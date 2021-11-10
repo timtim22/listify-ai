@@ -52,8 +52,8 @@ const AreaForm = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center mb-8">
-      <div className="w-full h-8 mb-px"></div>
+    <div className="flex flex-col items-center mb-8 w-full">
+      <div className="mb-px w-full h-8"></div>
       <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       <div className="w-4/5">
         <ErrorNotice errors={errors} />

@@ -14,7 +14,7 @@ const exampleInputFields = {
   propertyType: 'beach penthouse',
   bedrooms: '3',
   location: 'Malaga',
-  idealFor: 'romantic getaway',
+  idealFor: 'families',
   keyFeatures: '- sea views\n- large balcony\n- 5 minutes walk to shops and restaurants',
 }
 
@@ -132,7 +132,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
         {textRow('Ideal for', 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
           <label className="flex-shrink-0 w-1/3">Key features</label>
-          <div className="px-3 w-full">
+          <div className="px-3 w-full mb-2">
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}
               onChange={(value) => setField('keyFeatures', value)}

@@ -13,8 +13,18 @@ import DisabledPillButton from './DisabledPillButton';
 const maxInput = 250;
 const newListing = { input_text: '', request_type: 'listing_description' };
 
+const languageOptions = [
+  { name: "English", value: "EN" },
+  { name: "Danish", value: "DA" },
+  { name: "French", value: "FR" },
+  { name: "German", value: "DE" },
+  { name: "Italian", value: "IT" },
+  { name: "Spanish", value: "ES" },
+]
+
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
+  const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
   const [inputMode, setInputMode] = useState('form');
@@ -54,7 +64,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     setLoading(true);
     createRequest(
       "/listings.json",
-      cleanObjectInputText(listing),
+      { listing: cleanObjectInputText(listing), output_language: outputLanguage },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
@@ -91,6 +101,23 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     )
   }
 
+  const languageSelector = () => {
+    return (
+      <div className="flex justify-start items-center mb-2 w-full">
+        <label className="flex-shrink-0 w-1/3">Output language</label>
+        <select
+          onChange={(e) => setOutputLanguage(e.target.value)}
+          className="form-select mx-3 mt-1">
+          {languageOptions.map((item) => {
+            return (
+              <option key={item.value} value={item.value}>{item.name}</option>
+            )
+          })}
+        </select>
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="flex flex-col items-center w-full">
@@ -102,7 +129,8 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-         {formInput()}
+          {formInput()}
+          {languageSelector()}
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputText={listing.input_text}

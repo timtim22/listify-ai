@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CopyButton from './CopyButton';
+import LanguageToggle from './LanguageToggle';
 
 const ResultItem = ({ result }) => {
+  const [showTranslation, setShowTranslation] = useState(false);
+
+  useEffect(() => {
+    if (translationPresent())
+      setShowTranslation(true);
+  }, [])
 
   const tags = (result) => {
     let text = "";
@@ -14,11 +21,10 @@ const ResultItem = ({ result }) => {
     )
   }
 
-  const translatedResultText = () => {
+  const translationPresent = () => {
     return (
       result.translations &&
-      result.translations.length > 0 &&
-      result.translations[0].result_text
+      result.translations.length > 0
     )
   }
 
@@ -26,8 +32,8 @@ const ResultItem = ({ result }) => {
     return text ? text.trim() : "";
   }
 
-  const resultToShow = translatedResultText() || result.result_text;
-  const trimmedResult = trim(resultToShow);
+  const resultObj = showTranslation ? result.translations[0] : result;
+  const trimmedResult = trim(resultObj.result_text);
 
   if (trimmedResult !== "") {
     return (
@@ -36,7 +42,14 @@ const ResultItem = ({ result }) => {
         <br />
         <div className="flex justify-between items-center">
           {tags(result)}
-          <CopyButton result={result} copyText={resultToShow} />
+          <div className="flex justify-center">
+            <LanguageToggle
+              translations={result.translations}
+              showTranslation={showTranslation}
+              toggleVisible={() => { setShowTranslation(!showTranslation) }}
+            />
+            <CopyButton result={result} copyText={trimmedResult} />
+          </div>
         </div>
      </div>
     )

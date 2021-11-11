@@ -42,7 +42,7 @@ module TaskRunsHelper
   end
 
   def display_result(result, prompt_title, translation = nil)
-    result_text = translation ? translation.result_text : result.result_text
+    result_text = text_with_translation(result, translation)
     display_text = simple_format(result_text)
     title_html = "<span class='font-medium text-purple-800'>#{prompt_title}</span>"
     formatted_result = "<div>#{display_text}#{title_html}</div>"
@@ -56,6 +56,14 @@ module TaskRunsHelper
   def display_filtered(result)
     filtered_warning ="FILTERED (#{fail_reason_text(result)}):"
     "<p class='text-red-700'>#{filtered_warning} #{result.result_text}</p>"
+  end
+
+  def text_with_translation(result, translation)
+    if translation
+      "#{translation.result_text} \n---\n ENGLISH: #{result.result_text}"
+    else
+      result.result_text
+    end
   end
 
   def fail_reason_text(result)

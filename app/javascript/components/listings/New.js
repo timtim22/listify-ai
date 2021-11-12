@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingFormContainer from './ListingFormContainer';
+import RoomFormContainer from './RoomFormContainer';
 import AreaForm from './AreaForm';
 
 const New = ({ showExample, initialRunsRemaining }) => {
@@ -11,6 +12,15 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const displayForm = () => {
     if (formType === 'neighbourhood') {
       return <AreaForm />;
+    } else if (formType === 'room_description') {
+      return (
+        <RoomFormContainer
+          runsRemaining={runsRemaining}
+          setRunsRemaining={setRunsRemaining}
+          formType={formType}
+          showExample={showExample}
+        />
+      )
     } else {
       return (
         <ListingFormContainer

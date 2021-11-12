@@ -5,3 +5,12 @@ export const cleanObjectInputText = (object) => {
   if (cleanText[cleanText.length-1] !== ".") { cleanText = cleanText + "." }
   return {...object, input_text: cleanText };
 }
+
+export const supportedLanguages = [
+  { name: "English", value: "EN" },
+  { name: "Danish", value: "DA" },
+  { name: "French", value: "FR" },
+  { name: "German", value: "DE" },
+  { name: "Italian", value: "IT" },
+  { name: "Spanish", value: "ES" },
+]

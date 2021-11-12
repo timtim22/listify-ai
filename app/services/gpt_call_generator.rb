@@ -11,11 +11,11 @@ class GptCallGenerator
   private
 
   def self.generate_config(prompt)
-   {
-     engine: prompt.engine,
-     model: prompt.gpt_model_id,
-     check_content: CHECK_CONTENT
-   }
+    {
+      engine: prompt.engine,
+      model: prompt.gpt_model_id,
+      check_content: CHECK_CONTENT
+    }
   end
 
   def self.generate_request_object(prompt, input_object)
@@ -27,7 +27,7 @@ class GptCallGenerator
   end
 
   def self.model_request_body(prompt, input_object)
-    body = construct_prompt_body(prompt.content, input_object.input_text)
+    body = construct_prompt_body(prompt.content, input_object)
     {
       "prompt" => body.gsub("\\n", "\n"),
       "max_tokens" => prompt.max_tokens,
@@ -40,7 +40,7 @@ class GptCallGenerator
   end
 
   def self.text_request_body(prompt, input_object)
-    body = construct_prompt_body(prompt.content, input_object.input_text)
+    body = construct_prompt_body(prompt.content, input_object)
     body_params = {
       "prompt" => body,
       "temperature" => prompt.temperature,
@@ -57,8 +57,12 @@ class GptCallGenerator
     body_params.to_json
   end
 
-  def self.construct_prompt_body(prompt_text, input_text)
-    prompt_text.gsub("{input}", input_text)
+  def self.construct_prompt_body(prompt_text, input_object)
+    with_input = prompt_text.gsub("{input}", input_object.input_text)
+    if input_object.respond_to? :room
+      with_input.gsub!("{room}", input_object.room)
+    end
+    with_input
   end
 
   def self.set_stop_sequence(prompt)

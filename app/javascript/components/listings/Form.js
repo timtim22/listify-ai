@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
+import LanguageSelect from '../common/LanguageSelect';
 import Switch from '../common/Switch';
 import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
@@ -12,15 +13,6 @@ import DisabledPillButton from './DisabledPillButton';
 
 const maxInput = 250;
 const newListing = { input_text: '' };
-
-const languageOptions = [
-  { name: "English", value: "EN" },
-  { name: "Danish", value: "DA" },
-  { name: "French", value: "FR" },
-  { name: "German", value: "DE" },
-  { name: "Italian", value: "IT" },
-  { name: "Spanish", value: "ES" },
-]
 
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
@@ -108,25 +100,6 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     )
   }
 
-  const languageSelector = () => {
-    if (inputMode === 'form') {
-      return (
-        <div className="flex justify-start items-center my-2 w-full">
-          <label className="flex-shrink-0 w-1/3">Output language</label>
-          <select
-            onChange={(e) => setOutputLanguage(e.target.value)}
-            className="form-select mx-3 mt-1">
-            {languageOptions.map((item) => {
-              return (
-                <option key={item.value} value={item.value}>{item.name}</option>
-              )
-            })}
-          </select>
-        </div>
-      )
-    }
-  }
-
   return (
     <>
       <div className="flex flex-col items-center w-full">
@@ -139,7 +112,8 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
           {formInput()}
-          {languageSelector()}
+          {inputMode === "form" &&
+            <LanguageSelect setOutputLanguage={setOutputLanguage} />}
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputText={listing.input_text}

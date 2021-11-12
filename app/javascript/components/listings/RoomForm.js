@@ -7,11 +7,21 @@ import LanguageSelect from '../common/LanguageSelect';
 import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
+const placeholderFor = (room) => {
+  const placeholders = {
+    bedroom: ["e.g. comfortable and modern", "double bed", "dressing table with mirror", "doors open out onto small private balcony" ],
+    bathroom: ["e.g. sleek", "Italian design", "marble tiles", "large sink", "power shower", "full length mirror"],
+    kitchen: ["e.g. sleek", "Italian design", "modern appliances", "American style fridge-freezer", "breakfast bar"],
+    living_room: ["e.g. cosy", "plenty of light", "large sofa", "leather arm chair", "huge TV with Netflix"]
+  }
+  return placeholders[room.replace(" ", "_")] || placeholders["bedroom"];
+}
+
 const maxInput = 250;
-const newListing = { input_text: '', room: 'bedroom' };
+const newRoomDescription = { input_text: '', room: 'bedroom' };
 
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
-  const [listing, setListing] = useState({ ...newListing, request_type: formType });
+  const [roomDescription, setRoomDescription] = useState({ ...newRoomDescription, request_type: formType });
   const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
@@ -23,13 +33,13 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   }, [errors]);
 
   useEffect(() => {
-    if (listing.request_type !== formType) {
+    if (roomDescription.request_type !== formType) {
       setField('request_type', formType)
     }
   }, [formType])
 
   const setField = (field, value) => {
-    setListing({ ...listing, [field]: value });
+    setRoomDescription({ ...roomDescription, [field]: value });
   }
 
   const setInputText = (value, trueUserInputLength) => {
@@ -46,8 +56,8 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     e.preventDefault();
     setLoading(true);
     createRequest(
-      "/listings.json",
-      { listing: cleanObjectInputText(listing), output_language: outputLanguage },
+      "/room_descriptions.json",
+      { room_description: cleanObjectInputText(roomDescription), output_language: outputLanguage },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
@@ -63,7 +73,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
             <select
               onChange={(e) => setField("room", e.target.value)}
               className="form-select mx-3 mt-1">
-              {["bedroom", "bathroom", "kitchen"].map((item) => {
+              {["bedroom", "bathroom", "kitchen", "living room"].map((item) => {
                 return (
                   <option key={item} value={item}>{item}</option>
                 )
@@ -74,14 +84,12 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
             <label className="mt-2 flex-shrink-0 w-1/3">Key features</label>
             <div className="px-3 w-full">
               <TextareaWithPlaceholder
-                value={listing.input_text}
+                value={roomDescription.input_text}
                 onChange={(value) => setField("input_text", value)}
                 placeholderContent={
-                <>
-                  <p className="mt-px">- e.g. large private balcony</p>
-                  <p className="">- five minutes walk to beach</p>
-                  <p className="">- free parking</p>
-                </>
+                <div className="flex flex-col items-start mb-px">
+                  {placeholderFor(roomDescription.room).map(point => <p key={point}>- {point}</p>)}
+                </div>
               } />
             </div>
           </div>
@@ -105,7 +113,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <LanguageSelect setOutputLanguage={setOutputLanguage} />
           <div className="flex justify-center py-8 w-full">
             <Submit
-              inputText={listing.input_text}
+              inputText={roomDescription.input_text}
               userInputLength={userInputLength}
               maxUserInput={maxInput}
               loading={loading}

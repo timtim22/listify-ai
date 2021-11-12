@@ -28,6 +28,7 @@ const FormHeader = ({ formType, setFormType }) => {
         {pillButton("Description", "listing_description")}
         {pillButton("Title", "listing_title")}
         {pillButton("Area description", "neighbourhood")}
+        {pillButton("Rooms", "room_description")}
       </div>
    </div>
   )

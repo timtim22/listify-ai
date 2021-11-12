@@ -19,4 +19,8 @@ const LanguageSelect = ({ setOutputLanguage }) => {
   )
 }
 
+LanguageSelect.propTypes = {
+  setOutputLanguage: PropTypes.func
+};
+
 export default LanguageSelect;

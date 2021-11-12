@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import { cleanObjectInputText } from '../../helpers/utils';
+import { cleanObjectInputText, supportedLanguages } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import Switch from '../common/Switch';
 import Submit from '../inputs/Submit';
@@ -12,15 +12,6 @@ import DisabledPillButton from './DisabledPillButton';
 
 const maxInput = 250;
 const newListing = { input_text: '' };
-
-const languageOptions = [
-  { name: "English", value: "EN" },
-  { name: "Danish", value: "DA" },
-  { name: "French", value: "FR" },
-  { name: "German", value: "DE" },
-  { name: "Italian", value: "IT" },
-  { name: "Spanish", value: "ES" },
-]
 
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
@@ -116,7 +107,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <select
             onChange={(e) => setOutputLanguage(e.target.value)}
             className="form-select mx-3 mt-1">
-            {languageOptions.map((item) => {
+            {supportedLanguages.map((item) => {
               return (
                 <option key={item.value} value={item.value}>{item.name}</option>
               )

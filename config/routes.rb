@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resource :version, only: [:show]
 
   resources :listings, only: [:new, :create]
+  resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]
   resources :search_locations, only: [:create]
   resources :writings, only: [:new, :create]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_093659) do
+ActiveRecord::Schema.define(version: 2021_11_15_114436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_093659) do
     t.jsonb "input_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "detail_text"
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
   end
 

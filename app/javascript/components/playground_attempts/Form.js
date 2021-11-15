@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollToTopOnError } from '../hooks';
 import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
@@ -15,11 +16,7 @@ const Form = ({ onResult, loading, setLoading, promptSets }) => {
   const [playgroundAttempt, setPlaygroundAttempt] = useState(newPlaygroundAttempt);
   const [errors, setErrors] = useState(null);
 
-  useEffect(() => {
-    if (errors) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  }, [errors])
+  const onError = useScrollToTopOnError(errors);
 
   const setField = (field, value) => {
     setPlaygroundAttempt({ ...playgroundAttempt, [field]: value });

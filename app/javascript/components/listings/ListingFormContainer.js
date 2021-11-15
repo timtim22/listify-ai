@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollOnResult } from '../hooks';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 import Form from './Form';
@@ -9,11 +10,7 @@ const ListingFormContainer = ({ showExample, runsRemaining, setRunsRemaining, fo
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
 
-  useEffect(() => {
-    if (results.length > 0) {
-      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-  }, [results])
+  const onResult = useScrollOnResult(results);
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollToTopOnError, useScrollOnResult } from '../hooks';
 import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -7,37 +8,30 @@ import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
 import AreaResults from './AreaResults';
 
+const newDescriptionParams = { selectedIds: [], detailText: '' };
+
 const AreaForm = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [descriptionParams, setDescriptionParams] = useState(newDescriptionParams);
   const [descriptionResults, setDescriptionResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
 
-  useEffect(() => {
-    if (errors) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  }, [errors]);
+  const onError = useScrollToTopOnError(errors);
+  const onResult = useScrollOnResult(descriptionResults);
 
   useEffect(() => {
-    if (descriptionResults.length > 0) {
-      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-  }, [descriptionResults]);
-
-  useEffect(() => {
-    if (!searchResult && selectedIds) {
-      setSelectedIds([]);
-      setDescriptionResults([]);
+    if (!searchResult && descriptionParams.selectedIds.length > 0) {
+      setDescriptionParams(newDescriptionParams);
     }
   }, [searchResult]);
 
-
-  const resetDescriptionResults = () => {
-    setDescriptionResults([]);
-  }
+  useEffect(() => {
+    if (descriptionResults.length > 0) {
+      setDescriptionResults([]);
+    }
+  }, [descriptionParams]);
 
   const handleDescriptionResults = (newResults) => {
     const newList = [...descriptionResults, ...newResults];
@@ -67,10 +61,8 @@ const AreaForm = () => {
       />
       <AreaDescriptionForm
         searchResult={searchResult}
-        selectedIds={selectedIds}
-        setSelectedIds={setSelectedIds}
-        descriptionResults={descriptionResults}
-        resetDescriptionResults={resetDescriptionResults}
+        descriptionParams={descriptionParams}
+        setDescriptionParams={setDescriptionParams}
         handleTaskRun={handleTaskRun}
         loading={loading}
         setLoading={setLoading}

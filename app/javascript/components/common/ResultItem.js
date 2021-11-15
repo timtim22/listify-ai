@@ -4,11 +4,11 @@ import CopyButton from './CopyButton';
 import LanguageToggle from './LanguageToggle';
 
 const ResultItem = ({ result }) => {
-  const [showTranslation, setShowTranslation] = useState(false);
+  const [languageVisible, setLanguageVisible] = useState("EN");
 
   useEffect(() => {
     if (translationPresent())
-      setShowTranslation(true);
+      setLanguageVisible(result.translations[0].to);
   }, [])
 
   const tags = (result) => {
@@ -17,7 +17,9 @@ const ResultItem = ({ result }) => {
       text = `Tags: ${result.prompt_labels}`;
     }
     return (
-      <p className="text-xs font-medium text-gray-500">{text}</p>
+      <div className="h-full flex items-end pb-2">
+        <p className="text-xs font-medium text-gray-500">{text}</p>
+      </div>
     )
   }
 
@@ -32,7 +34,7 @@ const ResultItem = ({ result }) => {
     return text ? text.trim() : "";
   }
 
-  const resultObj = showTranslation ? result.translations[0] : result;
+  const resultObj = languageVisible === "EN" ? result : result.translations[0];
   const trimmedResult = trim(resultObj.result_text);
 
   if (trimmedResult !== "") {
@@ -40,13 +42,13 @@ const ResultItem = ({ result }) => {
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
         <p>{trimmedResult}</p>
         <br />
-        <div className="flex justify-between items-center">
+        <div className="h-10 flex justify-between items-center">
           {tags(result)}
           <div className="flex justify-center">
             <LanguageToggle
               translations={result.translations}
-              showTranslation={showTranslation}
-              toggleVisible={() => { setShowTranslation(!showTranslation) }}
+              languageVisible={languageVisible}
+              toggleVisible={(lang) => { console.log(lang); setLanguageVisible(lang) }}
             />
             <CopyButton result={result} copyText={trimmedResult} />
           </div>

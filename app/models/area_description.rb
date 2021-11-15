@@ -4,6 +4,7 @@ class AreaDescription < ApplicationRecord
   belongs_to :search_location
   has_many :task_runs, as: :input_object, dependent: :destroy
   validates :request_type, presence: true
+  validates :detail_text, length: { minimum: 0, maximum: 300 }
 
   def self.new_from(params)
     AreaDescription.new(

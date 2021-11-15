@@ -84,7 +84,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
         <div className="px-3 w-full">
           <TextareaWithPlaceholder
             value={roomDescription.input_text}
-            onChange={(value) => setField("input_text", value)}
+            onChange={(value) => setInputText(value, value.length)}
             placeholderContent={
             <div className="flex flex-col items-start mb-px">
               {placeholderFor(roomDescription.room).map(point => <p key={point}>- {point}</p>)}

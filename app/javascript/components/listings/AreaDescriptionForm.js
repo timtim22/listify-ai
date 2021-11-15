@@ -4,16 +4,22 @@ import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import Submit from '../inputs/Submit';
+
+const maxInput = 200;
 
 const AreaDescriptionForm = ({
   searchResult,
   descriptionParams,
   setDescriptionParams,
   handleTaskRun,
+  runsRemaining,
   setErrors,
   loading,
   setLoading
 }) => {
+
+  const [userInputLength, setUserInputLength] = useState(0);
 
   const selectedResults = () => {
     return ({
@@ -37,6 +43,11 @@ const AreaDescriptionForm = ({
 
   const setField = (field, value) => {
     setDescriptionParams({ ...descriptionParams, [field]: value });
+  }
+
+  const setInputText = (value, trueUserInputLength) => {
+    setUserInputLength(trueUserInputLength);
+    setField('detailText', value);
   }
 
   const toggleSelected = (placeId) => {
@@ -139,7 +150,7 @@ const AreaDescriptionForm = ({
         <div className="w-full my-2">
           <TextareaWithPlaceholder
             value={descriptionParams.detailText}
-            onChange={(value) => setField("detailText", value)}
+            onChange={(value) => setInputText(value, value.length)}
             heightClass={"h-24"}
             placeholderContent={
             <div className="flex flex-col items-start mb-px">
@@ -158,9 +169,13 @@ const AreaDescriptionForm = ({
     if (loading) { return <GeneratingSpinner />; }
     return (
       <div className="flex justify-center py-4 w-full">
-        <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-          Generate!
-        </button>
+        <Submit
+          inputText={descriptionParams.detailText}
+          userInputLength={userInputLength}
+          maxUserInput={maxInput}
+          loading={loading}
+          runsRemaining={runsRemaining}
+        />
       </div>
     )
   }

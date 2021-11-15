@@ -11,7 +11,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
 
   const displayForm = () => {
     if (formType === 'neighbourhood') {
-      return <AreaForm />;
+      return <AreaForm runsRemaining={runsRemaining} />;
     } else if (formType === 'room_description') {
       return (
         <RoomFormContainer

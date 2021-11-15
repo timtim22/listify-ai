@@ -10,7 +10,7 @@ import AreaResults from './AreaResults';
 
 const newDescriptionParams = { selectedIds: [], detailText: '' };
 
-const AreaForm = () => {
+const AreaForm = ({ runsRemaining }) => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
@@ -64,6 +64,7 @@ const AreaForm = () => {
         descriptionParams={descriptionParams}
         setDescriptionParams={setDescriptionParams}
         handleTaskRun={handleTaskRun}
+        runsRemaining={runsRemaining}
         loading={loading}
         setLoading={setLoading}
         setErrors={setErrors}

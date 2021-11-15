@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useScrollToTopOnError } from '../hooks';
+import { useScrollToTopOnError, useScrollOnResult } from '../hooks';
 import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -17,12 +17,7 @@ const AreaForm = () => {
   const [taskRun, setTaskRun] = useState(null);
 
   const onError = useScrollToTopOnError(errors);
-
-  useEffect(() => {
-    if (descriptionResults.length > 0) {
-      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-  }, [descriptionResults]);
+  const onResult = useScrollOnResult(descriptionResults);
 
   useEffect(() => {
     if (!searchResult && selectedIds) {

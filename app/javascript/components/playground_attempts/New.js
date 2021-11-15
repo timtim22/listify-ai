@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollOnResult } from '../hooks';
 import Form from './Form';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -10,11 +11,7 @@ const New = ({ promptSets }) => {
   const [taskRun, setTaskRun] = useState(null);
   const [runsRemaining, setRunsRemaining] = useState(20);
 
-  useEffect(() => {
-    if (results.length > 0) {
-      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-  }, [results])
+  const onResult = useScrollOnResult(results);
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;

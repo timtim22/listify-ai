@@ -60,7 +60,7 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   return (
     <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col w-4/5 max-w-2xl">
-       {textRow('Location','search_text','e.g. postcode or area', true)}
+       {textRow('Location name','search_text','e.g. Waterloo, London', true)}
         <div className="flex justify-center py-8 w-full">
           {submitButton()}
         </div>

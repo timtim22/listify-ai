@@ -4,10 +4,11 @@ import CopyButton from './CopyButton';
 import LanguageToggle from './LanguageToggle';
 
 const ResultItem = ({ result }) => {
+  const [translations, setTranslations] = useState(result.translations);
   const [languageVisible, setLanguageVisible] = useState("EN");
 
   useEffect(() => {
-    if (translationPresent())
+    if (initialTranslationPresent())
       setLanguageVisible(result.translations[0].to);
   }, [])
 
@@ -23,11 +24,8 @@ const ResultItem = ({ result }) => {
     )
   }
 
-  const translationPresent = () => {
-    return (
-      result.translations &&
-      result.translations.length > 0
-    )
+  const initialTranslationPresent = () => {
+    return (result.translations && result.translations.length > 0)
   }
 
   const trim = (text) => {

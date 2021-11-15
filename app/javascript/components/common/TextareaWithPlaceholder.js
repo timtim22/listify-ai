@@ -19,7 +19,7 @@ const TextareaWithPlaceholder = ({ value, onChange, placeholderContent }) => {
         onChange={(e) => { onChange(e.target.value) }}
         className={`h-48 form-text-area z-20 ${showPlaceholder ? "bg-transparent" : "bg-white" }`}>
       </textarea>
-      <div className="absolute top-0 left-0 py-2 px-3 w-full h-48 text-gray-400 rounded-md -z-10">
+      <div className="absolute overflow-hidden top-0 left-0 py-2 px-3 w-full h-48 text-gray-400 rounded-md -z-10">
         {placeholderContent}
       </div>
     </div>

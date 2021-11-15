@@ -63,36 +63,36 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     )
   }
 
-
-  const formInput = () => {
+  const selectRoom = () => {
     return (
-      <div className="flex flex-col justify-start w-full">
-        <div className="flex flex-col justify-start">
-          <div className="flex justify-start items-center my-2 w-full">
-            <label className="flex-shrink-0 w-1/3">Room</label>
-            <select
-              onChange={(e) => setField("room", e.target.value)}
-              className="form-select mx-3 mt-1">
-              {["bedroom", "bathroom", "kitchen", "living room"].map((item) => {
-                return (
-                  <option key={item} value={item}>{item}</option>
-                )
-              })}
-            </select>
-          </div>
-          <div className="flex items-start w-full">
-            <label className="mt-2 flex-shrink-0 w-1/3">Key features</label>
-            <div className="px-3 w-full">
-              <TextareaWithPlaceholder
-                value={roomDescription.input_text}
-                onChange={(value) => setField("input_text", value)}
-                placeholderContent={
-                <div className="flex flex-col items-start mb-px">
-                  {placeholderFor(roomDescription.room).map(point => <p key={point}>- {point}</p>)}
-                </div>
-              } />
+      <div className="flex justify-start items-center my-2 w-full">
+        <label className="flex-shrink-0 w-1/3">Room</label>
+        <select
+          onChange={(e) => setField("room", e.target.value)}
+          className="form-select mx-3 mt-1">
+          {["bedroom", "bathroom", "kitchen", "living room"].map((item) => {
+            return (
+              <option key={item} value={item}>{item}</option>
+            )
+          })}
+        </select>
+      </div>
+    )
+  }
+
+  const keyFeatures = () => {
+    return (
+      <div className="flex items-start w-full">
+        <label className="mt-2 flex-shrink-0 w-1/3">Key features</label>
+        <div className="px-3 w-full">
+          <TextareaWithPlaceholder
+            value={roomDescription.input_text}
+            onChange={(value) => setField("input_text", value)}
+            placeholderContent={
+            <div className="flex flex-col items-start mb-px">
+              {placeholderFor(roomDescription.room).map(point => <p key={point}>- {point}</p>)}
             </div>
-          </div>
+          } />
         </div>
       </div>
     )
@@ -109,7 +109,10 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {formInput()}
+          <div className="flex flex-col justify-start w-full">
+            {selectRoom()}
+            {keyFeatures()}
+          </div>
           <LanguageSelect setOutputLanguage={setOutputLanguage} />
           <div className="flex justify-center py-8 w-full">
             <Submit

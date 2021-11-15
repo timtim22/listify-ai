@@ -7,8 +7,8 @@ import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
 const AreaDescriptionForm = ({
   searchResult,
-  selectedIds,
-  setSelectedIds,
+  descriptionParams,
+  setDescriptionParams,
   handleTaskRun,
   setErrors,
   loading,
@@ -19,7 +19,8 @@ const AreaDescriptionForm = ({
     return ({
       search_location_id: searchResult.id,
       search_results: searchResult.attractions,
-      selected_ids: selectedIds
+      selected_ids: descriptionParams.selectedIds,
+      detail_text: descriptionParams.detailText
     });
   }
 
@@ -34,11 +35,16 @@ const AreaDescriptionForm = ({
     )
   }
 
+  const setField = (field, value) => {
+    setDescriptionParams({ ...descriptionParams, [field]: value });
+  }
+
   const toggleSelected = (placeId) => {
+    const { selectedIds } = descriptionParams;
     if (selectedIds.includes(placeId)) {
-      setSelectedIds(selectedIds.filter(id => id !== placeId));
+      setField('selectedIds', selectedIds.filter(id => id !== placeId));
     } else {
-      setSelectedIds([ ...selectedIds, placeId ]);
+      setField('selectedIds', [ ...selectedIds, placeId ]);
     }
   }
 
@@ -57,7 +63,7 @@ const AreaDescriptionForm = ({
     return (
       <input
         type="checkbox"
-        checked={selectedIds.includes(attraction.place_id)}
+        checked={descriptionParams.selectedIds.includes(attraction.place_id)}
         onChange={() => toggleSelected(attraction.place_id)}
         className="mx-1 cursor-pointer focus:ring-0"
       />
@@ -129,17 +135,17 @@ const AreaDescriptionForm = ({
   const detailsField = () => {
     return (
       <div className="flex flex-col justify-center w-full">
-        <label className="font-semibold">What is the vibe of this area? Any other details?</label>
-        <div className="my-2 w-full h-px bg-gray-300"></div>
-        <div className="w-full">
+        <label className="font-semibold">Keywords or details for your description:</label>
+        <div className="w-full my-2">
           <TextareaWithPlaceholder
-            value={""}
-            onChange={(value) => console.log("input_text", value)}
+            value={descriptionParams.detailText}
+            onChange={(value) => setField("detailText", value)}
             heightClass={"h-24"}
             placeholderContent={
             <div className="flex flex-col items-start mb-px">
               <p>- e.g. trendy neighbourhood</p>
               <p>- famous for nightlife</p>
+              <p>- Great location for exploring the city</p>
             </div>
           } />
         </div>
@@ -177,6 +183,7 @@ const AreaDescriptionForm = ({
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
             <br />
             {detailsField()}
+            <br />
             {submitButton()}
           </form>
         </div>

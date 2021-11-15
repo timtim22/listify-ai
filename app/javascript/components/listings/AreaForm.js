@@ -8,11 +8,13 @@ import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
 import AreaResults from './AreaResults';
 
+const newDescriptionParams = { selectedIds: [], detailText: '' };
+
 const AreaForm = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [descriptionParams, setDescriptionParams] = useState(newDescriptionParams);
   const [descriptionResults, setDescriptionResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
 
@@ -20,8 +22,8 @@ const AreaForm = () => {
   const onResult = useScrollOnResult(descriptionResults);
 
   useEffect(() => {
-    if (!searchResult && selectedIds) {
-      setSelectedIds([]);
+    if (!searchResult && descriptionParams.selectedIds.length > 0) {
+      setDescriptionParams(newDescriptionParams);
     }
   }, [searchResult]);
 
@@ -29,7 +31,7 @@ const AreaForm = () => {
     if (descriptionResults.length > 0) {
       setDescriptionResults([]);
     }
-  }, [selectedIds]);
+  }, [descriptionParams]);
 
   const handleDescriptionResults = (newResults) => {
     const newList = [...descriptionResults, ...newResults];
@@ -59,8 +61,8 @@ const AreaForm = () => {
       />
       <AreaDescriptionForm
         searchResult={searchResult}
-        selectedIds={selectedIds}
-        setSelectedIds={setSelectedIds}
+        descriptionParams={descriptionParams}
+        setDescriptionParams={setDescriptionParams}
         handleTaskRun={handleTaskRun}
         loading={loading}
         setLoading={setLoading}

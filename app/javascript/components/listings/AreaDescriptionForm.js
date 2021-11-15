@@ -21,12 +21,18 @@ const AreaDescriptionForm = ({
 
   const [userInputLength, setUserInputLength] = useState(0);
 
+  const cleanDetailText = (text) => {
+    let cleanText = text.trim();
+    if (cleanText[cleanText.length-1] !== ".") { cleanText = cleanText + "." }
+    return cleanText;
+  }
+
   const selectedResults = () => {
     return ({
       search_location_id: searchResult.id,
       search_results: searchResult.attractions,
       selected_ids: descriptionParams.selectedIds,
-      detail_text: descriptionParams.detailText
+      detail_text: cleanDetailText(descriptionParams.detailText)
     });
   }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollToTopOnError } from '../hooks';
 import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -15,11 +16,7 @@ const AreaForm = () => {
   const [descriptionResults, setDescriptionResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
 
-  useEffect(() => {
-    if (errors) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  }, [errors]);
+  const onError = useScrollToTopOnError(errors);
 
   useEffect(() => {
     if (descriptionResults.length > 0) {
@@ -30,14 +27,14 @@ const AreaForm = () => {
   useEffect(() => {
     if (!searchResult && selectedIds) {
       setSelectedIds([]);
-      setDescriptionResults([]);
     }
   }, [searchResult]);
 
-
-  const resetDescriptionResults = () => {
-    setDescriptionResults([]);
-  }
+  useEffect(() => {
+    if (descriptionResults.length > 0) {
+      setDescriptionResults([]);
+    }
+  }, [selectedIds]);
 
   const handleDescriptionResults = (newResults) => {
     const newList = [...descriptionResults, ...newResults];
@@ -69,8 +66,6 @@ const AreaForm = () => {
         searchResult={searchResult}
         selectedIds={selectedIds}
         setSelectedIds={setSelectedIds}
-        descriptionResults={descriptionResults}
-        resetDescriptionResults={resetDescriptionResults}
         handleTaskRun={handleTaskRun}
         loading={loading}
         setLoading={setLoading}

@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import GeneratingSpinner from '../common/GeneratingSpinner';
+import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
 const AreaDescriptionForm = ({
   searchResult,
   selectedIds,
   setSelectedIds,
-  descriptionResults,
-  resetDescriptionResults,
   handleTaskRun,
   setErrors,
   loading,
@@ -36,7 +35,6 @@ const AreaDescriptionForm = ({
   }
 
   const toggleSelected = (placeId) => {
-    if (descriptionResults.length > 0) { resetDescriptionResults(); }
     if (selectedIds.includes(placeId)) {
       setSelectedIds(selectedIds.filter(id => id !== placeId));
     } else {
@@ -128,6 +126,28 @@ const AreaDescriptionForm = ({
     )
   }
 
+  //const detailsField = () => {
+    //return (
+      //<div className="flex flex-col justify-center w-full">
+        //<label className="font-semibold">What is the vibe of this area? Any other details?</label>
+        //<div className="my-2 w-full h-px bg-gray-300"></div>
+        //<div className="w-full">
+          //<TextareaWithPlaceholder
+            //value={""}
+            //onChange={(value) => console.log("input_text", value)}
+            //heightClass={"h-24"}
+            //placeholderContent={
+            //<div className="flex flex-col items-start mb-px">
+              //<p>- e.g. trendy neighbourhood</p>
+              //<p>- famous for nightlife</p>
+            //</div>
+          //} />
+        //</div>
+      //</div>
+    //)
+  //}
+
+
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
@@ -156,7 +176,7 @@ const AreaDescriptionForm = ({
             <br />
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
             <br />
-            {submitButton()}
+            {detailsField()}
           </form>
         </div>
       </div>

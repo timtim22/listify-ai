@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
@@ -26,11 +27,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
 
-  useEffect(() => {
-    if (errors) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  }, [errors]);
+  const onError = useScrollToTopOnError(errors);
 
   useEffect(() => {
     if (roomDescription.request_type !== formType) {

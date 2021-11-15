@@ -3,23 +3,9 @@ import PropTypes from 'prop-types';
 import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
 import ResultList from '../common/ResultList';
+import RequestCounter from '../common/RequestCounter';
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
-
-  const remainingRequests = () => {
-    if (runsRemaining) {
-      const count = runsRemaining;
-      const s = count !== 1 ? 's' : '';
-      const countColor = count > 5 ? "text-green-600" : "text-red-600";
-      return (
-        <p className="mt-4 text-sm text-gray-500">
-          You have
-        <span className={`${countColor} font-extrabold`}> {count} request{s} </span>
-          remaining today.
-        </p>
-      )
-    }
-  }
 
   if (results.length > 0) {
     return (
@@ -37,7 +23,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
                 onResult={onRerun}
               />
             </div>
-            {remainingRequests()}
+            <RequestCounter runsRemaining={runsRemaining} />
             <FeedbackForm taskRunId={taskRun.id} />
           </div>
         </div>

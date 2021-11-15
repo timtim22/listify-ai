@@ -26,6 +26,6 @@ class AreaDescriptionsController < ApplicationController
   private
 
   def area_description_params
-    params.require(:area_description).permit(:search_location_id, selected_ids: [], search_results: {})
+    params.require(:area_description).permit(:search_location_id, :detail_text, selected_ids: [], search_results: {})
   end
 end

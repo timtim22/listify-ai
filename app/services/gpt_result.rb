@@ -31,9 +31,18 @@ class GptResult
     task_run.task_results.create!(
       success: response[:success],
       prompt: prompt,
-      result_text: response[:result_text],
+      result_text: result_text_for(task_run, response[:result_text]),
       error: response[:error]
     )
+  end
+
+  def result_text_for(task_run, raw_result_text)
+    if task_run.input_object.request_type == "area_description"
+      prefixes = ["This area", "This neighbourhood", "The area", "The neighbourhood", "This location"]
+      "#{prefixes.sample} #{raw_result_text}"
+    else
+      raw_result_text
+    end
   end
 
   def store_filter_responses(response, task_result)

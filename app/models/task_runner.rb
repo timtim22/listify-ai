@@ -5,7 +5,7 @@ class TaskRunner
     task_run   = create_task_run(user, prompt_set, input_object, output_language)
 
     generate_gpt_results(task_run, prompt_set)
-    generate_text_results(task_run, input_object)
+    #generate_text_results(task_run, input_object)
     task_run
   end
 

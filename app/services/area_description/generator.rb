@@ -77,7 +77,7 @@ class AreaDescription::Generator
       "This area has plenty to keep you entertained. Attractions include #{attractions.first.name}, #{attractions.second.name}, and #{attractions.third.name}. ",
       "There is plenty to see and do in this location, including #{attractions.first.name}, #{attractions.second.name}, and #{attractions.third.name}. ",
     ]
-    if attractions.first.rating > 100000
+    if attractions.first.total_ratings > 100000
       choices << "This location is close to the famous #{attractions.first.name}, as well as #{attractions.second.name}, #{attractions.third.name} and more. "
     end
     choices.sample

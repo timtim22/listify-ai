@@ -9,6 +9,7 @@ class AreaDescription < ApplicationRecord
     AreaDescription.new(
       request_type: "area_description",
       search_location: SearchLocation.find(params[:search_location_id]),
+      detail_text: params[:detail_text],
       input_data: {
         search_results: params[:search_results],
         selected_ids: params[:selected_ids]
@@ -39,7 +40,7 @@ class AreaDescription < ApplicationRecord
     categories.each do |key, attractions|
       lines << "#{key}: #{attractions.map { |a| string_for(a) }.join(", ")}"
     end
-    lines.join("\n").gsub("&", "and")
+    "- #{lines.join("\n- ").gsub("&", "and")}\n#{detail_text}"
   end
 
   def string_for(attraction)

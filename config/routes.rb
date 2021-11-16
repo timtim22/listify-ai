@@ -12,11 +12,6 @@ Rails.application.routes.draw do
   end
   resources :task_run_feedbacks, only: [:index, :create]
 
-  resources :legacy_task_runs, only: [:index, :show, :create]
-  resources :legacy_prompts, only: [:index, :new, :create]
-  resources :feedbacks, only: [:create]
-  resource :version, only: [:show]
-
   resources :listings, only: [:new, :create]
   resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]
@@ -32,5 +27,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'index', to: 'home#index'
+  end
+
+  namespace :legacy do
+    resources :task_runs, only: [:index]
+    resources :prompts, only: [:index]
   end
 end

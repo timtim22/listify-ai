@@ -34,7 +34,7 @@ const CopyButton = ({ result, copyText }) => {
     <button
       title="copy"
       onClick={handleClick}
-      className="flex justify-center items-center py-0.5 px-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
+      className="flex justify-center items-center px-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
     >
       <span className="text-xs font-medium tracking-wide">COPY</span>
     </button>

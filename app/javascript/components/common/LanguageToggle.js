@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { supportedLanguages } from '../../helpers/utils';
 
-const LanguageToggle = ({ translations, showTranslation, toggleVisible }) => {
+const LanguageToggle = ({ languageVisible, toggleVisible }) => {
 
-  const buttonText = () => {
-    return showTranslation ? translations[0].to : "EN";
-  }
-
-  if (translations && translations.length > 0) {
-    return (
-      <button
-        title="language"
-        onClick={() => toggleVisible()}
-        className="flex justify-center items-center py-0.5 mx-2 px-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
-      >
-        <span className="text-xs font-medium tracking-wide">{buttonText()}</span>
-      </button>
-    )
-  } else {
-    return null;
-  }
+  return (
+    <select
+      value={languageVisible}
+      onChange={(e) => toggleVisible(e.target.value)}
+      className="block w-full rounded-md border-gray-300 shadow-sm bg-gray-50 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-xs mx-3">
+      {supportedLanguages.map((item) => {
+        return (
+          <option key={item.name} value={item.value}>{item.value}</option>
+        )
+      })}
+    </select>
+  )
 }
 
 LanguageToggle.propTypes = {
-  translations: PropTypes.array,
   toggleVisible: PropTypes.func,
-  showTranslation: PropTypes.bool,
+  languageVisible: PropTypes.string,
 };
 
 export default LanguageToggle;

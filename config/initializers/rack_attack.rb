@@ -4,7 +4,8 @@ REQUEST_ROUTES = [
   '/task_reruns.json',
   '/playground_attempts.json',
   '/search_locations.json',
-  '/area_descriptions.json'
+  '/area_descriptions.json',
+  '/translations.json'
 ]
 
 Rack::Attack.throttle("requests by ip", limit: 5, period: 2) do |request|

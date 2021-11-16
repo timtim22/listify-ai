@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]
   resources :search_locations, only: [:create]
+  resources :translations, only: [:create]
   resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]

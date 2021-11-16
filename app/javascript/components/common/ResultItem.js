@@ -1,15 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { createRequest } from '../../helpers/requests';
 import CopyButton from './CopyButton';
 import LanguageToggle from './LanguageToggle';
 
 const ResultItem = ({ result }) => {
-  const [showTranslation, setShowTranslation] = useState(false);
+  const [translations, setTranslations] = useState([]);
+  const [languageVisible, setLanguageVisible] = useState("EN");
+  const [errors, setErrors] = useState(null);
 
   useEffect(() => {
-    if (translationPresent())
-      setShowTranslation(true);
+    if (initialTranslationPresent()) {
+      setTranslations(result.translations);
+      setLanguageVisible(result.translations[0].to);
+    }
   }, [])
+
+  const initialTranslationPresent = () => {
+    return (result.translations && result.translations.length > 0);
+  }
+
+  const fetchedLanguages = () => {
+    return [ "EN", ...translations.map(t => t.to) ];
+  }
+
+  const handleRequestSuccess = (response) => {
+    setTranslations([ ...translations, response.data ]);
+    setErrors(null);
+  }
+
+  const fetchTranslation = (languageCode) => {
+    setLanguageVisible(languageCode);
+    if (!(fetchedLanguages().includes(languageCode))) {
+        createRequest(
+        "/translations.json",
+        { translation: { task_result_id: result.id, language: languageCode } },
+        (response) => { handleRequestSuccess(response) },
+        (e) => { setErrors(e); }
+      )
+    }
+  }
+
+  const visibleResult = () => {
+    if (languageVisible === "EN") {
+      return result;
+    } else if (translations.map(t => t.to).includes(languageVisible)) {
+      return translations.find(t => t.to === languageVisible);
+    } else {
+      return { result_text: "Fetching...", to: languageVisible }
+    }
+  }
 
   const tags = (result) => {
     let text = "";
@@ -17,36 +57,25 @@ const ResultItem = ({ result }) => {
       text = `Tags: ${result.prompt_labels}`;
     }
     return (
-      <p className="text-xs font-medium text-gray-500">{text}</p>
+      <div className="h-full flex items-end pb-2">
+        <p className="text-xs font-medium text-gray-500">{text}</p>
+      </div>
     )
   }
 
-  const translationPresent = () => {
-    return (
-      result.translations &&
-      result.translations.length > 0
-    )
-  }
-
-  const trim = (text) => {
-    return text ? text.trim() : "";
-  }
-
-  const resultObj = showTranslation ? result.translations[0] : result;
-  const trimmedResult = trim(resultObj.result_text);
+  const trimmedResult = (visibleResult().result_text || "").trim();
 
   if (trimmedResult !== "") {
     return (
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
         <p>{trimmedResult}</p>
         <br />
-        <div className="flex justify-between items-center">
+        <div className="h-10 flex justify-between items-center">
           {tags(result)}
           <div className="flex justify-center">
             <LanguageToggle
-              translations={result.translations}
-              showTranslation={showTranslation}
-              toggleVisible={() => { setShowTranslation(!showTranslation) }}
+              languageVisible={languageVisible}
+              toggleVisible={(lang) => { fetchTranslation(lang) }}
             />
             <CopyButton result={result} copyText={trimmedResult} />
           </div>

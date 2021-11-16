@@ -30,6 +30,7 @@ const ResultItem = ({ result }) => {
   }
 
   const fetchTranslation = (languageCode) => {
+    setLanguageVisible(languageCode);
     if (!(fetchedLanguages().includes(languageCode))) {
         createRequest(
         "/translations.json",
@@ -73,9 +74,8 @@ const ResultItem = ({ result }) => {
           {tags(result)}
           <div className="flex justify-center">
             <LanguageToggle
-              translations={translations}
               languageVisible={languageVisible}
-              toggleVisible={(lang) => { fetchTranslation(lang); setLanguageVisible(lang) }}
+              toggleVisible={(lang) => { fetchTranslation(lang) }}
             />
             <CopyButton result={result} copyText={trimmedResult} />
           </div>

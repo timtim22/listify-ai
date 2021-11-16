@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { supportedLanguages } from '../../helpers/utils';
 
-const LanguageToggle = ({ translations, languageVisible, toggleVisible }) => {
+const LanguageToggle = ({ languageVisible, toggleVisible }) => {
 
   return (
     <select
@@ -19,7 +19,6 @@ const LanguageToggle = ({ translations, languageVisible, toggleVisible }) => {
 }
 
 LanguageToggle.propTypes = {
-  translations: PropTypes.array,
   toggleVisible: PropTypes.func,
   languageVisible: PropTypes.string,
 };

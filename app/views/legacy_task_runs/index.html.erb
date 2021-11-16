@@ -1,6 +1,6 @@
 <div class="px-8 w-full">
   <div class="flex justify-start items-center mb-4 w-full">
-    <h1 class="text-xl font-medium text-gray-900">Task Runs</h1>
+    <h1 class="text-xl font-medium text-gray-900">Legacy Task Runs (chrome extension)</h1>
   </div>
 
   <% if @task_runs.any? %>
@@ -21,7 +21,7 @@
           <% @task_runs.each do |task_run| %>
             <tr class="text-xs">
               <td class="py-3 px-6">
-                <%= link_to task_run.task_type, task_run %>
+                <%= task_run.task_type %>
                 <%= task_run.legacy_prompt.active ? "" : " (old version)" %>
               </td>
               <td class="py-3 px-6">

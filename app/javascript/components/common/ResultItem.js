@@ -1,16 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { createRequest } from '../../helpers/requests';
 import CopyButton from './CopyButton';
 import LanguageToggle from './LanguageToggle';
 
 const ResultItem = ({ result }) => {
-  const [translations, setTranslations] = useState(result.translations);
+  const [translations, setTranslations] = useState([]);
   const [languageVisible, setLanguageVisible] = useState("EN");
+  const [errors, setErrors] = useState(null);
 
   useEffect(() => {
-    if (initialTranslationPresent())
+    if (initialTranslationPresent()) {
+      setTranslations(result.translations);
       setLanguageVisible(result.translations[0].to);
+    }
   }, [])
+
+  const initialTranslationPresent = () => {
+    return (result.translations && result.translations.length > 0);
+  }
+
+  const fetchedLanguages = () => {
+    return [ "EN", ...translations.map(t => t.to) ];
+  }
+
+  const handleRequestSuccess = (response) => {
+    setTranslations([ ...translations, response.data ]);
+    setErrors(null);
+  }
+
+  const fetchTranslation = (languageCode) => {
+    if (!(fetchedLanguages().includes(languageCode))) {
+        createRequest(
+        "/translations.json",
+        { translation: { task_result_id: result.id, language: languageCode } },
+        (response) => { handleRequestSuccess(response) },
+        (e) => { setErrors(e); }
+      )
+    }
+  }
+
+  const visibleResult = () => {
+    if (languageVisible === "EN") {
+      return result;
+    } else if (translations.map(t => t.to).includes(languageVisible)) {
+      return translations.find(t => t.to === languageVisible);
+    } else {
+      return { result_text: "Fetching...", to: languageVisible }
+    }
+  }
 
   const tags = (result) => {
     let text = "";
@@ -24,16 +62,7 @@ const ResultItem = ({ result }) => {
     )
   }
 
-  const initialTranslationPresent = () => {
-    return (result.translations && result.translations.length > 0)
-  }
-
-  const trim = (text) => {
-    return text ? text.trim() : "";
-  }
-
-  const resultObj = languageVisible === "EN" ? result : result.translations[0];
-  const trimmedResult = trim(resultObj.result_text);
+  const trimmedResult = (visibleResult().result_text || "").trim();
 
   if (trimmedResult !== "") {
     return (
@@ -44,9 +73,9 @@ const ResultItem = ({ result }) => {
           {tags(result)}
           <div className="flex justify-center">
             <LanguageToggle
-              translations={result.translations}
+              translations={translations}
               languageVisible={languageVisible}
-              toggleVisible={(lang) => { console.log(lang); setLanguageVisible(lang) }}
+              toggleVisible={(lang) => { fetchTranslation(lang); setLanguageVisible(lang) }}
             />
             <CopyButton result={result} copyText={trimmedResult} />
           </div>

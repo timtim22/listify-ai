@@ -1,6 +1,11 @@
 class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
+  def self.fetch_new!(to, translatable_object)
+    response = DeepLClient.new.translate("EN", to, translatable_object.result_text)
+    create_for!(translatable_object, response)
+  end
+
   def self.create_for!(translatable_object, response_object)
     self.create(
       translatable: translatable_object,

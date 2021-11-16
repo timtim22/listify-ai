@@ -1,8 +1,10 @@
-class LegacyPrompt < ApplicationRecord
-  has_many :legacy_task_runs
+class Legacy::Prompt < ApplicationRecord
+  self.table_name = "legacy_prompts"
+
+  has_many :legacy_task_runs, class_name: "Legacy::TaskRun", foreign_key: "legacy_prompt_id"
 
   def self.for(task_type)
-    LegacyPrompt.find_by(title: task_type, active: true)
+    Legacy::Prompt.find_by(title: task_type, active: true)
   end
 
   def self.new_from_defaults

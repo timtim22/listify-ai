@@ -1,8 +1,8 @@
-class LegacyTaskRunsController < ApplicationController
+class Legacy::TaskRunsController < ApplicationController
   before_action :authenticate_admin
 
   def index
-    @task_runs = LegacyTaskRun.all
+    @task_runs = Legacy::TaskRun.all
       .where.not(task_type: 'transcription')
       .order(created_at: :desc)
       .includes(:legacy_prompt)

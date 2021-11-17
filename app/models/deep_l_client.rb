@@ -11,7 +11,7 @@ class DeepLClient
 
   def translate_request_body(from, to, text)
     {
-      source_lang: "EN",
+      source_lang: from,
       target_lang: to,
       text: text,
       auth_key: AUTH_KEY

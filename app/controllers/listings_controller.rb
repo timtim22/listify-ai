@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
   end
 
   def create
-    save = Input.create_with(Listing.new(listing_params), current_user)
+    save = Input.create_with(Listing.new(params_for_language), current_user)
     if save.success
       @listing  = save.input_object
       @task_run = TaskRunner.new.run_for!(@listing, current_user, params[:output_language])
@@ -25,8 +25,26 @@ class ListingsController < ApplicationController
 
   private
 
+  def params_for_language
+    language = listing_params[:input_language]
+    if language.present? && language != "EN"
+      translation_result = DeepLClient.new.translate(
+        language,
+        "EN-GB",
+        listing_params[:input_text]
+      )
+      listing_params.merge({
+        input_language: language,
+        untranslated_input_text: listing_params[:input_text],
+        input_text: translation_result[:error] ? "" : translation_result[:text]
+      })
+    else
+      listing_params
+    end
+  end
+
   def listing_params
-    params.require(:listing).permit(:request_type, :property_type, :sleeps, :location, :input_text)
+    params.require(:listing).permit(:request_type, :input_text, :input_language)
   end
 end
 

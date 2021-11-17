@@ -110,7 +110,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
             {selectRoom()}
             {keyFeatures()}
           </div>
-          <LanguageSelect setOutputLanguage={setOutputLanguage} />
+          <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputText={roomDescription.input_text}

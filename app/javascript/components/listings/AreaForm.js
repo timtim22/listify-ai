@@ -7,6 +7,7 @@ import ResultsPoll from '../inputs/ResultsPoll';
 import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
 import AreaResults from './AreaResults';
+import Results from '../inputs/Results';
 
 const newDescriptionParams = { selectedIds: [], detailText: '' };
 
@@ -41,7 +42,6 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
 
   const handleTaskRun = (response) => {
     setErrors(null);
-    setDescriptionResults(response.data.task_run.text_results)
     setRunsRemaining(response.data.runs_remaining);
     setTaskRun(response.data.task_run)
   }
@@ -74,10 +74,13 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
         taskRun={taskRun}
         onResult={handleDescriptionResults}
       />
-      <AreaResults
-        taskRun={taskRun}
+      <Results
+        loading={loading}
+        setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
         results={descriptionResults}
+        taskRun={taskRun}
+        onRerun={handleTaskRun}
       />
     </div>
   )

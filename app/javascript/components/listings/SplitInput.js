@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { translationFor, translatedSummaryString } from '../../helpers/translations';
+import { capitaliseFirstLetter } from '../../helpers/utils';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 
 const newInputFields = {
@@ -11,7 +13,7 @@ const newInputFields = {
 }
 
 const exampleInputFields = {
-  propertyType: 'beach penthouse',
+  propertyType: 'apartment',
   bedrooms: '3',
   location: 'Malaga',
   idealFor: 'families',
@@ -29,12 +31,18 @@ const trueUserInputLength = (inputFields) => {
   return Object.values(inputFields).join("").length;
 }
 
-const SplitInput = ({ inputValue, onInputChange, showExample }) => {
+const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) => {
   const [inputFields, setInputFields] = useState(showExample ? exampleInputFields : newInputFields);
 
   useEffect(() => {
+    if (inputLanguage !== 'EN') {
+      setInputFields({ ...newInputFields });
+    }
+  }, [inputLanguage]);
+
+  useEffect(() => {
     const { propertyType, bedrooms, location, idealFor, keyFeatures } = inputFields;
-    const lead = bedroomStr(bedrooms) + propertyStr(propertyType) + locationStr(location);
+    const lead = translatedSummaryString(inputLanguage, bedrooms, propertyType, location);
     const ideal = idealStr(idealFor);
     const features = featureStr(keyFeatures);
     const inputText = lead + ideal + features;
@@ -43,33 +51,14 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
     onInputChange(inputText, trueLength);
   }, [inputFields]);
 
-  const bedroomStr = (bedrooms) => {
-    if (bedrooms) {
-    return `- ${bedrooms} bedroom`;
-    } else {
-      return '';
-    }
-  }
-
-  const propertyStr = (propertyType) => {
-    if (propertyType && propertyType.length > 0) {
-      return ` ${propertyType}`;
-    } else {
-      return '';
-    }
-  }
-
-  const locationStr = (location) => {
-    if (location && location.length > 0) {
-      return ` in ${location}`;
-    } else {
-      return '';
-    }
+  const translateLabel = (string) => {
+    const translation = translationFor(inputLanguage, string.toLowerCase());
+    return capitaliseFirstLetter(translation);
   }
 
   const idealStr = (idealFor) => {
     if (idealFor && idealFor.length > 0) {
-      return `\n- ideal for ${idealFor}`;
+      return `\n- ${translationFor(inputLanguage, 'ideal for')} ${idealFor}`;
     } else {
       return '';
     }
@@ -108,7 +97,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
   const bedroomRow = () => {
     return (
       <div className="flex justify-start items-center mb-2 w-full">
-        <label className="w-1/3">Bedrooms</label>
+        <label className="w-1/3">{translateLabel('Bedrooms')}</label>
         <input
           type="number"
           min="1"
@@ -126,12 +115,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
   return (
     <div className="flex flex-col justify-start w-full">
       <div className="flex flex-col justify-start">
-        {textRow('Property Type', 'propertyType', 'e.g. apartment, house...', true)}
+        {textRow(translateLabel('Property type'), 'propertyType', 'e.g. apartment, house...', true)}
         {bedroomRow()}
-        {textRow('Location', 'location', '')}
-        {textRow('Ideal for', 'idealFor', 'e.g. families, couples')}
+        {textRow(translateLabel('Location'), 'location', '')}
+        {textRow(translateLabel('Ideal for'), 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
-          <label className="mt-2 flex-shrink-0 w-1/3">Key features</label>
+          <label className="mt-2 flex-shrink-0 w-1/3">{translateLabel('Key features')}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}
@@ -152,9 +141,9 @@ const SplitInput = ({ inputValue, onInputChange, showExample }) => {
 
 SplitInput.propTypes = {
   inputValue: PropTypes.string,
-  onInputChange: PropTypes.func
+  onInputChange: PropTypes.func,
+  inputLanguage: PropTypes.string,
+  showExample: PropTypes.bool,
 };
 
-
 export default SplitInput;
-

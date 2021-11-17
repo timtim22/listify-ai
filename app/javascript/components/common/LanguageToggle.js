@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { supportedLanguages } from '../../helpers/utils';
+import { supportedLanguages } from '../../helpers/translations';
 
 const LanguageToggle = ({ languageVisible, toggleVisible }) => {
 

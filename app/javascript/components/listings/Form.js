@@ -17,6 +17,7 @@ const newListing = { input_text: '' };
 
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
+  const [inputLanguage, setInputLanguage] = useState('EN');
   const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
@@ -60,7 +61,10 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     setLoading(true);
     createRequest(
       "/listings.json",
-      { listing: cleanObjectInputText(listing), output_language: outputLanguage },
+      {
+        listing: cleanObjectInputText({ ...listing, input_language: inputLanguage }),
+        output_language: outputLanguage
+      },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
@@ -74,6 +78,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           showExample={showExample && !exampleSeen}
           inputValue={listing.input_text}
           onInputChange={setInputText}
+          inputLanguage={inputLanguage}
         />
       )
     } else {
@@ -108,9 +113,11 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
+          {inputMode === "form" &&
+              <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />}
           {formInput()}
           {inputMode === "form" &&
-            <LanguageSelect setOutputLanguage={setOutputLanguage} />}
+            <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />}
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputText={listing.input_text}

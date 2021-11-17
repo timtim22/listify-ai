@@ -10,6 +10,7 @@ import "channels"
 require("stylesheets/application.scss")
 require("helpers/requests")
 require("helpers/utils")
+require("helpers/translations")
 
 Rails.start()
 Turbolinks.start()

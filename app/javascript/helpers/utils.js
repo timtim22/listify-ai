@@ -6,11 +6,6 @@ export const cleanObjectInputText = (object) => {
   return {...object, input_text: cleanText };
 }
 
-export const supportedLanguages = [
-  { name: "English", value: "EN" },
-  { name: "Danish", value: "DA" },
-  { name: "French", value: "FR" },
-  { name: "German", value: "DE" },
-  { name: "Italian", value: "IT" },
-  { name: "Spanish", value: "ES" },
-]
+export const capitaliseFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

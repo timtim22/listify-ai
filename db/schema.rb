@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_161120) do
+ActiveRecord::Schema.define(version: 2021_11_17_141020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_161120) do
   end
 
   create_table "translation_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "from", default: "en-gb"
+    t.string "from", default: "EN"
     t.string "to"
     t.uuid "task_run_id", null: false
     t.datetime "created_at", precision: 6, null: false

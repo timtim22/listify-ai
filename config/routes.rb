@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'full_listings/new'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   devise_for :users
@@ -11,6 +12,9 @@ Rails.application.routes.draw do
     resources :task_results, only: [:index]
   end
   resources :task_run_feedbacks, only: [:index, :create]
+
+
+  resources :full_listings, only: [:new, :create, :show]
 
   resources :listings, only: [:new, :create]
   resources :room_descriptions, only: [:create]

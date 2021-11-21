@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
+import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SelectField from '../common/SelectField';
 import RoomForm from './RoomForm';
@@ -139,16 +140,16 @@ const New = ({ initialRunsRemaining }) => {
 
   const bedroomRow = (title, index, placeholderText, required) => {
     return (
-      <div className="flex justify-start items-center mb-2 w-full">
+      <div key={index} className="flex justify-start items-center mb-2 w-full">
         <label className="flex-shrink-0 w-1/3">{title}</label>
-        <input
-          type="text"
-          placeholder={placeholderText}
-          required={required}
-          value={inputFields.bedrooms[index]}
-          onChange={(e) => {updateBedroomInState(index, e.target.value)}}
-          className="w-full form-inline-field"
-        />
+        <div className="my-2 w-full">
+          <TextareaWithPlaceholder
+            value={inputFields.bedrooms[index]}
+            onChange={(value) => {updateBedroomInState(index, value)}}
+            heightClass={"h-16"}
+            placeholderContent={<div className="flex flex-col items-start mb-px"><p>{placeholderText}</p></div>}
+          />
+        </div>
       </div>
     )
   }
@@ -199,7 +200,7 @@ const New = ({ initialRunsRemaining }) => {
       )
     });
     return (
-      <div className={"flex flex-col"}>
+      <div className={"flex flex-col my-4"}>
         <h2>Bedrooms</h2>
         {bedroomRows}
       </div>
@@ -234,7 +235,7 @@ const New = ({ initialRunsRemaining }) => {
   const showResults = () => {
     if (fullListing && fullListing.text !== "") {
       return (
-        <p>{fullListing.text}</p>
+        <ResultList results={[{ id: 1, result_text: fullListing.text }]} />
       )
     }
   }

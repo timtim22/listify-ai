@@ -68,7 +68,7 @@ const ResultItem = ({ result }) => {
   if (trimmedResult !== "") {
     return (
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-        <p>{trimmedResult}</p>
+        <p className="whitespace-pre-wrap">{trimmedResult}</p>
         <br />
         <div className="h-10 flex justify-between items-center">
           {tags(result)}

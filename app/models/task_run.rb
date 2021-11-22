@@ -13,6 +13,10 @@ class TaskRun < ApplicationRecord
     user.runs_remaining_today
   end
 
+  def has_all_results?
+    task_results.count == expected_results
+  end
+
   def task_result_count
     task_results.count
   end

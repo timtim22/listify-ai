@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   end
   resources :task_run_feedbacks, only: [:index, :create]
 
+
+  resources :full_listings, only: [:new, :create, :show]
+
   resources :listings, only: [:new, :create]
   resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]

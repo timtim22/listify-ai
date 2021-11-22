@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_141020) do
+ActiveRecord::Schema.define(version: 2021_11_20_100958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(version: 2021_11_17_141020) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["task_run_id"], name: "index_feedbacks_on_task_run_id"
+  end
+
+  create_table "full_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "requests_completed", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -79,6 +85,15 @@ ActiveRecord::Schema.define(version: 2021_11_17_141020) do
     t.uuid "legacy_prompt_id"
     t.index ["legacy_prompt_id"], name: "index_legacy_task_runs_on_legacy_prompt_id"
     t.index ["user_id"], name: "index_legacy_task_runs_on_user_id"
+  end
+
+  create_table "listing_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "full_listing_id", null: false
+    t.text "input_text"
+    t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["full_listing_id"], name: "index_listing_fragments_on_full_listing_id"
   end
 
   create_table "listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -238,6 +253,7 @@ ActiveRecord::Schema.define(version: 2021_11_17_141020) do
   add_foreign_key "inputs", "users"
   add_foreign_key "legacy_task_runs", "legacy_prompts"
   add_foreign_key "legacy_task_runs", "users"
+  add_foreign_key "listing_fragments", "full_listings"
   add_foreign_key "prompts", "prompt_sets"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"

@@ -4,7 +4,6 @@ import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import SelectField from '../common/SelectField';
 import RoomForm from './RoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
@@ -262,20 +261,6 @@ const New = ({ initialRunsRemaining }) => {
         <div className="mb-4 w-full h-px bg-gray-300"></div>
         {bedroomRows}
       </div>
-    )
-  }
-
-  const select = () => {
-    return (
-      <SelectField
-        label={"Add rooms"}
-        defaultValue={{ value: null, label: 'room' }}
-        options={['kitchen', 'sitting room'].map((i) => { return {value: i, label: i} })}
-        onChange={option => setField('room', option['value']) }
-        isSearchable={true}
-        isClearable={true}
-        isCreatable={true}
-      />
     )
   }
 

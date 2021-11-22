@@ -85,7 +85,6 @@ const New = ({ initialRunsRemaining }) => {
     setErrors(null);
     setRunsRemaining(response.data.runs_remaining);
     setFullListing(response.data.full_listing);
-    console.log(response)
   }
 
   const assembleHeadline = () => {

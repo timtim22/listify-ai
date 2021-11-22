@@ -13,7 +13,6 @@ const FullListingPoll = ({ fullListing, onComplete, onError }) => {
   }, [fullListing]);
 
   const handleResponse = (response) => {
-    console.log(response);
     if (polling && response.full_listing.requests_completed) {
       setPolling(false);
       onComplete(response.full_listing);

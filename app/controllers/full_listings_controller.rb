@@ -25,6 +25,6 @@ class FullListingsController < ApplicationController
   private
 
   def full_listing_params
-    params.require(:full_listing).permit(:bedroom_count, :sleeps, :general_features, rooms: [:id, :name, :description], bedrooms: [])
+    params.require(:full_listing).permit(:headline_text, :bedroom_count, :sleeps, :key_features, rooms: [:id, :name, :description], bedrooms: [])
   end
 end

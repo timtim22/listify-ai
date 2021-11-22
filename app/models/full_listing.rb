@@ -60,7 +60,7 @@ class FullListing < ApplicationRecord
   end
 
   def text
-    requests_completed ? listing_fragments.map(&:result_text).join("\n\n") : ""
+    requests_completed ? listing_fragments.map(&:result_text).map(&:strip).join("\n\n") : ""
   end
 
   def check_complete

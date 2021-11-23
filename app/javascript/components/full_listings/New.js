@@ -126,21 +126,21 @@ const New = ({ initialRunsRemaining }) => {
           Listings Generator
         </h1>
         <div className="w-4/5 max-w-2xl flex justify-center">
-          <div className="mb-8 w-full h-px bg-gray-300"></div>
+          <div className="mb-8 w-full h-px bg-gray-200"></div>
         </div>
      </div>
     )
   }
 
   const setInputIfValid = (key, value, limit) => {
-    if (value.length < limit) {
+    if (value.length <= limit) {
       setField(key, value);
     }
   }
 
   const textInputRow = (title, key, placeholder, required) => {
     return (
-      <div className="flex justify-start items-center mb-2 w-full">
+      <div className="flex justify-start items-center mb-4 w-full">
         <label className="text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
         <input
           type="text"
@@ -184,7 +184,7 @@ const New = ({ initialRunsRemaining }) => {
       <div className="flex flex-col w-full">
         <div key={index} className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
           <label className="mt-3 text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
-          <div className="w-full">
+          <div className="w-full px-3">
             <TextareaWithPlaceholder
               value={inputFields.bedrooms[index]}
               onChange={(value) => {charsLimit - value.length >= 0 && updateBedroomInState(index, value)}}
@@ -222,7 +222,7 @@ const New = ({ initialRunsRemaining }) => {
 
   const bedroomsCountRow = () => {
     return (
-      <div className="flex w-full justify-start items-center mb-2">
+      <div className="flex w-full justify-start items-center mb-4">
         <label className="w-1/3 text-sm">Bedrooms</label>
         <input
           type="number"
@@ -250,14 +250,14 @@ const New = ({ initialRunsRemaining }) => {
 
     return (
       <div className={"flex flex-col my-4"}>
-        <div className="my-4 w-full h-px bg-gray-300"></div>
-        <div className="my-4">
+        <div className="my-4 w-full h-px bg-gray-200"></div>
+        <div className="mt-8 mb-4">
           <h2 className="text-lg font-medium leading-6 text-gray-900">Bedrooms</h2>
           <p className="mt-1 text-sm text-gray-500">
             Add details specific to each bedroom.
           </p>
         </div>
-        <div className="mb-4 w-full h-px bg-gray-300"></div>
+        <div className="mb-4 w-full h-px bg-gray-200"></div>
         {bedroomRows}
       </div>
     )

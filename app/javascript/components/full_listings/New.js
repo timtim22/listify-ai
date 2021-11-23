@@ -181,15 +181,16 @@ const New = ({ initialRunsRemaining }) => {
   }
 
   const bedroomRow = (title, index, placeholderText, required) => {
+    const bedroom = inputFields.bedrooms[index];
     const charsLimit = 150;
-    const charsLeft = charsLimit - inputFields.bedrooms[index].length;
+    const charsLeft = charsLimit - (bedroom && bedroom.length || 0);
     return (
       <div key={index} className="flex flex-col w-full">
         <div className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
           <label className="mt-3 text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
           <div className="w-full px-3">
             <TextareaWithPlaceholder
-              value={inputFields.bedrooms[index]}
+              value={bedroom || ""}
               onChange={(value) => {charsLimit - value.length >= 0 && updateBedroomInState(index, value)}}
               heightClass={"h-16"}
               placeholderContent={<div className="flex flex-col items-start mb-px leading-relaxed"><p>{index == 0 ? placeholderText : ""}</p></div>}
@@ -231,7 +232,7 @@ const New = ({ initialRunsRemaining }) => {
           type="number"
           min="1"
           max="8"
-          placeholder="2"
+          placeholder="1"
           required={true}
           value={inputFields.bedroom_count}
           onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}

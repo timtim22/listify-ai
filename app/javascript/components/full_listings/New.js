@@ -10,13 +10,12 @@ import Submit from '../inputs/Submit';
 
 const newInputFields = {
   property_type: '',
+  location: '',
   bedroom_count: 1,
   sleeps: 2,
   key_features: '',
   bedrooms: [''],
   rooms: [],
-  location: '',
-  idealFor: '',
 }
 
 const coerceWithinRange = (inputNumber, min, max) => {
@@ -40,8 +39,7 @@ const generalFeaturesPlaceholder = () => {
   )
 }
 
-const userInputLength = 0
-const maxInput = 250
+const maxInputs = 2000
 const runsRemaining = 1
 
 const New = ({ initialRunsRemaining }) => {
@@ -54,6 +52,11 @@ const New = ({ initialRunsRemaining }) => {
 
   //const onResult = useScrollOnResult(results);
   //
+  const consolidateInput = () => {
+    const { property_type, location, key_features, bedrooms, rooms } = inputFields;
+    const roomDescs = rooms.map(r => (r.name + r.description)).join("");
+    return property_type + location + key_features + bedrooms.join("") + roomDescs;
+  }
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
@@ -181,8 +184,8 @@ const New = ({ initialRunsRemaining }) => {
     const charsLimit = 150;
     const charsLeft = charsLimit - inputFields.bedrooms[index].length;
     return (
-      <div className="flex flex-col w-full">
-        <div key={index} className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
+      <div key={index} className="flex flex-col w-full">
+        <div className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
           <label className="mt-3 text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
           <div className="w-full px-3">
             <TextareaWithPlaceholder
@@ -249,7 +252,7 @@ const New = ({ initialRunsRemaining }) => {
     });
 
     return (
-      <div className={"flex flex-col my-4"}>
+      <div className="flex flex-col my-4">
         <div className="my-4 w-full h-px bg-gray-200"></div>
         <div className="mt-8 mb-4">
           <h2 className="text-lg font-medium leading-6 text-gray-900">Bedrooms</h2>
@@ -282,6 +285,7 @@ const New = ({ initialRunsRemaining }) => {
     }
   }
 
+  const consolidatedInput = consolidateInput();
 
   return (
     <div className="flex flex-col items-center w-full h-full">
@@ -299,9 +303,9 @@ const New = ({ initialRunsRemaining }) => {
           {roomForm()}
           <div className="flex justify-center py-8 w-full">
             <Submit
-              inputText={inputFields.key_features}
-              userInputLength={userInputLength}
-              maxUserInput={maxInput}
+              inputText={consolidatedInput}
+              userInputLength={consolidatedInput.length}
+              maxUserInput={maxInputs}
               loading={loading}
               runsRemaining={runsRemaining}
             />

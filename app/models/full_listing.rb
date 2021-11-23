@@ -1,5 +1,6 @@
 class FullListing < ApplicationRecord
   has_many :listing_fragments, dependent: :destroy
+  has_many :translations, as: :translatable, dependent: :destroy
 
   def self.from(attrs, user)
     #this should be a service
@@ -59,7 +60,7 @@ class FullListing < ApplicationRecord
     formatted
   end
 
-  def text
+  def result_text
     requests_completed ? listing_fragments.map(&:result_text).map(&:strip).join("\n\n") : ""
   end
 

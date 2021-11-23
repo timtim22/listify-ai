@@ -34,7 +34,11 @@ const ResultItem = ({ result }) => {
     if (!(fetchedLanguages().includes(languageCode))) {
         createRequest(
         "/translations.json",
-        { translation: { task_result_id: result.id, language: languageCode } },
+          { translation: {
+            object_id: result.id,
+            object_type: result.object_type || "TaskResult",
+            language: languageCode
+          } },
         (response) => { handleRequestSuccess(response) },
         (e) => { setErrors(e); }
       )

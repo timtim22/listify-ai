@@ -2,10 +2,12 @@ class TranslationsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @task_result = TaskResult.find(translation_params[:task_result_id])
+    translatable_class  = class_for(translation_params[:object_type])
+    translatable_object = translatable_class.find(translation_params[:object_id])
+
     @translation = Translation.fetch_new!(
       translation_params[:language],
-      @task_result
+      translatable_object
     )
 
     respond_to do |format|
@@ -19,7 +21,12 @@ class TranslationsController < ApplicationController
 
   private
 
+  def class_for(object_name)
+    translatable_classes = [TaskResult, FullListing]
+    translatable_classes.find { |c| c == object_name.constantize }
+  end
+
   def translation_params
-    params.require(:translation).permit(:language, :task_result_id)
+    params.require(:translation).permit(:language, :object_id, :object_type)
   end
 end

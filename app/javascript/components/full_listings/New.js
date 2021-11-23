@@ -279,9 +279,12 @@ const New = ({ initialRunsRemaining }) => {
 
   const showResults = () => {
     if (fullListing && fullListing.text !== "") {
-      return (
-        <ResultList results={[{ id: 1, result_text: fullListing.text }]} />
-      )
+      const results = [{
+        id: fullListing.id,
+        object_type: "FullListing",
+        result_text: fullListing.text
+      }]
+      return <ResultList results={results} />;
     }
   }
 

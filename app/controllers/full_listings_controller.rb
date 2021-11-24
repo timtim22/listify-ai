@@ -11,7 +11,7 @@ class FullListingsController < ApplicationController
 
   def create
     @full_listing = FullListing.from(full_listing_params, current_user)
-    @runs_remaining = 5 #change
+    @runs_remaining = TaskRun.runs_remaining_today(current_user)
 
     respond_to do |format|
       if true

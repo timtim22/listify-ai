@@ -121,6 +121,9 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
             />
           </div>
         </div>
+        <div className="w-full flex justify-center items-center bg-gray-200 px-2 text-center align-middle py-2">
+          <p className="font-medium text-gray-900 text-sm">Please note: this language model is still being trained. Some outputs may be highly creative!</p>
+        </div>
       </form>
     </>
   )

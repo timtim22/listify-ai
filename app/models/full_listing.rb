@@ -1,10 +1,13 @@
 class FullListing < ApplicationRecord
   has_many :listing_fragments, dependent: :destroy
   has_many :translations, as: :translatable, dependent: :destroy
+  belongs_to :user
+
+  scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
 
   def self.from(attrs, user)
     #this should be a service
-    full_listing = FullListing.create!
+    full_listing = FullListing.create!(user: user)
     bedrooms = format_bedrooms(attrs[:bedrooms])
     other_rooms = format_other_rooms(attrs[:rooms])
     generate_headline_fragment(full_listing, attrs[:headline_text], user)

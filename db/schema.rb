@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_100958) do
+ActiveRecord::Schema.define(version: 2021_11_24_121722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 2021_11_20_100958) do
     t.boolean "requests_completed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_full_listings_on_user_id"
   end
 
   create_table "inputs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -250,6 +252,7 @@ ActiveRecord::Schema.define(version: 2021_11_20_100958) do
   add_foreign_key "area_descriptions", "search_locations"
   add_foreign_key "content_filter_results", "task_results"
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
+  add_foreign_key "full_listings", "users"
   add_foreign_key "inputs", "users"
   add_foreign_key "legacy_task_runs", "legacy_prompts"
   add_foreign_key "legacy_task_runs", "users"

@@ -153,7 +153,7 @@ const AreaDescriptionForm = ({
     return (
       <div className="flex flex-col justify-center w-full">
         <label className="font-semibold">Keywords or details for your description:</label>
-        <div className="w-full my-2">
+        <div className="my-2 w-full">
           <TextareaWithPlaceholder
             value={descriptionParams.detailText}
             onChange={(value) => setInputText(value, value.length)}

@@ -66,7 +66,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
         <label className="flex-shrink-0 w-1/3">Room</label>
         <select
           onChange={(e) => setField("room", e.target.value)}
-          className="form-select mx-3 mt-1">
+          className="mx-3 mt-1 form-select">
           {["bedroom", "bathroom", "kitchen", "living room"].map((item) => {
             return (
               <option key={item} value={item}>{item}</option>
@@ -80,7 +80,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   const keyFeatures = () => {
     return (
       <div className="flex items-start w-full">
-        <label className="mt-2 flex-shrink-0 w-1/3">Key features</label>
+        <label className="flex-shrink-0 mt-2 w-1/3">Key features</label>
         <div className="px-3 w-full">
           <TextareaWithPlaceholder
             value={roomDescription.input_text}
@@ -121,8 +121,8 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
             />
           </div>
         </div>
-        <div className="w-full flex justify-center items-center bg-gray-200 px-2 text-center align-middle py-2">
-          <p className="font-medium text-gray-900 text-sm">Please note: this language model is still being trained. Some outputs may be highly creative!</p>
+        <div className="flex justify-center items-center py-2 px-2 w-full text-center align-middle bg-gray-200">
+          <p className="text-sm font-medium text-gray-900">Please note: this language model is still being trained. Some outputs may be highly creative!</p>
         </div>
       </form>
     </>

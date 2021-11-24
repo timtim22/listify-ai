@@ -61,7 +61,7 @@ const ResultItem = ({ result }) => {
       text = `Tags: ${result.prompt_labels}`;
     }
     return (
-      <div className="h-full flex items-end pb-2">
+      <div className="flex items-end pb-2 h-full">
         <p className="text-xs font-medium text-gray-500">{text}</p>
       </div>
     )
@@ -74,7 +74,7 @@ const ResultItem = ({ result }) => {
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
         <p className="whitespace-pre-wrap">{trimmedResult}</p>
         <br />
-        <div className="h-10 flex justify-between items-center">
+        <div className="flex justify-between items-center h-10">
           {tags(result)}
           <div className="flex justify-center">
             <LanguageToggle

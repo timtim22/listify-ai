@@ -7,6 +7,7 @@ import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import RoomForm from './RoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
+import RequestCounter from '../common/RequestCounter';
 
 const newInputFields = {
   property_type: '',
@@ -40,10 +41,8 @@ const generalFeaturesPlaceholder = () => {
 }
 
 const maxInputs = 2000
-const runsRemaining = 1
 
-const New = ({ initialRunsRemaining }) => {
-  const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
+const New = ({ runsRemaining, setRunsRemaining }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -86,7 +85,7 @@ const New = ({ initialRunsRemaining }) => {
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    setRunsRemaining(response.data.runs_remaining);
+    setRunsRemaining(response.data.runs_remaining)
     setFullListing(response.data.full_listing);
   }
 
@@ -208,7 +207,6 @@ const New = ({ initialRunsRemaining }) => {
   const numberRow = (title, fieldName) => {
     return (
       <div className="flex justify-start items-center flex-grow text-sm font-medium text-gray-700 ">
-        <label className="">bedroom{inputFields.bedroom_count > 1 ? 's' : '' }, </label>
         <input
           type="number"
           min="1"
@@ -228,17 +226,22 @@ const New = ({ initialRunsRemaining }) => {
     return (
       <div className="flex w-full justify-start items-center mb-4">
         <label className="w-1/3 text-sm">Bedrooms</label>
-        <input
-          type="number"
-          min="1"
-          max="8"
-          placeholder="1"
-          required={true}
-          value={inputFields.bedroom_count}
-          onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}
-          className="w-16 form-inline-field text-sm"
-        />
-        {numberRow('Sleeps', 'sleeps')}
+        <div className="w-2/3 flex flex-col md:flex-row md:items-center">
+          <div className="flex items-center">
+            <input
+              type="number"
+              min="1"
+              max="8"
+              placeholder="1"
+              required={true}
+              value={inputFields.bedroom_count}
+              onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}
+              className="w-16 form-inline-field text-sm"
+            />
+            <span>bedroom{inputFields.bedroom_count > 1 ? 's' : '' },</span>
+          </div>
+          {numberRow('Sleeps', 'sleeps')}
+        </div>
       </div>
     )
   }
@@ -285,7 +288,12 @@ const New = ({ initialRunsRemaining }) => {
         object_type: "FullListing",
         result_text: fullListing.text
       }]
-      return <ResultList results={results} />;
+      return (
+        <div className="w-full flex flex-col items-center py-8">
+          <ResultList results={results} />
+          <RequestCounter runsRemaining={runsRemaining} />
+        </div>
+      )
     }
   }
 
@@ -293,7 +301,8 @@ const New = ({ initialRunsRemaining }) => {
 
   return (
     <div className="flex flex-col items-center w-full h-full">
-      {formHeader()}
+      <div className="mb-px w-full h-8"></div>
+      <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />

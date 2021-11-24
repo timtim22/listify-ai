@@ -4,8 +4,10 @@ class TaskRunsController < ApplicationController
   def index
     if params[:user]
       users = User.where(email: params[:user])
-    else
+    elsif params[:admin]
       users = User.all
+    else
+      users = User.where.not(admin: true)
     end
 
     @task_runs = TaskRun

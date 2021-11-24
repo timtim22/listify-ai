@@ -5,7 +5,7 @@ class TaskRunsController < ApplicationController
     if params[:user]
       users = User.where(email: params[:user])
     elsif params[:admin]
-      users = User.all
+      users = User.where(admin: true)
     else
       users = User.where.not(admin: true)
     end

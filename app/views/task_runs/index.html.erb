@@ -2,9 +2,9 @@
   <div class="flex justify-between items-center mb-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Task Runs</h1>
     <% if !params[:admin] %>
-      <%= link_to "Include admins", task_runs_path(admin: true), class: "text-sm" %>
+      <%= link_to "Not showing admins (tap to change)", task_runs_path(admin: true), class: "text-sm" %>
     <% else %>
-      <%= link_to "Hide admins", task_runs_path, class: "text-sm" %>
+      <%= link_to "Showing admins only (tap to change)", task_runs_path, class: "text-sm" %>
     <% end %>
   </div>
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">

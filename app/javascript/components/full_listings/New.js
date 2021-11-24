@@ -12,6 +12,7 @@ import RequestCounter from '../common/RequestCounter';
 const newInputFields = {
   property_type: '',
   location: '',
+  ideal_for: '',
   bedroom_count: 1,
   sleeps: 2,
   key_features: '',
@@ -90,9 +91,10 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   }
 
   const assembleHeadline = () => {
-    const { bedroom_count, property_type, location, key_features } = inputFields;
-    const first = `- ${bedroom_count} bedroom ${property_type} in ${location}`
-    return `${first}\n${key_features}`
+    const { bedroom_count, property_type, location, ideal_for, key_features } = inputFields;
+    const first = `- ${bedroom_count} bedroom ${property_type} in ${location}\n`;
+    const second = ideal_for.length > 3 ? `- ideal for ${ideal_for}\n` : "";
+    return `${first}${second}${key_features}`
   }
 
   const handleSubmit = (e) => {
@@ -149,7 +151,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
-          onChange={(e) => setInputIfValid(key, e.target.value, 30)}
+          onChange={(e) => setInputIfValid(key, e.target.value, 35)}
           className="w-full form-inline-field text-sm"
         />
       </div>
@@ -238,9 +240,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
               onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}
               className="w-16 form-inline-field text-sm"
             />
-            <span>bedroom{inputFields.bedroom_count > 1 ? 's' : '' },</span>
           </div>
-          {numberRow('Sleeps', 'sleeps')}
         </div>
       </div>
     )
@@ -310,6 +310,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
         <div className="flex flex-col w-4/5 max-w-2xl">
           {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
           {textInputRow('Location', 'location', '', true)}
+          {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
           {bedroomsCountRow()}
           {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
           {bedroomFields()}

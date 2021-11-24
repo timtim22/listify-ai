@@ -6,9 +6,6 @@ class FullListingsController < ApplicationController
     @full_listing.check_complete
   end
 
-  def new
-  end
-
   def create
     @full_listing = FullListing.from(full_listing_params, current_user)
     @runs_remaining = TaskRun.runs_remaining_today(current_user)

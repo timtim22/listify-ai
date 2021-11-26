@@ -8,6 +8,7 @@ import RoomForm from './RoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
 import RequestCounter from '../common/RequestCounter';
+import Switch from '../common/Switch';
 
 const newInputFields = {
   property_type: '',
@@ -49,6 +50,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const [errors, setErrors] = useState(null);
   const [fullListing, setFullListing] = useState(null);
   const [results, setResults] = useState([]);
+  const [highFlair, setHighFlair] = useState(false);
 
   //const onResult = useScrollOnResult(results);
   //
@@ -103,7 +105,11 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     createRequest(
       "/full_listings.json",
       {
-        full_listing: { ...inputFields, headline_text: assembleHeadline() }
+        full_listing: {
+          ...inputFields,
+          headline_text: assembleHeadline(),
+          high_flair: highFlair
+        }
       },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
@@ -129,7 +135,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
         <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">
           Listings Generator
         </h1>
-        <div className="w-4/5 max-w-2xl flex justify-center">
+        <div className="flex justify-center w-4/5 max-w-2xl">
           <div className="mb-8 w-full h-px bg-gray-200"></div>
         </div>
      </div>
@@ -145,14 +151,14 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const textInputRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center mb-4 w-full">
-        <label className="text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
+        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => setInputIfValid(key, e.target.value, 35)}
-          className="w-full form-inline-field text-sm"
+          className="w-full text-sm form-inline-field"
         />
       </div>
     )
@@ -163,7 +169,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     return (
       <div className="flex flex-col w-full">
         <div className="flex items-start w-full">
-          <label className="mt-3 text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
+          <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">{title}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields[fieldName]}
@@ -174,7 +180,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
             />
           </div>
         </div>
-        <div className="self-end pr-3 pt-2 text-xs font-medium text-gray-500">
+        <div className="self-end pt-2 pr-3 text-xs font-medium text-gray-500">
           {charsLeft <= 30 && <p className={charsLeft <= 10 ? "text-red-500" : ""}>{charsLeft}</p>}
         </div>
       </div>
@@ -188,8 +194,8 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     return (
       <div key={index} className="flex flex-col w-full">
         <div className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
-          <label className="mt-3 text-sm font-medium text-gray-700 flex-shrink-0 w-1/3">{title}</label>
-          <div className="w-full px-3">
+          <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">{title}</label>
+          <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={bedroom || ""}
               onChange={(value) => {charsLimit - value.length >= 0 && updateBedroomInState(index, value)}}
@@ -208,7 +214,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   const numberRow = (title, fieldName) => {
     return (
-      <div className="flex justify-start items-center flex-grow text-sm font-medium text-gray-700 ">
+      <div className="flex flex-grow justify-start items-center text-sm font-medium text-gray-700">
         <input
           type="number"
           min="1"
@@ -217,7 +223,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
           required={true}
           value={inputFields[fieldName]}
           onChange={(e) => {setField(fieldName, coerceWithinRange(e.target.value, 1, 20))}}
-          className="w-16 form-inline-field text-sm"
+          className="w-16 text-sm form-inline-field"
         />
         <span> people.</span>
       </div>
@@ -226,9 +232,9 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   const bedroomsCountRow = () => {
     return (
-      <div className="flex w-full justify-start items-center mb-4">
+      <div className="flex justify-start items-center mb-4 w-full">
         <label className="w-1/3 text-sm">Bedrooms</label>
-        <div className="w-2/3 flex flex-col md:flex-row md:items-center">
+        <div className="flex flex-col w-2/3 md:flex-row md:items-center">
           <div className="flex items-center">
             <input
               type="number"
@@ -238,7 +244,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
               required={true}
               value={inputFields.bedroom_count}
               onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}
-              className="w-16 form-inline-field text-sm"
+              className="w-16 text-sm form-inline-field"
             />
           </div>
         </div>
@@ -289,12 +295,29 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
         result_text: fullListing.text
       }]
       return (
-        <div className="w-full flex flex-col items-center py-8">
+        <div className="flex flex-col items-center py-8 w-full">
           <ResultList results={results} />
           <RequestCounter runsRemaining={runsRemaining} />
         </div>
       )
     }
+  }
+
+
+  const creativitySwitch = () => {
+    return (
+      <div className="w-full flex items-start pt-4">
+        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">Creativity</label>
+        <div className="w-2/3 flex items-start px-4">
+          <Switch
+            handleToggle={() => setHighFlair(!highFlair)}
+            isOn={highFlair}
+            leftLabel="lower"
+            rightLabel="higher"
+          />
+        </div>
+      </div>
+    )
   }
 
   const consolidatedInput = consolidateInput();
@@ -324,6 +347,9 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
               runsRemaining={runsRemaining}
             />
           </div>
+        </div>
+        <div className="flex justify-center items-center py-2 px-2 w-full text-center align-middle bg-gray-200">
+          <p className="text-sm font-medium text-gray-900">Please note: this is a new feature that is still undergoing development. Results will get better as we make improvements.</p>
         </div>
       </form>
       <FullListingPoll

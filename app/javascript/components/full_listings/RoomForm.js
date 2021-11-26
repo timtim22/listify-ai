@@ -33,7 +33,7 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
   const roomList = () => {
     if (rooms.length > 0) {
       return (
-        <div className="w-full flex flex-col justify-center">
+        <div className="flex flex-col justify-center w-full">
          {rooms.map(r => roomRow(r))}
         </div>
       )
@@ -43,12 +43,12 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
   const roomListHeader = () => {
     if (rooms.length > 0) {
       return (
-        <div className="w-full flex items-center pb-4">
+        <div className="flex items-center pb-4 w-full">
           <div className="w-1/3">
-            <h3 className=">text-sm font-bold text-gray-900 tracking-wide flex-shrink-0"> Room / space</h3>
+            <h3 className="flex-shrink-0 font-bold tracking-wide text-gray-900 >text-sm"> Room / space</h3>
           </div>
-          <div className="w-2/3 px-3">
-            <h3 className="text-sm font-bold text-gray-900 tracking-wide flex-shrink-0">Details</h3>
+          <div className="px-3 w-2/3">
+            <h3 className="flex-shrink-0 text-sm font-bold tracking-wide text-gray-900">Details</h3>
           </div>
         </div>
       )
@@ -60,8 +60,8 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
   const textInputRow = (title, room, placeholder, required) => {
     const charLimit = 40;
     return (
-      <div className="flex justify-start items-center w-full pr-4">
-        <div className="bg-white w-full">
+      <div className="flex justify-start items-center pr-4 w-full">
+        <div className="w-full bg-white">
           <TextareaWithPlaceholder
             value={room.name}
             onChange={(value) => value.length <= charLimit && updateRoom({ ...room, name: value })}
@@ -81,7 +81,7 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
       <div className={`${charsLeft <= 30 ? "" : "mb-4"} flex flex-col justify-start w-full`}>
         <div className="flex items-start w-full">
           <div className="px-3 w-full">
-            <div className="bg-white w-full">
+            <div className="w-full bg-white">
               <TextareaWithPlaceholder
                 value={room.description}
                 onChange={(value) => value.length <= charLimit && updateRoom({ ...room, description: value })}
@@ -92,7 +92,7 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
             </div>
           </div>
         </div>
-        <div className="self-end pr-5 pt-2 text-xs font-medium text-gray-500">
+        <div className="self-end pt-2 pr-5 text-xs font-medium text-gray-500">
           {charsLeft <= 30 && <p className={charsLeft <= 10 ? "text-red-500" : ""}>{charsLeft}</p>}
         </div>
       </div>
@@ -106,13 +106,13 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
         <div className="w-1/3">
           {textInputRow("Name of space", room, "e.g. open plan kitchen, garden...", false)}
         </div>
-        <div className="w-2/3 flex items-start">
+        <div className="flex items-start w-2/3">
           {detailField("Details", room, null)}
-          <div className="h-16 flex items-center">
+          <div className="flex items-center h-16">
             <button
               type="button"
               onClick={() => removeRoom(room)}
-              className="text-xs ml-2 font-medium text-red-700">
+              className="ml-2 text-xs font-medium text-red-700">
               remove
             </button>
           </div>
@@ -126,7 +126,7 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
     <div className="flex flex-col">
       <div className="mb-4 w-full h-px bg-gray-200"></div>
       <div className="flex items-start">
-        <div className="mb-4 mt-8 flex flex-col flex-grow">
+        <div className="flex flex-col flex-grow mt-8 mb-4">
           <h2 className="text-lg font-medium leading-6 text-gray-900">Other rooms and spaces</h2>
           <p className="mt-1 text-sm text-gray-500">
             Add details of other rooms and spaces within the property.
@@ -140,7 +140,7 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
         {rooms.length < maxRooms && <button
           type="button"
           onClick={addRoom}
-          className="mb-4 underline focus:outline-none text-xs self-center font-medium text-gray-700">
+          className="self-center mb-4 text-xs font-medium text-gray-700 underline focus:outline-none">
           Add a room
         </button>}
       </div>

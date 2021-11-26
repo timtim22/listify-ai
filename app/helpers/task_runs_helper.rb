@@ -22,7 +22,9 @@ module TaskRunsHelper
   def displayable_task_results(task_results, prompts)
     task_results_with_prompts(task_results, prompts).map do |result_with_prompt|
       result = result_with_prompt[:result]
-      if result.safe?
+      if !result.success?
+        display_error(result, result_with_prompt[:prompt_title])
+      elsif result.safe?
         display_result(result, result_with_prompt[:prompt_title], result.translations.first)
       else
         display_filtered(result)
@@ -44,13 +46,21 @@ module TaskRunsHelper
   def display_result(result, prompt_title, translation = nil)
     result_text = text_with_translation(result, translation)
     display_text = simple_format(result_text)
-    title_html = "<span class='font-medium text-purple-800'>#{prompt_title}</span>"
-    formatted_result = "<div>#{display_text}#{title_html}</div>"
+    formatted_result = "<div>#{display_text}#{title_html(prompt_title)}</div>"
     result.user_copied? ? display_copied(formatted_result) : formatted_result
+  end
+
+  def display_error(result, prompt_title)
+    display_text = "<p class='text-red-700'>#{JSON.parse(result.error)}</p>"
+    formatted_result = "<div>#{display_text}#{title_html(prompt_title)}</div>"
   end
 
   def display_copied(formatted_result)
     "<div class='text-green-600'>USER COPIED: #{formatted_result}</div>"
+  end
+
+  def title_html(title)
+    "<span class='font-medium text-purple-800'>#{title}</span>"
   end
 
   def display_filtered(result)

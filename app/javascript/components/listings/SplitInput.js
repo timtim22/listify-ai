@@ -120,7 +120,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
         {textRow(translateLabel('Location'), 'location', '')}
         {textRow(translateLabel('Ideal for'), 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
-          <label className="mt-2 flex-shrink-0 w-1/3">{translateLabel('Key features')}</label>
+          <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features')}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}

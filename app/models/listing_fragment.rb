@@ -2,12 +2,13 @@ class ListingFragment < ApplicationRecord
   include Inputable
 
   has_many :task_runs, as: :input_object, dependent: :destroy
+  has_many :task_results, through: :task_runs
   belongs_to :full_listing
 
   validates :request_type, :input_text, presence: true
 
-  def result_text
-    task_runs.first.task_results.first.result_text
+  def result
+    task_results.first
   end
 
   def requests_completed?

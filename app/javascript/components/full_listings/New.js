@@ -8,6 +8,7 @@ import RoomForm from './RoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
 import RequestCounter from '../common/RequestCounter';
+import Switch from '../common/Switch';
 
 const newInputFields = {
   property_type: '',
@@ -49,6 +50,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const [errors, setErrors] = useState(null);
   const [fullListing, setFullListing] = useState(null);
   const [results, setResults] = useState([]);
+  const [highFlair, setHighFlair] = useState(false);
 
   //const onResult = useScrollOnResult(results);
   //
@@ -103,7 +105,11 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     createRequest(
       "/full_listings.json",
       {
-        full_listing: { ...inputFields, headline_text: assembleHeadline() }
+        full_listing: {
+          ...inputFields,
+          headline_text: assembleHeadline(),
+          high_flair: highFlair
+        }
       },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
@@ -297,6 +303,23 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     }
   }
 
+
+  const creativitySwitch = () => {
+    return (
+      <div className="w-full flex items-start pt-4">
+        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">Creativity</label>
+        <div className="w-2/3 flex items-start px-4">
+          <Switch
+            handleToggle={() => setHighFlair(!highFlair)}
+            isOn={highFlair}
+            leftLabel="lower"
+            rightLabel="higher"
+          />
+        </div>
+      </div>
+    )
+  }
+
   const consolidatedInput = consolidateInput();
 
   return (
@@ -324,6 +347,9 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
               runsRemaining={runsRemaining}
             />
           </div>
+        </div>
+        <div className="flex justify-center items-center py-2 px-2 w-full text-center align-middle bg-gray-200">
+          <p className="text-sm font-medium text-gray-900">Please note: this is a new feature that is still undergoing development. Results will get better as we make improvements.</p>
         </div>
       </form>
       <FullListingPoll

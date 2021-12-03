@@ -9,11 +9,15 @@ class AttractionFinder
   end
 
   def find!
-    find_attractions
-    find_stations
-    find_restaurants
-    found
-  end
+    if Rails.env.development? # && false
+      MockData.new.london
+    else
+      find_attractions
+      find_stations
+      find_restaurants
+      found
+    end
+ end
 
   def find_attractions
     results = nearby_request('tourist_attraction', 5000)

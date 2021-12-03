@@ -1,5 +1,13 @@
 class MockData
 
+  def search_params
+    {
+      search_text: "London Mock Request",
+      latitude: "1",
+      longitude: "1"
+    }
+  end
+
   def london
     {
       attractions: [

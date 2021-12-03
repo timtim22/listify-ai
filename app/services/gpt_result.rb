@@ -15,10 +15,12 @@ class GptResult
   private
 
   def execute_request!(prompt, task_run)
-    gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
-    gpt_call.execute!
-    #{ check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'this is a test message for translation' }
-    #{ success: true, result_text: ['', 'test'].sample }
+    if Rails.env.development?
+      { check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'This is a mock response in development mode, advertising a wonderful stay in a 3 bed house in Malaga.' }
+    else
+      gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
+      gpt_call.execute!
+    end
   end
 
   def process_response(task_run, response, prompt)

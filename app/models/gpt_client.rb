@@ -33,7 +33,6 @@ class GptClient
   end
 
   def request(method, url, headers, body)
-    #binding.pry
     response = HTTParty.send(method, *[url, {
       headers: headers,
       body: body,

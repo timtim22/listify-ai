@@ -17,7 +17,7 @@ class AttractionFinder
       find_restaurants
       found
     end
- end
+  end
 
   def find_attractions
     results = nearby_request('tourist_attraction', 5000)

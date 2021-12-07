@@ -306,9 +306,9 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   const creativitySwitch = () => {
     return (
-      <div className="w-full flex items-start pt-4">
+      <div className="flex items-start pt-4 w-full">
         <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">Creativity</label>
-        <div className="w-2/3 flex items-start px-4">
+        <div className="flex items-start px-4 w-2/3">
           <Switch
             handleToggle={() => setHighFlair(!highFlair)}
             isOn={highFlair}

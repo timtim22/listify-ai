@@ -9,3 +9,18 @@ export const cleanObjectInputText = (object) => {
 export const capitaliseFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const coerceWithinRange = (inputNumber, min, max) => {
+  if (inputNumber === "") {
+    return inputNumber;
+  } else {
+    const number = parseInt(inputNumber);
+    if (number < min) { return min; }
+    if (number > max) { return max; }
+    return number;
+  }
+}
+
+export const randId = () => {
+  return Math.random().toString().substr(2, 8);
+}

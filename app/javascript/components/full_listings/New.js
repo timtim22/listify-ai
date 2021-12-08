@@ -4,7 +4,7 @@ import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import RoomForm from './RoomForm';
+import OtherRoomForm from './RoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
 import RequestCounter from '../common/RequestCounter';
@@ -278,11 +278,12 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   const roomForm = () => {
     return (
-      <RoomForm
+      <OtherRoomForm
         rooms={inputFields.rooms}
         showName={true}
         onChange={(rooms) => setField('rooms', rooms)}
         sectionTitle={"Other rooms and spaces"}
+        showHeader={true}
       />
     )
   }

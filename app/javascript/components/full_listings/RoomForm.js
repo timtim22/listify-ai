@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import { randId } from '../../helpers/utils';
 
 const maxRooms = 4;
 
-const randId = () => {
-  return Math.random().toString().substr(2, 8);
-}
-
-const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
+const RoomForm = ({ rooms, showName, showHeader, onChange, titlePopoverText }) => {
 
   const [errors, setErrors] = useState(null);
 
@@ -45,10 +42,10 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
       return (
         <div className="flex items-center pb-4 w-full">
           <div className="w-1/3">
-            <h3 className="flex-shrink-0 font-bold tracking-wide text-gray-900 >text-sm"> Room / space</h3>
+            <h3 className="flex-shrink-0 font-medium text-gray-700 text-sm"> Room / space</h3>
           </div>
           <div className="px-3 w-2/3">
-            <h3 className="flex-shrink-0 text-sm font-bold tracking-wide text-gray-900">Details</h3>
+            <h3 className="flex-shrink-0 text-sm font-medium text-gray-700">Details</h3>
           </div>
         </div>
       )
@@ -121,20 +118,29 @@ const RoomForm = ({ rooms, showName, onChange, titlePopoverText }) => {
     )
   }
 
+  const header = () => {
+    if (showHeader) {
+      return (
+        <>
+          <div className="mb-4 w-full h-px bg-gray-200"></div>
+          <div className="flex items-start">
+            <div className="flex flex-col flex-grow mt-8 mb-4">
+              <h2 className="text-lg font-medium leading-6 text-gray-900">Other rooms and spaces</h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Add details of other rooms and spaces within the property.
+              </p>
+            </div>
+          </div>
+          <div className="mb-4 w-full h-px bg-gray-200"></div>
+        </>
+      )
+    }
+  }
 
   return (
     <div className="flex flex-col">
-      <div className="mb-4 w-full h-px bg-gray-200"></div>
-      <div className="flex items-start">
-        <div className="flex flex-col flex-grow mt-8 mb-4">
-          <h2 className="text-lg font-medium leading-6 text-gray-900">Other rooms and spaces</h2>
-          <p className="mt-1 text-sm text-gray-500">
-            Add details of other rooms and spaces within the property.
-          </p>
-        </div>
-     </div>
-      <div className="mb-4 w-full h-px bg-gray-200"></div>
-      <div className="my-4">
+      {header()}
+      <div className={showHeader ? "my-4" : "pt-px mt-2 mb-4"}>
         {roomListHeader()}
         {roomList()}
         {rooms.length < maxRooms && <button

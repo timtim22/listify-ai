@@ -16,7 +16,7 @@ class GptResult
 
   def execute_request!(prompt, task_run)
     if Rails.env.development?
-      { check_result: { decision: "pass", label: "0", data: "" }, success: true, result_text: 'This is a mock response in development mode, advertising a wonderful stay in a 3 bed house in Malaga.' }
+      mock_response
     else
       gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
       gpt_call.execute!
@@ -27,6 +27,7 @@ class GptResult
     task_result = create_task_result(task_run, response, prompt)
     store_filter_responses(response, task_result)
     translate(task_run, task_result)
+    task_result
   end
 
   def create_task_result(task_run, response, prompt)
@@ -62,5 +63,13 @@ class GptResult
       response = @client.translate(req.from, req.to, task_result.result_text)
       Translation.create_for!(task_result, response)
     end
+  end
+
+  def mock_response
+    {
+      check_result: { decision: "pass", label: "0", data: "" },
+      success: true,
+      result_text: 'This is a mock response in development mode, advertising a wonderful stay in a 3 bed house in Malaga.'
+    }
   end
 end

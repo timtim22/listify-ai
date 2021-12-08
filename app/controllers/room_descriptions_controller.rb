@@ -4,9 +4,9 @@ class RoomDescriptionsController < ApplicationController
   def create
     save = Input.create_with(RoomDescription.new(room_description_params), current_user)
     if save.success
-      @room_description  = save.input_object
+      @room_description = save.input_object
       @task_run = TaskRunners::TwoStep.new.run_for!(@room_description, current_user, params[:output_language])
-      @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      @runs_remaining = current_user.runs_remaining_today
     end
 
     respond_to do |format|

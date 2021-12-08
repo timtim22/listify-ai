@@ -8,14 +8,14 @@ class TaskRunners::TwoStep
     prompt_set_2 = prompt_set_for(second_request_type)
     task_run_2   = create_task_run(user, prompt_set_2, second_input, output_language)
 
-    generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2.prompts.first)
+    generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2)
 
     task_run_2
   end
 
-  def generate_gpt_results(task_run, prompt_set, task_run_2, prompt_2)
+  def generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2)
     prompt_set.prompts.map do |prompt|
-      GptTwoStepResultWorker.perform_async(task_run.id, prompt.id, task_run_2.id, prompt_2.id)
+      GptTwoStepResultWorker.perform_async(task_run.id, prompt.id, task_run_2.id, prompt_set_2.id)
     end
   end
 

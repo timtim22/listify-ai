@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :task_run_feedbacks, dependent: :destroy
   has_many :inputs, dependent: :destroy
   has_many :full_listings, dependent: :destroy
+  has_many :recorded_searches, dependent: :destroy
 
   attr_accessor :early_access_code
   validates :early_access_code, inclusion: { in: ['MIN39210'] }, on: :create

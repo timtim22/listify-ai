@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_101739) do
+ActiveRecord::Schema.define(version: 2021_12_09_105409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -148,6 +148,15 @@ ActiveRecord::Schema.define(version: 2021_12_08_101739) do
     t.index ["prompt_set_id"], name: "index_prompts_on_prompt_set_id"
   end
 
+  create_table "recorded_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "search_location_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["search_location_id"], name: "index_recorded_searches_on_search_location_id"
+    t.index ["user_id"], name: "index_recorded_searches_on_user_id"
+  end
+
   create_table "room_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "input_text"
     t.string "request_type"
@@ -265,6 +274,8 @@ ActiveRecord::Schema.define(version: 2021_12_08_101739) do
   add_foreign_key "legacy_task_runs", "users"
   add_foreign_key "listing_fragments", "full_listings"
   add_foreign_key "prompts", "prompt_sets"
+  add_foreign_key "recorded_searches", "search_locations"
+  add_foreign_key "recorded_searches", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
   add_foreign_key "task_run_feedbacks", "task_runs"

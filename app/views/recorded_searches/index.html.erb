@@ -1,0 +1,30 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center mb-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Location Searches</h1>
+  </div>
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Id</th>
+          <th class="py-3 px-6">Search</th>
+          <th class="py-3 px-6">Email</th>
+          <th class="py-3 px-6">Created at</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @recorded_searches.each do |recorded_search| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= recorded_search.id %></td>
+            <td class="py-3 px-6"><%= recorded_search.search_location.search_text %></td>
+            <td class="py-3 px-6"><%= recorded_search.user.email %></td>
+            <td class="py-3 px-6"><%= format_table_date(recorded_search.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+</div>
+

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
-import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 import Switch from '../common/Switch';
@@ -24,10 +23,19 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     setErrors(null);
     createRequest(
       "/room_descriptions.json",
-      { room_description: { request_type: roomDescription.request_type, input_text: currentViewInputText() } },
+      {
+        room_description: {
+        request_type: roomDescription.request_type,
+        input_text: swapBulletsForCommas(currentViewInputText())
+        }
+      },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
+  }
+
+  const swapBulletsForCommas = (string) => {
+    return string.replaceAll("\n- ", ",").replaceAll(": -", ":");
   }
 
   const currentViewInputText = () => {

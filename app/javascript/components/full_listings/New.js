@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
+import { coerceWithinRange } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import RoomForm from './RoomForm';
+import OtherRoomForm from '../rooms/OtherRoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
 import RequestCounter from '../common/RequestCounter';
@@ -19,17 +20,6 @@ const newInputFields = {
   key_features: '',
   bedrooms: [''],
   rooms: [],
-}
-
-const coerceWithinRange = (inputNumber, min, max) => {
-  if (inputNumber === "") {
-    return inputNumber;
-  } else {
-    const number = parseInt(inputNumber);
-    if (number < min) { return min; }
-    if (number > max) { return max; }
-    return number;
-  }
 }
 
 const generalFeaturesPlaceholder = () => {
@@ -278,11 +268,10 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   const roomForm = () => {
     return (
-      <RoomForm
+      <OtherRoomForm
         rooms={inputFields.rooms}
-        showName={true}
         onChange={(rooms) => setField('rooms', rooms)}
-        sectionTitle={"Other rooms and spaces"}
+        showHeader={true}
       />
     )
   }

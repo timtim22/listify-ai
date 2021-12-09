@@ -15,13 +15,13 @@ const placeholderFor = (room) => {
     kitchen: ["e.g. sleek", "Italian design", "modern appliances", "American style fridge-freezer", "breakfast bar"],
     living_room: ["e.g. cosy", "plenty of light", "large sofa", "leather arm chair", "huge TV with Netflix"]
   }
-  return placeholders[room.replace(" ", "_")] || placeholders["bedroom"];
+  return placeholders["bedroom"];
 }
 
 const maxInput = 250;
-const newRoomDescription = { input_text: '', room: 'bedroom' };
+const newRoomDescription = { input_text: '' };
 
-const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
+const RoomForm = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [roomDescription, setRoomDescription] = useState({ ...newRoomDescription, request_type: formType });
   const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
@@ -107,7 +107,6 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
           <div className="flex flex-col justify-start w-full">
-            {selectRoom()}
             {keyFeatures()}
           </div>
           <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
@@ -129,4 +128,4 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   )
 }
 
-export default Form;
+export default RoomForm;

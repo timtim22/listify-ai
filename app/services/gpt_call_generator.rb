@@ -59,9 +59,7 @@ class GptCallGenerator
 
   def self.construct_prompt_body(prompt_text, input_object)
     with_input = prompt_text.gsub("{input}", input_object.input_text)
-    if input_object.respond_to? :room
-      with_input.gsub!("{room}", input_object.room)
-    elsif input_object.class.to_s == "AreaDescription"
+    if input_object.class.to_s == "AreaDescription"
       with_input.gsub!("{area}", input_object.search_location.search_text)
     end
     with_input

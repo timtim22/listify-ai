@@ -9,7 +9,7 @@ class TaskRerunsController < ApplicationController
     if save.success
       @object = save.input_object
       @task_run = TaskRunner.new.run_for!(@object, current_user, language)
-      @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      @runs_remaining = current_user.runs_remaining_today
     end
 
     respond_to do |format|
@@ -20,6 +20,8 @@ class TaskRerunsController < ApplicationController
       end
     end
   end
+
+  private
 
   def task_rerun_params
     params.require(:task_rerun).permit(:task_run_id)

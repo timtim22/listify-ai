@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingFormContainer from './ListingFormContainer';
-import RoomFormContainer from './RoomFormContainer';
+import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
 import FullListingForm from '../full_listings/New';
 

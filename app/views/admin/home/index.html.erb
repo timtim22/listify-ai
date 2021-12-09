@@ -1,18 +1,14 @@
 <div class="flex flex-col items-start px-4 md:px-8">
   <% if current_user.admin? %>
-    <p>You are signed in as an admin.</p>
+    <p>You are signed in as an admin. Links: </p>
     <br />
     <ol type="1" class="list-decimal list-inside">
       <li><%= link_to "Create a property listing", new_listing_path %></li>
-      <li><%= link_to "Writing assistant", new_writing_path %></li>
-      <li><%= link_to "Playground", new_playground_attempt_path %></li>
-      <li><%= link_to "View task runs (web app requests)", task_runs_path %></li>
-      <li><%= link_to "View usages (web app requests)", usages_path %></li>
-      <li><%= link_to "View feedback (web app requests)", task_run_feedbacks_path %></li>
+      <li><%= link_to "Test prompt in playground", new_playground_attempt_path %></li>
+      <li><%= link_to "View task runs", task_runs_path %></li>
+      <li><%= link_to "View usages", usages_path %></li>
+      <li><%= link_to "View feedback", task_run_feedbacks_path %></li>
       <li><%= link_to "Manage prompt sets", prompt_sets_path %></li>
-      <li><%= link_to "View legacy task runs (chrome extension)", legacy_task_runs_path %></li>
-      <li><%= link_to "Manage legacy prompts (chrome extension)", legacy_prompts_path %></li>
-      <li><%= link_to "Log out", destroy_user_session_path, :method => :delete %></li>
     </ol>
   <% end %>
 </div>

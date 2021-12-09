@@ -14,9 +14,13 @@ class TaskRunners::TwoStep
   end
 
   def generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2)
-    prompt_set.prompts.map do |prompt|
-      GptTwoStepResultWorker.perform_async(task_run.id, prompt.id, task_run_2.id, prompt_set_2.id)
-    end
+    step_one_prompt = prompt_set.prompts.first
+    GptTwoStepResultWorker.perform_async(
+      task_run.id,
+      step_one_prompt.id,
+      task_run_2.id,
+      prompt_set_2.id
+    )
   end
 
   def prompt_set_for(request_type)

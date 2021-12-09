@@ -13,7 +13,7 @@
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/line-clamp": "^0.2.1",
-    "@tailwindcss/postcss7-compat": "^2.2.7",
+    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat",
     "@tailwindcss/typography": "^0.4.1",
     "autoprefixer": "9",
     "axios": "^0.21.1",

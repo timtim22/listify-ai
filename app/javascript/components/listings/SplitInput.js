@@ -17,7 +17,7 @@ const exampleInputFields = {
   bedrooms: '3',
   location: 'Malaga',
   idealFor: 'families',
-  keyFeatures: '- sea views\n- large balcony\n- 5 minutes walk to shops and restaurants',
+  keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- 5 minutes walk to shops and restaurants',
 }
 
 const coerceWithinRange = (inputNumber, min, max) => {

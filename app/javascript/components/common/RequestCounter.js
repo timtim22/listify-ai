@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const RequestCounter = ({ runsRemaining }) => {
-  if (runsRemaining) {
+  if (runsRemaining && runsRemaining <= 5) {
     const count = runsRemaining;
     const s = count !== 1 ? 's' : '';
     const countColor = count > 5 ? "text-green-600" : "text-red-600";
@@ -13,6 +13,8 @@ const RequestCounter = ({ runsRemaining }) => {
         remaining today.
       </p>
     )
+  } else {
+    return null;
   }
 }
 

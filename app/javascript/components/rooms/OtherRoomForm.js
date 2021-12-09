@@ -71,7 +71,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
       <div key={room.id} className="flex flex-col items-start mb-4">
         {textInputRow("Name of space", room, "e.g. open plan kitchen")}
         {detailField("Details", room, null)}
-        <div className="flex w-full items-center justify-end px-3">
+        <div className="flex justify-end items-center px-3 w-full">
           <button
             type="button"
             onClick={() => removeRoom(room)}
@@ -102,7 +102,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   const detailPlaceholder = () => {
     return (
-      <div className="text-sm flex flex-col items-start mb-px leading-relaxed">
+      <div className="flex flex-col items-start mb-px text-sm leading-relaxed">
         <p>e.g. microwave, kettle, plenty of natural light</p>
       </div>
     )

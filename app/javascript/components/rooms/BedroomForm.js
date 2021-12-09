@@ -39,7 +39,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
   const bedroomCountRow = () => {
     return (
       <div className="flex justify-start items-center mb-4 w-full">
-        <label className="w-1/3 font-medium text-sm text-gray-700">Bedrooms to describe</label>
+        <label className="w-1/3 text-sm font-medium text-gray-700">Bedrooms to describe</label>
         <div className="flex flex-col w-2/3 md:flex-row md:items-center">
           <div className="flex items-center">
             <input
@@ -60,7 +60,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
 
   const detailPlaceholder = (placeholderText) => {
     return (
-      <div className="text-sm flex flex-col items-start mb-px leading-relaxed">
+      <div className="flex flex-col items-start mb-px text-sm leading-relaxed">
         <p>{placeholderText}</p>
       </div>
     )

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_105409) do
+ActiveRecord::Schema.define(version: 2021_12_10_195508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "detail_text"
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
+  end
+
+  create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "stripe_id"
+    t.integer "amount"
+    t.integer "amount_refunded"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.string "card_exp_month"
+    t.string "card_exp_year"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_charges_on_user_id"
   end
 
   create_table "content_filter_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -114,6 +128,15 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
     t.text "untranslated_input_text"
   end
 
+  create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "amount"
+    t.string "interval"
+    t.string "stripe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "playground_attempts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "request_type"
     t.text "input_text"
@@ -171,6 +194,18 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
     t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "stripe_id"
+    t.string "stripe_plan"
+    t.string "status"
+    t.datetime "trial_ends_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "task_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -254,6 +289,11 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "custom_run_limit"
+    t.string "stripe_id"
+    t.string "card_brand"
+    t.string "card_last4"
+    t.string "card_exp_month"
+    t.string "card_exp_year"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -266,6 +306,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
   end
 
   add_foreign_key "area_descriptions", "search_locations"
+  add_foreign_key "charges", "users"
   add_foreign_key "content_filter_results", "task_results"
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "full_listings", "users"
@@ -276,6 +317,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_105409) do
   add_foreign_key "prompts", "prompt_sets"
   add_foreign_key "recorded_searches", "search_locations"
   add_foreign_key "recorded_searches", "users"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
   add_foreign_key "task_run_feedbacks", "task_runs"

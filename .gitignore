@@ -36,3 +36,5 @@ yarn-debug.log*
 .yarn-integrity
 /installs/*
 /resources/*
+
+/config/credentials/development.key

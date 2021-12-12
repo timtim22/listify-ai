@@ -4,6 +4,11 @@
       <div class="p-12 w-full h-full leading-loose text-center md:text-left">
         <h1 class="mb-4 text-2xl font-medium tracking-wide">Welcome! 👋</h1>
         <br />
+        <% if user_signed_in? && current_user.subscribed? %>
+          <p> this is subscription content </p>
+        <% else %>
+          <%= link_to "Subscribe to view", pricing_path %>
+        <% end %>
         <p>
           Minotaur helps you create awesome copy for your property listings using an AI copywriter.
           It lets you generate engaging, original content in seconds.

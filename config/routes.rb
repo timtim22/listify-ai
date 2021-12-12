@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
 
+  resource :pricing, controller: :pricing
+  resource :subscription
+
   namespace :admin do
     get 'index', to: 'home#index'
   end

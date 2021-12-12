@@ -12,4 +12,8 @@ module ApplicationHelper
   def format_table_date(date)
     date.localtime.strftime("%H:%M%P, %d %b")
   end
+
+  def formatted_amount(amount, options={ unit: "£" })
+    number_to_currency(amount.to_i / 100.0, options)
+  end
 end

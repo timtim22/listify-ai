@@ -1,0 +1,12 @@
+<h1 class="mb-4 text-center">Pricing</h1>
+
+<div class="flex justify-center">
+  <% @plans.each do |plan| %>
+    <div class="flex flex-col items-center w-1/4">
+      <h5><%= plan.name %></h5>
+      <h2><%= formatted_amount(plan.amount) %></h2>
+      <div class="mb-3 text-xs">per <%= plan.interval %></div>
+      <%= link_to "Subscribe", new_subscription_path(plan_id: plan.id) %>
+    </div>
+  <% end %>
+</div>

@@ -31,9 +31,13 @@ Rails.application.routes.draw do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
 
+  resource :card
   resource :pricing, controller: :pricing
-  resource :subscription
+  resource :subscription do
+    patch :resume
+  end
   resources :payments
+  resources :charges
 
   namespace :admin do
     get 'index', to: 'home#index'

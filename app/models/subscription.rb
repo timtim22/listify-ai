@@ -5,7 +5,7 @@ class Subscription < ApplicationRecord
     ["trialing", "active"].include?(status) && (ends_at.nil? || on_grace_period? || on_trial?)
   end
 
-  def on_grace_period
+  def on_grace_period?
     cancelled? && Time.zone.now < ends_at
   end
 

@@ -23,6 +23,16 @@ ReactRailsUJS.useContext(componentRequireContext);
 document.addEventListener("turbolinks:load", () => {
   let cardElement = document.querySelector("#card-element");
   if (cardElement !== null) { setupStripe() }
+
+  let newCard = document.querySelector("#use-new-card");
+  if (newCard !== null) {
+    newCard.addEventListener("click", (event) => {
+      event.preventDefault();
+      console.log("clicked")
+      document.querySelector("#payment-form").classList.remove("hidden");
+      document.querySelector("#existing-card").classList.add("hidden");
+    })
+  }
 })
 
 function setupStripe() {

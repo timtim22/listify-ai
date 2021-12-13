@@ -21,6 +21,25 @@ class Subscription < ApplicationRecord
     ["past_due", "incomplete"].include?(status)
   end
 
+  def cancel
+    sub = Stripe::Subscription.update(stripe_id, { cancel_at_period_end: true })
+    update(status: "cancelled", ends_at: Time.at(sub.cancel_at))
+  end
+
+  def cancel_now!
+    sub = Stripe::Subscription.delet(stripe_id)
+    update(status: "cancelled", ends_at: Time.at(sub.ended_at))
+  end
+
+  def resume
+    if Time.current < ends_at
+      Stripe::Subscription.update(stripe_id, cancel_at_period_end: false)
+      update(status: "active", ends_at: nil)
+    else
+      raise StandardError, "You cannot resume a subscription that has already been cancelled."
+    end
+  end
+
   def swap(plan)
     stripe_sub = stripe_subscription
 

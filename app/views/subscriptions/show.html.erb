@@ -3,7 +3,7 @@
   <p>You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
   <p><%= link_to "Change plan", edit_subscription_path %></p>
 <% elsif @subscription && @subscription.on_grace_period? %>
-  <p>Your subscription has been cancelled. You have access until <%= subscription.ends_at.to_date.to_s(:long) %></p>
+  <p>Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
   <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch %></p>
 <% elsif @subscription && @subscription.active? %>
   <p>You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>

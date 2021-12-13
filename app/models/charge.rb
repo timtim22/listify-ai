@@ -29,5 +29,15 @@ class Charge < ApplicationRecord
       ["Amount", ApplicationController.helpers.formatted_amount(amount)],
       ["Charged to", "#{card_brand} ending in #{card_last4}"]
     ]
+
+    if amount_refunded?
+      line_items << ["Amount Refunded", ApplicationController.helpers.formatted_amount(amount_refunded)]
+    end
+    line_items
+  end
+
+  def refund(amount: nil)
+    Stripe::Refund.create(charge: stripe_id, amount: amount)
+    update(amount_refunded: amount)
   end
 end

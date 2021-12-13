@@ -38,7 +38,7 @@ document.addEventListener("turbolinks:load", () => {
 function setupStripe() {
   const stripeKey = document.querySelector("meta[name='stripe-key']").getAttribute("content");
   const stripe = Stripe(stripeKey);
-  const elements = stripe.elements();
+  const elements = stripe.elements({ locale: "en-GB" });
   const card = elements.create("card");
   card.mount("#card-element");
 

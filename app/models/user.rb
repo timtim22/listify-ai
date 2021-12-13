@@ -33,6 +33,10 @@ class User < ApplicationRecord
     full_listings.today.count
   end
 
+  def name
+    "#{first_name} #{last_name}"
+  end
+
   def subscribed?
     subscription && subscription.active?
   end

@@ -1,0 +1,28 @@
+<% if @payment_intent.status == "succeeded" %>
+  <h1>Payment successful</h1>
+  <p>This payment was already successfully confirmed.</p>
+<% elsif @payment_intent.status == "canceled" %>
+  <h1>Payment cancelled</h1>
+  <p>This payment was cancelled.</p>
+<% else %>
+  <h1>Confirm your <%= formatted_amount(@payment_intent.amount) %> payment </h1>
+  <p>Extra confirmation is needed to process your payment.</p>
+
+  <%= form_with url: payment_path(@payment_intent.id), method: :patch, local: true, id: "payment-form", data: { payment_intent: @payment_intent.client_secret, status: @payment_intent.status } do |form| %>
+    <%= tag.div id: "card-details", class: ("hidden" if @payment_intent.status == "requires_action") do %>
+
+      <label for="card-element">Credit or debit card</label>
+      <div id="card-element" class="h-8 bg-white"></div>
+
+      <label>Name on Card</label>
+      <%= form.text_field :name_on_card, id: "name_on_card", placeholder: "Full Name" %>
+
+      <div id="card-errors" role="alert"></div>
+
+
+      <%= form.submit "Pay #{formatted_amount(@payment_intent.amount)}" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= link_to "Go back", root_path %>

@@ -28,8 +28,8 @@
         <% if user_signed_in? %>
           <div class="hidden md:block">
             <div class="flex items-center ml-4 md:ml-6">
-              <% if current_user.admin? %>
                 <%= link_to "Pricing", pricing_path, { class: "p-1 text-white focus:outline-none" } unless current_user.subscribed? %>
+              <% if current_user.admin? %>
                 <%= link_to "Admin", admin_index_path, { class: "p-1 text-white focus:outline-none" } %>
                 <span class="mx-1 text-gray-100"> | </span>
               <% end %>

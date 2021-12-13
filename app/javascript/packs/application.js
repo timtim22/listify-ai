@@ -26,27 +26,43 @@ document.addEventListener("turbolinks:load", () => {
 })
 
 function setupStripe() {
-  const stripeKey = document.querySelector("meta[name='stripe-key']").getAttribute("content")
-  const stripe = Stripe(stripeKey)
-  const elements = stripe.elements()
-  const card = elements.create("card")
-  card.mount("#card-element")
+  const stripeKey = document.querySelector("meta[name='stripe-key']").getAttribute("content");
+  const stripe = Stripe(stripeKey);
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
 
-  var displayError = document.getElementById("card-errors")
+  var displayError = document.getElementById("card-errors");
 
   card.addEventListener("change", (event) => {
     if (event.error) {
-      displayError.textContent = event.error.message
+      displayError.textContent = event.error.message;
     } else {
-      displayError.textContent = ""
+      displayError.textContent = "";
     }
   })
 
   const form = document.querySelector("#payment-form");
+
+  let paymentIntentId = form.dataset.paymentIntent;
+
+  if (paymentIntentId) {
+    if (form.dataset.status == "requires_action") {
+      stripe.confirmCardPayment(paymentIntentId, { setup_future_usage: "off_session" }).then((result) => {
+        if (result.error) {
+          displayError.textContent = result.error.message;
+          form.querySelector("#card-details").classList.remove("hidden");
+        } else {
+          form.submit();
+        }
+      })
+    }
+  }
+
   form.addEventListener("submit", () => {
     event.preventDefault();
 
-    let name = form.querySelector("#name_on_card").value
+    let name = form.querySelector("#name_on_card").value;
     let data = {
       payment_method_data: {
         card: card,
@@ -57,18 +73,33 @@ function setupStripe() {
     }
 
     //complete payment intent
+    if (paymentIntentId) {
+      stripe.confirmCardPayment(paymentIntentId, {
+        payment_method: data.payment_method_data,
+        setup_future_usage: "off_session",
+        save_payment_method: true
+      }).then((result) => {
+        if (result.error) {
+          displayError.textContent = result.error.message;
+          form.querySelector("#card-details").classList.remove("hidden");
+        } else {
+          form.submit();
+        }
+      })
     // update card or subscribe with trial
-    // subscribe with no trial
 
-    data.payment_method_data.type = "card"
-    stripe.createPaymentMethod(data.payment_method_data).then((result) => {
-      if (result.error) {
-        displayError.textContent = result.error.message
-      } else {
-        addHiddenField(form, "payment_method_id", result.paymentMethod.id)
-        form.submit()
-      }
-    })
+    } else {
+    // subscribe with no trial
+      data.payment_method_data.type = "card"
+      stripe.createPaymentMethod(data.payment_method_data).then((result) => {
+        if (result.error) {
+          displayError.textContent = result.error.message;
+        } else {
+          addHiddenField(form, "payment_method_id", result.paymentMethod.id);
+          form.submit();
+        }
+      })
+    }
   })
 }
 

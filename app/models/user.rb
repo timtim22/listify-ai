@@ -61,10 +61,7 @@ class User < ApplicationRecord
     )
 
     if sub.status == "incomplete" && ["requires_action", "requires_payment_method"].include?(sub.latest_invoice.payment_intent.status)
-      raise PaymentIncomplete.new(
-        sub.latest_invoice.payment_intent,
-       "Subscription requires authentication"
-      )
+      raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), "Subscription requires authentication"
     end
 
     subscription

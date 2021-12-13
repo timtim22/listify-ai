@@ -10,5 +10,8 @@ end
 
 StripeEvent.signing_secret = ENV['STRIPE_SIGNING_SECRET'] || Rails.application.credentials.stripe[:signing_secret]
 StripeEvent.configure do |events|
+  events.subscribe 'charge.succeeded', ChargeSucceededWebhook.new
+  events.subscribe 'charge.refunded', ChargeRefundedWebhook.new
   events.subscribe 'customer.subscription.updated', SubscriptionUpdatedWebhook.new
+  events.subscribe 'customer.subscription.deleted', SubscriptionDeletedWebhook.new
 end

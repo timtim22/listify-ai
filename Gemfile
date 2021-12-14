@@ -49,9 +49,10 @@ group :development do
 end
 
 group :test do
-
+  gem 'capybara', '~> 3.36'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'selenium-webdriver', '~> 4.1'
   gem 'vcr', '~> 6.0'
   gem 'webmock', '~> 3.14'
 end

@@ -28,7 +28,6 @@ document.addEventListener("turbolinks:load", () => {
   if (newCard !== null) {
     newCard.addEventListener("click", (event) => {
       event.preventDefault();
-      console.log("clicked")
       document.querySelector("#payment-form").classList.remove("hidden");
       document.querySelector("#existing-card").classList.add("hidden");
     })

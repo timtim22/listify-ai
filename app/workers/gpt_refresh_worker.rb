@@ -4,8 +4,8 @@ class GptRefreshWorker
 
   def perform
     puts "Running Gpt refresh worker..."
-    recent_runs = TaskRun.where('created_at > ?', 4.hours.ago)
-    if recent_runs.any?
+    recent_runs = TaskRun.where('created_at > ?', 4.hours.ago).count
+    if recent_runs > 0
       puts "Ran recently, nothing to do."
     else
       puts "Running a request..."

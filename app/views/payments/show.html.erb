@@ -1,0 +1,43 @@
+<div class="flex flex-col items-start px-4 md:px-8">
+  <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
+      <div class="p-12 w-full h-full leading-loose text-center md:text-left">
+
+        <% if @payment_intent.status == "succeeded" %>
+          <h1 class="mb-4 text-2xl font-medium tracking-wide">Payment successful</h1>
+          <p>This payment was already successfully confirmed.</p>
+        <% elsif @payment_intent.status == "canceled" %>
+          <h1 class="mb-4 text-2xl font-medium tracking-wide">Payment cancelled</h1>
+          <p>This payment was cancelled.</p>
+        <% else %>
+          <h1 class="mb-4 text-2xl font-medium tracking-wide">
+            Confirm your <%= formatted_amount(@payment_intent.amount) %> payment
+          </h1>
+          <p>Extra confirmation is needed to process your payment.</p>
+
+          <%= form_with url: payment_path(@payment_intent.id), method: :patch, local: true, id: "payment-form", data: { payment_intent: @payment_intent.client_secret, status: @payment_intent.status } do |form| %>
+            <%= tag.div id: "card-details", class: ("hidden" if @payment_intent.status == "requires_action") do %>
+
+              <label for="card-element">Credit or debit card</label>
+              <div id="card-element" class="payment-field"></div>
+
+
+              <div class="flex flex-col my-4 w-full">
+                <label>Name on Card</label>
+                <%= form.text_field :name_on_card, id: "name_on_card", placeholder: "Full Name", class: "payment-field text-sm" %>
+              </div>
+
+              <div id="card-errors" role="alert"></div>
+
+
+              <%= form.submit "Pay #{formatted_amount(@payment_intent.amount)}", class: "primary-button" %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <br />
+        <%= link_to "Go back", root_path, class: "secondary-link" %>
+      </div>
+    </div>
+  </div>
+</div>

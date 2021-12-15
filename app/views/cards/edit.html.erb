@@ -1,0 +1,38 @@
+<div class="flex flex-col items-start px-4 md:px-8">
+  <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
+      <div class="p-12 w-full h-full leading-loose text-center md:text-left">
+
+        <h1 class="mb-4 text-2xl font-medium tracking-wide">Update card</h1>
+
+        <% if current_user.card_last4? %>
+          <div><%= current_user.card_brand %> ending in <%= current_user.card_last4 %></div>
+          <div>Expires <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %></div>
+
+          <br />
+        <% end %>
+
+        <%= form_with url: card_path, method: :patch, local: true, id: "payment-form", class: "w-1/2", data: { setup_intent: @setup_intent.client_secret } do |form| %>
+          <div class="flex flex-col flex-grow justify-start w-full">
+            <label for="card-element">Credit or debit card</label>
+            <div id="card-element" class="payment-field">
+            </div>
+            <div id="card-errors" role="alert">
+            </div>
+
+            <div class="flex flex-col my-4 w-full">
+              <label>Name on Card</label>
+              <%= form.text_field :name_on_card, id: "name_on_card", placeholder: "Full Name", class: "payment-field text-sm" %>
+            </div>
+
+            <div class="w-full">
+              <%= form.submit "Update card", class: "primary-button" %>
+            </div>
+          </div>
+        <% end %>
+        <br />
+        <%= link_to "Go back", subscription_path, class: "secondary-link" %>
+      </div>
+    </div>
+  </div>
+</div>

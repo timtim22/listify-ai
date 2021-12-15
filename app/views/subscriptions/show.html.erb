@@ -1,0 +1,60 @@
+<div class="flex flex-col items-start px-4 md:px-8">
+  <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
+      <div class="p-12 w-full h-full leading-loose text-center md:text-left">
+        <h1 class="mb-4 text-2xl font-medium tracking-wide">Billing</h1>
+
+        <% if @subscription && @subscription.on_trial? %>
+          <p>You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
+          <p><%= link_to "Change plan", edit_subscription_path %></p>
+        <% elsif @subscription && @subscription.on_grace_period? %>
+          <p>Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
+          <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch, class: "secondary-link" %></p>
+        <% elsif @subscription && @subscription.active? %>
+          <p>You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
+          <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
+        <% else %>
+          <p>You do not have a subscription set up. <%= link_to "Subscribe", pricing_path %></p>
+        <% end %>
+
+        <div class="my-4 w-full h-px bg-gray-200"></div>
+
+        <% if current_user.card_last4? %>
+          <div><%= current_user.card_brand %> ending in <%= current_user.card_last4 %></div>
+          <div>Expires <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %></div>
+          <%= link_to "Update your card", edit_card_path, class: "secondary-link" %>
+        <% else %>
+          <p>No card on file.</p>
+          <%= link_to "Add card", edit_card_path %>
+        <% end %>
+
+        <% if @subscription.active? && !@subscription.on_grace_period? %>
+          <div class="my-4 w-full h-px bg-gray-200"></div>
+          <%= link_to "Cancel subscription", subscription_path, method: :delete, class: "secondary-link", data: { confirm: "Are you sure you want to cancel?" } %>
+        <% end %>
+
+        <div class="my-4 w-full h-px bg-gray-200"></div>
+
+        <h5 class="my-8 text-xl font-medium">Invoices</h5>
+
+        <table>
+          <thead>
+            <th>Date</th>
+            <th>Card</th>
+            <th>Amount</th>
+            <th>Receipt</th>
+          </thead>
+          <tbody>
+            <% current_user.charges.order(created_at: :desc).each do |charge| %>
+              <tr>
+                <td><%= charge.created_at.to_date.to_s(:long) %></td>
+                <td><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
+                <td><%= formatted_amount(charge.amount) %></td>
+                <td><%= link_to "Download", charge_path(charge, format: :pdf), target: :_blank %></td>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

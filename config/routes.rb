@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+  mount StripeEvent::Engine, at: '/webhooks/stripe'
+
   devise_for :users
   root to: 'home#index'
-  get "/terms", to: "home#terms"
-  get "/privacy", to: "home#privacy"
+  get '/terms', to: 'home#terms'
+  get '/privacy', to: 'home#privacy'
 
   resources :usages, only: [:index]
   resources :task_runs, only: [:index] do
@@ -28,6 +30,14 @@ Rails.application.routes.draw do
   resources :prompt_sets do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
+
+  resource :card
+  resource :pricing, controller: :pricing
+  resource :subscription do
+    patch :resume
+  end
+  resources :payments
+  resources :charges
 
   namespace :admin do
     get 'index', to: 'home#index'

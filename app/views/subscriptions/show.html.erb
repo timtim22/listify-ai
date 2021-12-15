@@ -14,7 +14,7 @@
           <p>You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
           <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
         <% else %>
-          <p>You do not have a subscription set up. <%= link_to "Subscribe", pricing_path %></p>
+          <p>You do not have a subscription set up. <%= link_to "Subscribe", pricing_path, class: "secondary-link" %></p>
         <% end %>
 
         <div class="my-4 w-full h-px bg-gray-200"></div>
@@ -37,23 +37,27 @@
 
         <h5 class="my-8 text-xl font-medium">Invoices</h5>
 
-        <table>
-          <thead>
-            <th>Date</th>
-            <th>Card</th>
-            <th>Amount</th>
-            <th>Receipt</th>
-          </thead>
-          <tbody>
-            <% current_user.charges.order(created_at: :desc).each do |charge| %>
-              <tr>
-                <td><%= charge.created_at.to_date.to_s(:long) %></td>
-                <td><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
-                <td><%= formatted_amount(charge.amount) %></td>
-                <td><%= link_to "Download", charge_path(charge, format: :pdf), target: :_blank %></td>
-            <% end %>
-          </tbody>
-        </table>
+        <% if current_user.charges.any? %>
+          <table>
+            <thead>
+              <th>Date</th>
+              <th>Card</th>
+              <th>Amount</th>
+              <th>Receipt</th>
+            </thead>
+            <tbody>
+              <% current_user.charges.order(created_at: :desc).each do |charge| %>
+                <tr>
+                  <td><%= charge.created_at.to_date.to_s(:long) %></td>
+                  <td><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
+                  <td><%= formatted_amount(charge.amount) %></td>
+                  <td><%= link_to "Download", charge_path(charge, format: :pdf), target: :_blank %></td>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          No invoices to display.
+        <% end %>
       </div>
     </div>
   </div>

@@ -22,7 +22,7 @@ class Charge < ApplicationRecord
   end
 
   def line_items
-    [
+    items = [
       ["Date", created_at.to_s],
       ["Account billed", "#{user.name} (#{user.email})"],
       ["Product", "Listify subscription"],
@@ -31,9 +31,9 @@ class Charge < ApplicationRecord
     ]
 
     if amount_refunded?
-      line_items << ["Amount Refunded", ApplicationController.helpers.formatted_amount(amount_refunded)]
+      items << ["Amount Refunded", ApplicationController.helpers.formatted_amount(amount_refunded)]
     end
-    line_items
+    items
   end
 
   def refund(amount: nil)

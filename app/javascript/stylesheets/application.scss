@@ -36,7 +36,7 @@
 }
 
 .add-button {
-  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-green-600 hover:bg-green-700
+  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-blue-600 hover:bg-blue-700
 }
 
 .pill-button {
@@ -44,7 +44,7 @@
 }
 
 .pill-button-selected {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-green-800 bg-green-100 rounded-full cursor-pointer
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-blue-800 bg-blue-100 rounded-full cursor-pointer
 }
 
 .pill-button-disabled {

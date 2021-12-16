@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :prompt_set do
-    request_type { 'test_request' }
+    sequence(:request_type) {|n| "request_type_#{n}"}
   end
 end

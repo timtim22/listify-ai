@@ -32,7 +32,20 @@ document.addEventListener("turbolinks:load", () => {
       document.querySelector("#existing-card").classList.add("hidden");
     })
   }
+
+  let existingCard = document.querySelector("#existing-card");
+  if (existingCard !== null) {
+    addLoadingStateToExistingCard(existingCard);
+  }
 })
+
+function addLoadingStateToExistingCard(form) {
+  form.addEventListener("submit", () => {
+    event.preventDefault();
+    setLoading(form);
+    form.submit();
+  })
+}
 
 function setupStripe() {
   const stripeKey = document.querySelector("meta[name='stripe-key']").getAttribute("content");
@@ -62,6 +75,7 @@ function setupStripe() {
         if (result.error) {
           displayError.textContent = result.error.message;
           form.querySelector("#card-details").classList.remove("hidden");
+          clearLoading(form);
         } else {
           form.submit();
         }
@@ -71,6 +85,7 @@ function setupStripe() {
 
   form.addEventListener("submit", () => {
     event.preventDefault();
+    setLoading(form);
 
     let name = form.querySelector("#name_on_card").value;
     let data = {
@@ -92,6 +107,7 @@ function setupStripe() {
         if (result.error) {
           displayError.textContent = result.error.message;
           form.querySelector("#card-details").classList.remove("hidden");
+          clearLoading(form);
         } else {
           form.submit();
         }
@@ -103,6 +119,7 @@ function setupStripe() {
       }).then((result) => {
         if (result.error) {
           displayError.textContent = result.error.message;
+          clearLoading(form);
         } else {
           addHiddenField(form, "payment_method_id", result.setupIntent.payment_method);
           form.submit();
@@ -114,6 +131,7 @@ function setupStripe() {
       stripe.createPaymentMethod(data.payment_method_data).then((result) => {
         if (result.error) {
           displayError.textContent = result.error.message;
+          clearLoading(form);
         } else {
           addHiddenField(form, "payment_method_id", result.paymentMethod.id);
           form.submit();
@@ -129,4 +147,14 @@ function addHiddenField(form, name, value) {
   hiddenInput.setAttribute("name", name);
   hiddenInput.setAttribute("value", value);
   form.appendChild(hiddenInput);
+}
+
+function setLoading(form) {
+  form.querySelector("#submit-container").classList.add("hidden");
+  form.querySelector("#submit-loading").classList.remove("hidden");
+}
+
+function clearLoading(form) {
+  form.querySelector("#submit-container").classList.remove("hidden");
+  form.querySelector("#submit-loading").classList.add("hidden");
 }

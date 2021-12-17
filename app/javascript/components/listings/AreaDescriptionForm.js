@@ -192,7 +192,7 @@ const AreaDescriptionForm = ({
     const filteredRestaurants = filterRestaurants(results.restaurants);
 
     return (
-      <div className="py-4 w-full">
+      <div className="py-4 px-6 w-full">
         <div className="flex justify-center w-full">
           <form className="w-4/5 text-sm" onSubmit={handleSubmit}>
             <p>Here's what we found nearby. Select the key features for your description and tap generate.</p>
@@ -202,6 +202,7 @@ const AreaDescriptionForm = ({
             {attractionSection(results.stations, 'Stations & Subways', stationRow)}
             <br />
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
+            <p class="mt-4 text-right text-xs text-gray-300 font-bold">Search results powered by Google Maps</p>
             <br />
             {detailsField()}
             <br />

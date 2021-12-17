@@ -40,19 +40,19 @@
 }
 
 .pill-button {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded cursor-pointer
 }
 
 .pill-button-selected {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-blue-800 bg-blue-100 rounded-full cursor-pointer
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-blue-800 bg-blue-100 rounded cursor-pointer
 }
 
 .pill-button-disabled {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-default
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded cursor-default
 }
 
 .primary-button {
-  @apply py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700
+  @apply py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded shadow-sm hover:bg-green-700
 }
 
 .secondary-link {

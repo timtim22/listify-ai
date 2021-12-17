@@ -44,7 +44,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 
   const submitButton = () => {
     return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded-full shadow-sm hover:bg-blue-700">
+      <button className="py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700">
         Generate!
       </button>
     )
@@ -58,4 +58,3 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 }
 
 export default Submit;
-

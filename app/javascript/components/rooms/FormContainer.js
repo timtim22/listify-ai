@@ -24,30 +24,34 @@ const RoomFormContainer = ({ showExample, runsRemaining, setRunsRemaining, formT
   }
 
   return (
-    <>
-      <Form
-        loading={loading}
-        setLoading={(state) => setLoading(state)}
-        formType={formType}
-        runsRemaining={runsRemaining}
-        onResult={handleTaskRun}
-        showExample={showExample}
-      />
-      <ResultsPoll
-        taskRun={taskRun}
-        onResult={handleNewResults}
-      />
-      <Results
-        loading={loading}
-        setLoading={(state) => setLoading(state)}
-        runsRemaining={runsRemaining}
-        results={results}
-        taskRun={taskRun}
-        onRerun={handleTaskRun}
-      />
-    </>
+    <div class="flex flex-wrap overflow-hidden">
+      <div class="w-full md:w-1/2 overflow-hidden border-r-2">
+        <Form
+          loading={loading}
+          setLoading={(state) => setLoading(state)}
+          formType={formType}
+          runsRemaining={runsRemaining}
+          onResult={handleTaskRun}
+          showExample={showExample}
+        />
+      </div>
+
+      <div class="w-full md:w-1/2 overflow-hidden">
+        <ResultsPoll
+          taskRun={taskRun}
+          onResult={handleNewResults}
+        />
+        <Results
+          loading={loading}
+          setLoading={(state) => setLoading(state)}
+          runsRemaining={runsRemaining}
+          results={results}
+          taskRun={taskRun}
+          onRerun={handleTaskRun}
+        />
+      </div>
+    </div>
   )
 }
 
 export default RoomFormContainer;
-

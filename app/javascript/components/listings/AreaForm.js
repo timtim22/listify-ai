@@ -47,41 +47,45 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
   }
 
   return (
-    <div className="flex flex-col items-center mb-8 w-full">
-      <div className="mb-px w-full h-8"></div>
-      <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
-      <div className="w-4/5">
-        <ErrorNotice errors={errors} />
+    <div class="flex flex-wrap overflow-hidden">
+      <div class="w-full md:w-1/2 overflow-hidden border-r-2">
+        <div className="w-4/5">
+          <ErrorNotice errors={errors} />
+        </div>
+        <AreaSearchForm
+          setSearchResult={setSearchResult}
+          loading={loading}
+          setLoading={setLoading}
+          errors={errors}
+          setErrors={setErrors}
+        />
+        <AreaDescriptionForm
+          searchResult={searchResult}
+          descriptionParams={descriptionParams}
+          setDescriptionParams={setDescriptionParams}
+          handleTaskRun={handleTaskRun}
+          runsRemaining={runsRemaining}
+          loading={loading}
+          setLoading={setLoading}
+          setErrors={setErrors}
+        />
       </div>
-      <AreaSearchForm
-        setSearchResult={setSearchResult}
-        loading={loading}
-        setLoading={setLoading}
-        errors={errors}
-        setErrors={setErrors}
-      />
-      <AreaDescriptionForm
-        searchResult={searchResult}
-        descriptionParams={descriptionParams}
-        setDescriptionParams={setDescriptionParams}
-        handleTaskRun={handleTaskRun}
-        runsRemaining={runsRemaining}
-        loading={loading}
-        setLoading={setLoading}
-        setErrors={setErrors}
-      />
-      <ResultsPoll
-        taskRun={taskRun}
-        onResult={handleDescriptionResults}
-      />
-      <Results
-        loading={loading}
-        setLoading={(state) => setLoading(state)}
-        runsRemaining={runsRemaining}
-        results={descriptionResults}
-        taskRun={taskRun}
-        onRerun={handleTaskRun}
-      />
+
+      <div class="w-full md:w-1/2 overflow-hidden">
+        <ResultsPoll
+          taskRun={taskRun}
+          onResult={handleDescriptionResults}
+        />
+        <Results
+          loading={loading}
+          setLoading={(state) => setLoading(state)}
+          runsRemaining={runsRemaining}
+          results={descriptionResults}
+          taskRun={taskRun}
+          onRerun={handleTaskRun}
+        />
+        />
+      </div>
     </div>
   )
 }

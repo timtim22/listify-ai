@@ -309,12 +309,8 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
-  const consolidatedInput = consolidateInput();
-
-  return (
-    <div className="flex flex-col items-center w-full h-full">
-      <div className="mb-px w-full h-8"></div>
-      <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
+  const fullListingForm = () => {
+    return (
       <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
@@ -341,12 +337,24 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
           <p className="text-sm font-medium text-gray-900">Please note: this is a new feature that is still undergoing development. Results will get better as we make improvements.</p>
         </div>
       </form>
-      <FullListingPoll
-        fullListing={fullListing}
-        onComplete={(completedListing) => { setFullListing(completedListing); setLoading(false) }}
-        onError={setErrors}
-      />
-      {showResults()}
+    )
+  }
+
+  const consolidatedInput = consolidateInput();
+
+  return (
+    <div class="w-full md:w-1/2 overflow-hidden border-r-2">
+      <div className="flex flex-col items-center w-full h-full">
+        <div className="mb-px w-full h-8"></div>
+        <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
+        {fullListingForm()}
+        <FullListingPoll
+          fullListing={fullListing}
+          onComplete={(completedListing) => { setFullListing(completedListing); setLoading(false) }}
+          onError={setErrors}
+        />
+        {showResults()}
+      </div>
     </div>
   )
 }

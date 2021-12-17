@@ -48,6 +48,18 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
     )
   }
 
+  const asciiWarning = (str) => {
+    return (
+      <p className="text-red-700 text-sm mt-4">
+        Sorry, your text contains a language character we can't process. Try typing the location if you've copied and pasted from another site.
+      </p>
+    )
+  }
+
+  const isAscii = (str) => {
+    return /^[\x00-\x7F]*$/.test(str);
+  }
+
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
@@ -61,9 +73,12 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
     <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col w-4/5 max-w-2xl">
        {textRow('Location name','search_text','e.g. Waterloo, London', true)}
-        <div className="flex justify-center py-8 w-full">
-          {submitButton()}
-        </div>
+       {!isAscii(inputFields['search_text']) && asciiWarning()}
+        {isAscii(inputFields['search_text']) &&
+          <div className="flex justify-center py-8 w-full">
+            {submitButton()}
+          </div>
+        }
       </div>
     </form>
   )

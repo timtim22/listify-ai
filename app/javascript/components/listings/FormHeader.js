@@ -15,9 +15,9 @@ const FormHeader = ({ formType, setFormType }) => {
   }
 
   return (
-    <div className="flex flex-col items-center w-1/2 border-r-2">
+    <div className="flex flex-col items-center w-full md:w-1/2 border-r-2">
       <div className="text-center p-4 w-full tracking-wide text-gray-800 bg-grey-50">
-        <div class="border-l-4 border-t-2 rounded-b text-left px-4 py-3 shadow" role="alert">
+        <div class="border-l-4 border-t-1 rounded-b text-left px-4 py-3 shadow" role="alert">
           <div class="flex">
             <div class="py-1">
               <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

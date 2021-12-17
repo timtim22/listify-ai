@@ -25,7 +25,7 @@ const ListingFormContainer = ({ showExample, runsRemaining, setRunsRemaining, fo
 
   return (
     <div class="flex flex-wrap overflow-hidden">
-      <div class="w-1/2 overflow-hidden border-r-2">
+      <div class="w-full md:w-1/2 overflow-hidden border-r-2">
         <Form
           loading={loading}
           setLoading={(state) => setLoading(state)}
@@ -36,7 +36,7 @@ const ListingFormContainer = ({ showExample, runsRemaining, setRunsRemaining, fo
         />
       </div>
 
-      <div class="w-1/2 overflow-hidden">
+      <div class="w-full md:w-1/2 overflow-hidden">
         <ResultsPoll
           taskRun={taskRun}
           onResult={handleNewResults}

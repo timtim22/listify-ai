@@ -30,8 +30,14 @@
 
               <div id="card-errors" role="alert" class="text-red-700"></div>
 
+              <div id="submit-loading" class="hidden w-full flex justify-between items-center px-2">
+                <p>Processing...</p>
+                <div class="border-green-500 animate-spin rounded-full h-4 w-4 border-t-2 border-b-2"></div>
+              </div>
 
-              <%= form.submit "Pay #{formatted_amount(@payment_intent.amount)}", class: "primary-button" %>
+              <div id="submit-container" class="w-full">
+                <%= form.submit "Pay #{formatted_amount(@payment_intent.amount)}", class: "primary-button" %>
+              </div>
             <% end %>
           <% end %>
         <% end %>

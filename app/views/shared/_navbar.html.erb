@@ -1,4 +1,4 @@
-<div class="sticky top-0 z-10 bg-white left-0 w-full backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200">
+<div class="sticky top-0 left-0 z-10 w-full bg-white bg-opacity-30 border-b border-gray-200 backdrop-filter backdrop-blur-lg">
   <nav class="">
     <div class="px-4 mx-auto sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
@@ -59,6 +59,12 @@
           <div class="flex -mr-2 md:hidden">
             <%= react_component "common/MobileMenu", { admin: current_user.admin? } %>
           </div>
+        <% else %>
+          <% if request.path == "/users/sign_in" %>
+            <%= link_to "Sign Up",  new_user_registration_path, { class: "py-2 px-4 font-medium tracking-wide text-sm text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700" } %>
+          <% else %>
+            <%= link_to "Sign In",  new_user_session_path, { class: "py-2 px-4 font-medium tracking-wide text-sm text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700" } %>
+          <% end %>
         <% end %>
       </div>
     </div>

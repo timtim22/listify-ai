@@ -35,7 +35,7 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   const textRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center my-2 w-full">
-        <label className="flex-shrink-0 text-sm w-1/3">{title}</label>
+        <label className="flex-shrink-0 w-1/3 text-sm">{title}</label>
         <input
           type="text"
           placeholder={placeholder}

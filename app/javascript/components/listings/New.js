@@ -69,8 +69,8 @@ const New = ({ showExample, initialRunsRemaining }) => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row md:items-stretch">
-      <div className="flex flex-col h-full w-full min-h-screen md:w-1/2">
+    <div className="flex flex-col w-full h-full md:flex-row md:items-stretch">
+      <div className="flex flex-col w-full h-full min-h-screen md:w-1/2">
         <FormHeader
           formType={formType}
           setFormType={setFormType}

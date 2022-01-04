@@ -30,7 +30,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     )
   } else {
     return (
-      <div className="w-full h-screen overflow-scroll">
+      <div className="overflow-scroll w-full h-screen">
         <div className="flex flex-col items-center mb-4 w-full">
           <div className="flex flex-col items-center py-4 w-full">
             <div class="py-12 pt-12 text-center">

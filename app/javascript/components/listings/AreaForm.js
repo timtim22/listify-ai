@@ -84,7 +84,6 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
           taskRun={taskRun}
           onRerun={handleTaskRun}
         />
-        />
       </div>
     </div>
   )

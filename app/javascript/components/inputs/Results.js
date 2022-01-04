@@ -10,7 +10,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
 
   if (results.length > 0) {
     return (
-      <div className="top-12 w-full h-full md:absolute md:w-1/2">
+      <div className="top-12 w-full h-full">
         <div className="flex flex-col items-center mb-4 w-full">
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
@@ -30,7 +30,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     )
   } else {
     return (
-      <div className="top-12 w-full h-full md:absolute md:w-1/2">
+      <div className="top-12 w-full h-full">
         <div className="flex flex-col items-center mb-4 w-full">
           <div className="flex flex-col items-center py-4 w-full">
             <div class="py-12 pt-12 text-center">

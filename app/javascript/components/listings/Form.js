@@ -72,7 +72,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
 
   return (
     <>
-     <form className="flex flex-col items-center text-sm w-full" onSubmit={handleSubmit}>
+     <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
         </div>

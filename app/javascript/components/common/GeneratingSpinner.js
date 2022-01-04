@@ -14,7 +14,7 @@ const messages = [
 const GeneratingSpinner = ({ color }) => {
   const [spinnerTextIndex, setSpinnerTextIndex] = useState(0);
 
-  const spinnerColor = color || "border-green-500";
+  const spinnerColor = color || "border-blue-600";
   const messageIndex = Math.min(spinnerTextIndex, messages.length - 1);
 
   return (

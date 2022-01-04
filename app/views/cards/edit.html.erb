@@ -25,7 +25,12 @@
               <%= form.text_field :name_on_card, id: "name_on_card", placeholder: "Full Name", class: "payment-field text-sm", required: true %>
             </div>
 
-            <div class="w-full">
+            <div id="submit-loading" class="flex hidden justify-between items-center px-2 w-full">
+              <p>Processing...</p>
+              <div class="w-4 h-4 rounded-full border-t-2 border-b-2 border-green-500 animate-spin"></div>
+            </div>
+
+            <div id="submit-container" class="w-full">
               <%= form.submit "Update card", class: "primary-button" %>
             </div>
           </div>

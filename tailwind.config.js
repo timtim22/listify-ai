@@ -1,4 +1,5 @@
 // const plugin = require('tailwindcss/plugin');
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: [
@@ -13,6 +14,9 @@ module.exports = {
       body: ['Lato	', 'sans-serif'],
     },
     extend: {
+      colors: {
+        teal: colors.teal
+      },
       zIndex: {
        '-10': '-10',
       }

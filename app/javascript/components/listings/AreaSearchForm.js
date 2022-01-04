@@ -34,15 +34,15 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
 
   const textRow = (title, key, placeholder, required) => {
     return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3">{title}</label>
+      <div className="flex justify-start items-center my-2 w-full">
+        <label className="flex-shrink-0 text-sm w-1/3">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          className="w-full form-inline-field"
+          className="w-full text-sm form-inline-field"
         />
       </div>
     )
@@ -51,8 +51,8 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded-full shadow-sm hover:bg-blue-700">
-        Search!
+      <button className="primary-button">
+        Search
       </button>
     )
   }

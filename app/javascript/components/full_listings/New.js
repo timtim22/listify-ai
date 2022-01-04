@@ -343,7 +343,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const consolidatedInput = consolidateInput();
 
   return (
-    <div class="overflow-hidden w-full border-r-2 md:w-1/2">
+    <div className="overflow-hidden w-full border-r-2 md:w-1/2">
       <div className="flex flex-col items-center w-full h-full">
         <div className="mb-px w-full h-8"></div>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>

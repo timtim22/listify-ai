@@ -24,8 +24,8 @@ const RoomFormContainer = ({ showExample, runsRemaining, setRunsRemaining, formT
   }
 
   return (
-    <div class="flex flex-wrap overflow-hidden">
-      <div class="w-full md:w-1/2 overflow-hidden border-r-2">
+    <div class="flex overflow-hidden flex-wrap">
+      <div class="overflow-hidden w-full border-r-2 md:w-1/2">
         <Form
           loading={loading}
           setLoading={(state) => setLoading(state)}
@@ -36,7 +36,7 @@ const RoomFormContainer = ({ showExample, runsRemaining, setRunsRemaining, formT
         />
       </div>
 
-      <div class="w-full md:w-1/2 overflow-hidden">
+      <div class="overflow-hidden w-full md:w-1/2">
         <ResultsPoll
           taskRun={taskRun}
           onResult={handleNewResults}

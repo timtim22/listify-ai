@@ -47,8 +47,8 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
   }
 
   return (
-    <div class="flex flex-wrap overflow-hidden">
-      <div class="w-full md:w-1/2 overflow-hidden border-r-2">
+    <div class="flex overflow-hidden flex-wrap">
+      <div class="overflow-hidden w-full border-r-2 md:w-1/2">
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
         </div>
@@ -71,7 +71,7 @@ const AreaForm = ({ runsRemaining, setRunsRemaining }) => {
         />
       </div>
 
-      <div class="w-full md:w-1/2 overflow-hidden">
+      <div class="overflow-hidden w-full md:w-1/2">
         <ResultsPoll
           taskRun={taskRun}
           onResult={handleDescriptionResults}

@@ -88,7 +88,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          className="w-full form-inline-field"
+          className="w-full text-sm form-inline-field"
         />
       </div>
     )
@@ -106,7 +106,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           required={true}
           value={inputFields.bedrooms}
           onChange={(e) => {setField('bedrooms', coerceWithinRange(e.target.value, 1, 50))}}
-          className="w-16 form-inline-field"
+          className="w-16 text-sm form-inline-field"
         />
       </div>
     )
@@ -125,6 +125,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}
               onChange={(value) => setField('keyFeatures', value)}
+              customClasses={"text-sm"}
               placeholderContent={
               <>
                 <p className="mt-px">- e.g. large private balcony</p>

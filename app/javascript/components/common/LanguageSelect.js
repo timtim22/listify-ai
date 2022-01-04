@@ -8,7 +8,7 @@ const LanguageSelect = ({ onSelect, label }) => {
       <label className="flex-shrink-0 w-1/3">{label}</label>
       <select
         onChange={(e) => onSelect(e.target.value)}
-        className="mx-3 mt-1 form-select">
+        className="mx-3 mt-1 text-sm form-select">
         {supportedLanguages.map((item) => {
           return (
             <option key={item.value} value={item.value}>{item.name}</option>

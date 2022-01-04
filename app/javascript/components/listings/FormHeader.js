@@ -41,6 +41,7 @@ const FormHeader = ({ formType, setFormType }) => {
         {pillButton("Rooms", "room_description")}
         {pillButton("Full listing", "full_listing")}
       </div>
+      <div className="mb-8 w-full h-px bg-gray-300"></div>
    </div>
   )
 }

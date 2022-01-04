@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import FeedbackForm from '../feedbacks/Form';
 import TaskRerunButton from './TaskRerunButton';
 import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
@@ -25,7 +24,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
               />
             </div>
             <RequestCounter runsRemaining={runsRemaining} />
-            <FeedbackForm taskRunId={taskRun.id} />
           </div>
         </div>
       </div>

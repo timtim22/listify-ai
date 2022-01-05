@@ -8,6 +8,18 @@ import resultsEmptyState from '../../../assets/images/resultsEmptyState.png'; //
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
+  const noResultsContent = () => {
+    if (!loading) {
+      return (
+        <>
+          <img class="mx-auto" src={resultsEmptyState} alt="see results here" width="200" height="200"></img>
+          <h1 className="mt-10 text-xl font-medium tracking-wider text-gray-700">Nothing to see yet</h1>
+          <p className="my-2 text-sm tracking-wider text-gray-700">Create a new listing to see our generated results here</p>
+        </>
+      )
+    }
+  }
+
   if (results.length > 0) {
     return (
       <div className="w-full h-full">
@@ -31,22 +43,16 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   } else {
     return (
       <div className="overflow-scroll w-full h-screen">
-        <div className="flex flex-col items-center mb-4 w-full">
-          <div className="flex flex-col items-center py-4 w-full">
-            <div class="py-12 pt-12 text-center">
-              <img class="mx-auto" src={resultsEmptyState} alt="see results here" width="200" height="200"></img>
-              <h1 className="mt-10 text-xl font-medium tracking-wider text-gray-700">Nothing to see yet</h1>
-              <p className="my-2 text-sm tracking-wider text-gray-700">Create a new listing to see our generated results here</p>
-            </div>
-            <div className="flex justify-center py-8 w-full">
-              <TaskRerunButton
-                loading={loading}
-                setLoading={setLoading}
-                taskRun={taskRun}
-                hideButton={true}
-                onResult={onRerun}
-              />
-            </div>
+        <div className="flex flex-col pt-24 items-center py-4 w-full h-full">
+          {noResultsContent()}
+          <div className="flex justify-center py-8 w-full">
+            <TaskRerunButton
+              loading={loading}
+              setLoading={setLoading}
+              taskRun={taskRun}
+              hideButton={true}
+              onResult={onRerun}
+            />
           </div>
         </div>
       </div>

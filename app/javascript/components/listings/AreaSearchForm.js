@@ -50,7 +50,7 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
 
   const asciiWarning = (str) => {
     return (
-      <p className="text-red-700 text-sm mt-4">
+      <p className="mt-4 text-sm text-red-700">
         Sorry, your text contains a language character we can't process. Try typing the location if you've copied and pasted from another site.
       </p>
     )

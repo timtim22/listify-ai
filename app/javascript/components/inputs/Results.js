@@ -12,7 +12,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     if (!loading) {
       return (
         <>
-          <img class="mx-auto" src={resultsEmptyState} alt="see results here" width="200" height="200"></img>
+          <img className="mx-auto" src={resultsEmptyState} alt="see results here" width="200" height="200"></img>
           <h1 className="mt-10 text-xl font-medium tracking-wider text-gray-700">Nothing to see yet</h1>
           <p className="my-2 text-sm tracking-wider text-gray-700">Create a new listing to see our generated results here</p>
         </>
@@ -43,7 +43,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   } else {
     return (
       <div className="overflow-scroll w-full h-screen">
-        <div className="flex flex-col pt-24 items-center py-4 w-full h-full">
+        <div className="flex flex-col items-center py-4 pt-24 w-full h-full">
           {noResultsContent()}
           <div className="flex justify-center py-8 w-full">
             <TaskRerunButton

@@ -202,7 +202,7 @@ const AreaDescriptionForm = ({
             {attractionSection(results.stations, 'Stations & Subways', stationRow)}
             <br />
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
-            <p class="mt-4 text-right text-xs text-gray-300">Search results powered by Google Maps</p>
+            <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
             <br />
             {detailsField()}
             <br />

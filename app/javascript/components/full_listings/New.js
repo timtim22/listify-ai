@@ -6,10 +6,10 @@ import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
 import OtherRoomForm from '../rooms/OtherRoomForm';
+import BedroomInput from '../rooms/BedroomInput';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
 import RequestCounter from '../common/RequestCounter';
-import Switch from '../common/Switch';
 
 const newInputFields = {
   property_type: '',
@@ -40,7 +40,6 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const [errors, setErrors] = useState(null);
   const [fullListing, setFullListing] = useState(null);
   const [results, setResults] = useState([]);
-  const [highFlair, setHighFlair] = useState(false);
 
   //const onResult = useScrollOnResult(results);
   //
@@ -98,7 +97,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
         full_listing: {
           ...inputFields,
           headline_text: assembleHeadline(),
-          high_flair: highFlair
+          high_flair: false
         }
       },
       (response) => { handleRequestSuccess(response) },
@@ -119,29 +118,10 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     }
   }
 
-  const formHeader = () => {
-    return (
-      <div className="flex flex-col items-center w-full">
-        <div className="p-4 w-full font-semibold tracking-wide text-gray-800 bg-purple-100">
-          <p>
-            Thanks for joining our private beta! We're still building our product, and making lots of improvements.
-            Please do give us feedback, it really helps!
-          </p>
-        </div>
-        <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">
-          Listings Generator
-        </h1>
-        <div className="flex justify-center w-4/5 max-w-2xl">
-          <div className="mb-8 w-full h-px bg-gray-200"></div>
-        </div>
-     </div>
-    )
-  }
-
   const textInputRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">{title}</label>
+        <label className="flex-shrink-0 w-1/3 text-sm text-gray-800">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
@@ -159,7 +139,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     return (
       <div className="flex flex-col w-full">
         <div className="flex items-start w-full">
-          <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">{title}</label>
+          <label className="flex-shrink-0 mt-3 w-1/3 text-sm text-gray-700">{title}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields[fieldName]}
@@ -177,28 +157,24 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
-  const bedroomRow = (title, index, placeholderText, required) => {
-    const bedroom = inputFields.bedrooms[index];
-    const charsLimit = 150;
-    const charsLeft = charsLimit - (bedroom && bedroom.length || 0);
+  const detailPlaceholder = (placeholderText, index) => {
     return (
-      <div key={index} className="flex flex-col w-full">
-        <div className={`${charsLeft <= 30 ? "" : "mb-4"} flex justify-start items-start mt-4 w-full`}>
-          <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">{title}</label>
-          <div className="px-3 w-full">
-            <TextareaWithPlaceholder
-              value={bedroom || ""}
-              onChange={(value) => {charsLimit - value.length >= 0 && updateBedroomInState(index, value)}}
-              heightClass={"h-16"}
-              placeholderContent={<div className="flex flex-col items-start mb-px leading-relaxed"><p>{index == 0 ? placeholderText : ""}</p></div>}
-              customClasses={"text-sm"}
-            />
-          </div>
-        </div>
-        <div className="self-end pt-1 pr-3 text-xs font-medium text-gray-500">
-          {charsLeft <= 30 && <p className={charsLeft <= 10 ? "text-red-500" : ""}>{charsLeft}</p>}
-        </div>
+      <div className="flex flex-col items-start mb-px leading-relaxed">
+        <p>{index == 0 ? placeholderText : ""}</p>
       </div>
+    )
+  }
+
+  const bedroomRow = (title, index, placeholderText) => {
+    return (
+      <BedroomInput
+        key={index}
+        bedrooms={inputFields.bedrooms}
+        title={title}
+        index={index}
+        updateIndex={(index, value) => updateBedroomInState(index, value)}
+        placeholderContent={detailPlaceholder(placeholderText, index)}
+      />
     )
   }
 
@@ -219,7 +195,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     const arrayOfIndexes = Array.from(Array(number).keys())
     const bedroomRows = arrayOfIndexes.map((i) => {
       return (
-        bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...', false)
+        bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')
       )
     });
 
@@ -262,23 +238,6 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
         </div>
       )
     }
-  }
-
-
-  const creativitySwitch = () => {
-    return (
-      <div className="flex items-start pt-4 w-full">
-        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">Creativity</label>
-        <div className="flex items-start px-4 w-2/3">
-          <Switch
-            handleToggle={() => setHighFlair(!highFlair)}
-            isOn={highFlair}
-            leftLabel="lower"
-            rightLabel="higher"
-          />
-        </div>
-      </div>
-    )
   }
 
   const fullListingForm = () => {
@@ -326,7 +285,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
 
   return (
     <div className="overflow-hidden w-full">
-      <div className="flex flex-col items-center w-full h-full pt-2">
+      <div className="flex flex-col items-center pt-2 w-full h-full">
         {fullListingForm()}
         {fullListingPoll()}
         {showResults()}

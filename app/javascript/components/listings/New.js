@@ -5,6 +5,7 @@ import ListingFormContainer from './ListingFormContainer';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
 import FullListingForm from '../full_listings/New';
+import FullListingResults from '../full_listings/FullListingResults';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
@@ -55,6 +56,10 @@ const New = ({ showExample, initialRunsRemaining }) => {
         <FullListingForm
           runsRemaining={runsRemaining}
           setRunsRemaining={setRunsRemaining}
+          loading={loading}
+          setLoading={setLoading}
+          results={results}
+          setResults={setResults}
         />
       )
     } else {
@@ -64,6 +69,36 @@ const New = ({ showExample, initialRunsRemaining }) => {
           formType={formType}
           showExample={showExample}
         />
+      )
+    }
+  }
+
+  const resultsSection = () => {
+    if (formType === "full_listing") {
+      return (
+        <FullListingResults
+          runsRemaining={runsRemaining}
+          setLoading={setLoading}
+          results={results}
+          setResults={setResults}
+        />
+      )
+    } else {
+      return (
+        <>
+          <ResultsPoll
+            taskRun={taskRun}
+            onResult={handleNewResults}
+          />
+          <Results
+            loading={loading}
+            setLoading={(state) => setLoading(state)}
+            runsRemaining={runsRemaining}
+            results={results}
+            taskRun={taskRun}
+            onRerun={handleTaskRun}
+          />
+        </>
       )
     }
   }
@@ -78,18 +113,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
         {displayForm()}
       </div>
       <div className="w-full border-l-2 md:w-1/2">
-        <ResultsPoll
-          taskRun={taskRun}
-          onResult={handleNewResults}
-        />
-        <Results
-          loading={loading}
-          setLoading={(state) => setLoading(state)}
-          runsRemaining={runsRemaining}
-          results={results}
-          taskRun={taskRun}
-          onRerun={handleTaskRun}
-        />
+        {resultsSection()}
       </div>
     </div>
   )

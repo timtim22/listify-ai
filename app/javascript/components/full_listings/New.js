@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
-import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
 import OtherRoomForm from '../rooms/OtherRoomForm';
 import BedroomInput from '../rooms/BedroomInput';
-import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
-import RequestCounter from '../common/RequestCounter';
 
 const newInputFields = {
   property_type: '',
@@ -34,12 +31,16 @@ const generalFeaturesPlaceholder = () => {
 
 const maxInputs = 2000
 
-const New = ({ runsRemaining, setRunsRemaining }) => {
+const New = ({
+  runsRemaining,
+  setRunsRemaining,
+  loading,
+  setLoading,
+  results,
+  setResults
+}) => {
   const [inputFields, setInputFields] = useState(newInputFields);
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [fullListing, setFullListing] = useState(null);
-  const [results, setResults] = useState([]);
 
   //const onResult = useScrollOnResult(results);
   //
@@ -47,12 +48,6 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     const { property_type, location, key_features, bedrooms, rooms } = inputFields;
     const roomDescs = rooms.map(r => (r.name + r.description)).join("");
     return property_type + location + key_features + bedrooms.join("") + roomDescs;
-  }
-
-  const handleNewResults = (newResults) => {
-    const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
-    setResults(newList);
-    setLoading(false);
   }
 
   const setField = (field, value) => {
@@ -78,7 +73,7 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
   const handleRequestSuccess = (response) => {
     setErrors(null);
     setRunsRemaining(response.data.runs_remaining)
-    setFullListing(response.data.full_listing);
+    setResults([response.data.full_listing]);
   }
 
   const assembleHeadline = () => {
@@ -224,71 +219,37 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
-  const showResults = () => {
-    if (fullListing && fullListing.text !== "") {
-      const results = [{
-        id: fullListing.id,
-        object_type: "FullListing",
-        result_text: fullListing.text
-      }]
-      return (
-        <div className="flex flex-col items-center py-8 w-full">
-          <ResultList results={results} />
-          <RequestCounter runsRemaining={runsRemaining} />
-        </div>
-      )
-    }
-  }
-
-  const fullListingForm = () => {
-    return (
-      <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
-        <div className="w-4/5">
-          <ErrorNotice errors={errors} />
-        </div>
-        <div className="flex flex-col w-4/5 max-w-2xl">
-          {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
-          {textInputRow('Location', 'location', '', true)}
-          {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
-          {bedroomsCountRow()}
-          {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
-          {bedroomFields()}
-          {roomForm()}
-          <div className="flex justify-center py-8 w-full">
-            <Submit
-              inputText={consolidatedInput}
-              userInputLength={consolidatedInput.length}
-              maxUserInput={maxInputs}
-              loading={loading}
-              runsRemaining={runsRemaining}
-            />
-          </div>
-        </div>
-        <div className="flex justify-center items-center py-2 px-2 w-full text-center align-middle bg-gray-200">
-          <p className="text-sm font-medium text-gray-900">Please note: this is a new feature that is still undergoing development. Results will get better as we make improvements.</p>
-        </div>
-      </form>
-    )
-  }
-
-  const fullListingPoll = () => {
-    return (
-      <FullListingPoll
-        fullListing={fullListing}
-        onComplete={(completedListing) => { setFullListing(completedListing); setLoading(false) }}
-        onError={setErrors}
-      />
-    )
-  }
-
   const consolidatedInput = consolidateInput();
 
   return (
     <div className="overflow-hidden w-full">
       <div className="flex flex-col items-center pt-2 w-full h-full">
-        {fullListingForm()}
-        {fullListingPoll()}
-        {showResults()}
+        <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
+          <div className="w-4/5">
+            <ErrorNotice errors={errors} />
+          </div>
+          <div className="flex flex-col w-4/5 max-w-2xl">
+            {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
+            {textInputRow('Location', 'location', '', true)}
+            {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
+            {bedroomsCountRow()}
+            {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
+            {bedroomFields()}
+            {roomForm()}
+            <div className="flex justify-center py-8 w-full">
+              <Submit
+                inputText={consolidatedInput}
+                userInputLength={consolidatedInput.length}
+                maxUserInput={maxInputs}
+                loading={loading}
+                runsRemaining={runsRemaining}
+              />
+            </div>
+          </div>
+          <div className="flex justify-center items-center py-2 px-2 w-full text-center align-middle bg-gray-200">
+            <p className="text-sm font-medium text-gray-900">Please note: this is a new feature that is still undergoing development. Results will get better as we make improvements.</p>
+          </div>
+        </form>
       </div>
     </div>
   )

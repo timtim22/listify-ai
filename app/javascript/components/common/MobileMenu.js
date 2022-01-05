@@ -72,7 +72,7 @@ const MobileMenu = ({ admin }) => {
     <>
       <button
         type="button"
-        className="inline-flex justify-center items-center p-2 text-blue-600 bg-white ring-2 ring-blue-600 rounded-md hover:bg-white hover:text-blue-700 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+        className="inline-flex justify-center items-center p-2 text-blue-600 bg-white rounded-md ring-2 ring-blue-600 hover:text-blue-700 hover:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-controls="mobile-menu"
         aria-expanded="false"

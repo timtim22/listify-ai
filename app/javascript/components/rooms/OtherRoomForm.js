@@ -68,7 +68,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   const roomRow = (room) => {
     return (
-      <div key={room.id} className="flex flex-col items-start mb-4">
+      <div key={room.id} className="flex flex-col items-start">
         {textInputRow("Name of space", room, "e.g. open plan kitchen")}
         {detailField("Details", room, null)}
         <div className="flex justify-end items-center px-3 w-full">
@@ -86,7 +86,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   const textInputRow = (title, room, placeholder, required = false) => {
     return (
-      <div className="flex justify-start items-center mb-4 w-full">
+      <div className="flex justify-start items-center mb-2 w-full">
         <label className="flex-shrink-0 w-1/3 text-sm text-gray-700">{title}</label>
         <input
           type="text"
@@ -151,7 +151,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
         <button
           type="button"
           onClick={addRoom}
-          className="self-center mb-4 text-xs text-gray-700 underline focus:outline-none">
+          className="self-center text-xs text-gray-700 underline focus:outline-none">
           Add a room
         </button>
       )
@@ -161,7 +161,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
   return (
     <div className="flex flex-col">
       {header()}
-      <div className={showHeader ? "my-4" : "mb-4"}>
+      <div>
         {roomList()}
         {addRoomButton()}
       </div>

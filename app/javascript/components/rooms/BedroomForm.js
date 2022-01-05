@@ -36,7 +36,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
 
   const bedroomFields = () => {
     return (
-      <div className="flex flex-col mb-2">
+      <div className="flex flex-col">
         {bedroomCountAsArray().map((i) => {
           return (
             bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')

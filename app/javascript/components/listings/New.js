@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingFormContainer from './ListingFormContainer';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
-import FullListingForm from '../full_listings/New';
+import FullListingForm from '../full_listings/Form';
 import FullListingResults from '../full_listings/FullListingResults';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -15,6 +15,11 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
+
+  useEffect(() => {
+    if (taskRun) { setTaskRun(null) };
+    if (results) { setResults([]) };
+  }, [formType]);
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;

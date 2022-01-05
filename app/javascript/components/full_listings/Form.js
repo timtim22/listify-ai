@@ -31,7 +31,7 @@ const generalFeaturesPlaceholder = () => {
 
 const maxInputs = 2000
 
-const New = ({
+const Form = ({
   runsRemaining,
   setRunsRemaining,
   loading,
@@ -255,4 +255,4 @@ const New = ({
   )
 }
 
-export default New;
+export default Form;

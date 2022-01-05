@@ -174,7 +174,7 @@ const AreaDescriptionForm = ({
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
-      <div className="flex justify-center py-4 w-full">
+      <div className="flex justify-center py-8 w-full">
         <Submit
           inputText={descriptionParams.detailText}
           userInputLength={userInputLength}
@@ -205,7 +205,6 @@ const AreaDescriptionForm = ({
             <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
             <br />
             {detailsField()}
-            <br />
             {submitButton()}
           </form>
         </div>

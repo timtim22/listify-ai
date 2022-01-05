@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import { coerceWithinRange } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import ResultList from '../common/ResultList';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import NumberField from '../common/NumberField';
 import OtherRoomForm from '../rooms/OtherRoomForm';
 import FullListingPoll from './FullListingPoll';
 import Submit from '../inputs/Submit';
@@ -113,6 +113,12 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     setField('bedrooms', newBedrooms);
   }
 
+  const setInputIfValid = (key, value, limit) => {
+    if (value.length <= limit) {
+      setField(key, value);
+    }
+  }
+
   const formHeader = () => {
     return (
       <div className="flex flex-col items-center w-full">
@@ -132,15 +138,9 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
-  const setInputIfValid = (key, value, limit) => {
-    if (value.length <= limit) {
-      setField(key, value);
-    }
-  }
-
   const textInputRow = (title, key, placeholder, required) => {
     return (
-      <div className="flex justify-start items-center mb-4 w-full">
+      <div className="flex justify-start items-center mb-2 w-full">
         <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">{title}</label>
         <input
           type="text"
@@ -202,43 +202,15 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
-  const numberRow = (title, fieldName) => {
-    return (
-      <div className="flex flex-grow justify-start items-center text-sm font-medium text-gray-700">
-        <input
-          type="number"
-          min="1"
-          max="20"
-          placeholder="2"
-          required={true}
-          value={inputFields[fieldName]}
-          onChange={(e) => {setField(fieldName, coerceWithinRange(e.target.value, 1, 20))}}
-          className="w-16 text-sm form-inline-field"
-        />
-        <span> people.</span>
-      </div>
-    )
-  }
-
   const bedroomsCountRow = () => {
     return (
-      <div className="flex justify-start items-center mb-4 w-full">
-        <label className="w-1/3 text-sm">Bedrooms</label>
-        <div className="flex flex-col w-2/3 md:flex-row md:items-center">
-          <div className="flex items-center">
-            <input
-              type="number"
-              min="1"
-              max="8"
-              placeholder="1"
-              required={true}
-              value={inputFields.bedroom_count}
-              onChange={(e) => {setBedroomCount(coerceWithinRange(e.target.value, 1, 8))}}
-              className="w-16 text-sm form-inline-field"
-            />
-          </div>
-        </div>
-      </div>
+      <NumberField
+        title="Bedrooms"
+        value={inputFields.bedroom_count}
+        onChange={(v) => setBedroomCount(v)}
+        minValue={1}
+        maxValue={4}
+      />
     )
   }
 
@@ -340,19 +312,23 @@ const New = ({ runsRemaining, setRunsRemaining }) => {
     )
   }
 
+  const fullListingPoll = () => {
+    return (
+      <FullListingPoll
+        fullListing={fullListing}
+        onComplete={(completedListing) => { setFullListing(completedListing); setLoading(false) }}
+        onError={setErrors}
+      />
+    )
+  }
+
   const consolidatedInput = consolidateInput();
 
   return (
-    <div className="overflow-hidden w-full border-r-2 md:w-1/2">
-      <div className="flex flex-col items-center w-full h-full">
-        <div className="mb-px w-full h-8"></div>
-        <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
+    <div className="overflow-hidden w-full">
+      <div className="flex flex-col items-center w-full h-full pt-2">
         {fullListingForm()}
-        <FullListingPoll
-          fullListing={fullListing}
-          onComplete={(completedListing) => { setFullListing(completedListing); setLoading(false) }}
-          onError={setErrors}
-        />
+        {fullListingPoll()}
         {showResults()}
       </div>
     </div>

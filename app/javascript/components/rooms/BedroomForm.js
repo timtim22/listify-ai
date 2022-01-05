@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { coerceWithinRange } from '../../helpers/utils';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import NumberField from '../common/NumberField';
 
 const maxDetailLength = 150;
 const charSoftWarningLength = 30;
@@ -38,23 +38,13 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
 
   const bedroomCountRow = () => {
     return (
-      <div className="flex justify-start items-center mb-4 w-full">
-        <label className="w-1/3 text-sm font-medium text-gray-700">Bedrooms to describe</label>
-        <div className="flex flex-col w-2/3 md:flex-row md:items-center">
-          <div className="flex items-center">
-            <input
-              type="number"
-              min="1"
-              max="4"
-              placeholder="1"
-              required={true}
-              value={bedroomCount}
-              onChange={(e) => {changeBedroomCount(coerceWithinRange(e.target.value, 1, 4))}}
-              className="w-16 text-sm form-inline-field"
-            />
-          </div>
-        </div>
-      </div>
+      <NumberField
+        title="Number of bedrooms"
+        value={bedroomCount}
+        onChange={(v) => changeBedroomCount(v)}
+        minValue={1}
+        maxValue={4}
+      />
     )
   }
 
@@ -71,8 +61,8 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
     const charsLeft = maxDetailLength - (bedroom && bedroom.length || 0);
     return (
       <div key={index} className="flex flex-col w-full">
-        <div className={`${charsLeft <= charSoftWarningLength ? "" : "mb-4"} flex justify-start items-start w-full`}>
-          <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">{title}</label>
+        <div className={`${charsLeft <= charSoftWarningLength ? "" : "mb-2"} flex justify-start items-start w-full`}>
+          <label className="flex-shrink-0 mt-3 w-1/3 text-sm text-gray-800">{title}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={bedroom || ""}
@@ -83,7 +73,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
             />
           </div>
         </div>
-        <div className="self-end pt-1 pr-3 text-xs font-medium text-gray-500">
+        <div className="self-end pt-1 pr-3 text-xs text-gray-500">
           {characterCounter(charsLeft)}
         </div>
       </div>
@@ -107,7 +97,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
 
   const bedroomFields = () => {
     return (
-      <div className="flex flex-col mb-4">
+      <div className="flex flex-col mb-2">
         {bedroomCountAsArray().map((i) => {
           return (
             bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')

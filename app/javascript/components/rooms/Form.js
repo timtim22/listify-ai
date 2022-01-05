@@ -9,6 +9,10 @@ import OtherRoomForm from './OtherRoomForm';
 
 const maxInput = 250;
 const newRoomDescription = { bedrooms: [''], rooms: [], request_type: 'room_description' };
+const roomTypes = [
+  { name: 'bedrooms', value: 'bedrooms' },
+  { name: 'other rooms and spaces', value: 'others' }
+]
 
 const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
   const [roomDescription, setRoomDescription] = useState({ ...newRoomDescription, request_type: formType });
@@ -72,14 +76,20 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     setInputType(newType);
   }
 
-  const inputModeSwitch = () => {
+  const roomTypeSwitch = () => {
     return (
-      <Switch
-        handleToggle={changeInputType}
-        isOn={inputType === 'others'}
-        leftLabel='bedrooms'
-        rightLabel='others'
-      />
+      <div className="w-4/5 flex items-center my-2">
+        <label className="flex-shrink-0 w-1/3 text-sm">Room type</label>
+        <select
+          onChange={(e) => changeInputType()}
+          className="mx-3 mt-1 text-sm form-select">
+          {roomTypes.map((item) => {
+            return (
+              <option key={item.value} value={item.value}>{item.name}</option>
+            )
+          })}
+        </select>
+      </div>
     )
   }
 
@@ -102,11 +112,8 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   }
 
   return (
-    <>
-      <div className="flex flex-col items-center w-full">
-        {inputModeSwitch()}
-        <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
-      </div>
+    <div className="w-full flex flex-col items-center">
+      {roomTypeSwitch()}
       <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
@@ -124,7 +131,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           </div>
         </div>
       </form>
-    </>
+    </div>
   )
 }
 

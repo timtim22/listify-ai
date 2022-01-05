@@ -77,7 +77,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
         />
         {displayForm()}
       </div>
-      <div className="overflow-scroll w-full border-l-2 md:w-1/2">
+      <div className="w-full border-l-2 md:w-1/2">
         <ResultsPoll
           taskRun={taskRun}
           onResult={handleNewResults}

@@ -113,11 +113,11 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
 
   return (
     <div className="flex flex-col items-center w-full">
-      {roomTypeSwitch()}
       <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
-        <div className="w-4/5">
+        <div className="w-4/5 text-sm">
           <ErrorNotice errors={errors} />
         </div>
+        {roomTypeSwitch()}
         <div className="flex flex-col w-4/5 max-w-2xl">
           {formFields()}
           <div className="flex justify-center py-8 w-full">

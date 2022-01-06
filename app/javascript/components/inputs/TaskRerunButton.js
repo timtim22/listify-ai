@@ -16,7 +16,7 @@ const TaskRerunButton = ({ taskRun, runsRemaining, onResult, loading, setLoading
     )
   }
 
-  if (loading) { return <GeneratingSpinner />; }
+  if (loading) { return <div className="hidden md:block"><GeneratingSpinner /></div>; }
   if (hideButton) { return null; }
   if (runsRemaining < 1) { return null; }
 

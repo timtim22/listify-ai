@@ -1,29 +1,43 @@
 <div class="flex flex-col items-start px-4 md:px-8">
   <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
     <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
-      <div class="p-12 w-full h-full leading-loose text-center md:text-left">
-        <h1 class="mb-4 text-2xl font-medium tracking-wide">Welcome! 👋</h1>
-        <br />
+      <div class="p-12 w-full h-full leading-relaxed text-center md:text-left">
+
+        <div class="py-3 px-4 text-left text-teal-900 bg-teal-50 rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
+          <div class="flex items-center">
+            <div class="py-1 text-teal-500">
+              <svg class="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">We've made some changes!</p>
+              <p class="text-sm">
+                Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="mt-16 mb-8 text-2xl font-medium tracking-wide">Welcome to Listify! 👋</h1>
         <% if user_signed_in? && current_user.admin? && current_user.subscribed? %>
-          <p class="font-bold text-purple-800">Your subscription is active.</p>
+          <p class="text-purple-800">Your subscription is active.</p>
           <br />
         <% end %>
+
         <p>
-          Minotaur helps you create awesome copy for your property listings using an AI copywriter.
+          Listify helps you create awesome copy for your property listings using an AI copywriter.
           It lets you generate engaging, original content in seconds.
         </p>
         <br />
-        <p>
-          <span class="font-bold tracking-wide text-green-600">To get started</span>, we recommend <%= link_to "trying an example", new_listing_path(show_example: true), class: "text-blue-700 underline" %>.
+        <p class="mb-16">
+          <span class="font-bold tracking-wide text-blue-600">To get started</span>, we recommend <%= link_to "trying an example", new_listing_path(show_example: true), class: "text-blue-700 underline" %>.
           If you've been here before, you can <%= link_to "jump right in", new_listing_path, class: "text-blue-700 underline" %>.
         </p>
 
-        <br />
-        <br />
-        <h3 class="text-lg font-bold tracking-wide">How Minotaur works</h3>
-        <br />
+        <h3 class="mb-4 font-bold tracking-wide">How Listify works</h3>
         <p>
-          Minotaur is built on GPT-3, the world’s most advanced language AI.
+          Listify is built on GPT-3, the world’s most advanced language AI.
           The AI can create several drafts in seconds, varying from the basic to the poetic.
         </p>
         <br />
@@ -33,11 +47,11 @@
         </p>
         <br />
         <p>
-          If you have questions, need help, or have ideas for how we can improve, please <%= mail_to "hello@getminotaur.app", "get in touch", class: "text-blue-700 underline" %>.
+          If you have questions, need help, or have ideas for how we can improve, please <%= mail_to "luke@listify.ai", "get in touch", class: "text-blue-700 underline" %>.
           Thanks for giving us a try!
         </p>
         <br />
-        <p class="font-bold">The Minotaur Team</p>
+        <p class="font-bold">The Listify Team</p>
       </div>
     </div>
   </div>

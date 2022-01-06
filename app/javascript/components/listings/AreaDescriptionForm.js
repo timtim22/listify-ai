@@ -157,6 +157,7 @@ const AreaDescriptionForm = ({
           <TextareaWithPlaceholder
             value={descriptionParams.detailText}
             onChange={(value) => setInputText(value, value.length)}
+            customClasses={"text-sm"}
             heightClass={"h-24"}
             placeholderContent={
             <div className="flex flex-col items-start mb-px">
@@ -174,7 +175,7 @@ const AreaDescriptionForm = ({
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
-      <div className="flex justify-center py-4 w-full">
+      <div className="flex justify-center py-8 w-full">
         <Submit
           inputText={descriptionParams.detailText}
           userInputLength={userInputLength}
@@ -194,7 +195,7 @@ const AreaDescriptionForm = ({
     return (
       <div className="py-4 px-6 w-full">
         <div className="flex justify-center w-full">
-          <form className="w-4/5 text-sm" onSubmit={handleSubmit}>
+          <form className="text-sm" onSubmit={handleSubmit}>
             <p>Here's what we found nearby. Select the key features for your description and tap generate.</p>
             <br />
             {attractionSection(topAttractions, 'Attractions', attractionRow)}
@@ -202,10 +203,9 @@ const AreaDescriptionForm = ({
             {attractionSection(results.stations, 'Stations & Subways', stationRow)}
             <br />
             {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
-            <p class="mt-4 text-right text-xs text-gray-300 font-bold">Search results powered by Google Maps</p>
+            <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
             <br />
             {detailsField()}
-            <br />
             {submitButton()}
           </form>
         </div>

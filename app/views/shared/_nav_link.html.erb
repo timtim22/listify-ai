@@ -1,0 +1,5 @@
+<% if request.path == route %>
+  <%= link_to name, route, { title:"App", class: "p-1 tracking-wide text-blue-600 focus:outline-none" } %>
+<% else %>
+  <%= link_to name, route, { class: "p-1 tracking-wide focus:outline-none" } %>
+<% end %>

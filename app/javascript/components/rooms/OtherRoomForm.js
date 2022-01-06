@@ -68,14 +68,14 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   const roomRow = (room) => {
     return (
-      <div key={room.id} className="flex flex-col items-start mb-4">
+      <div key={room.id} className="flex flex-col items-start">
         {textInputRow("Name of space", room, "e.g. open plan kitchen")}
         {detailField("Details", room, null)}
         <div className="flex justify-end items-center px-3 w-full">
           <button
             type="button"
             onClick={() => removeRoom(room)}
-            className="ml-2 text-xs font-medium text-red-700">
+            className="ml-2 text-xs text-red-700">
             remove
           </button>
         </div>
@@ -86,8 +86,8 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   const textInputRow = (title, room, placeholder, required = false) => {
     return (
-      <div className="flex justify-start items-center mb-4 w-full">
-        <label className="flex-shrink-0 w-1/3 text-sm font-medium text-gray-700">{title}</label>
+      <div className="flex justify-start items-center mb-2 w-full">
+        <label className="flex-shrink-0 w-1/3 text-sm text-gray-700">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
@@ -114,7 +114,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
       <div className="flex flex-col justify-start w-full">
         <div className={`${charsLeft <= charSoftWarningLength ? "" : "mb-4"} flex justify-start w-full`}>
           <div className="flex items-start w-full">
-            <label className="flex-shrink-0 mt-3 w-1/3 text-sm font-medium text-gray-700">Details</label>
+            <label className="flex-shrink-0 mt-3 w-1/3 text-sm text-gray-700">Details</label>
             <div className="w-2/3 bg-white">
               <div className="px-3 w-full">
                 <TextareaWithPlaceholder
@@ -128,7 +128,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
             </div>
           </div>
         </div>
-        <div className="self-end pt-2 pr-5 text-xs font-medium text-gray-500">
+        <div className="self-end pt-2 pr-5 text-xs text-gray-500">
           {characterCounter(charsLeft)}
         </div>
       </div>
@@ -151,7 +151,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
         <button
           type="button"
           onClick={addRoom}
-          className="self-center mb-4 text-xs font-medium text-gray-700 underline focus:outline-none">
+          className="self-center text-xs text-gray-700 underline focus:outline-none">
           Add a room
         </button>
       )
@@ -161,7 +161,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
   return (
     <div className="flex flex-col">
       {header()}
-      <div className={showHeader ? "my-4" : "mb-4"}>
+      <div>
         {roomList()}
         {addRoomButton()}
       </div>

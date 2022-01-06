@@ -72,7 +72,7 @@ const ResultItem = ({ result }) => {
   if (trimmedResult !== "") {
     return (
       <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-        <p className="whitespace-pre-wrap">{trimmedResult}</p>
+        <p className="text-sm whitespace-pre-wrap">{trimmedResult}</p>
         <br />
         <div className="flex justify-between items-center h-10">
           {tags(result)}

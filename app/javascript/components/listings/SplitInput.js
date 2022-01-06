@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { translationFor, translatedSummaryString } from '../../helpers/translations';
 import { capitaliseFirstLetter } from '../../helpers/utils';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import NumberField from '../common/NumberField';
 
 const newInputFields = {
   propertyType: '',
-  bedrooms: '',
+  bedrooms: 1,
   location: '',
   idealFor: '',
   keyFeatures: ''
@@ -14,7 +15,7 @@ const newInputFields = {
 
 const exampleInputFields = {
   propertyType: 'apartment',
-  bedrooms: '3',
+  bedrooms: 3,
   location: 'Malaga',
   idealFor: 'families',
   keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- 5 minutes walk to shops and restaurants',
@@ -88,27 +89,21 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          className="w-full form-inline-field"
+          className="w-full text-sm form-inline-field"
         />
       </div>
     )
   }
 
-  const bedroomRow = () => {
+  const bedroomsCountRow = () => {
     return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="w-1/3">{translateLabel('Bedrooms')}</label>
-        <input
-          type="number"
-          min="1"
-          max="50"
-          placeholder="2"
-          required={true}
-          value={inputFields.bedrooms}
-          onChange={(e) => {setField('bedrooms', coerceWithinRange(e.target.value, 1, 50))}}
-          className="w-16 form-inline-field"
-        />
-      </div>
+      <NumberField
+        title={translateLabel('Bedrooms')}
+        value={inputFields.bedrooms}
+        onChange={(v) => setField('bedrooms', v)}
+        minValue={1}
+        maxValue={50}
+      />
     )
   }
 
@@ -116,7 +111,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
     <div className="flex flex-col justify-start w-full">
       <div className="flex flex-col justify-start">
         {textRow(translateLabel('Property type'), 'propertyType', 'e.g. apartment, house...', true)}
-        {bedroomRow()}
+        {bedroomsCountRow()}
         {textRow(translateLabel('Location'), 'location', '')}
         {textRow(translateLabel('Ideal for'), 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
@@ -125,6 +120,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}
               onChange={(value) => setField('keyFeatures', value)}
+              customClasses={"text-sm"}
               placeholderContent={
               <>
                 <p className="mt-px">- e.g. large private balcony</p>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 
-const TaskRerunButton = ({ taskRun, onResult, loading, setLoading }) => {
+const TaskRerunButton = ({ taskRun, runsRemaining, onResult, loading, setLoading, hideButton }) => {
 
   const handleSubmit = (e) => {
     setLoading(true);
@@ -16,11 +16,14 @@ const TaskRerunButton = ({ taskRun, onResult, loading, setLoading }) => {
     )
   }
 
-  if (loading) { return <GeneratingSpinner />; }
+  if (loading) { return <div className="hidden md:block"><GeneratingSpinner /></div>; }
+  if (hideButton) { return null; }
+  if (runsRemaining < 1) { return null; }
+
   return (
     <button
       onClick={handleSubmit}
-      className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
+      className="py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700">
       Show more
     </button>
   )

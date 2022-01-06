@@ -8,7 +8,6 @@ import LanguageSelect from '../common/LanguageSelect';
 import Switch from '../common/Switch';
 import Submit from '../inputs/Submit';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import SingleInput from './SingleInput';
 import SplitInput from './SplitInput';
 import DisabledPillButton from './DisabledPillButton';
 
@@ -21,7 +20,6 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
-  const [inputMode, setInputMode] = useState('form');
   const [exampleSeen, setExampleSeen] = useState(false);
 
   const onError = useScrollToTopOnError(errors);
@@ -31,16 +29,6 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
       setField('request_type', formType)
     }
   }, [formType])
-
-  const changeInputMode = () => {
-    const newMode = inputMode === 'form' ? 'text' : 'form';
-    setField('input_text', '');
-    setUserInputLength(0);
-    setOutputLanguage('EN');
-    setErrors(null);
-    setExampleSeen(true);
-    setInputMode(newMode);
-  }
 
   const setField = (field, value) => {
     setListing({ ...listing, [field]: value });
@@ -72,52 +60,26 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
 
 
   const formInput = () => {
-    if (inputMode === 'form') {
-      return (
-        <SplitInput
-          showExample={showExample && !exampleSeen}
-          inputValue={listing.input_text}
-          onInputChange={setInputText}
-          inputLanguage={inputLanguage}
-        />
-      )
-    } else {
-      return (
-        <SingleInput
-          inputValue={listing.input_text}
-          onInputChange={setInputText}
-        />
-      )
-    }
-  }
-
-  const inputModeSwitch = () => {
     return (
-      <Switch
-        handleToggle={changeInputMode}
-        isOn={inputMode === 'text'}
-        leftLabel='form'
-        rightLabel='text'
+      <SplitInput
+        showExample={showExample && !exampleSeen}
+        inputValue={listing.input_text}
+        onInputChange={setInputText}
+        inputLanguage={inputLanguage}
       />
     )
   }
 
   return (
     <>
-      <div className="flex flex-col items-center w-full">
-        {inputModeSwitch()}
-        <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
-      </div>
-      <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
+     <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {inputMode === "form" &&
-              <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />}
+          <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />
           {formInput()}
-          {inputMode === "form" &&
-            <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />}
+          <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
           <div className="flex justify-center py-8 w-full">
             <Submit
               inputText={listing.input_text}

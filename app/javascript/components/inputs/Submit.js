@@ -35,7 +35,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   const warningText = (text) => {
     return (
       <div className="py-2 h-9">
-        <p className="text-sm font-semibold text-gray-500">
+        <p className="text-sm font-semibold text-center text-red-800">
           {text}
         </p>
       </div>
@@ -44,8 +44,8 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 
   const submitButton = () => {
     return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-        Generate!
+      <button className="primary-button">
+        Generate
       </button>
     )
   }
@@ -58,4 +58,3 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 }
 
 export default Submit;
-

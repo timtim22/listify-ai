@@ -11,6 +11,10 @@
   @apply text-gray-700 text-sm font-medium
 }
 
+.bold-form-label {
+  @apply text-gray-700 font-bold
+}
+
 .form-text-input {
   @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm placeholder-gray-400 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
 }
@@ -28,31 +32,27 @@
 }
 
 .log-in-header {
-  @apply py-4 text-3xl font-bold text-gray-700 tracking-wider
+  @apply text-3xl font-medium text-gray-800
 }
 
 .log-in-button {
-  @apply block w-full px-4 py-3 mb-4 text-center bg-purple-700 text-white rounded cursor-pointer hover:bg-purple-500
+  @apply block w-full px-4 py-3 mb-4 text-center bg-blue-600 text-white rounded shadow-sm cursor-pointer hover:bg-blue-700
 }
 
 .add-button {
-  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-green-600 hover:bg-green-700
+  @apply px-2 py-2 rounded-lg tracking-wider text-xs text-white cursor-pointer bg-blue-600 hover:bg-blue-700
 }
 
-.pill-button {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-pointer
+.sub-nav-button {
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm tracking-wider text-gray-800 cursor-pointer
 }
 
-.pill-button-selected {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-green-800 bg-green-100 rounded-full cursor-pointer
-}
-
-.pill-button-disabled {
-  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-gray-800 bg-gray-100 rounded-full cursor-default
+.sub-nav-button-selected {
+  @apply py-0.5 px-3 mx-2 mr-2 text-sm font-bold tracking-wider text-blue-600 cursor-pointer
 }
 
 .primary-button {
-  @apply py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700
+  @apply py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700
 }
 
 .secondary-link {
@@ -61,4 +61,18 @@
 
 .payment-field {
   @apply bg-white p-4 mt-1 rounded-md border border-gray-300 shadow-sm
+}
+
+.view-height-minus-header {
+  min-height: calc(100vh - 65px);
+}
+
+.bold-pill::after {
+  display: block;
+  content: attr(title);
+  font-weight: bold;
+  height: 1px;
+  color: transparent;
+  overflow: hidden;
+  visibility: hidden;
 }

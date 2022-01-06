@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= Rails.configuration.application_name %></title>
+    <title>Listify</title>
     <% if Rails.env.development? %>
-      <%= favicon_link_tag 'favicon_dev.ico' %>
+      <%= favicon_link_tag 'favicon.ico' %>
     <% else %>
       <%= favicon_link_tag 'favicon.ico' %>
     <% end %>
@@ -23,15 +23,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
   </head>
 
-  <body
-    style="font-family: 'Poppins', sans-serif;"
-    class="flex flex-col min-h-screen subpixel-antialiased text-gray-900 bg-gray-50"
-  >
+  <body class="flex flex-col min-h-screen subpixel-antialiased text-gray-900 bg-gray-50">
     <%= render 'shared/navbar' %>
-    <div class="flex-grow pt-24 pb-12">
+    <div class="flex-grow">
       <%= yield %>
       <%= render 'shared/notice' %>
     </div>

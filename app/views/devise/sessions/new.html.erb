@@ -1,15 +1,17 @@
-<div class="py-12 px-4 mx-auto">
-  <div class="m-auto w-full md:w-1/3">
-    <div class="p-4 bg-white rounded-lg border border-gray-300 shadow-sm">
+<div class="w-full bg-gradient-to-b from-purple-700 to-blue-600 view-height-minus-header">
+<div class="py-32 px-4 mx-auto">
+  <div class="m-auto w-full sm:w-1/2 lg:w-1/3">
+    <div class="py-8 px-8 bg-white rounded border border-gray-300 shadow-sm">
       <div class="mb-4 text-center">
-        <h2 class="log-in-header">Log in</h2>
+        <h2 class="log-in-header">Welcome back</h2>
+        <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
       </div>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="mb-4 text-red-800">
+        <div class="mb-4 text-center text-red-800">
           <%= flash[:alert] %>
         </div>
         <div class="mb-6">
-          <%= f.label :email %><br />
+          <%= f.label :email, class: "bold-form-label" %><br />
           <%= f.email_field(
             :email,
             autofocus: true,
@@ -19,7 +21,7 @@
         </div>
 
         <div class="mb-6">
-          <%= f.label :password %><br />
+          <%= f.label :password, class: "bold-form-label" %><br />
           <%= f.password_field(
             :password,
             autocomplete: "current-password",
@@ -35,10 +37,12 @@
         <% end %>
 
         <div class="actions">
-          <%= f.submit "Log in", class: "log-in-button" %>
+          <%= f.submit "Sign in", class: "log-in-button" %>
         </div>
       <% end %>
 
     </div>
   </div>
 </div>
+</div>
+

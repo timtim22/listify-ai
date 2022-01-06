@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaWithPlaceholder = ({ value, onChange, placeholderContent, customClasses, heightClass = "h-48" }) => {
+const TextareaWithPlaceholder = ({ value, onChange, placeholderContent, customClasses, heightClass = "h-32" }) => {
   const [showPlaceholder, setShowPlaceholder] = useState(true);
 
     useEffect(() => {

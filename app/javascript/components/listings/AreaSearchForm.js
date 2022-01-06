@@ -34,15 +34,15 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
 
   const textRow = (title, key, placeholder, required) => {
     return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3">{title}</label>
+      <div className="flex justify-start items-center my-2 w-full">
+        <label className="flex-shrink-0 w-1/3 text-sm">{title}</label>
         <input
           type="text"
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          className="w-full form-inline-field"
+          className="w-full text-sm form-inline-field"
         />
       </div>
     )
@@ -50,7 +50,7 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
 
   const asciiWarning = (str) => {
     return (
-      <p className="text-red-700 text-sm mt-4">
+      <p className="mt-4 text-sm text-red-700">
         Sorry, your text contains a language character we can't process. Try typing the location if you've copied and pasted from another site.
       </p>
     )
@@ -63,8 +63,8 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   const submitButton = () => {
     if (loading) { return <GeneratingSpinner />; }
     return (
-      <button className="py-2 px-6 text-sm tracking-wider text-white bg-green-600 rounded-full shadow-sm hover:bg-green-700">
-        Search!
+      <button className="primary-button">
+        Search
       </button>
     )
   }

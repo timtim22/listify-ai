@@ -7,9 +7,9 @@ const RequestCounter = ({ runsRemaining }) => {
     const s = count !== 1 ? 's' : '';
     const countColor = count > 5 ? "text-green-600" : "text-red-600";
     return (
-      <p className="mt-4 text-sm text-gray-500">
+      <p className="mt-4 text-sm tracking-wide text-gray-500">
         You have
-      <span className={`${countColor} font-extrabold`}> {count} request{s} </span>
+      <span className={`${countColor} font-bold`}> {count} request{s} </span>
         remaining today.
       </p>
     )

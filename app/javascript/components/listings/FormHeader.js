@@ -17,7 +17,7 @@ const FormHeader = ({ formType, setFormType }) => {
 
   const betaBanner = () => {
     return (
-      <div className="py-3 px-4 text-left border-teal-500 rounded-b border-l-4 shadow border-t-1" role="alert">
+      <div className="py-3 px-4 text-left rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
         <div className="flex items-center">
           <div className="py-1 text-teal-500">
             <svg className="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -40,7 +40,7 @@ const FormHeader = ({ formType, setFormType }) => {
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
         {betaBanner()}
       </div>
-      <div className="w-full flex flex-col md:flex-row justify-center items-center py-2 px-12 md:py-2 md:px-0">
+      <div className="flex flex-col justify-center items-center py-2 px-12 w-full md:flex-row md:py-2 md:px-0">
         {pillButton("Description", "listing_description")}
         {pillButton("Title", "listing_title")}
         {pillButton("Area description", "neighbourhood")}

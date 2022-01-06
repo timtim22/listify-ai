@@ -1,4 +1,4 @@
-<div class="w-full view-height-minus-header bg-gradient-to-b from-purple-700 to-blue-600">
+<div class="w-full bg-gradient-to-b from-purple-700 to-blue-600 view-height-minus-header">
 <div class="py-32 px-4 mx-auto">
   <div class="m-auto w-full sm:w-1/2 lg:w-1/3">
     <div class="py-8 px-8 bg-white rounded border border-gray-300 shadow-sm">
@@ -7,7 +7,7 @@
         <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
       </div>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="mb-4 text-red-800 text-center">
+        <div class="mb-4 text-center text-red-800">
           <%= flash[:alert] %>
         </div>
         <div class="mb-6">

@@ -16,7 +16,7 @@ const FormHeader = ({ formType, setFormType }) => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full overflow-x-hidden">
+    <div className="flex overflow-x-hidden flex-col items-center w-full">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
         <div className="py-3 px-4 text-left rounded-b border-l-4 shadow border-t-1" role="alert">
           <div className="flex">
@@ -34,7 +34,7 @@ const FormHeader = ({ formType, setFormType }) => {
           </div>
         </div>
       </div>
-      <div className="px-12 md:px-0 flex items-center py-2 flex-row justify-center overflow-x-auto md:py-2">
+      <div className="flex overflow-x-auto flex-row justify-center items-center py-2 px-12 md:py-2 md:px-0">
         {pillButton("Description", "listing_description")}
         {pillButton("Title", "listing_title")}
         {pillButton("Area description", "neighbourhood")}

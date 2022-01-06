@@ -123,7 +123,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
 
   return (
     <div className="flex flex-col w-full h-full lg:flex-row lg:items-stretch">
-      <div className="flex flex-col w-full h-full lg:min-h-screen lg:w-1/2">
+      <div className="flex flex-col w-full h-full lg:w-1/2 lg:min-h-screen">
         <FormHeader
           formType={formType}
           setFormType={setFormType}

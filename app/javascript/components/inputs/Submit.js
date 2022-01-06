@@ -44,13 +44,12 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 
   const submitButton = () => {
     return (
-      <button className="primary-button">
+      <button disabled={loading} className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
         Generate
       </button>
     )
   }
 
-  if (loading) { return <GeneratingSpinner />; }
   if (runsRemaining < 1) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }

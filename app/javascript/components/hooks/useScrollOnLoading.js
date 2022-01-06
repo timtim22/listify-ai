@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-const useScrollOnResult = (results) => {
+const useScrollOnLoading = (loading) => {
   useEffect(() => {
-    if (results.length > 0) {
+    if (loading) {
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
-  }, [results]);
+  }, [loading]);
 }
 
-export default useScrollOnResult;
+export default useScrollOnLoading;

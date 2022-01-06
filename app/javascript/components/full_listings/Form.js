@@ -42,8 +42,6 @@ const Form = ({
   const [inputFields, setInputFields] = useState(newInputFields);
   const [errors, setErrors] = useState(null);
 
-  //const onResult = useScrollOnResult(results);
-  //
   const consolidateInput = () => {
     const { property_type, location, key_features, bedrooms, rooms } = inputFields;
     const roomDescs = rooms.map(r => (r.name + r.description)).join("");

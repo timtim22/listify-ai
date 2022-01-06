@@ -61,9 +61,8 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   }
 
   const submitButton = () => {
-    if (loading) { return <GeneratingSpinner />; }
     return (
-      <button className="primary-button">
+      <button disabled={loading} className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
         Search
       </button>
     )

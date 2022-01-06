@@ -173,7 +173,6 @@ const AreaDescriptionForm = ({
 
 
   const submitButton = () => {
-    if (loading) { return <GeneratingSpinner />; }
     return (
       <div className="flex justify-center py-8 w-full">
         <Submit

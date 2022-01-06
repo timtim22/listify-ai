@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useScrollOnResult } from '../hooks';
 import Form from './Form';
 
 const RoomFormContainer = ({
@@ -12,7 +11,6 @@ const RoomFormContainer = ({
   handleTaskRun,
   formType
 }) => {
-  const onResult = useScrollOnResult(results);
 
   return (
     <Form

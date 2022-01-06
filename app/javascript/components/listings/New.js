@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useScrollOnResult } from '../hooks';
+import { useScrollOnLoading } from '../hooks';
 import FormHeader from './FormHeader';
 import ListingFormContainer from './ListingFormContainer';
 import RoomFormContainer from '../rooms/FormContainer';
@@ -19,7 +19,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const [taskRun, setTaskRun] = useState(null);
   const [errors, setErrors] = useState(null);
 
-  const onResult = useScrollOnResult(results);
+  const onResult = useScrollOnLoading(loading);
 
   useEffect(() => {
     if (taskRun) { setTaskRun(null) };

@@ -1,4 +1,4 @@
 import useScrollToTopOnError from './UseScrollToTopOnError';
-import useScrollOnResult from './UseScrollOnResult';
+import useScrollOnLoading from './UseScrollOnLoading';
 
-export { useScrollToTopOnError, useScrollOnResult };
+export { useScrollToTopOnError, useScrollOnLoading };

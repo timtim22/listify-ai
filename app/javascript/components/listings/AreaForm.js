@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useScrollToTopOnError, useScrollOnResult } from '../hooks';
+import { useScrollToTopOnError } from '../hooks';
 import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import AreaDescriptionForm from './AreaDescriptionForm';
@@ -24,7 +24,6 @@ const AreaForm = ({
   const [descriptionParams, setDescriptionParams] = useState(newDescriptionParams);
 
   const onError = useScrollToTopOnError(errors);
-  const onResult = useScrollOnResult(results);
 
   useEffect(() => {
     if (!searchResult && descriptionParams.selectedIds.length > 0) {

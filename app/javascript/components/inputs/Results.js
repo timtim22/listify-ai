@@ -5,7 +5,6 @@ import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
 import resultsEmptyState from '../../../assets/images/resultsEmptyState.png'; // with import
 
-
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
   const noResultsContent = () => {
@@ -29,6 +28,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
             <ResultList results={results} />
             <div className="flex justify-center py-8 w-full">
               <TaskRerunButton
+                runsRemaining={runsRemaining}
                 loading={loading}
                 setLoading={setLoading}
                 taskRun={taskRun}
@@ -42,11 +42,12 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     )
   } else {
     return (
-      <div className="w-full h-screen">
+      <div className="w-full h-full lg:h-screen">
         <div className="flex flex-col items-center py-4 pt-24 w-full h-full">
           {noResultsContent()}
           <div className="flex justify-center py-8 w-full">
             <TaskRerunButton
+              runsRemaining={runsRemaining}
               loading={loading}
               setLoading={setLoading}
               taskRun={taskRun}

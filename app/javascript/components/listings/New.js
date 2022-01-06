@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useScrollOnResult } from '../hooks';
 import FormHeader from './FormHeader';
 import ListingFormContainer from './ListingFormContainer';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
 import FullListingForm from '../full_listings/Form';
 import FullListingResults from '../full_listings/FullListingResults';
+import FullListingPoll from '../full_listings/FullListingPoll';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
@@ -15,11 +17,16 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
+  const [errors, setErrors] = useState(null);
+
+  const onResult = useScrollOnResult(results);
 
   useEffect(() => {
     if (taskRun) { setTaskRun(null) };
     if (results) { setResults([]) };
   }, [formType]);
+
+
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
@@ -81,12 +88,18 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const resultsSection = () => {
     if (formType === "full_listing") {
       return (
-        <FullListingResults
-          runsRemaining={runsRemaining}
-          setLoading={setLoading}
-          results={results}
-          setResults={setResults}
-        />
+        <>
+          <FullListingPoll
+            fullListing={results[0]}
+            onComplete={(completedListing) => { setResults([completedListing]); setLoading(false) }}
+            onError={setErrors}
+          />
+          <FullListingResults
+            runsRemaining={runsRemaining}
+            loading={loading}
+            results={results}
+          />
+        </>
       )
     } else {
       return (
@@ -109,15 +122,15 @@ const New = ({ showExample, initialRunsRemaining }) => {
   }
 
   return (
-    <div className="flex flex-col w-full h-full md:flex-row md:items-stretch">
-      <div className="flex flex-col w-full h-full min-h-screen md:w-1/2">
+    <div className="flex flex-col w-full h-full lg:flex-row lg:items-stretch">
+      <div className="flex flex-col w-full h-full lg:min-h-screen lg:w-1/2">
         <FormHeader
           formType={formType}
           setFormType={setFormType}
         />
         {displayForm()}
       </div>
-      <div className="w-full border-l-2 md:w-1/2">
+      <div className="w-full border-l-2 lg:w-1/2">
         {resultsSection()}
       </div>
     </div>

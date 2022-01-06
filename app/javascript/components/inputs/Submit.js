@@ -35,7 +35,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   const warningText = (text) => {
     return (
       <div className="py-2 h-9">
-        <p className="text-sm font-semibold text-gray-500">
+        <p className="text-sm text-center font-semibold text-red-800">
           {text}
         </p>
       </div>

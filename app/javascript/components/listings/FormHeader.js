@@ -8,7 +8,7 @@ const FormHeader = ({ formType, setFormType }) => {
     return (
       <div
         title={title}
-        className={`bold-pill mt-6 md:mt-0 ${selected ? "sub-nav-button-selected" : "sub-nav-button" }`}
+        className={`bold-pill flex-shrink-0 ${selected ? "sub-nav-button-selected" : "sub-nav-button" }`}
         onClick={() => { setFormType(value) }}>
         {title}
       </div>
@@ -16,7 +16,7 @@ const FormHeader = ({ formType, setFormType }) => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full overflow-x-hidden">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
         <div className="py-3 px-4 text-left rounded-b border-l-4 shadow border-t-1" role="alert">
           <div className="flex">
@@ -34,7 +34,7 @@ const FormHeader = ({ formType, setFormType }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center py-2 md:flex-row md:justify-center md:items-start md:py-2">
+      <div className="px-12 md:px-0 flex items-center py-2 flex-row justify-center overflow-x-auto md:py-2">
         {pillButton("Description", "listing_description")}
         {pillButton("Title", "listing_title")}
         {pillButton("Area description", "neighbourhood")}

@@ -157,6 +157,7 @@ const AreaDescriptionForm = ({
           <TextareaWithPlaceholder
             value={descriptionParams.detailText}
             onChange={(value) => setInputText(value, value.length)}
+            customClasses={"text-sm"}
             heightClass={"h-24"}
             placeholderContent={
             <div className="flex flex-col items-start mb-px">

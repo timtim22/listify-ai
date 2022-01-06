@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 
-const TaskRerunButton = ({ taskRun, onResult, loading, setLoading, hideButton }) => {
+const TaskRerunButton = ({ taskRun, runsRemaining, onResult, loading, setLoading, hideButton }) => {
 
   const handleSubmit = (e) => {
     setLoading(true);
@@ -18,6 +18,8 @@ const TaskRerunButton = ({ taskRun, onResult, loading, setLoading, hideButton })
 
   if (loading) { return <GeneratingSpinner />; }
   if (hideButton) { return null; }
+  if (runsRemaining < 1) { return null; }
+
   return (
     <button
       onClick={handleSubmit}

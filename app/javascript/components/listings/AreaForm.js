@@ -39,7 +39,7 @@ const AreaForm = ({
 
   return (
     <>
-    <div className="w-4/5 self-center text-sm">
+    <div className="self-center w-4/5 text-sm">
         <ErrorNotice errors={errors} />
       </div>
       <AreaSearchForm

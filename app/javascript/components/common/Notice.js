@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-const Notice = ({ message }) => {
+const Notice = ({ message, timeoutAfter = 5000 }) => {
   const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setTimedOut(true), 5000);
+    setTimeout(() => setTimedOut(true), timeoutAfter);
   }, []);
 
   const noticeContent = () => {

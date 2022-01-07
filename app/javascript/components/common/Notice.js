@@ -6,7 +6,8 @@ const Notice = ({ message, timeoutAfter = 5000 }) => {
   const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setTimedOut(true), timeoutAfter);
+    const timer = setTimeout(() => setTimedOut(true), timeoutAfter);
+    return () => clearTimeout(timer);
   }, []);
 
   const noticeContent = () => {

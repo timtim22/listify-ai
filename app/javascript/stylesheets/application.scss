@@ -3,6 +3,12 @@
 @import "tailwindcss/utilities";
 @import "./switch.scss";
 
+@-moz-document url-prefix() { //firefox only
+  .firefox-no-opacity {
+      --tw-bg-opacity: 1;
+  }
+}
+
 .field {
   @apply mb-6
 }

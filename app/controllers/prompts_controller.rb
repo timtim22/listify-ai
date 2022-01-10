@@ -29,7 +29,7 @@ class PromptsController < ApplicationController
 
     respond_to do |format|
       if @prompt.save
-        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt updated." }
+        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt created." }
         format.json { render :show, status: :created, location: prompt_set_path(@prompt_set) }
       else
         format.html { render :new, status: :unprocessable_entity }

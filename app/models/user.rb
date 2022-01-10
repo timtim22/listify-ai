@@ -29,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def runs_today
-    task_runs.today.where.not(input_object_type: ["ListingFragment", "RoomDescription"]).count +
+    task_runs.today.where.not(input_object_type: ["ListingFragment", "DerivedInputObject"]).count +
     full_listings.today.count
   end
 

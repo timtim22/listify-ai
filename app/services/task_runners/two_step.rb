@@ -1,6 +1,5 @@
 class TaskRunners::TwoStep
-  def run_for!(input_object, user, output_language = nil)
-    second_request_type = 'room_step_2'
+  def run_for!(input_object, user, second_request_type, output_language = nil)
 
     prompt_set   = prompt_set_for(input_object.request_type)
     task_run     = create_task_run(user, prompt_set, input_object, output_language)

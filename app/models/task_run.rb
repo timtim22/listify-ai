@@ -9,6 +9,10 @@ class TaskRun < ApplicationRecord
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
 
+  def self.with_results(ids)
+    where(id: ids).includes(:task_results)
+  end
+
   def self.runs_remaining_today(user)
     user.runs_remaining_today
   end

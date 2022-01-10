@@ -5,7 +5,12 @@ class RoomDescriptionsController < ApplicationController
     save = Input.create_with(RoomDescription.new(room_description_params), current_user)
     if save.success
       @room_description = save.input_object
-      @task_run = TaskRunners::TwoStep.new.run_for!(@room_description, current_user, params[:output_language])
+      @task_run = TaskRunners::TwoStep.new.run_for!(
+        @room_description,
+        current_user,
+        'room_step_2',
+        params[:output_language]
+      )
       @runs_remaining = current_user.runs_remaining_today
     end
 

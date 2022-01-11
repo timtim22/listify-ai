@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'luke@listify.ai'
+  default from: 'Listify AI <luke@listify.ai>'
   layout 'mailer'
 end

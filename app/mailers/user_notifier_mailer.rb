@@ -1,5 +1,4 @@
 class UserNotifierMailer < ApplicationMailer
-  default :from => 'Listify AI <luke@listify.ai>'
 
   def welcome(user)
     @user = user

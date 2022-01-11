@@ -19,14 +19,20 @@ const New = ({ showExample, initialRunsRemaining }) => {
   const [taskRun, setTaskRun] = useState(null);
   const [errors, setErrors] = useState(null);
 
-  const onResult = useScrollOnLoading(loading);
-
   useEffect(() => {
     if (taskRun) { setTaskRun(null) };
     if (results) { setResults([]) };
   }, [formType]);
 
 
+  const toggleLoading = (newState, isRerun = false) => {
+    setLoading(newState);
+    if (newState && !isRerun) {
+    const element = document.querySelector("#results-container");
+    const bufferPx = 65;
+    window.scrollTo({ top: element.offsetTop - bufferPx, behavior: 'smooth' });
+    }
+  }
 
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
@@ -44,7 +50,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
       runsRemaining: runsRemaining,
       setRunsRemaining: setRunsRemaining,
       loading: loading,
-      setLoading: setLoading,
+      setLoading: toggleLoading,
       results: results,
       setResults: setResults,
       taskRun: taskRun,
@@ -69,7 +75,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
           runsRemaining={runsRemaining}
           setRunsRemaining={setRunsRemaining}
           loading={loading}
-          setLoading={setLoading}
+          setLoading={toggleLoading}
           results={results}
           setResults={setResults}
         />
@@ -110,7 +116,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
           />
           <Results
             loading={loading}
-            setLoading={(state) => setLoading(state)}
+            setLoading={(newState) => toggleLoading(newState, true)}
             runsRemaining={runsRemaining}
             results={results}
             taskRun={taskRun}
@@ -130,7 +136,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
         />
         {displayForm()}
       </div>
-      <div className="w-full border-l-2 lg:w-1/2">
+      <div id="results-container" className="w-full border-l-2 lg:w-1/2">
         {resultsSection()}
       </div>
     </div>

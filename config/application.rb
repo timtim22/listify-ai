@@ -33,6 +33,8 @@ module Minotaur
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.hosts << Rails.application.credentials.deploy_url

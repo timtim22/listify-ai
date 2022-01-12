@@ -78,7 +78,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
 
   const roomTypeSwitch = () => {
     return (
-      <div className="flex items-center my-2 w-4/5">
+      <div className="flex items-center my-2 w-4/5 max-w-2xl">
         <label className="flex-shrink-0 w-1/3 text-sm">Room type</label>
         <select
           onChange={(e) => changeInputType()}

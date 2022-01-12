@@ -63,7 +63,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "voice_chrome_backend_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { :host => "listify.ai", port: 3000 }
+  config.action_mailer.default_url_options = { :host => "app.listify.ai" }
 
 
   # Ignore bad email addresses and do not raise email delivery errors.

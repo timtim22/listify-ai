@@ -1,48 +1,49 @@
 <div class="w-full bg-gradient-to-b from-purple-700 to-blue-600 view-height-minus-header">
-<div class="py-32 px-4 mx-auto">
-  <div class="m-auto w-full sm:w-1/2 lg:w-1/3">
-    <div class="py-8 px-8 bg-white rounded border border-gray-300 shadow-sm">
-      <div class="mb-4 text-center">
-        <h2 class="log-in-header">Welcome back</h2>
-        <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
-      </div>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="mb-4 text-center text-red-800">
-          <%= flash[:alert] %>
+  <div class="py-32 px-4 mx-auto">
+    <div class="m-auto w-full sm:w-1/2 lg:w-1/3">
+      <div class="py-8 px-8 bg-white rounded border border-gray-300 shadow-sm">
+        <div class="mb-4 text-center">
+          <h2 class="log-in-header">Welcome back</h2>
+          <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
         </div>
-        <div class="mb-6">
-          <%= f.label :email, class: "bold-form-label" %><br />
-          <%= f.email_field(
-            :email,
-            autofocus: true,
-            autocomplete: "email",
-            placeholder: "you@example.com",
-            class: "form-text-input")%>
-        </div>
-
-        <div class="mb-6">
-          <%= f.label :password, class: "bold-form-label" %><br />
-          <%= f.password_field(
-            :password,
-            autocomplete: "current-password",
-            placeholder: "password",
-            class: "form-text-input")%>
-        </div>
-
-        <% if devise_mapping.rememberable? %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="mb-4 text-center text-red-800">
+            <%= flash[:alert] %>
+          </div>
           <div class="mb-6">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
+            <%= f.label :email, class: "bold-form-label" %><br />
+            <%= f.email_field(
+              :email,
+              autofocus: true,
+              autocomplete: "email",
+              placeholder: "you@example.com",
+              class: "form-text-input")%>
+          </div>
+
+          <div class="mb-6">
+            <%= f.label :password, class: "bold-form-label" %><br />
+            <%= f.password_field(
+              :password,
+              autocomplete: "current-password",
+              placeholder: "password",
+              class: "form-text-input")%>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="mb-6 flex justify-start items-center">
+              <%= f.check_box :remember_me, class: "h-5 w-5 rounded-md border-gray-300 shadow-sm mr-2 focus:ring-0" %>
+              <%= f.label :remember_me, class: "text-sm text-gray-500 font-medium" %>
+            </div>
+          <% end %>
+
+          <div class="actions">
+            <%= f.submit "Sign in", class: "log-in-button" %>
           </div>
         <% end %>
-
-        <div class="actions">
-          <%= f.submit "Sign in", class: "log-in-button" %>
+        <div class="flex justify-center w-full text-blue-600">
+          <%= link_to "Forgot password?", new_password_path(resource_name) %><br />
         </div>
-      <% end %>
-
+      </div>
     </div>
   </div>
 </div>
-</div>
-

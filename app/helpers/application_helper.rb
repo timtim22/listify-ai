@@ -13,7 +13,7 @@ module ApplicationHelper
     date.localtime.strftime("%H:%M%P, %d %b")
   end
 
-  def formatted_amount(amount, options={ unit: "£" })
+  def formatted_amount(amount, options={ unit: "£", precision: 2 })
     number_to_currency(amount.to_i / 100.0, options)
   end
 

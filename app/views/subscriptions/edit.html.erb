@@ -4,7 +4,7 @@
   <div class="w-full flex justify-center">
     <div class="mt-12 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <% @plans.each do |plan| %>
-        <%= render partial: 'pricing/plan_card', locals: { plan: plan, show_button: false, show_switch_button: true } %>
+        <%= render partial: 'pricing/plan_card', locals: { plan: plan, button_action: "switch" } %>
       <% end %>
       <%= render partial: 'pricing/enterprise_plan_card' %>
     </div>

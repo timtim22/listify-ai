@@ -1,10 +1,11 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_admin
+  before_action :authenticate_admin, except: [:show]
   before_action :set_plan, only: [:new, :create, :update]
 
   def show
     @subscription = current_user.subscription
+    @plan = @subscription && Plan.find_by(stripe_id: @subscription.stripe_plan)
   end
 
   def new

@@ -7,24 +7,30 @@
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
         <h5 class="mb-4 text-xl font-medium">Subscription</h5>
 
-        <div class="">
-          <% if @subscription.nil? %>
-            <p class="mb-8">You do not have a subscription set up.</p>
+        <% if @subscription.nil? %>
+          <p class="mb-8">You do not have a subscription set up.</p>
+          <% if current_user.admin? %>
             <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
-          <% elsif @subscription && @subscription.on_trial? %>
-            <p>You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
-            <p><%= link_to "Change plan", edit_subscription_path %></p>
-          <% elsif @subscription && @subscription.on_grace_period? %>
-            <p>Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
-            <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch, class: "secondary-link" %></p>
-          <% elsif @subscription && @subscription.active? %>
-            <p class="mb-4">You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
-            <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
           <% else %>
-            <p class="mb-8">You do not have a subscription set up.</p>
-            <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+            <p>We will be launching subscriptions very soon!</p>
           <% end %>
-        </div>
+
+        <% elsif @subscription && @subscription.on_trial? %>
+          <p class="mb-8">You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
+          <p><%= link_to "Change plan", edit_subscription_path, class:"secondary-link" %></p>
+
+        <% elsif @subscription && @subscription.on_grace_period? %>
+          <p class="mb-8">Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
+          <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch, class: "primary-button" %></p>
+
+        <% elsif @subscription && @subscription.active? %>
+          <p class="mb-4">You are subscribed to the <strong><%= @plan.name.capitalize %></strong> plan.</p>
+          <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
+
+        <% else %>
+          <p class="mb-8">You do not have a subscription set up.</p>
+          <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+        <% end %>
 
 
         <% if @subscription.present? %>

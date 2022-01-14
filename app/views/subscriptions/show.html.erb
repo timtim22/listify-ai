@@ -7,68 +7,70 @@
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
         <h5 class="mb-4 text-xl font-medium">Subscription</h5>
 
-        <% if @subscription && @subscription.on_trial? %>
-          <p>You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
-          <p><%= link_to "Change plan", edit_subscription_path %></p>
-        <% elsif @subscription && @subscription.on_grace_period? %>
-          <p>Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
-          <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch, class: "secondary-link" %></p>
-        <% elsif @subscription && @subscription.active? %>
-          <p>You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
-          <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
-        <% else %>
-          <p class="text-sm text-gray-500 mb-4">You do not have a subscription set up.</p>
-          <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
-        <% end %>
+        <div class="">
+          <% if @subscription.nil? %>
+            <p class="mb-8">You do not have a subscription set up.</p>
+            <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+          <% elsif @subscription && @subscription.on_trial? %>
+            <p>You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
+            <p><%= link_to "Change plan", edit_subscription_path %></p>
+          <% elsif @subscription && @subscription.on_grace_period? %>
+            <p>Your subscription has been cancelled. You have access until <%= @subscription.ends_at.to_date.to_s(:long) %>.</p>
+            <p><%= link_to "Resume subscription", resume_subscription_path, method: :patch, class: "secondary-link" %></p>
+          <% elsif @subscription && @subscription.active? %>
+            <p class="mb-4">You are subscribed to the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>
+            <p><%= link_to "Change plan", edit_subscription_path, class: "secondary-link" %></p>
+          <% else %>
+            <p class="mb-8">You do not have a subscription set up.</p>
+            <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+          <% end %>
+        </div>
 
 
-        <div class="my-8 w-full h-px bg-gray-200"></div>
-        <h5 class="my-4 text-xl font-medium">Card</h5>
-        <% if current_user.card_last4? %>
-          <div class="text-gray-500 text-sm mb-4">
-            <div><%= current_user.card_brand %> ending in <span class="font-semibold text-gray-700"> <%= current_user.card_last4 %></span></div>
-            <div>Card expires <span class="font-semibold text-gray-700"><%= current_user.card_exp_month %> / <%= current_user.card_exp_year %></span></div>
-          </div>
-          <%= link_to "Update your card", edit_card_path, class: "text-sm secondary-link" %>
-        <% else %>
-          <p>No card on file.</p>
-          <%= link_to "Add card", edit_card_path %>
-        <% end %>
+        <% if @subscription.present? %>
+          <% if @subscription.active? && !@subscription.on_grace_period? %>
+            <%= link_to "Cancel subscription", subscription_path, method: :delete, class: "text-sm text-red-800", data: { confirm: "Are you sure you want to cancel?" } %>
+          <% end %>
 
-        <% if @subscription.active? && !@subscription.on_grace_period? %>
-          <div class="my-4 w-full h-px bg-gray-200"></div>
-          <%= link_to "Cancel subscription", subscription_path, method: :delete, class: "secondary-link", data: { confirm: "Are you sure you want to cancel?" } %>
-        <% end %>
+          <div class="my-8 w-full h-px bg-gray-200"></div>
+          <h5 class="my-4 text-xl font-medium">Card</h5>
+          <% if current_user.card_last4? %>
+            <%= render partial: 'cards/preview' %>
+            <%= link_to "Update your card", edit_card_path, class: "secondary-link" %>
+          <% else %>
+            <p>No card on file.</p>
+            <%= link_to "Add card", edit_card_path, class: "secondary-link" %>
+          <% end %>
 
+          <div class="my-8 w-full h-px bg-gray-200"></div>
+          <h5 class="my-4 text-xl font-medium">Payment history</h5>
 
-        <div class="my-8 w-full h-px bg-gray-200"></div>
-        <h5 class="my-4 text-xl font-medium">Payment history</h5>
-        <p class="text-sm text-gray-500 mb-4">Thank you for being a Listify subscriber.</p>
-
-        <% if current_user.charges.any? %>
-          <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
-            <table class="w-full divide-y divide-gray-200">
-              <thead class="bg-gray-100">
-                <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                  <th class="py-3 px-6">Date</th>
-                  <th class="py-3 px-6">Card</th>
-                  <th class="py-3 px-6">Amount</th>
-                  <th class="py-3 px-6">Receipt</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200">
-                <% current_user.charges.order(created_at: :desc).each do |charge| %>
-                  <tr class="text-xs">
-                    <td class="py-3 px-6"><%= charge.created_at.to_date.to_s(:long) %></td>
-                    <td class="py-3 px-6"><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
-                    <td class="py-3 px-6"><%= formatted_amount(charge.amount) %></td>
-                    <td class="py-3 px-6"><%= link_to "Download", charge_path(charge, format: :pdf), class: "secondary-link", target: :_blank %></td>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        <% else %>
-          No invoices to display.
+          <% if current_user.charges.any? %>
+          <p class="text-gray-500 mb-4">Thank you for being a Listify subscriber.</p>
+            <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+              <table class="w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                  <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    <th class="py-3 px-6">Date</th>
+                    <th class="py-3 px-6">Card</th>
+                    <th class="py-3 px-6">Amount</th>
+                    <th class="py-3 px-6">Receipt</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <% current_user.charges.order(created_at: :desc).each do |charge| %>
+                    <tr class="text-xs">
+                      <td class="py-3 px-6"><%= charge.created_at.to_date.to_s(:long) %></td>
+                      <td class="py-3 px-6"><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
+                      <td class="py-3 px-6"><%= formatted_amount(charge.amount) %></td>
+                      <td class="py-3 px-6"><%= link_to "Download", charge_path(charge, format: :pdf), class: "secondary-link", target: :_blank %></td>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            No invoices to display.
+          <% end %>
         <% end %>
       </div>
     </div>

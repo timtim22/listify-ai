@@ -58,15 +58,23 @@
 }
 
 .primary-button {
-  @apply py-2 px-6 text-sm tracking-wider text-white bg-blue-600 rounded shadow-sm hover:bg-blue-700
+  @apply py-2 px-6 text-sm tracking-wide text-white bg-blue-600 rounded shadow-sm cursor-pointer hover:bg-blue-700
 }
 
 .secondary-link {
-  @apply text-blue-400
+  @apply text-blue-600
 }
 
 .payment-field {
   @apply bg-white p-4 mt-1 rounded-md border border-gray-300 shadow-sm
+}
+
+.account-nav-active {
+  @apply w-full mt-1 flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md bg-gray-200 hover:text-gray-900 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150
+}
+
+.account-nav-inactive {
+  @apply w-full mt-1 flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150
 }
 
 .view-height-minus-header {

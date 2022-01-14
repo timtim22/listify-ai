@@ -1,0 +1,9 @@
+<div class="mb-4 text-gray-500">
+  <div>
+    <%= current_user.card_brand %> ending in <span class="font-semibold text-gray-700"> <%= current_user.card_last4 %></span>
+  </div>
+  <div>
+    Card expires <span class="font-semibold text-gray-700"><%= current_user.card_exp_month %> / <%= current_user.card_exp_year %></span>
+  </div>
+</div>
+

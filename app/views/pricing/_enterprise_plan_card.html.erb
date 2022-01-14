@@ -1,0 +1,38 @@
+<div class="flex flex-col justify-start items-start w-64 h-full bg-white rounded-lg border border-gray-200 shadow-sm">
+  <div class="flex flex-col p-6">
+    <h5 class="text-lg leading-6 font-medium text-gray-900">Enterprise</h5>
+    <p class="text-gray-500 text-sm mt-4">
+      <%= tagline_for("enterprise") %>
+    </p>
+    <div class="flex items-end my-8">
+      <h2 class="text-4xl font-extrabold text-gray-900">Custom</h2>
+    </div>
+    <%= mail_to "hello@listify.ai", "Contact us", class: "block w-full py-2 px-6 text-sm text-center text-white bg-purple-700 font-semibold cursor-pointer rounded-lg hover:bg-purple-800" %>
+  </div>
+
+  <div class="mb-4 w-full h-px bg-gray-200"></div>
+
+  <ul class="p-6 space-y-4 text-gray-500 text-sm">
+    <p class="mb-6 text-xs font-medium text-gray-900 tracking-wide uppercase">What's included</p>
+
+    <%= render layout: 'pricing/benefit' do %>
+      <p class="ml-2">Customised models to match your requirements</p>
+    <% end %>
+
+    <%= render layout: 'pricing/benefit' do %>
+      <p class="ml-2">Personalised product features</p>
+    <% end %>
+
+    <%= render layout: 'pricing/benefit' do %>
+      <p class="ml-2">Custom spin cap</p>
+    <% end %>
+
+    <%= render layout: 'pricing/benefit' do %>
+      <p class="ml-2">Unlimited seats</p>
+    <% end %>
+
+    <%= render layout: 'pricing/benefit' do %>
+      <p class="ml-2">Premium technical support</p>
+    <% end %>
+  </ul>
+</div>

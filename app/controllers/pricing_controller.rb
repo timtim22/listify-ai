@@ -3,6 +3,6 @@ class PricingController < ApplicationController
   before_action :authenticate_admin
 
   def show
-    @plans = Plan.all
+    @plans = Plan.where(interval: 'month')
   end
 end

@@ -1,67 +1,41 @@
-<div class="flex flex-col items-start px-4 md:px-8">
+<div class="flex flex-col items-start px-4">
   <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
-    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
-      <div class="p-12 w-full h-full leading-loose text-center md:text-left">
+    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md lg:w-4/5">
+      <div class="p-8 w-full h-full">
 
-        <h1 class="mb-4 text-2xl font-medium tracking-wide">Subscribe</h1>
+        <h2 class="log-in-header">Subscribe</h2>
+        <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
+        <p class="text-gray-500 mb-8">Thank you for choosing a Listify subscription. Enter your card details to set up your account.</p>
 
-        <div class="flex items-start w-full">
+        <div class="flex flex-col md:flex-row md:items-start w-full">
+
           <% if current_user.card_last4? %>
-            <%= form_with url: subscription_path, local: true, id: "existing-card", class: "w-1/2" do |form| %>
-
-              <div>
-                <div><%= current_user.card_brand %> ending in <%= current_user.card_last4 %></div>
-                <div>Expires <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %></div>
+            <%= form_with url: subscription_path, local: true, id: "existing-card", class: "w-full" do |form| %>
+              <p class="font-semibold text-gray-900 mb-4">Your subscription will be charged to your existing card:</p>
+              <div class="my-4">
+                <%= render partial: 'cards/preview' %>
                 <%= link_to "Use a new card", "#", id: "use-new-card", class: "secondary-link" %>
               </div>
 
               <%= form.hidden_field :plan_id, value: @plan.id %>
-              <div id="submit-loading" class="flex hidden justify-between items-center px-2 w-full">
-                <p>Processing...</p>
-                <div class="w-4 h-4 rounded-full border-t-2 border-b-2 border-green-500 animate-spin"></div>
-              </div>
+              <%= render partial: 'cards/input_submit', locals: { form: form, submit_text: "Subscribe" } %>
 
-              <div id="submit-container" class="w-full">
-                <%= form.submit "Subscribe", class: "primary-button" %>
-              </div>
             <% end %>
           <% end %>
 
-          <div class="flex items-start w-full">
-            <%= form_with url: subscription_path, local: true, id: "payment-form", class: "w-full #{current_user.card_last4 ? "hidden" : "" }" do |form| %>
-              <div class="flex flex-col flex-grow justify-start w-2/3">
-                <label for="card-element">Credit or debit card</label>
-                <div id="card-element" class="payment-field">
-                </div>
-                <div id="card-errors" role="alert" class="text-red-700">
-                </div>
-
-                <div class="flex flex-col my-4 w-full">
-                  <label>Name on Card</label>
-                  <%= form.text_field :name_on_card, id: "name_on_card", placeholder: "Full Name", class: "payment-field text-sm", required: true %>
-                </div>
-
-                <%= form.hidden_field :plan_id, value: @plan.id %>
-
-                <div id="submit-loading" class="flex hidden justify-between items-center px-2 w-full">
-                  <p>Processing...</p>
-                  <div class="w-4 h-4 rounded-full border-t-2 border-b-2 border-green-500 animate-spin"></div>
-                </div>
-
-                <div id="submit-container" class="w-full">
-                  <%= form.submit "Subscribe", class: "primary-button" %>
-                </div>
-              </div>
-            <% end %>
-
-            <div class="flex flex-col justify-start items-center w-1/3">
-              <h5><%= @plan.name %></h5>
-              <h2><%= formatted_amount(@plan.amount) %></h2>
-              <p class="text-xs">per <%= @plan.interval %></p>
+         <%#appears if no card or use new card button clicked %>
+          <%= form_with url: subscription_path, local: true, id: "payment-form", class: "w-full #{current_user.card_last4 ? "hidden" : "" }" do |form| %>
+            <div class="flex flex-col flex-grow justify-start w-3/4">
+              <%= form.hidden_field :plan_id, value: @plan.id %>
+              <%= render partial: 'cards/input_fields', locals: { form: form } %>
+              <%= render partial: 'cards/input_submit', locals: { form: form, submit_text: "Subscribe" } %>
             </div>
+          <% end %>
+
+          <div class="mt-4 md:mt-0 w-1/2">
+            <%= render partial: 'pricing/plan_card', locals: { plan: @plan, button_action: "none" } %>
           </div>
         </div>
-
       </div>
     </div>
   </div>

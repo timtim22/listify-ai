@@ -13,14 +13,14 @@ class SubscriptionsController < ApplicationController
   def create
     current_user.update_card(params[:payment_method_id]) if params[:payment_method_id]
     current_user.subscribe(@plan.stripe_id)
-    redirect_to root_path, notice: "Thanks for subscribing"
+    redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
     redirect_to payment_path(e.payment_intent.id)
   end
 
   def edit
     @subscription = current_user.subscription
-    @plans = Plan.all
+    @plans = Plan.where(interval: 'month')
   end
 
   def update

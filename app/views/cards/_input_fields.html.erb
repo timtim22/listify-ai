@@ -1,0 +1,16 @@
+<label for="card-element" class="text-sm bold-form-label">Credit or debit card</label>
+<div id="card-element" class="payment-field"></div>
+
+<div id="card-errors" role="alert" class="text-red-700"></div>
+
+<div class="flex flex-col my-4 w-full">
+  <label class="text-sm bold-form-label">Name on Card</label>
+  <%= form.text_field(
+    :name_on_card,
+    id: "name_on_card",
+    placeholder: "Full Name",
+    class: "payment-field text-sm",
+    required: true
+  )%>
+</div>
+

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :plan do
-    name { "MyString" }
-    amount { 1 }
-    interval { "MyString" }
-    stripe_id { "MyString" }
+    name { "starter" }
+    amount { 3900 }
+    interval { "month" }
+    stripe_id { "StarterPlanId" }
   end
 end

@@ -1,6 +1,10 @@
 class Subscription < ApplicationRecord
   belongs_to :user
 
+  def plan
+    Plan.find_by(stripe_id: stripe_plan)
+  end
+
   def active?
     ["trialing", "active"].include?(status) && (ends_at.nil? || on_grace_period? || on_trial?)
   end

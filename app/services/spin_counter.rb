@@ -2,6 +2,7 @@ class SpinCounter
 
   DERIVATIVE_TASK_TYPES = ["ListingFragment", "DerivedInputObject"].freeze
   DAILY_BETA_SPINS = 20
+  TRIAL_SPINS = 100
 
   attr_reader :user
 
@@ -12,19 +13,29 @@ class SpinCounter
   def spins_remaining
     if user.admin?
       DAILY_BETA_SPINS
+    elsif user.custom_run_limit?
+      user.custom_run_limit - spins_today
     elsif user.on_private_beta?
       beta_user_spins_remaining
+    elsif user.subscribed?
+      subscription_spins_remaining
+    elsif user.on_trial?
+      trial_spins_remaining
     else
       0
     end
   end
 
+  def subscription_spins_remaining
+    user.subscription.plan.monthly_spin_cap - spins_this_month
+  end
+
+  def trial_spins_remaining
+    TRIAL_SPINS - spins_since(user.created_at)
+  end
+
   def beta_user_spins_remaining
-    if user.custom_run_limit
-      user.custom_run_limit - spins_today
-    else
-      DAILY_BETA_SPINS - spins_today
-    end
+    DAILY_BETA_SPINS - spins_today
   end
 
   def spins_today

@@ -24,6 +24,10 @@ class User < ApplicationRecord
     self.created_at < Date.new(2022, 01, 16) && never_had_subscription?
   end
 
+  def on_trial?
+    self.created_at > 14.days.ago.beginning_of_day && never_had_subscription?
+  end
+
   def runs_remaining_today
     SpinCounter.new(self).spins_remaining
   end

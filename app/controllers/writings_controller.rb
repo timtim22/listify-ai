@@ -3,7 +3,7 @@ class WritingsController < ApplicationController
 
   def new
     @writing = Writing.new
-    @runs_remaining = TaskRun.runs_remaining_today(current_user)
+    @runs_remaining = current_user.runs_remaining_today
   end
 
   def create
@@ -11,7 +11,7 @@ class WritingsController < ApplicationController
     if save.success
       @writing  = save.input_object
       @task_run = TaskRunner.new.run_for!(@writing, current_user)
-      @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      @runs_remaining = current_user.runs_remaining_today
     end
 
     respond_to do |format|

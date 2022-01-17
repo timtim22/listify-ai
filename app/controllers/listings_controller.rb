@@ -3,7 +3,7 @@ class ListingsController < ApplicationController
 
   def new
     @show_example = params[:show_example]
-    @runs_remaining = TaskRun.runs_remaining_today(current_user)
+    @runs_remaining = current_user.runs_remaining_today
   end
 
   def create
@@ -11,7 +11,7 @@ class ListingsController < ApplicationController
     if save.success
       @listing  = save.input_object
       @task_run = TaskRunner.new.run_for!(@listing, current_user, params[:output_language])
-      @runs_remaining = TaskRun.runs_remaining_today(current_user)
+      @runs_remaining = current_user.runs_remaining_today
     end
 
     respond_to do |format|

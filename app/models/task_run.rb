@@ -13,10 +13,6 @@ class TaskRun < ApplicationRecord
     where(id: ids).includes(:task_results)
   end
 
-  def self.runs_remaining_today(user)
-    user.runs_remaining_today
-  end
-
   def has_all_results?
     task_results.count == expected_results
   end

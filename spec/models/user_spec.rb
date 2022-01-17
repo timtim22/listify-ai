@@ -9,8 +9,7 @@ RSpec.describe User, type: :model do
       expect(@user.on_private_beta?).to eq true
     end
 
-    it 'true if subscription failed' do
-      @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)
+    it 'true if subscription failed' do @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)
       subscription = create(:subscription, user: @user, status: "incomplete")
       @user.save
       expect(@user.on_private_beta?).to eq true
@@ -25,32 +24,6 @@ RSpec.describe User, type: :model do
       subscription = create(:subscription, user: @user)
       @user.save
       expect(@user.on_private_beta?).to eq false
-    end
-  end
-
-  describe 'runs_remaining_today' do
-    context 'daily limit' do
-      it 'returns daily limit - runs today' do
-        expect(@user.runs_remaining_today).to eq User::DAILY_RUN_LIMIT
-        5.times { create(:task_run, :for_listing, user: @user) }
-        expect(@user.runs_remaining_today).to eq User::DAILY_RUN_LIMIT - 5
-      end
-    end
-
-    context 'custom limit' do
-      it 'returns custom limit - runs today' do
-        @user.update(custom_run_limit: 10)
-        task_run = create(:task_run, :for_listing, user: @user)
-        expect(@user.runs_remaining_today).to eq 9
-      end
-    end
-
-    context 'admin' do
-      it 'returns daily limit' do
-        @user.update(admin: true)
-        task_run = create(:task_run, :for_listing, user: @user)
-        expect(@user.runs_remaining_today).to eq User::DAILY_RUN_LIMIT
-      end
     end
   end
 

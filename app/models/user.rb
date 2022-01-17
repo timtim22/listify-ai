@@ -18,6 +18,15 @@ class User < ApplicationRecord
 
   DAILY_RUN_LIMIT = 20
 
+  def on_private_beta?
+    self.created_at < Date.new(2022, 01, 16) && never_had_subscription?
+  end
+
+  def never_had_subscription?
+    subscription.nil? ||
+    subscriptions.all? { |s| s.status.downcase == "incomplete" }
+  end
+
   def runs_remaining_today
     if admin?
       DAILY_RUN_LIMIT

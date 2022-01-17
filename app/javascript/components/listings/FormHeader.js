@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const FormHeader = ({ formType, setFormType }) => {
+const FormHeader = ({ user, formType, setFormType }) => {
 
   const pillButton = (title, value) => {
     const selected = formType === value;
@@ -15,7 +15,15 @@ const FormHeader = ({ formType, setFormType }) => {
     )
   }
 
-  const betaBanner = () => {
+  const bannerForUser = () => {
+    if (user.subscription_status === "on_trial") {
+      return trialBanner()
+    } else {
+      return betaBanner();
+    }
+  }
+
+  const banner = (title, text) => {
     return (
       <div className="py-3 px-4 text-left rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
         <div className="flex items-center">
@@ -25,20 +33,44 @@ const FormHeader = ({ formType, setFormType }) => {
             </svg>
           </div>
           <div>
-            <p className="font-bold">We've made some changes!</p>
-            <p className="text-sm">
-              Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!
-            </p>
+            <p className="font-bold">{title}</p>
+            <p className="text-sm">{text}</p>
           </div>
         </div>
       </div>
     )
   }
 
+
+  const trialBanner = () => {
+    const end = new Date(user.trial_end_date);
+    const today = new Date()
+    today.setUTCHours(0,0,0,0)
+    if (today <= end) {
+      const endStr = end.toLocaleDateString('en-gb', { weekday:"long", month:"long", day:"numeric"})
+      return banner(
+        "Welcome to your free trial of Listify!",
+        `Your trial is active until ${endStr}. If there is anything we can help with, please let us know.`
+      )
+    } else {
+      return banner(
+        "Your trial has expired",
+        `You can continue using Listify with a subscription. Contact us if you need help.`
+      )
+    }
+  }
+
+  const betaBanner = () => {
+    return banner(
+      "We've made some changes!",
+      "Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!"
+    )
+  }
+
   return (
     <div className="flex overflow-x-hidden flex-col items-center w-full">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
-        {betaBanner()}
+        {bannerForUser()}
       </div>
       <div className="flex flex-col justify-center items-center py-2 px-12 w-full md:flex-row md:py-2 md:px-0">
         {pillButton("Description", "listing_description")}

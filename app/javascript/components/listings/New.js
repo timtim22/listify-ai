@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import { useScrollOnLoading } from '../hooks';
 import FormHeader from './FormHeader';
@@ -11,13 +11,17 @@ import FullListingPoll from '../full_listings/FullListingPoll';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
-const New = ({ showExample, initialRunsRemaining }) => {
+export const UserContext = createContext();
+
+const New = ({ showExample, initialRunsRemaining, currentUser }) => {
+  const [user, setUser] = useState(currentUser);
   const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
   const [formType, setFormType] = useState('listing_description');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
   const [errors, setErrors] = useState(null);
+
 
   useEffect(() => {
     if (taskRun) { setTaskRun(null) };
@@ -128,9 +132,11 @@ const New = ({ showExample, initialRunsRemaining }) => {
   }
 
   return (
+    <UserContext.Provider value={user}>
     <div className="flex flex-col w-full h-full lg:flex-row lg:items-stretch">
       <div className="flex flex-col w-full h-full lg:w-1/2 lg:min-h-screen">
         <FormHeader
+          user={user}
           formType={formType}
           setFormType={setFormType}
         />
@@ -140,6 +146,7 @@ const New = ({ showExample, initialRunsRemaining }) => {
         {resultsSection()}
       </div>
     </div>
+    </UserContext.Provider>
   )
 }
 

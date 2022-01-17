@@ -3,6 +3,24 @@ RSpec.describe User, type: :model do
     @user = create(:user)
   end
 
+  describe 'on_trial?' do
+    it 'true' do
+      user = create(:user)
+      expect(user.on_trial?).to eq true
+    end
+
+    it 'false with valid subscription' do
+      user = create(:user)
+      subscription = create(:subscription, user: user)
+      expect(user.on_trial?).to eq false
+    end
+
+    it 'false if expired' do
+      user = create(:user, created_at: Date.today - 15.days)
+      expect(user.on_trial?).to eq false
+    end
+  end
+
   describe 'on_private_beta?' do
     it 'true before date' do
       @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)

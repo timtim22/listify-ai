@@ -28,6 +28,22 @@ class User < ApplicationRecord
     self.created_at > 14.days.ago.beginning_of_day && never_had_subscription?
   end
 
+  def trial_end_date
+    on_trial? && (self.created_at + 14.days).to_date
+  end
+
+  def subscription_status
+    if subscribed?
+      subscription.plan.name
+    elsif on_trial?
+      "on_trial"
+    elsif on_private_beta?
+      "on_private_beta"
+    else
+      "unknown"
+    end
+  end
+
   def runs_remaining_today
     SpinCounter.new(self).spins_remaining
   end

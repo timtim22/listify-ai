@@ -26,6 +26,14 @@ RSpec.describe SpinCounter do
       end
     end
 
+    context 'expired trial user' do
+      it 'returns 0' do
+        user = create(:user)
+        allow(user).to receive(:on_trial?).and_return(false)
+        expect(SpinCounter.new(user).spins_remaining).to eq 0
+      end
+    end
+
     context 'beta user' do
       it 'returns daily limit - spins today' do
         user = create(:user)

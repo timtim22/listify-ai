@@ -10,7 +10,7 @@ const newPlaygroundAttempt = {
   input_text: ''
 }
 
-const maxInput = 250;
+const maxInput = 500;
 
 const Form = ({ onResult, loading, setLoading, promptSets }) => {
   const [playgroundAttempt, setPlaygroundAttempt] = useState(newPlaygroundAttempt);

@@ -1,0 +1,32 @@
+<%= render layout: 'shared/account_layout', locals: { screen: "usage" } do %>
+  <div class="w-full px-8">
+    <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
+      <div class="w-full">
+        <h2 class="log-in-header">Usage</h2>
+        <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
+        <% if current_user.custom_run_limit? %>
+          <p>
+            You've used <%= @usage.spins %> spins this month. You can use up to <%= current_user.custom_run_limit %> spins a day on your subscription plan.
+          </p>
+        <% elsif current_user.on_private_beta? %>
+          <p>
+            You've used <%= @usage.spins %> spins this month. You have a <span class="font-semibold">private beta test account </span>.
+          </p>
+        <% elsif current_user.on_trial? %>
+          <p class="mb-8">
+            You've used <%= @usage.spins %> spins this month. Your free trial ends on <span class="font-semibold"><%= format_date_for_display(current_user.trial_end_date) %></span>.
+          </p>
+          <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+        <% elsif current_user.subscribed? %>
+          <p>
+            You've used <%= @usage.spins %> spins this month. You can use up to <%= @usage.quota %> spins a month on your subscription plan.
+          </p>
+        <% else %>
+          <p>
+            You've used <%= @usage.spins %> spins this month.
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

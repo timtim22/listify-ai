@@ -26,6 +26,22 @@ class SpinCounter
     end
   end
 
+  def spin_stats
+    OpenStruct.new(spins: spins_this_month, quota: monthly_spin_quota)
+  end
+
+  private
+
+  def monthly_spin_quota
+    if user.subscribed?
+      user.subscription.plan.monthly_spin_cap
+    elsif user.on_trial?
+      TRIAL_SPINS
+    else
+      nil
+    end
+  end
+
   def subscription_spins_remaining
     user.subscription.plan.monthly_spin_cap - spins_this_month
   end

@@ -9,6 +9,10 @@ module ApplicationHelper
     JSON.parse(render(partial: partial, locals: options))
   end
 
+  def format_date_for_display(date)
+    date.strftime("%A %d %B")
+  end
+
   def format_table_date(date)
     date.localtime.strftime("%H:%M%P, %d %b")
   end

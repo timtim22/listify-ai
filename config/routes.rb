@@ -8,12 +8,10 @@ Rails.application.routes.draw do
   get '/terms', to: 'home#terms'
   get '/privacy', to: 'home#privacy'
 
-  resources :usages, only: [:index]
   resources :task_runs, only: [:index] do
     resources :task_results, only: [:index]
   end
   resources :task_run_feedbacks, only: [:index, :create]
-
 
   resources :full_listings, only: [:create, :show]
 
@@ -31,6 +29,8 @@ Rails.application.routes.draw do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
 
+  resource :usage, only: [:show]
+
   resource :card
   resource :pricing, controller: :pricing
   resource :subscription do
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'index', to: 'home#index'
+    resources :statistics, only: [:index]
   end
 
   namespace :legacy do

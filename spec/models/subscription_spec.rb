@@ -12,9 +12,11 @@ RSpec.describe Subscription, type: :model do
     end
 
     it "cancel subscription", :vcr do
-      @subscription.cancel
-      expect(@subscription.cancelled?).to be true
-      expect(@subscription.on_grace_period?).to be true
+      travel_to(VCR.current_cassette.originally_recorded_at || Time.current) do
+        @subscription.cancel
+        expect(@subscription.cancelled?).to be true
+        expect(@subscription.on_grace_period?).to be true
+      end
     end
 
     it "cancel subscription immediately", :vcr do
@@ -24,10 +26,12 @@ RSpec.describe Subscription, type: :model do
     end
 
     it "resume subscription", :vcr do
-      @subscription.cancel
-      @subscription.resume
-      expect(@subscription.cancelled?).to be false
-      expect(@subscription.active?).to be true
+      travel_to(VCR.current_cassette.originally_recorded_at || Time.current) do
+        @subscription.cancel
+        @subscription.resume
+        expect(@subscription.cancelled?).to be false
+        expect(@subscription.active?).to be true
+      end
     end
 
     it "does not resume outside the grace period", :vcr do

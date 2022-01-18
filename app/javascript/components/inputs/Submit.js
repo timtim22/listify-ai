@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../listings/New';
 import PropTypes from 'prop-types';
 import Filter from 'bad-words';
 import GeneratingSpinner from '../common/GeneratingSpinner';
@@ -6,6 +7,7 @@ import GeneratingSpinner from '../common/GeneratingSpinner';
 const profanityFilter = new Filter();
 
 const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput }) => {
+  const user = useContext(UserContext);
 
   const inputLengthWarning = () => {
     const charactersOver = userInputLength - maxUserInput;
@@ -15,7 +17,10 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   }
 
   const requestLimitWarning = () => {
-    const text = "You've hit your request limit for today. This is a safety feature - contact us for help.";
+    let text = "You've used up all your spins for this month. You can get more by upgrading your subscription. Contact us if you need any help."
+    if (user.subscription_status === "on_private_beta") {
+      text = "You've hit your request limit for today. Please contact us if you need help.";
+    }
     return  warningText(text);
   }
 
@@ -54,6 +59,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }
   return submitButton();
+
 }
 
 export default Submit;

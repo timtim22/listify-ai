@@ -16,25 +16,41 @@ class User < ApplicationRecord
   attr_accessor :early_access_code
   validates :early_access_code, inclusion: { in: ['MIN39210'] }, on: :create
 
-  DAILY_RUN_LIMIT = 20
+  def name
+    "#{first_name} #{last_name}"
+  end
 
-  def runs_remaining_today
-    if admin?
-      DAILY_RUN_LIMIT
-    elsif custom_run_limit
-      custom_run_limit - runs_today
+  def on_private_beta?
+    self.created_at < Date.new(2022, 01, 16) && never_had_subscription?
+  end
+
+  def on_trial?
+    self.created_at > 14.days.ago.beginning_of_day && never_had_subscription?
+  end
+
+  def trial_end_date
+    on_trial? && (self.created_at + 14.days).to_date
+  end
+
+  def subscription_status
+    if subscribed?
+      subscription.plan.name
+    elsif on_trial?
+      "on_trial"
+    elsif on_private_beta?
+      "on_private_beta"
     else
-      DAILY_RUN_LIMIT - runs_today
+      "unknown"
     end
   end
 
-  def runs_today
-    task_runs.today.where.not(input_object_type: ["ListingFragment", "DerivedInputObject"]).count +
-    full_listings.today.count
+  def runs_remaining_today
+    SpinCounter.new(self).spins_remaining
   end
 
-  def name
-    "#{first_name} #{last_name}"
+  def never_had_subscription?
+    subscription.nil? ||
+    subscriptions.all? { |s| s.status.downcase == "incomplete" }
   end
 
   def subscribed?

@@ -8,7 +8,7 @@ class AreaDescriptionsController < ApplicationController
       if save.success
         @area_description = save.input_object
         @task_run = TaskRunner.new.run_for!(@area_description, current_user)
-        @runs_remaining = TaskRun.runs_remaining_today(current_user)
+        @runs_remaining = current_user.runs_remaining_today
       end
     else
       save = OpenStruct.new(sucess: false, errors: { selected: ["Nothing was selected"] })

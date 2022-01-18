@@ -13,8 +13,8 @@ class Charge < ApplicationRecord
       id: id,
       product: "your Listify subscription",
       company: {
-        name: "Listify AI",
-        address: "Address goes here",
+        name: "Listify AI is a product of Venture Rocket Ltd",
+        address: "28 Rennie Court, 11 Upper Ground, London SE1 9LP",
         email: "hello@listify.ai"
       },
       line_items: line_items

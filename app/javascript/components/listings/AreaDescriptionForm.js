@@ -23,7 +23,9 @@ const AreaDescriptionForm = ({
 
   const cleanDetailText = (text) => {
     let cleanText = text.trim();
-    if (cleanText[cleanText.length-1] !== ".") { cleanText = cleanText + "." }
+    if (cleanText.length > 0 && cleanText[cleanText.length-1] !== ".") {
+      cleanText = cleanText + ".";
+    }
     return cleanText;
   }
 

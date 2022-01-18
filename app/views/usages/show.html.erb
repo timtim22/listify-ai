@@ -10,7 +10,7 @@
           </p>
         <% elsif current_user.on_private_beta? %>
           <p>
-            You've used <%= @usage.spins %> spins this month. You have a <span class="font-semibold">private beta test account </span>.
+            You've used <%= @usage.spins %> spins this month. You have a <span class="font-semibold">private beta test account</span>.
           </p>
         <% elsif current_user.on_trial? %>
           <p class="mb-8">

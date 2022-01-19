@@ -25,11 +25,15 @@ class User < ApplicationRecord
   end
 
   def on_trial?
-    self.created_at > 14.days.ago.beginning_of_day && never_had_subscription?
+    self.created_at > trial_days.days.ago.beginning_of_day && never_had_subscription?
+  end
+
+  def trial_days
+    promotion_code&.downcase == "rentalscaleup" ? 44 : 14
   end
 
   def trial_end_date
-    on_trial? && (self.created_at + 14.days).to_date
+    on_trial? && (self.created_at + trial_days.days).to_date
   end
 
   def subscription_status

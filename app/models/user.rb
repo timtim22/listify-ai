@@ -84,6 +84,7 @@ class User < ApplicationRecord
       raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), "Subscription requires authentication"
     end
 
+    UserMailer.subscription_activated(self).deliver_later
     subscription
   end
 

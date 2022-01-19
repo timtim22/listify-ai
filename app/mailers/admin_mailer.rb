@@ -3,7 +3,16 @@ class AdminMailer < ApplicationMailer
     @user = user
     mail(
       :to => 'hello@listify.ai',
-      :subject => 'New listify user'
+      :subject => 'New Listify user'
+    )
+  end
+
+  def subscription_activated(user, plan_name)
+    @user = user
+    @plan_name = plan_name
+    mail(
+      :to => 'hello@listify.ai',
+      :subject => 'New Listify subscription'
     )
   end
 end

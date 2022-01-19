@@ -1,3 +1,6 @@
 <% if notice %>
   <%= react_component "common/Notice", { message: notice } %>
 <% end %>
+<% if alert %>
+  <%= react_component "common/Alert", { message: alert } %>
+<% end %>

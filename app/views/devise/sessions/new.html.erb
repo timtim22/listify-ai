@@ -7,9 +7,6 @@
           <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
         </div>
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <div class="mb-4 text-center text-red-800">
-            <%= flash[:alert] %>
-          </div>
           <div class="mb-6">
             <%= f.label :email, class: "bold-form-label" %><br />
             <%= f.email_field(

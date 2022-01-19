@@ -4,7 +4,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = user
     mail(
       :to => @user.email,
-      :subject => 'Welcome to Listify!'
+      :subject => 'Welcome to Listify AI!'
     )
   end
 end

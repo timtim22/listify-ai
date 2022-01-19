@@ -5,7 +5,7 @@
 
         <h2 class="log-in-header">Subscribe</h2>
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
-        <p class="text-gray-500 mb-8">Thank you for choosing a Listify subscription. Enter your card details to set up your account.</p>
+        <p class="text-gray-500 mb-8">Thank you for choosing a <span class="font-semibold text-gray-900"><%= @plan.name.capitalize %></span> subscription. Enter your card details to set up your account.</p>
 
         <div class="flex flex-col md:flex-row md:items-start w-full">
 
@@ -19,6 +19,12 @@
 
               <%= form.hidden_field :plan_id, value: @plan.id %>
               <%= render partial: 'cards/input_submit', locals: { form: form, submit_text: "Subscribe" } %>
+              <p class="mt-8 text-xs text-gray-500">
+                On clicking subscribe, your card will be charged
+                <span class="font-semibold text-gray-900">
+                  <%= formatted_amount(@plan.amount, { unit: "£", precision: 2 }) %>.
+                </span>
+              </p>
 
             <% end %>
           <% end %>
@@ -29,6 +35,12 @@
               <%= form.hidden_field :plan_id, value: @plan.id %>
               <%= render partial: 'cards/input_fields', locals: { form: form } %>
               <%= render partial: 'cards/input_submit', locals: { form: form, submit_text: "Subscribe" } %>
+              <p class="mt-8 text-xs text-gray-500">
+                On clicking subscribe, your card will be charged
+                <span class="font-semibold text-gray-900">
+                  <%= formatted_amount(@plan.amount, { unit: "£", precision: 2 }) %>.
+                </span>
+              </p>
             </div>
           <% end %>
 

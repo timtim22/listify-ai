@@ -6,4 +6,8 @@ class AdminMailerPreview < ActionMailer::Preview
   def subscription_activated
     AdminMailer.subscription_activated(Subscription.first.user, Plan.first.name)
   end
+
+  def subscription_cancelled
+    AdminMailer.subscription_cancelled(Subscription.first.user)
+  end
 end

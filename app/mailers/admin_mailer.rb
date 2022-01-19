@@ -15,4 +15,12 @@ class AdminMailer < ApplicationMailer
       :subject => 'New Listify subscription'
     )
   end
+
+  def subscription_cancelled(user)
+    @user = user
+    mail(
+      :to => 'hello@listify.ai',
+      :subject => 'Cancelled Listify subscription'
+    )
+  end
 end

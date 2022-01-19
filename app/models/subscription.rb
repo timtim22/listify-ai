@@ -28,6 +28,7 @@ class Subscription < ApplicationRecord
   def cancel
     sub = Stripe::Subscription.update(stripe_id, { cancel_at_period_end: true })
     update(status: "cancelled", ends_at: Time.at(sub.cancel_at))
+    UserMailer.subscription_cancelled(user, self).deliver_later
   end
 
   def cancel_now!

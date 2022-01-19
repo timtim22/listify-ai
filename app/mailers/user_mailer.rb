@@ -18,4 +18,14 @@ class UserMailer < ApplicationMailer
     )
     AdminMailer.subscription_activated(@user, @plan_name).deliver_later
   end
+
+  def subscription_cancelled(user, subscription)
+    @user = user
+    @subscription = subscription
+    mail(
+      :to => @user.email,
+      :subject => 'Your Listify subscription is cancelled'
+    )
+    AdminMailer.subscription_cancelled(@user).deliver_later
+  end
 end

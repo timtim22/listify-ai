@@ -9,6 +9,8 @@ class SubscriptionUpdatedWebhook
       return
     end
 
+    prev_subscription_status = subscription.status
+
     subscription.status = object.status
     subscription.trial_ends_at = Time.at(object.trial_end) if object.trial_end
 
@@ -19,5 +21,9 @@ class SubscriptionUpdatedWebhook
     end
 
     subscription.save
+
+    if prev_subscription_status == "incomplete" && subscription.status == "active"
+      subscription.send_activation_email
+    end
   end
 end

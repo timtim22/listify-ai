@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: arial; margin: 0px;">
+    <div style="padding: 1rem;">
+     <div style="line-height: 1.6; padding-bottom: 0.5rem;">
+       <p>Hi there,</p>
+
+       <p>Thank you for subscribing to Listify! Your <%= @plan_name.capitalize %> subscription is now active.</p>
+
+       <p>You can get started by clicking <%= link_to "here", "https://app.listify.ai", target: "_blank" %>. You can manage your subscription in the Account section of the app.</p>
+
+       <p>If you need any help getting the most out of Listify or have feedback or suggestions, reply to this email.</p>
+
+       <p style="margin-top: 2rem;">Have a great day,</p>
+     </div>
+      <div style="">
+        <%= image_tag "listify-logo.png", height: 50, alt: "Listify logo" %>
+      </div>
+
+      <div style="font-size: 0.75rem; line-height: 1rem; color: #9CA3AF">
+        <p>
+          Need help with Listify, wish to unsubscribe, or something else? Hit reply to this email to let us know.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

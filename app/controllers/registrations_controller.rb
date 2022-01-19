@@ -11,6 +11,8 @@ class RegistrationsController < Devise::RegistrationsController
   private
   def passes_recaptcha?
     verified = RecaptchaClient.new.verify_response(params['g-recaptcha-response'])
+    puts "***"
+    puts verified
     verified["success"]
   end
 end

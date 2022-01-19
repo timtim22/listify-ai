@@ -3,7 +3,8 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
+
   root to: 'home#index'
   get '/terms', to: 'home#terms'
   get '/privacy', to: 'home#privacy'

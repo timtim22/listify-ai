@@ -1,4 +1,4 @@
-class UserNotifierMailer < ApplicationMailer
+class UserMailer < ApplicationMailer
 
   def welcome(user)
     @user = user

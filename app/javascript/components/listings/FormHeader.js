@@ -50,7 +50,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
       const endStr = end.toLocaleDateString('en-gb', { weekday:"long", month:"long", day:"numeric"})
       return banner(
         "Welcome to your free trial of Listify!",
-        `Your trial is active until ${endStr}. If there is anything we can help with, please let us know.`
+        `Your trial is active until ${endStr}. If there is anything we can help with please email hello@listify.ai.`
       )
     } else {
       return banner(

@@ -23,7 +23,7 @@ class SubscriptionUpdatedWebhook
     subscription.save
 
     if prev_subscription_status == "incomplete" && subscription.status == "active"
-      UserMailer.subscription_activated(self).deliver_later
+      subscription.send_activation_email
     end
   end
 end

@@ -36,17 +36,21 @@
                 <%= render partial: 'shared/nav_link', locals: { name: "Admin", route: admin_index_path } %>
               <% end %>
 
-              <% if !current_user.subscribed? %>
-                <%= render partial: 'shared/nav_link', locals: { name: "Pricing", route: pricing_path } %>
-              <% end %>
-
               <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_user_registration_path } %>
 
-              <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
+              <% if current_user.subscribed? %>
+                <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
+              <% else %>
+                <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
+              <% end %>
+
             </div>
           </div>
           <div class="flex -mr-2 md:hidden">
-            <%= react_component "common/MobileMenu", { admin: current_user.admin? } %>
+            <%= react_component "common/MobileMenu", {
+              subscribed: current_user.subscribed?,
+              admin: current_user.admin?
+            } %>
           </div>
         <% else %>
           <% if request.path == "/users/sign_in" %>

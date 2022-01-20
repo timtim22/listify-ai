@@ -13,9 +13,6 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :charges
 
-  attr_accessor :early_access_code
-  validates :early_access_code, inclusion: { in: ['MIN39210'] }, on: :create
-
   def name
     "#{first_name} #{last_name}"
   end

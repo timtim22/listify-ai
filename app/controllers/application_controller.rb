@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   rescue_from Errors::ShortRequest, with: :render_error_response
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:promotion_code, :early_access_code])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:promotion_code])
   end
 
   def authenticate_admin

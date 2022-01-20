@@ -1,6 +1,5 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_admin, except: [:show]
   before_action :set_plan, only: [:new, :create, :update]
 
   def show

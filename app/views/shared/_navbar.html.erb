@@ -34,11 +34,11 @@
 
               <% if current_user.admin? %>
                 <%= render partial: 'shared/nav_link', locals: { name: "Admin", route: admin_index_path } %>
+              <% end %>
 
-                <% if !current_user.subscribed? %>
-                  <%= render partial: 'shared/nav_link', locals: { name: "Pricing", route: pricing_path } %>
-                <% end %>
-             <% end %>
+              <% if !current_user.subscribed? %>
+                <%= render partial: 'shared/nav_link', locals: { name: "Pricing", route: pricing_path } %>
+              <% end %>
 
               <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_user_registration_path } %>
 

@@ -2,8 +2,8 @@ class AdminMailer < ApplicationMailer
   def welcome(user)
     @user = user
     mail(
-      :to => 'hello@listify.ai',
-      :subject => 'New Listify user'
+      :to => ['hello@listify.ai', 'srin@listify.ai'],
+      :subject => 'New Listify user',
     )
   end
 
@@ -11,7 +11,7 @@ class AdminMailer < ApplicationMailer
     @user = user
     @plan_name = plan_name
     mail(
-      :to => 'hello@listify.ai',
+      :to => ['hello@listify.ai', 'srin@listify.ai'],
       :subject => 'New Listify subscription'
     )
   end
@@ -19,7 +19,7 @@ class AdminMailer < ApplicationMailer
   def subscription_cancelled(user)
     @user = user
     mail(
-      :to => 'hello@listify.ai',
+      :to => ['hello@listify.ai', 'srin@listify.ai'],
       :subject => 'Cancelled Listify subscription'
     )
   end

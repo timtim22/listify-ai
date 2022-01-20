@@ -22,7 +22,7 @@ const AreaDescriptionForm = ({
   const [userInputLength, setUserInputLength] = useState(0);
 
   const cleanDetailText = (text) => {
-    let cleanText = text.trim();
+    let cleanText = text.trim().replace(/\n-$/, "");
     if (cleanText.length > 0 && cleanText[cleanText.length-1] !== ".") {
       cleanText = cleanText + ".";
     }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const MobileMenu = ({ admin }) => {
+const MobileMenu = ({ admin, subscribed }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const adminLink = () => {
@@ -11,8 +11,22 @@ const MobileMenu = ({ admin }) => {
           className="block py-2 px-4 text-sm text-gray-700"
           role="menuitem"
           tabIndex="-1"
-          id="dd-sign-out-link">
+          id="dd-admin-link">
           Admin
+        </a>
+      )
+    }
+  }
+
+  const subscribeLink = () => {
+    if (!subscribed) {
+      return (
+        <a href="/pricing"
+          className="block py-2 px-4 text-sm text-gray-700"
+          role="menuitem"
+          tabIndex="-1"
+          id="dd-pricing-link">
+          Subscribe
         </a>
       )
     }
@@ -38,6 +52,7 @@ const MobileMenu = ({ admin }) => {
             id="dd-account-link">
             Account
           </a>
+          {subscribeLink()}
           {adminLink()}
           <a href="/users/sign_out"
             className="block py-2 px-4 text-sm text-gray-700"

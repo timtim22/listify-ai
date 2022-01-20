@@ -9,11 +9,7 @@
 
         <% if @subscription.nil? %>
           <p class="mb-8">You do not have a subscription set up.</p>
-          <% if current_user.admin? %>
-            <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
-          <% else %>
-            <p>We will be launching subscriptions very soon!</p>
-          <% end %>
+          <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
 
         <% elsif @subscription && @subscription.on_trial? %>
           <p class="mb-8">You are trialing the <strong><%= subscription_plan_from_id(@subscription.stripe_plan) %></strong> plan.</p>

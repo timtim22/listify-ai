@@ -9,21 +9,21 @@
           <th class="py-3 px-6">Id</th>
           <th class="py-3 px-6">Email</th>
           <th class="py-3 px-6">Created at</th>
-          <th class="py-3 px-6">Task runs today</th>
-          <th class="py-3 px-6">Task runs total</th>
+          <th class="py-3 px-6">Spins this month</th>
+          <th class="py-3 px-6">Spin quota</th>
           <th class="py-3 px-6">Results total</th>
         </tr>
       </thead>
 
       <tbody class="divide-y divide-gray-200">
-        <% @users.each do |user| %>
+        <% @users_with_stats.each do |user| %>
           <tr class="text-xs">
             <td class="py-3 px-6"><%= user.id %></td>
             <td class="py-3 px-6"><%= user.email %></td>
             <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
-            <td class="py-3 px-6"><%= user.task_runs.today.count %></td>
-            <td class="py-3 px-6"><%= user.task_runs.count %></td>
-            <td class="py-3 px-6"><%= user.task_runs.map(&:task_result_count).sum %></td>
+            <td class="py-3 px-6"><%= user.spins_this_month %></td>
+            <td class="py-3 px-6"><%= user.monthly_spin_quota %></td>
+            <td class="py-3 px-6"></td>
           </tr>
         <% end %>
       </tbody>

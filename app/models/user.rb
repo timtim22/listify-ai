@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :charges
 
+  TRIAL_CODES = ["rentalscaleup", "friendoflistify"].freeze
+
   def name
     "#{first_name} #{last_name}"
   end
@@ -26,7 +28,7 @@ class User < ApplicationRecord
   end
 
   def trial_days
-    promotion_code&.downcase == "rentalscaleup" ? 44 : 14
+    TRIAL_CODES.include?(promotion_code&.downcase) ? 44 : 14
   end
 
   def trial_end_date

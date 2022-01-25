@@ -15,11 +15,11 @@ class GptResult
   private
 
   def execute_request!(prompt, task_run)
-    if Rails.env.development?
-      mock_response
-    else
+    if Rails.env.production? || ENV['LIVE_REQUESTS']
       gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
       gpt_call.execute!
+    else
+      mock_response
     end
   end
 

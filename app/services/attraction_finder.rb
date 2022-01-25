@@ -9,13 +9,13 @@ class AttractionFinder
   end
 
   def find!
-    if Rails.env.development? # && false
-      MockData.new.london
-    else
+    if Rails.env.production? || ENV['LIVE_REQUESTS']
       find_attractions
       find_stations
       find_restaurants
       found
+    else
+      MockData.new.london
     end
   end
 

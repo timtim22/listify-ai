@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import { useScrollOnLoading } from '../hooks';
 import FormHeader from './FormHeader';
-import ListingFormContainer from './ListingFormContainer';
+import ListingForm from './Form';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
 import FullListingForm from '../full_listings/Form';
@@ -86,9 +86,12 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
       )
     } else {
       return (
-        <ListingFormContainer
-          {...commonProps}
+        <ListingForm
+          loading={loading}
+          setLoading={toggleLoading}
           formType={formType}
+          runsRemaining={runsRemaining}
+          onResult={handleTaskRun}
           showExample={showExample}
         />
       )

@@ -3,12 +3,13 @@ class AreaDescriptionsController < ApplicationController
 
   def create
     if area_description_params[:selected_ids].length > 0
+      @runs_remaining = SpinCheck.runs_remaining(current_user)
       description = AreaDescription.new_from(area_description_params)
       save = Input.create_with(description, current_user)
       if save.success
         @area_description = save.input_object
         @task_run = TaskRunner.new.run_for!(@area_description, current_user)
-        @runs_remaining = current_user.runs_remaining_today
+        @runs_remaining -= 1
       end
     else
       save = OpenStruct.new(sucess: false, errors: { selected: ["Nothing was selected"] })

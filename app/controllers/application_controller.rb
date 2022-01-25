@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   before_action :configure_permitted_parameters, if: :devise_controller?
   rescue_from Errors::ShortRequest, with: :render_error_response
+  rescue_from Errors::NoSpinsRemaining, with: :render_error_response
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:promotion_code])

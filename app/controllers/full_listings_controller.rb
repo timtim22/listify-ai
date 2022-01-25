@@ -7,8 +7,9 @@ class FullListingsController < ApplicationController
   end
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     @full_listing = FullListing.from(full_listing_params, current_user)
-    @runs_remaining = current_user.runs_remaining_today
+    @runs_remaining -= 1
 
     respond_to do |format|
       if true

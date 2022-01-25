@@ -7,11 +7,12 @@ class ListingsController < ApplicationController
   end
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     save = Input.create_with(Listing.new(params_for_language), current_user)
     if save.success
       @listing  = save.input_object
       @task_run = TaskRunner.new.run_for!(@listing, current_user, params[:output_language])
-      @runs_remaining = current_user.runs_remaining_today
+      @runs_remaining -= 1
     end
 
     respond_to do |format|

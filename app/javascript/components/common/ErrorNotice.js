@@ -4,9 +4,13 @@ const ErrorNotice = ({ errors }) => {
 
   const parseErrors = () => {
     let errorMessages = [];
-    Object.keys(errors).forEach((key) => {
-      errors[key].map(error => errorMessages.push(`${key}: ${error}`))
-    })
+    if (errors.message) {
+      errorMessages.push(errors.message);
+    } else {
+      Object.keys(errors).forEach((key) => {
+        errors[key].map(error => errorMessages.push(`${key}: ${error}`))
+      })
+    }
     return errorMessages;
   }
 

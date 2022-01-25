@@ -2,6 +2,7 @@ class TaskRerunsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     last_run = TaskRun.find(task_rerun_params[:task_run_id])
     language = last_run.output_language
     new_input_object = last_run.input_object.dup
@@ -9,7 +10,7 @@ class TaskRerunsController < ApplicationController
     if save.success
       @object = save.input_object
       @task_run = TaskRunner.new.run_for!(@object, current_user, language)
-      @runs_remaining = current_user.runs_remaining_today
+      @runs_remaining -= 1
     end
 
     respond_to do |format|

@@ -9,7 +9,7 @@ class TaskRerunsController < ApplicationController
     save = Input.create_with(new_input_object, current_user)
     if save.success
       @object = save.input_object
-      @task_run = TaskRunner.new.run_for!(@object, current_user, language)
+      @task_run = TaskRunners::OneStep.new.run_for!(@object, current_user, language)
       @runs_remaining -= 1
     end
 

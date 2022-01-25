@@ -1,4 +1,4 @@
-class TaskRunner
+class TaskRunners::OneStep
 
   def run_for!(input_object, user, output_language = nil)
     prompt_set = prompt_set_for(input_object.request_type)

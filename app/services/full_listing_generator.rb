@@ -27,7 +27,7 @@ class FullListingGenerator
   def generate_summary
     fragment = new_fragment(attrs[:headline_text], HEAD_REQUEST_TYPE)
     save = Input.create_with(fragment, user)
-    task_run = TaskRunner.new.run_for!(save.input_object, user, nil)
+    task_run = TaskRunners::OneStep.new.run_for!(save.input_object, user, nil)
     task_ids_in_output << task_run.id
   end
 

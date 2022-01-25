@@ -10,7 +10,7 @@ class WritingsController < ApplicationController
     save = Input.create_with(Writing.new(writing_params), current_user)
     if save.success
       @writing  = save.input_object
-      @task_run = TaskRunner.new.run_for!(@writing, current_user)
+      @task_run = TaskRunners::OneStep.new.run_for!(@writing, current_user)
       @runs_remaining = current_user.runs_remaining_today
     end
 

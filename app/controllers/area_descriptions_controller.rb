@@ -8,7 +8,7 @@ class AreaDescriptionsController < ApplicationController
       save = Input.create_with(description, current_user)
       if save.success
         @area_description = save.input_object
-        @task_run = TaskRunner.new.run_for!(@area_description, current_user)
+        @task_run = TaskRunners::OneStep.new.run_for!(@area_description, current_user)
         @runs_remaining -= 1
       end
     else

@@ -6,7 +6,7 @@ class GptRefresh
 
   def initialize
     @user = User.find_by(email: 'test2@venturerocket.co.uk')
-    @one_step_task_runner = TaskRunner.new
+    @one_step_task_runner = TaskRunners::OneStep.new
     @two_step_task_runner = TaskRunners::TwoStep.new
   end
 

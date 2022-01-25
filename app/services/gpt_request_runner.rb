@@ -25,7 +25,7 @@ class GptRequestRunner
 
   def process_response(task_run, response, prompt)
     task_result = create_task_result(task_run, response, prompt)
-    store_filter_responses(response, task_result)
+    store_filter_responses(response, task_result, task_run)
     translate(task_run, task_result)
     task_result
   end
@@ -39,9 +39,10 @@ class GptRequestRunner
     )
   end
 
-  def store_filter_responses(response, task_result)
+  def store_filter_responses(response, task_result, task_run)
     if response[:check_result]
-      create_filter_result(task_result, response[:check_result])
+      filter_result = create_filter_result(task_result, response[:check_result])
+      UserLock.run!(task_run.user) if filter_result.unsafe?
       run_through_custom_filter(task_result)
     end
   end

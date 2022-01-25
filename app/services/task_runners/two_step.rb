@@ -14,7 +14,7 @@ class TaskRunners::TwoStep
 
   def generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2)
     step_one_prompt = prompt_set.prompts.first
-    GptTwoStepResultWorker.perform_async(
+    GptTwoStepRequestWorker.perform_async(
       task_run.id,
       step_one_prompt.id,
       task_run_2.id,

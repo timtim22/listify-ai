@@ -1,4 +1,4 @@
-class GptResult
+class GptRequestRunner
 
   def initialize
     @custom_filter = CustomResultFilter

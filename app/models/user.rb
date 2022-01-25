@@ -54,6 +54,7 @@ class User < ApplicationRecord
 
   def lock_account!
     self.update(account_locked: true)
+    AdminMailer.user_account_locked(self).deliver_later
   end
 
   def never_had_subscription?

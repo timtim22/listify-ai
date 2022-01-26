@@ -53,7 +53,7 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
         value={bedroomCount}
         onChange={(v) => changeBedroomCount(v)}
         minValue={1}
-        maxValue={4}
+        maxValue={8}
       />
     )
   }

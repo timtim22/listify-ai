@@ -7,7 +7,7 @@ import Switch from '../common/Switch';
 import BedroomForm from './BedroomForm';
 import OtherRoomForm from './OtherRoomForm';
 
-const maxInput = 250;
+const maxInput = 800;
 const newRoomDescription = { bedrooms: [''], rooms: [], request_type: 'room_description' };
 const roomTypes = [
   { name: 'bedrooms', value: 'bedrooms' },

@@ -2,6 +2,7 @@ class RoomDescriptionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     save = Input.create_with(RoomDescription.new(room_description_params), current_user)
     if save.success
       @room_description = save.input_object
@@ -11,7 +12,7 @@ class RoomDescriptionsController < ApplicationController
         'room_step_2',
         params[:output_language]
       )
-      @runs_remaining = current_user.runs_remaining_today
+      @runs_remaining -= 1
     end
 
     respond_to do |format|

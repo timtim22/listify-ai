@@ -1,4 +1,4 @@
-class TaskRunner
+class TaskRunners::OneStep
 
   def run_for!(input_object, user, output_language = nil)
     prompt_set = prompt_set_for(input_object.request_type)
@@ -10,7 +10,7 @@ class TaskRunner
 
   def generate_gpt_results(task_run, prompt_set)
     prompt_set.prompts.map do |prompt|
-      GptResultWorker.perform_async(task_run.id, prompt.id)
+      GptRequestWorker.perform_async(task_run.id, prompt.id)
     end
   end
 

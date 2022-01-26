@@ -1,6 +1,6 @@
 class GptCallGenerator
 
-  CHECK_CONTENT = ENV['CONTENT_CHECK_ENABLED']
+  CHECK_CONTENT = ENV['CONTENT_CHECK_ENABLED'] || ENV['LIVE_REQUESTS']
 
   def self.generate_for(prompt, input_object)
     request_object = generate_request_object(prompt, input_object)
@@ -60,7 +60,7 @@ class GptCallGenerator
   def self.construct_prompt_body(prompt_text, input_object)
     with_input = prompt_text.gsub("{input}", input_object.input_text)
     if input_object.class.to_s == "AreaDescription"
-      with_input.gsub!("{area}", input_object.search_location.search_text)
+      with_input.gsub!("{area}", input_object.search_location.search_text.titleize)
     end
     with_input
   end

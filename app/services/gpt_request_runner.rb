@@ -1,4 +1,4 @@
-class GptResult
+class GptRequestRunner
 
   def initialize
     @custom_filter = CustomResultFilter
@@ -15,17 +15,17 @@ class GptResult
   private
 
   def execute_request!(prompt, task_run)
-    if Rails.env.development?
-      mock_response
-    else
+    if Rails.env.production? || ENV['LIVE_REQUESTS']
       gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
       gpt_call.execute!
+    else
+      mock_response
     end
   end
 
   def process_response(task_run, response, prompt)
     task_result = create_task_result(task_run, response, prompt)
-    store_filter_responses(response, task_result)
+    store_filter_responses(response, task_result, task_run)
     translate(task_run, task_result)
     task_result
   end
@@ -39,9 +39,10 @@ class GptResult
     )
   end
 
-  def store_filter_responses(response, task_result)
+  def store_filter_responses(response, task_result, task_run)
     if response[:check_result]
-      create_filter_result(task_result, response[:check_result])
+      filter_result = create_filter_result(task_result, response[:check_result])
+      UserLock.run!(task_run.user) if filter_result.unsafe?
       run_through_custom_filter(task_result)
     end
   end

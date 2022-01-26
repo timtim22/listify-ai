@@ -23,4 +23,12 @@ class AdminMailer < ApplicationMailer
       :subject => 'Cancelled Listify subscription'
     )
   end
+
+  def user_account_locked(user)
+    @user = user
+    mail(
+      :to => ['hello@listify.ai', 'srin@listify.ai'],
+      :subject => 'User account locked!'
+    )
+  end
 end

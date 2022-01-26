@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :legacy_task_runs, class_name: "Legacy::TaskRun"
   has_many :task_runs, dependent: :destroy
+  has_many :task_results, through: :task_runs
   has_many :task_run_feedbacks, dependent: :destroy
   has_many :inputs, dependent: :destroy
   has_many :full_listings, dependent: :destroy
@@ -49,6 +50,11 @@ class User < ApplicationRecord
 
   def runs_remaining_today
     SpinCounter.new(self).spins_remaining
+  end
+
+  def lock_account!
+    self.update(account_locked: true)
+    AdminMailer.user_account_locked(self).deliver_later
   end
 
   def never_had_subscription?

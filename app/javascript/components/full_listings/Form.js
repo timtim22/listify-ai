@@ -178,7 +178,7 @@ const Form = ({
         value={inputFields.bedroom_count}
         onChange={(v) => setBedroomCount(v)}
         minValue={1}
-        maxValue={4}
+        maxValue={8}
       />
     )
   }

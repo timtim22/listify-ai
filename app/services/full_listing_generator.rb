@@ -27,7 +27,7 @@ class FullListingGenerator
   def generate_summary
     fragment = new_fragment(attrs[:headline_text], HEAD_REQUEST_TYPE)
     save = Input.create_with(fragment, user)
-    task_run = TaskRunner.new.run_for!(save.input_object, user, nil)
+    task_run = TaskRunners::OneStep.new.run_for!(save.input_object, user, nil)
     task_ids_in_output << task_run.id
   end
 
@@ -76,22 +76,14 @@ class FullListingGenerator
 
   def join_inputs_if_short(rooms)
     inputs = []
-    in_slices_of(2, rooms).map do |slice|
-      if under_250_chars_combined?(slice)
-        inputs << slice.join("\n")
-      else
-        slice.each { |individual_room| inputs << individual_room }
-      end
+    in_slices_of(4, rooms).map do |slice|
+      inputs << slice.join("\n")
     end
     inputs
   end
 
   def in_slices_of(number, array)
     array.each_slice(number).to_a
-  end
-
-  def under_250_chars_combined?(slice)
-    slice.join("\n").length < 250
   end
 
   def format_bedrooms(unformatted)

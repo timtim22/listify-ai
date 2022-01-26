@@ -10,4 +10,8 @@ class AdminMailerPreview < ActionMailer::Preview
   def subscription_cancelled
     AdminMailer.subscription_cancelled(Subscription.first.user)
   end
+
+  def user_account_locked
+    AdminMailer.user_account_locked(User.first)
+  end
 end

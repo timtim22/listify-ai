@@ -2,6 +2,9 @@
   <div class="flex justify-between items-center mb-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Accounts & Usages</h1>
   </div>
+  <h5 class="mb-4 text-xl font-medium">Users</h5>
+  <p class="">Today: <%= @new_users.count %> : <%= @new_users.map(&:email).join(",") %></p>
+  <p class="mb-4">This week: <%= @users_with_stats.select(&:created_last_7_days).count %></p>
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">

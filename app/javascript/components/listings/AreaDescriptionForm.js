@@ -194,10 +194,10 @@ const AreaDescriptionForm = ({
     const filteredRestaurants = filterRestaurants(results.restaurants);
 
     return (
-      <div className="py-4 px-6 w-full">
-        <div className="flex justify-center w-full">
+      <div className="w-full flex justify-center">
+        <div className="flex justify-center w-4/5">
           <form className="text-sm" onSubmit={handleSubmit}>
-            <p>Here's what we found nearby. Select the key features for your description and tap generate.</p>
+            <p>Here's what we found nearby. For best results, tick at least 3 boxes and add something to the keywords section. Then tap generate.</p>
             <br />
             {attractionSection(topAttractions, 'Attractions', attractionRow)}
             <br />

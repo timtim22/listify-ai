@@ -7,7 +7,7 @@ module PricingHelper
   }
 
   SPIN_COUNT = { #move to db
-    starter: 20,
+    starter: 30,
     standard: 250,
     premium: 1000
   }

@@ -20,7 +20,7 @@ class AreaDescription < ApplicationRecord
 
   def displayable_input_text
     "Search: #{search_location.search_text.titleize}\n----\n" +
-      AreaTextGenerator.input_text_for(self)
+     AreaTextGenerator.input_text_for(self)
   end
 
   def input_text

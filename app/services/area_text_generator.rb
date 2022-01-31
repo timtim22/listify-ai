@@ -32,10 +32,15 @@ class AreaTextGenerator
         if attractions.any?
           attractions.map do |a|
             category = category_for(a, key)
-            categories[category] = add_attraction_to_category(categories[category], a)
+            if categories[category].nil?
+              categories[category] = [a]
+            else
+              categories[category] << a
+            end
           end
         end
       end
+      categories
     end
 
     def add_attraction_to_category(category, attraction)

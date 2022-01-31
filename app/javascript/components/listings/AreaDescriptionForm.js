@@ -40,6 +40,7 @@ const AreaDescriptionForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors(null);
     setLoading(true);
     createRequest(
       "/area_descriptions.json",

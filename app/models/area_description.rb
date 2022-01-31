@@ -41,7 +41,12 @@ class AreaDescription < ApplicationRecord
     categories.each do |key, attractions|
       lines << "#{key}: #{attractions.map { |a| string_for(a) }.join(", ")}"
     end
-    "- #{lines.join("\n- ").gsub("&", "and")}\n#{detail_text}"
+    joined_lines_and_detail(lines, detail_text)
+  end
+
+  def joined_lines_and_detail(lines, detail_text)
+    joined_lines = "- #{lines.join("\n- ").gsub("&", "and")}"
+    detail_text.blank? ? "#{joined_lines}." : "#{joined_lines}\n#{detail_text}"
   end
 
   def string_for(attraction)

@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
 
   def edit
     @subscription = current_user.subscription
-    @plans = Plan.where(interval: 'month')
+    @plans = Plan.public
   end
 
   def update

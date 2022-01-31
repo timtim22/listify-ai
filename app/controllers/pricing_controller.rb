@@ -2,6 +2,6 @@ class PricingController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @plans = Plan.where(interval: 'month')
+    @plans = Plan.public
   end
 end

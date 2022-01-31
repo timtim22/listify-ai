@@ -20,28 +20,11 @@ class AreaDescription < ApplicationRecord
 
   def displayable_input_text
     "Search: #{search_location.search_text.titleize}\n----\n" +
-    input_text
+      AreaTextGenerator.input_text_for(self)
   end
 
   def input_text
-    categories = {}
-    lines = []
-    selected_attractions.each do |key, attractions|
-      if attractions.any?
-         attractions.map do |a|
-         category = category_for(a, key)
-         if categories[category].nil?
-           categories[category] = [a]
-         else
-           categories[category] << a
-          end
-        end
-      end
-    end
-    categories.each do |key, attractions|
-      lines << "#{key}: #{attractions.map { |a| string_for(a) }.join(", ")}"
-    end
-    joined_lines_and_detail(lines, detail_text)
+    AreaTextGenerator.input_text_for(self)
   end
 
   def joined_lines_and_detail(lines, detail_text)
@@ -92,13 +75,5 @@ class AreaDescription < ApplicationRecord
       end
     end
     selected
-  end
-
-  def result_counts
-    counts = {}
-    inputs[:search_results].each do |key, results|
-      counts[key] = results.length
-    end
-    counts
   end
 end

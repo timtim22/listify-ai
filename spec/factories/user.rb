@@ -12,6 +12,5 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     admin { false }
-    early_access_code { "MIN39210" }
   end
 end

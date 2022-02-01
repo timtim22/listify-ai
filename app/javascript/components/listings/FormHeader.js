@@ -78,6 +78,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
         {pillButton("Area description", "neighbourhood")}
         {pillButton("Rooms", "room_description")}
         {pillButton("Full listing", "full_listing")}
+        {pillButton("Listing builder", "listing_builder")}
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>
    </div>

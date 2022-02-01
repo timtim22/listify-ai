@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/terms', to: 'home#terms'
   get '/privacy', to: 'home#privacy'
 
+  get '/listing_builder_task_results', to: 'listing_fragments#task_results'
+
   resources :task_runs, only: [:index] do
     resources :task_results, only: [:index]
   end
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
   resources :full_listings, only: [:create, :show]
 
   resources :listings, only: [:new, :create]
+  resources :listing_fragments, only: [:create]
   resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]
   resources :search_locations, only: [:create]

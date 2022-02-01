@@ -5,7 +5,6 @@ class Admin::UserLocksController < ApplicationController
   def create
     @user.lock_account!
     redirect_back(fallback_location: root_path, notice: 'Account was soft-locked' )
-
   end
 
   def destroy

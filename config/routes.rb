@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'index', to: 'home#index'
     resources :statistics, only: [:index]
+    resources :user_locks, only: [:create, :destroy]
   end
 
   namespace :legacy do

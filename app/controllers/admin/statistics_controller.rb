@@ -8,6 +8,8 @@ class Admin::StatisticsController < ApplicationController
       OpenStruct.new(
         id: user.id,
         email: user.email,
+        admin: user.admin,
+        locked: user.account_locked,
         created_at: user.created_at,
         created_today: user.created_at > Date.today.beginning_of_day,
         created_last_7_days: user.created_at > (Date.today - 7.days).beginning_of_day,

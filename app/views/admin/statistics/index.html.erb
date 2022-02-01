@@ -14,7 +14,7 @@
           <th class="py-3 px-6">Created at</th>
           <th class="py-3 px-6">Spins this month</th>
           <th class="py-3 px-6">Spin quota</th>
-          <th class="py-3 px-6">Results total</th>
+          <th class="py-3 px-6">Actions</th>
         </tr>
       </thead>
 
@@ -26,7 +26,26 @@
             <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
             <td class="py-3 px-6"><%= user.spins_this_month %></td>
             <td class="py-3 px-6"><%= user.monthly_spin_quota %></td>
-            <td class="py-3 px-6"></td>
+            <td class="py-3 px-6">
+              <% if user.locked %>
+                <%= link_to(
+                  "Unlock",
+                  admin_user_lock_path(id: user.id),
+                  method: :delete,
+                  class: 'py-2 px-4 rounded-lg bg-green-700 text-white text-sm hover:bg-green-500'
+                ) %>
+              <% end %>
+              <% if !user.locked && !user.admin %>
+                <%= link_to(
+                  "Soft lock (spins won't work)",
+                  admin_user_locks_path(id: user.id),
+                  method: :post,
+                  data: { confirm: 'Are you sure you wish to lock this user?' },
+                  class: 'py-2 px-4 rounded-lg bg-red-700 text-white text-sm hover:bg-red-500'
+
+                ) %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

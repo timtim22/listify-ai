@@ -8,10 +8,10 @@ RSpec.describe SpinCounter do
         plan = create(:plan, stripe_id: "StarterPlanId")
         subscription = create(:subscription, user: user, stripe_plan: "StarterPlanId")
         expected = 20
-        expect(SpinCounter.new(user).spins_remaining).to eq 20
+        expect(SpinCounter.new(user).spins_remaining).to eq 30
         5.times { create(:task_run, :for_listing, user: user) }
         create(:task_run, :for_listing, user: user, created_at: Date.today.beginning_of_month - 1.day)
-        expect(SpinCounter.new(user).spins_remaining).to eq 15
+        expect(SpinCounter.new(user).spins_remaining).to eq 25
       end
     end
 

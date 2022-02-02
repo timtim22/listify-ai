@@ -24,29 +24,32 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
 
   const resultFragment = (results) => {
     const orderedByDate = sortObjectsByDate(results);
-    console.log({orderedByDate})
-    const latestTaskId = orderedByDate[orderedByDate.length-1];
     return resultItem(orderedByDate[orderedByDate.length-1]);
-    //resultItem(groupedResults[key][0])
   }
 
   const resultItem = (result) => {
-    return (
-      <div key={result.id} className="flex h-full items-stretch pt-4">
-        <div>
-          <p className="text-sm whitespace-pre-wrap">{result.result_text}</p>
+    const trimmedResult = (result.result_text || "").trim();
+
+    if (trimmedResult !== "") {
+      return (
+        <div key={result.id} className="flex h-full items-stretch pt-4">
+          <div>
+            <p className="text-sm whitespace-pre-wrap">{trimmedResult}</p>
+          </div>
+          <div className="pl-4 flex items-start flex-shrink-0">
+            <FragmentRefreshButton
+              taskRunId={result.task_run_id}
+              runsRemaining={runsRemaining}
+              onResult={onRerun}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </div>
         </div>
-        <div className="pl-4 pt-4 flex items-start flex-shrink-0">
-          <FragmentRefreshButton
-            taskRun={taskRun}
-            runsRemaining={runsRemaining}
-            onResult={onRerun}
-            loading={loading}
-            setLoading={setLoading}
-          />
-        </div>
-      </div>
-    )
+      )
+    } else {
+      return null;
+    }
   }
 
   if (results.length > 0) {

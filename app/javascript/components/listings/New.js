@@ -94,7 +94,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           runsRemaining={runsRemaining}
           setRunsRemaining={setRunsRemaining}
           loading={loading}
-          setLoading={toggleLoading}
+          setLoading={setLoading}
           results={results}
           onResult={handleTaskRun}
           resetState={() => resetState()}

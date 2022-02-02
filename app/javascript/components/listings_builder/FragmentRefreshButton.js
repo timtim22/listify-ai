@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 
-const FragmentRefreshButton = ({ taskRun, runsRemaining, onResult, loading, setLoading, hideButton }) => {
+const FragmentRefreshButton = ({ taskRunId, runsRemaining, onResult, loading, setLoading, hideButton }) => {
 
   const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
     createRequest(
       "/task_reruns.json",
-      { task_run_id: taskRun.id },
+      { task_run_id: taskRunId },
       (response) => { onResult(response) },
       (e) => { console.log(e); setLoading(false) }
     )
@@ -33,7 +33,7 @@ const FragmentRefreshButton = ({ taskRun, runsRemaining, onResult, loading, setL
   return (
     <>
       <button
-        title="Refresh this"
+        title="Refresh this text"
         onClick={handleSubmit}
         className="flex justify-center items-center p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
       >

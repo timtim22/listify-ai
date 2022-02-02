@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
-import OtherRoomForm from '../rooms/OtherRoomForm';
+import OtherRoomForm from './OtherRoomForm';
 import BedroomInput from '../rooms/BedroomInput';
 import Submit from '../inputs/Submit';
 
@@ -35,7 +36,7 @@ const requestTypesForSteps = {
   3: 'other_room_fragment'
 }
 
-const maxInputs = 2000
+const requestStepCharacterLimit = 800;
 
 const Form = ({
   runsRemaining,
@@ -49,9 +50,18 @@ const Form = ({
   const [inputFields, setInputFields] = useState(newInputFields);
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
+  const [leaveTransition, setLeaveTransition] = useState(false);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
+  }
+
+  const changeStep = (nextStep) => {
+    setLeaveTransition(true);
+    setTimeout(() => {
+      setStep(nextStep);
+      setLeaveTransition(false);
+    }, 200);
   }
 
   const resetForm = () => {
@@ -78,7 +88,7 @@ const Form = ({
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    setStep(step + 1);
+    changeStep(step + 1);
     onResult(response);
   }
 
@@ -105,6 +115,35 @@ const Form = ({
     return rooms.map(r => r.name.length >= 3 ? `${r.name}: ${r.description}` : "").join("\n");
   }
 
+  const summaryUserCharacters = () => {
+    const { property_type, location, key_features, ideal_for } = inputFields;
+    return `${property_type} ${location} ${key_features} ${ideal_for}`;
+  }
+
+  const bedroomsUserCharacters = () => {
+    return inputFields.bedrooms.join(" ");
+  }
+
+  const otherRoomsUserCharacters = () => {
+    return inputFields.rooms.map(r => `${r.name} ${r.description}`).join(" ");
+  }
+
+  const userCharacters = () => {
+    switch(requestTypesForSteps[step]) {
+      case 'summary_fragment':
+        return summaryUserCharacters();
+        break;
+      case 'bedroom_fragment':
+        return bedroomsUserCharacters();
+        break;
+      case 'other_room_fragment':
+        return otherRoomsUserCharacters();
+        break;
+      default:
+        return null;
+    }
+  }
+
 
   const inputTextForStep = () => {
     switch(requestTypesForSteps[step]) {
@@ -124,18 +163,20 @@ const Form = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    createRequest(
-      "/listing_fragments.json",
-      {
-        listing_fragment: {
-          input_text: inputTextForStep(),
-          request_type: requestTypesForSteps[step]
+    setTimeout(() => {
+      setLoading(true);
+      createRequest(
+        "/listing_fragments.json",
+        {
+          listing_fragment: {
+            input_text: inputTextForStep(),
+            request_type: requestTypesForSteps[step]
+          },
         },
-      },
-      (response) => { handleRequestSuccess(response) },
-      (e) => { setErrors(e); setLoading(false) }
-    )
+        (response) => { handleRequestSuccess(response) },
+        (e) => { setErrors(e); setLoading(false) }
+      )
+    }, 100);
   }
 
   const updateBedroomInState = (index, newValue) => {
@@ -234,14 +275,12 @@ const Form = ({
       });
 
       return (
-        <div className="flex flex-col my-4">
-          <div className="mt-8 mb-4">
-            <h2 className="text-lg font-medium leading-6 text-gray-900">Bedrooms</h2>
-            <p className="mt-1 text-sm text-gray-500">
+        <div className="flex flex-col pt-2">
+          <div className="mb-6">
+            <p className="mt-1 text-sm text-gray-700">
               Add details specific to each bedroom.
             </p>
           </div>
-          <div className="mb-4 w-full h-px bg-gray-200"></div>
           {bedroomRows}
           {stepButton()}
         </div>
@@ -252,14 +291,13 @@ const Form = ({
   const roomForm = () => {
     if (step === 3) {
       return (
-        <>
+        <div className="pt-2">
           <OtherRoomForm
             rooms={inputFields.rooms}
             onChange={(rooms) => setField('rooms', rooms)}
-            showHeader={true}
           />
           {stepButton()}
-        </>
+        </div>
       )
     }
   }
@@ -268,47 +306,54 @@ const Form = ({
   const keyFeaturesForm = () => {
     if (step === 1) {
       return (
-        <>
+        <div className="pt-2">
+          <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section.</p>
           {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
           {textInputRow('Location', 'location', '', true)}
           {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
           {bedroomsCountRow()}
           {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
           {stepButton()}
-        </>
+        </div>
       )
     }
   }
 
-  const submitButton = () => {
-    return (
-      <Submit
-        inputText={consolidatedInput}
-        userInputLength={consolidatedInput.length}
-        maxUserInput={maxInputs}
-        loading={loading}
-        runsRemaining={runsRemaining}
-      />
-    )
-  }
-
   const stepBar = (number, title) => {
-    const selectedStyle = "font-bold text-lg mb-4"
-    const unSelectedStyle = "font-bold text-gray-400 text-lg mb-4"
+    const selectedStyle = "font-bold text-lg"
+    const unSelectedStyle = "font-bold text-gray-400 text-lg"
     return (
-      <div onClick={() => setStep(number)} className="cursor-pointer">
-        <h1 className={step === number ? selectedStyle : unSelectedStyle }>Step {number}: {title}</h1>
+      <div className="">
+        <div onClick={() => setStep(number)} className="cursor-pointer pb-4">
+          <h1 className={step === number ? selectedStyle : unSelectedStyle }>Step {number}: {title}</h1>
+        </div>
         <div className="mb-4 w-full h-px bg-gray-200"></div>
       </div>
     )
   }
 
+  const characterLimitForStep = () => {
+    const currentStepRequestType = requestTypesForSteps[step];
+    return totalCharacterLimitFor[currentStepRequestType];
+  }
+
   const stepButton = () => {
     const buttonText = step === 3 ? 'Finish' : 'Next';
     return (
-      <div className="flex justify-center py-8 w-full">
-        <button className="primary-button" type="submit">{buttonText}</button>
-      </div>
+      <>
+        <div className="flex justify-center py-8 w-full">
+          <Submit
+            inputText={userCharacters()}
+            userInputLength={userCharacters().length}
+            maxUserInput={requestStepCharacterLimit}
+            loading={loading}
+            runsRemaining={runsRemaining}
+            buttonText={buttonText}
+          />
+
+        </div>
+        {step !== 3 && <div className="mb-4 w-full h-px bg-gray-200"></div>}
+      </>
     )
   }
 
@@ -330,6 +375,22 @@ const Form = ({
 
   const consolidatedInput = consolidateInput();
 
+  const withTransition = (children, contentStep) => {
+    return (
+    <Transition
+      show={step === contentStep && !leaveTransition}
+      enter="transition ease-linear transform duration-200"
+      enterFrom="scale-25 opacity-0"
+      enterTo="scale-100 opacity-100"
+      leave="transition ease-linear transform duration-500"
+      leaveFrom="translate-y-full opacity-100"
+      leaveTo="translate-y-0 opacity-0"
+    >
+     {children}
+    </Transition>
+    )
+  }
+
   return (
     <div className="overflow-hidden w-full">
       <div className="flex flex-col items-center pt-2 w-full h-full">
@@ -339,11 +400,11 @@ const Form = ({
           </div>
           <div className="flex flex-col w-4/5 max-w-2xl">
             {stepBar(1, "Key features")}
-            {keyFeaturesForm()}
+            {withTransition(keyFeaturesForm(), 1)}
             {stepBar(2, "Bedrooms")}
-            {bedroomFields()}
-            {stepBar(3, "Other rooms")}
-            {roomForm()}
+            {withTransition(bedroomFields(), 2)}
+            {stepBar(3, "Other rooms & spaces")}
+            {withTransition(roomForm(), 3)}
             {resetButton()}
          </div>
        </form>

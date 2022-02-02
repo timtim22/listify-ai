@@ -307,7 +307,7 @@ const Form = ({
     if (step === 1) {
       return (
         <div className="pt-2">
-          <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section.</p>
+          <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section. <span className="italic font-medium">This is a new feature - we are still making improvements.</span></p>
           {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
           {textInputRow('Location', 'location', '', true)}
           {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
@@ -398,7 +398,7 @@ const Form = ({
           <div className="w-4/5">
             <ErrorNotice errors={errors} />
           </div>
-          <div className="flex flex-col w-4/5 max-w-2xl">
+          <div className="flex flex-col w-4/5 max-w-2xl pb-4">
             {stepBar(1, "Key features")}
             {withTransition(keyFeaturesForm(), 1)}
             {stepBar(2, "Bedrooms")}

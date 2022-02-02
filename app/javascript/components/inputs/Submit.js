@@ -12,7 +12,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   const inputLengthWarning = () => {
     const charactersOver = userInputLength - maxUserInput;
     const s = charactersOver > 1 ? 's' : '';
-    const text = `Oops - that text is ${charactersOver} character${s} over the limit.`
+    const text = `Oops - that text is ${charactersOver} character${s} over the total limit.`
     return warningText(text);
   }
 

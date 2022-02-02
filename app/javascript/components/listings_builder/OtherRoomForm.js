@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import { randId } from '../../helpers/utils';
 
-const maxRooms = 4;
+const maxRooms = 6;
 const maxNameLength = 40;
 const maxDetailLength = 150;
 const charSoftWarningLength = 30;

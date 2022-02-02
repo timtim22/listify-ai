@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { createRequest } from '../../helpers/requests';
 import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
@@ -21,29 +22,29 @@ const sortObjectsByDate = (array) => {
   });
 }
 
+const english = "EN";
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
+  const [translations, setTranslations] = useState({});
+  const [languageVisible, setLanguageVisible] = useState(english);
+  const [errors, setErrors] = useState(null);
 
-  const resultFragment = (results) => {
-  }
+  useEffect(() => {
+    if (languageVisible !== english) { setLanguageVisible(english) }
+    if (Object.keys(translations).length > 0) { setTranslations({}) }
+  }, [results]);
 
   const resultItem = (result) => {
-    const trimmedResult = (result.result_text || "").trim();
+    const displayText = displayableText(result);
 
-    if (trimmedResult !== "") {
+    if (displayText !== "") {
       return (
         <div key={result.id} className="flex h-full items-stretch pt-4">
           <div>
-            <p className="text-sm whitespace-pre-wrap">{trimmedResult}</p>
+            <p className="text-sm whitespace-pre-wrap">{displayText}</p>
           </div>
           <div className="pl-4 flex items-start flex-shrink-0">
-            <FragmentRefreshButton
-              taskRunId={result.task_run_id}
-              runsRemaining={runsRemaining}
-              onResult={onRerun}
-              loading={loading}
-              setLoading={setLoading}
-            />
+            {refreshButton(result)}
           </div>
         </div>
       )
@@ -52,40 +53,108 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
-  const fetchTranslation = (languageCode) => {
+  const displayableText = (result) => {
+    const inCurrentLanguage = resultTextInCurrentLanguage(result);
+    return (inCurrentLanguage || "").trim();
+  }
+
+  const refreshButton = (result) => {
+    if (languageVisible === english) {
+      return (
+        <FragmentRefreshButton
+          taskRunId={result.task_run_id}
+          runsRemaining={runsRemaining}
+          onResult={onRerun}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      )
+    } else {
+      return null;
+    }
+  }
+
+  const resultTextInCurrentLanguage = (result) => {
+    if (languageVisible !== english && translations[result.id] &&
+      translations[result.id][languageVisible]) {
+      return translations[result.id][languageVisible];
+    } else {
+      return result.result_text;
+    }
+  }
+
+  const handleTranslationRequestSuccess = (response) => {
+    let nextTranslations = { ...translations };
+    response.translations.map((translation) => {
+      const resultId = translation.translatable_id;
+      if (nextTranslations[resultId]) {
+        nextTranslations[resultId][response.language] = translation.result_text;
+      } else {
+        nextTranslations[resultId] = { [response.language]: translation.result_text }
+      }
+    });
+    setTranslations({ ...nextTranslations });
+    setLoading(false);
+    setErrors(null);
+  }
+
+  const shouldTranslate = (languageCode, results) => {
+    return languageCode !== english &&
+    !(results.every(r => translationPresentFor(r, languageCode)));
+  }
+
+  const translationPresentFor = (result, languageCode) => {
+    return translations[result.id] &&
+    Object.keys(translations[result.id]).includes(languageCode);
+  }
+
+  const fetchTranslations = (languageCode, visibleResults) => {
     setLanguageVisible(languageCode);
-    if (!(fetchedLanguages().includes(languageCode))) {
-        createRequest(
-        "/translations.json",
-          { translation: {
-            object_id: result.id,
-            object_type: result.object_type || "TaskResult",
-            language: languageCode
-          } },
-        (response) => { handleRequestSuccess(response) },
-        (e) => { setErrors(e); }
+    if (shouldTranslate(languageCode, visibleResults)) {
+      setLoading(true);
+      createRequest(
+        "/translations/create_batch.json",
+        {
+          object_ids: visibleResults.map(r => r.id),
+          object_type: "TaskResult",
+          language: languageCode
+        },
+        (response) => { handleTranslationRequestSuccess(response.data) },
+        (e) => { setLoading(false); setErrors(e); }
       )
     }
   }
 
+
   const copyText = (visibleResults) => {
-    console.log({ visibleResults })
-    return visibleResults.map(r => (r.result_text || "").trim()).join("\n");
+    return visibleResults.map((result) => {
+      return displayableText(result)
+    }).join("\n");
   }
 
   const resultsBar = (visibleResults) => {
     return (
       <div className="flex justify-between items-center h-10">
-        <p className="text-sm text-gray-500">{loading ? "Generating..." : ""}</p>
+        <p className="text-sm text-gray-500">{true ? "Generating..." : ""}</p>
+        {resultActionButtons(visibleResults)}
+     </div>
+    )
+  }
+
+  const resultActionButtons = (visibleResults) => {
+    if (visibleResults.length > 2) {
+      return (
         <div className="flex justify-center">
           <LanguageToggle
-            languageVisible={'EN'}
-            toggleVisible={(lang) => { fetchTranslation(lang) }}
+            languageVisible={languageVisible}
+            toggleVisible={(lang) => { fetchTranslations(lang, visibleResults) }}
           />
           <CopyButton result={visibleResults[0]} copyText={copyText(visibleResults)} />
         </div>
-      </div>
-    )
+      )
+    } else {
+      return <div></div>
+    }
   }
 
   const mostRecentResults = (groupedResults) => {
@@ -93,7 +162,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
       const orderedByDate = sortObjectsByDate(groupedResults[key]);
       return orderedByDate[orderedByDate.length-1];
     });
-    console.log({results})
     return results;
   }
 

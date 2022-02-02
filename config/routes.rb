@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   resources :area_descriptions, only: [:create]
   resources :search_locations, only: [:create]
   resources :recorded_searches, only: [:index]
-  resources :translations, only: [:create]
+  resources :translations, only: [:create] do
+    post :create_batch, on: :collection
+  end
   resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]

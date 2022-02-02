@@ -62,8 +62,8 @@ const FormHeader = ({ user, formType, setFormType }) => {
 
   const betaBanner = () => {
     return banner(
-      "We've made some changes!",
-      "Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!"
+      "Need any help?",
+      "Get in touch with us at hello@listify.ai if you need help or have any feedback."
     )
   }
 

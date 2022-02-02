@@ -5,6 +5,8 @@ import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 import FragmentRefreshButton from './FragmentRefreshButton';
+import CopyButton from '../common/CopyButton';
+import LanguageToggle from '../common/LanguageToggle';
 
 const groupBy = (xs, key) => {
   return xs.reduce(function(rv, x) {
@@ -23,8 +25,6 @@ const sortObjectsByDate = (array) => {
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
 
   const resultFragment = (results) => {
-    const orderedByDate = sortObjectsByDate(results);
-    return resultItem(orderedByDate[orderedByDate.length-1]);
   }
 
   const resultItem = (result) => {
@@ -52,17 +52,64 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
+  const fetchTranslation = (languageCode) => {
+    setLanguageVisible(languageCode);
+    if (!(fetchedLanguages().includes(languageCode))) {
+        createRequest(
+        "/translations.json",
+          { translation: {
+            object_id: result.id,
+            object_type: result.object_type || "TaskResult",
+            language: languageCode
+          } },
+        (response) => { handleRequestSuccess(response) },
+        (e) => { setErrors(e); }
+      )
+    }
+  }
+
+  const copyText = (visibleResults) => {
+    console.log({ visibleResults })
+    return visibleResults.map(r => (r.result_text || "").trim()).join("\n");
+  }
+
+  const resultsBar = (visibleResults) => {
+    return (
+      <div className="flex justify-between items-center h-10">
+        <p className="text-sm text-gray-500">{loading ? "Generating..." : ""}</p>
+        <div className="flex justify-center">
+          <LanguageToggle
+            languageVisible={'EN'}
+            toggleVisible={(lang) => { fetchTranslation(lang) }}
+          />
+          <CopyButton result={visibleResults[0]} copyText={copyText(visibleResults)} />
+        </div>
+      </div>
+    )
+  }
+
+  const mostRecentResults = (groupedResults) => {
+    let results =  Object.keys(groupedResults).map((key) => {
+      const orderedByDate = sortObjectsByDate(groupedResults[key]);
+      return orderedByDate[orderedByDate.length-1];
+    });
+    console.log({results})
+    return results;
+  }
+
+
   if (results.length > 0) {
     const groupedResults = groupBy(results, 'request_type');
+    const visibleResults = mostRecentResults(groupedResults);
     return (
       <div className="w-full h-full">
         <div className="flex flex-col items-center mb-4 w-full">
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-              {Object.keys(groupedResults).map(key => resultFragment(groupedResults[key]))}
+              {visibleResults.map(result => resultItem(result))}
               <div className="pt-8">
-                {loading && <p className="text-sm text-gray-500">Generating...</p>}
+                {resultsBar(visibleResults)}
               </div>
             </div>
             <RequestCounter runsRemaining={runsRemaining} />

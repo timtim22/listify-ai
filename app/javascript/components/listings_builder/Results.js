@@ -135,7 +135,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   const resultsBar = (visibleResults) => {
     return (
       <div className="flex justify-between items-center h-10">
-        <p className="text-sm text-gray-500">{true ? "Generating..." : ""}</p>
+        <p className="text-sm text-gray-500">{loading ? "Generating..." : ""}</p>
         {resultActionButtons(visibleResults)}
      </div>
     )

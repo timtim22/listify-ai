@@ -23,10 +23,7 @@ class TranslationsController < ApplicationController
     @language = params[:language]
     task_results = TaskResult.find(params[:object_ids])
     @translations = task_results.map do |result|
-      #Translation.fetch_new!(params[:language], result)
-      mock_tr = Translation.first.dup
-      mock_tr.translatable_id = result.id
-      mock_tr
+      Translation.fetch_new!(params[:language], result)
     end
 
     respond_to do |format|

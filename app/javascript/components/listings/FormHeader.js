@@ -76,7 +76,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
         <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
           {pillButton("Description", "listing_description")}
           {pillButton("Title", "listing_title")}
-          {pillButton("Area description", "neighbourhood")}
+          {pillButton("Area", "neighbourhood")}
           {pillButton("Rooms", "room_description")}
           {user.subscription_status !== "on_trial" && pillButton("Listing builder", "listing_builder", "new!")}
           {pillButton("Full listing", "full_listing")}

@@ -104,12 +104,6 @@ const Form = ({
     return `${first}${second}${key_features}`
   }
 
-  const consolidateInput = () => {
-    const { property_type, location, key_features, bedrooms, rooms } = inputFields;
-    const roomDescs = rooms.map(r => (r.name + r.description)).join("");
-    return property_type + location + key_features + bedrooms.join("") + roomDescs;
-  }
-
   const bedroomInputText = () => {
     const { bedrooms } = inputFields;
     return bedrooms.map((b, i) => b.length >= 3 ? `bedroom ${i + 1}: ${b}` : "").join("\n");
@@ -379,8 +373,6 @@ const Form = ({
       )
     }
   }
-
-  const consolidatedInput = consolidateInput();
 
   const withTransition = (children, contentStep) => {
     return (

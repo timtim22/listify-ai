@@ -3,7 +3,7 @@ class SpinCounter
   DERIVATIVE_TASK_TYPES = ["ListingFragment", "DerivedInputObject"].freeze
   BUILDER_TASK_TYPES = ["Inputs::SummaryFragment", "Inputs::BedroomFragment", "Inputs::OtherRoomFragment"].freeze
   IGNORED_TASK_TYPES = [DERIVATIVE_TASK_TYPES, BUILDER_TASK_TYPES].flatten
-  DAILY_BETA_SPINS = 20
+  DAILY_BETA_SPINS = 30
   TRIAL_SPINS = 100
 
   attr_reader :user

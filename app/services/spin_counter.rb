@@ -82,7 +82,7 @@ class SpinCounter
   end
 
   def builder_listings_since(datetime)
-    builder_runs =  user.task_runs
+    builder_runs = user.task_runs
       .where(input_object_type: BUILDER_TASK_TYPES)
       .where('created_at > ?', datetime)
       .count

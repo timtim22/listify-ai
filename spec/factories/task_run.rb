@@ -5,6 +5,9 @@ FactoryBot.define do
     trait :for_listing do
       association :input_object, factory: :listing
     end
+    trait :for_summary_fragment do
+      association :input_object, factory: :summary_fragment
+    end
   end
 end
 

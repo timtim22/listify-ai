@@ -1,6 +1,8 @@
 class SpinCounter
 
   DERIVATIVE_TASK_TYPES = ["ListingFragment", "DerivedInputObject"].freeze
+  BUILDER_TASK_TYPES = ["Inputs::SummaryFragment", "Inputs::BedroomFragment", "Inputs::OtherRoomFragment"].freeze
+  IGNORED_TASK_TYPES = [DERIVATIVE_TASK_TYPES, BUILDER_TASK_TYPES].flatten
   DAILY_BETA_SPINS = 20
   TRIAL_SPINS = 100
 
@@ -63,12 +65,12 @@ class SpinCounter
   end
 
   def spins_since(datetime)
-    runs_since(datetime) + full_listings_since(datetime)
+    runs_since(datetime) + full_listings_since(datetime) + builder_listings_since(datetime)
   end
 
   def runs_since(datetime)
     user.task_runs
-      .where.not(input_object_type: DERIVATIVE_TASK_TYPES)
+      .where.not(input_object_type: IGNORED_TASK_TYPES)
       .where('created_at > ?', datetime)
       .count
   end
@@ -77,5 +79,13 @@ class SpinCounter
     user.full_listings
       .where('created_at > ?', datetime)
       .count
+  end
+
+  def builder_listings_since(datetime)
+    builder_runs =  user.task_runs
+      .where(input_object_type: BUILDER_TASK_TYPES)
+      .where('created_at > ?', datetime)
+      .count
+    builder_runs / 3 #rounds down %
   end
 end

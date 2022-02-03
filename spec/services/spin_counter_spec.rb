@@ -42,6 +42,20 @@ RSpec.describe SpinCounter do
         expected = SpinCounter::DAILY_BETA_SPINS - 5
         expect(SpinCounter.new(user).spins_remaining).to eq expected
       end
+
+      it 'counts builder listings correctly' do
+        user = create(:user)
+        allow(user).to receive(:on_private_beta?).and_return(:true)
+        3.times { create(:task_run, :for_summary_fragment, user: user) }
+        expected = SpinCounter::DAILY_BETA_SPINS - 1
+        expect(SpinCounter.new(user).spins_remaining).to eq expected
+        2.times { create(:task_run, :for_summary_fragment, user: user) }
+        expected = SpinCounter::DAILY_BETA_SPINS - 1
+        expect(SpinCounter.new(user).spins_remaining).to eq expected
+        1.times { create(:task_run, :for_summary_fragment, user: user) }
+        expected = SpinCounter::DAILY_BETA_SPINS - 2
+        expect(SpinCounter.new(user).spins_remaining).to eq expected
+      end
     end
 
     context 'user with custom limit' do

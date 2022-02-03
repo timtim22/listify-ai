@@ -78,7 +78,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {pillButton("Title", "listing_title")}
           {pillButton("Area", "neighbourhood")}
           {pillButton("Rooms", "room_description")}
-          {user.subscription_status !== "on_trial" && pillButton("Listing builder", "listing_builder", "new!")}
+          {user.subscription_status !== "on_trial" && pillButton("Listing builder", "listing_builder", "beta")}
           {pillButton("Full listing", "full_listing")}
         </div>
       </div>

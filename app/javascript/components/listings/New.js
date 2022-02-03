@@ -5,6 +5,9 @@ import FormHeader from './FormHeader';
 import ListingForm from './Form';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
+import ListingBuilderForm from '../listings_builder/Form';
+import ListingBuilderResults from '../listings_builder/Results';
+import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
 import FullListingForm from '../full_listings/Form';
 import FullListingResults from '../full_listings/FullListingResults';
 import FullListingPoll from '../full_listings/FullListingPoll';
@@ -23,11 +26,12 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const [errors, setErrors] = useState(null);
 
 
-  useEffect(() => {
+  useEffect(() => { resetState() }, [formType]);
+
+  const resetState = () => {
     if (taskRun) { setTaskRun(null) };
     if (results) { setResults([]) };
-  }, [formType]);
-
+  }
 
   const toggleLoading = (newState, isRerun = false) => {
     setLoading(newState);
@@ -84,6 +88,18 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           setResults={setResults}
         />
       )
+    } else if (formType === 'listing_builder') {
+      return (
+        <ListingBuilderForm
+          runsRemaining={runsRemaining}
+          setRunsRemaining={setRunsRemaining}
+          loading={loading}
+          setLoading={setLoading}
+          results={results}
+          onResult={handleTaskRun}
+          resetState={() => resetState()}
+        />
+      )
     } else {
       return (
         <ListingForm
@@ -111,6 +127,23 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
             runsRemaining={runsRemaining}
             loading={loading}
             results={results}
+          />
+        </>
+      )
+    } else if (formType === "listing_builder") {
+      return (
+        <>
+          <ListingBuilderResultsPoll
+            taskRun={taskRun}
+            onResult={(newResults) => { setResults([ ...results, ...newResults ]); setLoading(false); } }
+          />
+          <ListingBuilderResults
+            loading={loading}
+            setLoading={(newState) => toggleLoading(newState, true)}
+            runsRemaining={runsRemaining}
+            results={results}
+            taskRun={taskRun}
+            onRerun={handleTaskRun}
           />
         </>
       )

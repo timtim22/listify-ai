@@ -6,13 +6,13 @@ import GeneratingSpinner from '../common/GeneratingSpinner';
 
 const profanityFilter = new Filter();
 
-const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput }) => {
+const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText }) => {
   const user = useContext(UserContext);
 
   const inputLengthWarning = () => {
     const charactersOver = userInputLength - maxUserInput;
     const s = charactersOver > 1 ? 's' : '';
-    const text = `Oops - that text is ${charactersOver} character${s} over the limit.`
+    const text = `Oops - that text is ${charactersOver} character${s} over the total limit.`
     return warningText(text);
   }
 
@@ -50,7 +50,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   const submitButton = () => {
     return (
       <button disabled={loading} className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
-        Generate
+        {buttonText ? buttonText : 'Generate'}
       </button>
     )
   }

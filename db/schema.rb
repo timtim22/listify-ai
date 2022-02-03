@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_214003) do
+ActiveRecord::Schema.define(version: 2022_02_01_152011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(version: 2022_01_25_214003) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "detail_text"
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
+  end
+
+  create_table "bedroom_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "input_text"
+    t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -129,6 +136,13 @@ ActiveRecord::Schema.define(version: 2022_01_25_214003) do
     t.text "untranslated_input_text"
   end
 
+  create_table "other_room_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "input_text"
+    t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.integer "amount"
@@ -207,6 +221,13 @@ ActiveRecord::Schema.define(version: 2022_01_25_214003) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "summary_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "input_text"
+    t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "task_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

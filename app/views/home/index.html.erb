@@ -4,43 +4,27 @@
       <div class="p-12 w-full h-full leading-relaxed text-center md:text-left">
 
         <% if current_user.on_trial? %>
-          <div class="py-3 px-4 text-left text-teal-900 bg-teal-50 rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
-            <div class="flex items-center">
-              <div class="py-1 text-teal-500">
-                <svg class="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="font-bold">Welcome to your free trial!</p>
-                <p class="text-sm">
-                  We hope you enjoy using Listify. Your <%= current_user.trial_days == 44 ? "promotion code has been applied - your " : "" %>free trial is active until <%= format_date_for_display(current_user.trial_end_date) %>.
-                  If there is anything we can help with please email hello@listify.ai.
-                </p>
-              </div>
-            </div>
-          </div>
-        <% else %>
-          <div class="py-3 px-4 text-left text-teal-900 bg-teal-50 rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
-            <div class="flex items-center">
-              <div class="py-1 text-teal-500">
-                <svg class="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="font-bold">We've made some changes!</p>
-                <p class="text-sm">
-                  Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!
-                </p>
+          <div class="pb-8">
+            <div class="py-3 px-4 text-left text-teal-900 bg-teal-50 rounded-b border-l-4 border-teal-500 shadow border-t-1" role="alert">
+              <div class="flex items-center">
+                <div class="py-1 text-teal-500">
+                  <svg class="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-bold">Welcome to your free trial!</p>
+                  <p class="text-sm">
+                    We hope you enjoy using Listify. Your <%= current_user.trial_days == 44 ? "promotion code has been applied - your " : "" %>free trial is active until <%= format_date_for_display(current_user.trial_end_date) %>.
+                    If there is anything we can help with please email hello@listify.ai.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         <% end %>
 
-
-
-        <h1 class="mt-16 mb-8 text-2xl font-medium tracking-wide">Welcome to Listify! 👋</h1>
+        <h1 class="my-8 text-2xl font-medium tracking-wide">Welcome to Listify! 👋</h1>
          <p>
           Listify helps you create awesome copy for your property listings using an AI copywriter.
           It lets you generate engaging, original content in seconds.

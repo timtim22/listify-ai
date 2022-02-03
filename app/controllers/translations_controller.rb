@@ -19,6 +19,22 @@ class TranslationsController < ApplicationController
     end
   end
 
+  def create_batch
+    @language = params[:language]
+    task_results = TaskResult.find(params[:object_ids])
+    @translations = task_results.map do |result|
+      Translation.fetch_new!(params[:language], result)
+    end
+
+    respond_to do |format|
+      if @translations.each(&:save!)
+        format.json { render :create_batch, status: :created }
+      else
+        format.json { render json: @translations.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def class_for(object_name)

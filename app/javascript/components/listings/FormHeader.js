@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 const FormHeader = ({ user, formType, setFormType }) => {
 
-  const pillButton = (title, value) => {
+  const pillButton = (title, value, subtitle) => {
     const selected = formType === value;
     return (
       <div
         title={title}
         className={`bold-pill flex-shrink-0 ${selected ? "sub-nav-button-selected" : "sub-nav-button" }`}
         onClick={() => { setFormType(value) }}>
-        {title}
+        {title}{subtitle && <span className="font-normal align-top text-xs text-green-600"> {subtitle}</span>}
       </div>
     )
   }
@@ -62,8 +62,8 @@ const FormHeader = ({ user, formType, setFormType }) => {
 
   const betaBanner = () => {
     return banner(
-      "We've made some changes!",
-      "Minotaur is now called Listify. We're making lots of other improvements - let us know what you think!"
+      "Need any help?",
+      "Get in touch with us at hello@listify.ai if you need help or have any feedback."
     )
   }
 
@@ -72,12 +72,15 @@ const FormHeader = ({ user, formType, setFormType }) => {
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
         {bannerForUser()}
       </div>
-      <div className="flex flex-col justify-center items-center py-2 px-12 w-full md:flex-row md:py-2 md:px-0">
-        {pillButton("Description", "listing_description")}
-        {pillButton("Title", "listing_title")}
-        {pillButton("Area description", "neighbourhood")}
-        {pillButton("Rooms", "room_description")}
-        {user.subscription_status !== "on_trial" && pillButton("Full listing", "full_listing")}
+      <div className="w-full overflow-scroll flex justify-center">
+        <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
+          {pillButton("Description", "listing_description")}
+          {pillButton("Title", "listing_title")}
+          {pillButton("Area description", "neighbourhood")}
+          {pillButton("Rooms", "room_description")}
+          {user.admin && pillButton("Listing builder", "listing_builder", "new!")}
+          {pillButton("Full listing", "full_listing")}
+        </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>
    </div>

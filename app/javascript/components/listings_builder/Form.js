@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
@@ -50,7 +50,12 @@ const Form = ({
   const [inputFields, setInputFields] = useState(newInputFields);
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
+  const [highestStep, setHighestStep] = useState(1);
   const [leaveTransition, setLeaveTransition] = useState(false);
+
+  useEffect(() => {
+    if (step > highestStep) { setHighestStep(step) }
+  }, [step]);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
@@ -322,9 +327,10 @@ const Form = ({
   const stepBar = (number, title) => {
     const selectedStyle = "font-bold text-lg"
     const unSelectedStyle = "font-bold text-gray-400 text-lg"
+    const isViewedStep = number < highestStep;
     return (
-      <div className="">
-        <div onClick={() => setStep(number)} className="cursor-pointer pb-4">
+      <div>
+        <div onClick={() => isViewedStep && setStep(number)} className={`${isViewedStep ? "cursor-pointer" : ""} pb-4`}>
           <h1 className={step === number ? selectedStyle : unSelectedStyle }>Step {number}: {title}</h1>
         </div>
         <div className="mb-4 w-full h-px bg-gray-200"></div>
@@ -362,7 +368,8 @@ const Form = ({
       return (
         <div className="flex justify-center py-8 w-full">
           <button
-            className="primary-button"
+            disabled={loading}
+            className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}
             type="button"
             onClick={resetForm}
           >

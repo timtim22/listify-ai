@@ -34,8 +34,9 @@ const FragmentRefreshButton = ({ taskRunId, runsRemaining, onResult, loading, se
     <>
       <button
         title="Refresh this text"
+        disabled={loading}
         onClick={handleSubmit}
-        className="flex justify-center items-center p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
+        className={`${loading ? "cursor-not-allowed opacity-50" : ""} flex justify-center items-center p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200`}
       >
         {refreshIcon()}
       </button>

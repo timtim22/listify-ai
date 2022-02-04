@@ -1,3 +1,16 @@
+export const groupBy = (xs, key) => {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
+
+export const sortObjectsByDate = (array) => {
+  return array.sort(function(a,b){
+    return new Date(b.date) - new Date(a.date);
+  });
+}
+
 export const cleanObjectInputText = (object) => {
   let inputText = object.input_text;
   if (!inputText) { return object };

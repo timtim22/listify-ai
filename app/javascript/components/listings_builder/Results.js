@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
+import { groupBy, sortObjectsByDate } from '../../helpers/utils';
 import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
@@ -8,19 +9,6 @@ import GeneratingSpinner from '../common/GeneratingSpinner';
 import FragmentRefreshButton from './FragmentRefreshButton';
 import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
-
-const groupBy = (xs, key) => {
-  return xs.reduce(function(rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
-
-const sortObjectsByDate = (array) => {
-  return array.sort(function(a,b){
-    return new Date(b.date) - new Date(a.date);
-  });
-}
 
 const english = "EN";
 

@@ -5,16 +5,12 @@ import { createRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 
-const newPlaygroundAttempt = {
-  request_type: 'tidy_grammar',
-  input_text: ''
-}
-
-const maxInput = 650;
+const maxInput = 700;
 
 const Form = ({ onResult, loading, setLoading, promptSets }) => {
-  const [playgroundAttempt, setPlaygroundAttempt] = useState(newPlaygroundAttempt);
+  const [playgroundAttempt, setPlaygroundAttempt] = useState({ request_type: promptSets[0].request_type, input_text: '' });
   const [errors, setErrors] = useState(null);
+  const [showPromptDetails, setShowPromptDetails] = useState(false);
 
   const onError = useScrollToTopOnError(errors);
 
@@ -67,12 +63,22 @@ const Form = ({ onResult, loading, setLoading, promptSets }) => {
   }
 
   const promptDetails = () => {
-    let prompts = promptSets.find(s => s.request_type === playgroundAttempt.request_type).prompts;
+    if (showPromptDetails) {
+      let prompts = promptSets.find(s => s.request_type === playgroundAttempt.request_type).prompts;
+      return (
+        <div className="py-4 w-4/5">
+          <h3 className="mb-4 text-sm font-medium text-gray-500">Prompts</h3>
+          {prompts.map(p => promptItem(p))}
+       </div>
+      )
+    }
+  }
+
+  const toggleDetailsButton = () => {
     return (
-      <div className="py-4 w-4/5">
-        <h3 className="mb-4 text-sm font-medium text-gray-500">Prompts</h3>
-        {prompts.map(p => promptItem(p))}
-      </div>
+      <button type="button" onClick={() => setShowPromptDetails(!showPromptDetails)} className="text-xs mt-4 secondary-link">
+        {showPromptDetails? "Hide" : "Show"} prompt details
+      </button>
     )
   }
 
@@ -83,6 +89,7 @@ const Form = ({ onResult, loading, setLoading, promptSets }) => {
         <p className="text-sm">A place to test prompt sets without impacting users.</p>
         {promptSelector()}
         {promptDetails()}
+        {toggleDetailsButton()}
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
 

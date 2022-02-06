@@ -45,6 +45,7 @@ group :development do
   gem 'spring'
   gem 'brakeman', '~> 5.1', '>= 5.1.1'
   gem 'bullet', '~> 6.1', '>= 6.1.5'
+  gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
   gem 'overcommit', '~> 0.58.0'
 end
 

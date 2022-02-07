@@ -6,6 +6,7 @@ import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 import FragmentRefreshButton from './FragmentRefreshButton';
+import FragmentResult from './FragmentResult';
 import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
 
@@ -55,57 +56,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
       setVisibleResultIndexes({ ...visibleResultIndexes, [requestType]: currentResultIndex - 1 });
     }
   };
-
-  const cycleResultButton = (result) => {
-    if (resultsByRequestType[result.request_type].length > 1) {
-      return (
-        <button type="button" onClick={() => showPreviousResult(result.request_type)}>PREV</button>
-      )
-    } else {
-      return null;
-    }
-  };
-
-  const resultItem = (result) => {
-    const displayText = displayableText(result);
-
-    if (displayText !== "") {
-      return (
-        <div key={result.id} className="flex h-full items-stretch pt-4">
-          <div className="flex-grow">
-            <p className="text-sm whitespace-pre-wrap">{displayText}</p>
-          </div>
-          <div className="pl-4 flex items-start flex-shrink-0">
-            {refreshButton(result)}
-            {cycleResultButton(result)}
-          </div>
-        </div>
-      )
-    } else {
-      return null;
-    }
-  }
-
-  const displayableText = (result) => {
-    const inCurrentLanguage = resultTextInCurrentLanguage(result);
-    return (inCurrentLanguage || "").trim();
-  }
-
-  const refreshButton = (result) => {
-    if (languageVisible === english) {
-      return (
-        <FragmentRefreshButton
-          taskRunId={result.task_run_id}
-          runsRemaining={runsRemaining}
-          onResult={onRerun}
-          loading={loading}
-          setLoading={setLoading}
-        />
-      )
-    } else {
-      return null;
-    }
-  }
 
   const resultTextInCurrentLanguage = (result) => {
     if (languageVisible !== english && translations[result.id] &&
@@ -158,6 +108,12 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
+  const displayableText = (result) => {
+    const inCurrentLanguage = resultTextInCurrentLanguage(result);
+    return (inCurrentLanguage || "").trim();
+  }
+
+
 
   const copyText = (visibleResults) => {
     return visibleResults.map((result) => {
@@ -201,7 +157,42 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     return visible;
   };
 
-  if (Object.keys(visibleResultIndexes).length > 0) {
+  const showFragment = (result) => {
+    return (
+      <FragmentResult
+        key={result.id}
+        result={result}
+        showPreviousResult={showPreviousResult}
+        formatText={displayableText}
+        otherResultsForFragment={otherResultsForFragment(result.request_type)}
+        refreshButton={refreshButton(result)}
+      />
+    )
+  };
+
+  const refreshButton = (result) => {
+    if (languageVisible === english) {
+      return (
+        <FragmentRefreshButton
+          taskRunId={result.task_run_id}
+          runsRemaining={runsRemaining}
+          onResult={onRerun}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      )
+    }
+  };
+
+  const otherResultsForFragment = (requestType) => {
+    return resultsByRequestType[requestType].length > 1;
+  };
+
+  const resultsToDisplay = () => {
+    return Object.keys(visibleResultIndexes).length > 0;
+  };
+
+  if (resultsToDisplay()) {
     const visibleResults = selectVisibleResults();
     return (
       <div className="w-full h-full">
@@ -209,7 +200,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-              {visibleResults.map(result => resultItem(result))}
+              {visibleResults.map(result => showFragment(result))}
               <div className="pt-8">
                 {resultsBar(visibleResults)}
               </div>
@@ -239,4 +230,3 @@ Results.propTypes = {
 };
 
 export default Results;
-

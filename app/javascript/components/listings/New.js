@@ -1,6 +1,4 @@
 import React, { useState, useEffect, createContext } from 'react';
-import PropTypes from 'prop-types';
-import { useScrollOnLoading } from '../hooks';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
 import RoomFormContainer from '../rooms/FormContainer';
@@ -29,8 +27,8 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   useEffect(() => { resetState() }, [formType]);
 
   const resetState = () => {
-    if (taskRun) { setTaskRun(null) };
-    if (results) { setResults([]) };
+    if (taskRun) { setTaskRun(null) }
+    if (results) { setResults([]) }
   }
 
   const toggleLoading = (newState, isRerun = false) => {

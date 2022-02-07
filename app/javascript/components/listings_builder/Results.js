@@ -2,65 +2,79 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import { groupBy, sortObjectsByDate } from '../../helpers/utils';
-import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 import FragmentRefreshButton from './FragmentRefreshButton';
+import FragmentResult from './FragmentResult';
 import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
 
 const english = "EN";
+const fragmentOrder = ["summary_fragment", "bedroom_fragment_step_2", "other_room_fragment_step_2"];
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
   const [translations, setTranslations] = useState({});
   const [languageVisible, setLanguageVisible] = useState(english);
   const [errors, setErrors] = useState(null);
+  const [resultsByRequestType, setResultsByRequestType] = useState({});
+  const [visibleResultIndexes, setVisibleResultIndexes] = useState({});
 
   useEffect(() => {
+    if (results.length > 0) { groupResultsByType() }
     if (languageVisible !== english) { setLanguageVisible(english) }
     if (Object.keys(translations).length > 0) { setTranslations({}) }
   }, [results]);
 
-  const resultItem = (result) => {
-    const displayText = displayableText(result);
+  useEffect(() => { setVisibleResults() }, [resultsByRequestType]);
 
-    if (displayText !== "") {
-      return (
-        <div key={result.id} className="flex h-full items-stretch pt-4">
-          <div>
-            <p className="text-sm whitespace-pre-wrap">{displayText}</p>
-          </div>
-          <div className="pl-4 flex items-start flex-shrink-0">
-            {refreshButton(result)}
-          </div>
-        </div>
-      )
-    } else {
-      return null;
+  const setVisibleResults = () => {
+    if (Object.keys(resultsByRequestType).length > 0) {
+      const orderedByTime   = sortObjectsByDate(results);
+      const lastRequestType = orderedByTime[orderedByTime.length -1].request_type
+      const resultsCount    = resultsByRequestType[lastRequestType].length;
+
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [lastRequestType]: resultsCount - 1
+      });
     }
+  };
+
+  const groupResultsByType = () => {
+    const orderedByTime = sortObjectsByDate(results);
+    const groupedResults = groupBy(orderedByTime, 'request_type');
+    setResultsByRequestType(groupedResults);
   }
 
-  const displayableText = (result) => {
-    const inCurrentLanguage = resultTextInCurrentLanguage(result);
-    return (inCurrentLanguage || "").trim();
-  }
+  const shouldShowPreviousButton = (requestType) => {
+    return otherResultsForFragment(requestType) &&
+      languageVisible === english;
+  };
 
-  const refreshButton = (result) => {
-    if (languageVisible === english) {
-      return (
-        <FragmentRefreshButton
-          taskRunId={result.task_run_id}
-          runsRemaining={runsRemaining}
-          onResult={onRerun}
-          loading={loading}
-          setLoading={setLoading}
-        />
-      )
+  const otherResultsForFragment = (requestType) => {
+    return resultsByRequestType[requestType].length > 1;
+  };
+
+  const resultsToDisplay = () => {
+    return Object.keys(visibleResultIndexes).length > 0;
+  };
+
+  const showPreviousResult = (requestType) => {
+    const currentResultIndex = visibleResultIndexes[requestType];
+    if (currentResultIndex === 0) {
+      const lastResultIndex = resultsByRequestType[requestType].length - 1;
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [requestType]: lastResultIndex
+      });
     } else {
-      return null;
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [requestType]: currentResultIndex - 1
+      });
     }
-  }
+  };
 
   const resultTextInCurrentLanguage = (result) => {
     if (languageVisible !== english && translations[result.id] &&
@@ -113,6 +127,10 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
+  const displayableText = (result) => {
+    const inCurrentLanguage = resultTextInCurrentLanguage(result);
+    return (inCurrentLanguage || "").trim();
+  }
 
   const copyText = (visibleResults) => {
     return visibleResults.map((result) => {
@@ -145,25 +163,53 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
-  const mostRecentResults = (groupedResults) => {
-    let results =  Object.keys(groupedResults).map((key) => {
-      const orderedByDate = sortObjectsByDate(groupedResults[key]);
-      return orderedByDate[orderedByDate.length-1];
+  const selectVisibleResults = () => {
+    let visible = [];
+    fragmentOrder.forEach((key) => {
+      if (resultsByRequestType[key] && typeof(visibleResultIndexes[key]) === 'number') {
+        const index = visibleResultIndexes[key];
+        visible.push(resultsByRequestType[key][index]);
+      }
     });
-    return results;
-  }
+    return visible;
+  };
 
+  const showFragment = (result) => {
+    return (
+      <FragmentResult
+        key={result.id}
+        result={result}
+        showPreviousResult={showPreviousResult}
+        formatText={displayableText}
+        shouldShowPreviousButton={shouldShowPreviousButton(result.request_type)}
+        refreshButton={refreshButton(result)}
+      />
+    )
+  };
 
-  if (results.length > 0) {
-    const groupedResults = groupBy(results, 'request_type');
-    const visibleResults = mostRecentResults(groupedResults);
+  const refreshButton = (result) => {
+    if (languageVisible === english) {
+      return (
+        <FragmentRefreshButton
+          taskRunId={result.task_run_id}
+          runsRemaining={runsRemaining}
+          onResult={onRerun}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      )
+    }
+  };
+
+  if (resultsToDisplay()) {
+    const visibleResults = selectVisibleResults();
     return (
       <div className="w-full h-full">
         <div className="flex flex-col items-center mb-4 w-full">
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
             <div className="py-3 px-4 mb-4 w-4/5 rounded-lg border border-gray-200">
-              {visibleResults.map(result => resultItem(result))}
+              {visibleResults.map(result => showFragment(result))}
               <div className="pt-8">
                 {resultsBar(visibleResults)}
               </div>
@@ -183,5 +229,13 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 }
 
-export default Results;
+Results.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  runsRemaining: PropTypes.number,
+  taskRun: PropTypes.object,
+  onRerun: PropTypes.func
+};
 
+export default Results;

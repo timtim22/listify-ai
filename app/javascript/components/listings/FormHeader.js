@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 const FormHeader = ({ user, formType, setFormType }) => {
 
@@ -79,7 +78,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {pillButton("Area", "neighbourhood")}
           {pillButton("Rooms", "room_description")}
           {pillButton("Listing builder", "listing_builder", "beta")}
-          {pillButton("Full listing", "full_listing")}
+          {user.subscription_status !== "on_trial" && pillButton("Full listing", "full_listing")}
         </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>

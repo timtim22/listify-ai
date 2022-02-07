@@ -47,13 +47,32 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     setResultsByRequestType(groupedResults);
   }
 
+  const shouldShowPreviousButton = (requestType) => {
+    return otherResultsForFragment(requestType) &&
+      languageVisible === english;
+  };
+
+  const otherResultsForFragment = (requestType) => {
+    return resultsByRequestType[requestType].length > 1;
+  };
+
+  const resultsToDisplay = () => {
+    return Object.keys(visibleResultIndexes).length > 0;
+  };
+
   const showPreviousResult = (requestType) => {
     const currentResultIndex = visibleResultIndexes[requestType];
     if (currentResultIndex === 0) {
       const lastResultIndex = resultsByRequestType[requestType].length - 1;
-      setVisibleResultIndexes({ ...visibleResultIndexes, [requestType]: lastResultIndex });
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [requestType]: lastResultIndex
+      });
     } else {
-      setVisibleResultIndexes({ ...visibleResultIndexes, [requestType]: currentResultIndex - 1 });
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [requestType]: currentResultIndex - 1
+      });
     }
   };
 
@@ -113,8 +132,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     return (inCurrentLanguage || "").trim();
   }
 
-
-
   const copyText = (visibleResults) => {
     return visibleResults.map((result) => {
       return displayableText(result)
@@ -164,7 +181,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
         result={result}
         showPreviousResult={showPreviousResult}
         formatText={displayableText}
-        otherResultsForFragment={otherResultsForFragment(result.request_type)}
+        shouldShowPreviousButton={shouldShowPreviousButton(result.request_type)}
         refreshButton={refreshButton(result)}
       />
     )
@@ -182,14 +199,6 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
         />
       )
     }
-  };
-
-  const otherResultsForFragment = (requestType) => {
-    return resultsByRequestType[requestType].length > 1;
-  };
-
-  const resultsToDisplay = () => {
-    return Object.keys(visibleResultIndexes).length > 0;
   };
 
   if (resultsToDisplay()) {

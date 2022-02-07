@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 const FragmentResult = ({
   result,
   formatText,
-  otherResultsForFragment,
+  shouldShowPreviousButton,
   showPreviousResult,
   refreshButton,
   }) => {
 
-  const cycleResultButton = (result) => {
-    if (otherResultsForFragment) {
+  const cyclePreviousButton = (result) => {
+    if (shouldShowPreviousButton) {
       return (
         <button
           type="button"
@@ -37,7 +37,7 @@ const FragmentResult = ({
         </div>
         <div className="pl-4 flex flex-col items-start flex-shrink-0">
           {refreshButton}
-          {cycleResultButton(result)}
+          {cyclePreviousButton(result)}
         </div>
       </div>
     )
@@ -49,7 +49,7 @@ const FragmentResult = ({
 FragmentResult.propTypes = {
   result: PropTypes.object,
   formatText: PropTypes.func,
-  otherResultsForFragment: PropTypes.bool,
+  shouldShowPreviousButton: PropTypes.bool,
   showPreviousResult: PropTypes.func,
   refreshButton: PropTypes.object,
 }

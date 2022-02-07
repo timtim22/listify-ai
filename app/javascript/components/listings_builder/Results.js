@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import { groupBy, sortObjectsByDate } from '../../helpers/utils';
-import ResultList from '../common/ResultList';
 import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
@@ -11,16 +10,61 @@ import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
 
 const english = "EN";
+const fragmentOrder = ["summary_fragment", "bedroom_fragment_step_2", "other_room_fragment_step_2"];
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
   const [translations, setTranslations] = useState({});
   const [languageVisible, setLanguageVisible] = useState(english);
   const [errors, setErrors] = useState(null);
+  const [resultsByRequestType, setResultsByRequestType] = useState({});
+  const [visibleResultIndexes, setVisibleResultIndexes] = useState({});
 
   useEffect(() => {
+    if (results.length > 0) { groupResultsByType() }
     if (languageVisible !== english) { setLanguageVisible(english) }
     if (Object.keys(translations).length > 0) { setTranslations({}) }
   }, [results]);
+
+  useEffect(() => { setVisibleResults() }, [resultsByRequestType]);
+
+  const setVisibleResults = () => {
+    if (Object.keys(resultsByRequestType).length > 0) {
+      const orderedByTime   = sortObjectsByDate(results);
+      const lastRequestType = orderedByTime[orderedByTime.length -1].request_type
+      const resultsCount    = resultsByRequestType[lastRequestType].length;
+
+      setVisibleResultIndexes({
+        ...visibleResultIndexes,
+        [lastRequestType]: resultsCount - 1
+      });
+    }
+  };
+
+  const groupResultsByType = () => {
+    const orderedByTime = sortObjectsByDate(results);
+    const groupedResults = groupBy(orderedByTime, 'request_type');
+    setResultsByRequestType(groupedResults);
+  }
+
+  const showPreviousResult = (requestType) => {
+    const currentResultIndex = visibleResultIndexes[requestType];
+    if (currentResultIndex === 0) {
+      const lastResultIndex = resultsByRequestType[requestType].length - 1;
+      setVisibleResultIndexes({ ...visibleResultIndexes, [requestType]: lastResultIndex });
+    } else {
+      setVisibleResultIndexes({ ...visibleResultIndexes, [requestType]: currentResultIndex - 1 });
+    }
+  };
+
+  const cycleResultButton = (result) => {
+    if (resultsByRequestType[result.request_type].length > 1) {
+      return (
+        <button type="button" onClick={() => showPreviousResult(result.request_type)}>PREV</button>
+      )
+    } else {
+      return null;
+    }
+  };
 
   const resultItem = (result) => {
     const displayText = displayableText(result);
@@ -28,11 +72,12 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     if (displayText !== "") {
       return (
         <div key={result.id} className="flex h-full items-stretch pt-4">
-          <div>
+          <div className="flex-grow">
             <p className="text-sm whitespace-pre-wrap">{displayText}</p>
           </div>
           <div className="pl-4 flex items-start flex-shrink-0">
             {refreshButton(result)}
+            {cycleResultButton(result)}
           </div>
         </div>
       )
@@ -145,18 +190,19 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
-  const mostRecentResults = (groupedResults) => {
-    let results =  Object.keys(groupedResults).map((key) => {
-      const orderedByDate = sortObjectsByDate(groupedResults[key]);
-      return orderedByDate[orderedByDate.length-1];
+  const selectVisibleResults = () => {
+    let visible = [];
+    fragmentOrder.forEach((key) => {
+      if (resultsByRequestType[key] && typeof(visibleResultIndexes[key]) === 'number') {
+        const index = visibleResultIndexes[key];
+        visible.push(resultsByRequestType[key][index]);
+      }
     });
-    return results;
-  }
+    return visible;
+  };
 
-
-  if (results.length > 0) {
-    const groupedResults = groupBy(results, 'request_type');
-    const visibleResults = mostRecentResults(groupedResults);
+  if (Object.keys(visibleResultIndexes).length > 0) {
+    const visibleResults = selectVisibleResults();
     return (
       <div className="w-full h-full">
         <div className="flex flex-col items-center mb-4 w-full">
@@ -182,6 +228,15 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     )
   }
 }
+
+Results.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  runsRemaining: PropTypes.number,
+  taskRun: PropTypes.object,
+  onRerun: PropTypes.func
+};
 
 export default Results;
 

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   rescue_from Errors::UserAccountLocked, with: :render_error_response
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:promotion_code])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[terms_of_service promotion_code])
   end
 
   def authenticate_admin

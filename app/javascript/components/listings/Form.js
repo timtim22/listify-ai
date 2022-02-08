@@ -5,22 +5,28 @@ import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import LanguageSelect from '../common/LanguageSelect';
-import Switch from '../common/Switch';
 import Submit from '../inputs/Submit';
-import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SplitInput from './SplitInput';
-import DisabledPillButton from './DisabledPillButton';
 
 const maxInput = 250;
 const newListing = { input_text: '' };
 
-const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
+const Form = ({
+  user,
+  showExample,
+  formType,
+  loading,
+  setLoading,
+  runsRemaining,
+  onResult
+  }) => {
+
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
   const [inputLanguage, setInputLanguage] = useState('EN');
   const [outputLanguage, setOutputLanguage] = useState('EN');
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
-  const [exampleSeen, setExampleSeen] = useState(false);
+  const [exampleRequested, setExampleRequested] = useState(false);
 
   const onError = useScrollToTopOnError(errors);
 
@@ -62,7 +68,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
   const formInput = () => {
     return (
       <SplitInput
-        showExample={showExample && !exampleSeen}
+        showExample={showExample || exampleRequested}
         inputValue={listing.input_text}
         onInputChange={setInputText}
         inputLanguage={inputLanguage}
@@ -70,7 +76,21 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
     )
   }
 
-  return (
+  const showExampleButton = () => {
+    if (user.subscription_status === "on_trial" &&
+      listing.request_type === "listing_description") {
+      return (
+         <button
+          type="button"
+          onClick={() => setExampleRequested(true)}
+          className="mt-8 text-xs text-purple-700 font-medium">
+           Not sure? Tap to fill with an example
+        </button>
+      )
+    }
+  }
+
+   return (
     <>
      <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">
@@ -80,7 +100,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
           <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />
           {formInput()}
           <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
-          <div className="flex justify-center py-8 w-full">
+          <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={listing.input_text}
               userInputLength={userInputLength}
@@ -88,11 +108,22 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
               loading={loading}
               runsRemaining={runsRemaining}
             />
-          </div>
+            {showExampleButton()}
+         </div>
         </div>
       </form>
     </>
   )
 }
+
+Form.propTypes = {
+  user: PropTypes.object,
+  showExample: PropTypes.bool,
+  formType: PropTypes.string,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  runsRemaining: PropTypes.number,
+  onResult: PropTypes.func
+};
 
 export default Form;

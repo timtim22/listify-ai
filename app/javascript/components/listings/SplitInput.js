@@ -18,14 +18,7 @@ const exampleInputFields = {
   bedrooms: 3,
   location: 'Malaga',
   idealFor: 'families',
-  keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- 5 minutes walk to shops and restaurants',
-}
-
-const coerceWithinRange = (inputNumber, min, max) => {
-  const number = parseInt(inputNumber);
-  if (number < min) { return min; }
-  if (number > max) { return max; }
-  return number;
+  keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- open plan living space\n- 5 minutes walk to shops and restaurants\n- short drive to the airport',
 }
 
 const trueUserInputLength = (inputFields) => {
@@ -33,7 +26,13 @@ const trueUserInputLength = (inputFields) => {
 }
 
 const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) => {
-  const [inputFields, setInputFields] = useState(showExample ? exampleInputFields : newInputFields);
+  const [inputFields, setInputFields] = useState(newInputFields);
+
+  useEffect(() => {
+    if (showExample) {
+      setInputFields(exampleInputFields);
+    }
+  }, [showExample]);
 
   useEffect(() => {
     if (inputLanguage !== 'EN') {

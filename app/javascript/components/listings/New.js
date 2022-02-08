@@ -106,6 +106,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
     } else {
       return (
         <ListingForm
+          user={user}
           loading={loading}
           setLoading={toggleLoading}
           formType={formType}

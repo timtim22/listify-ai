@@ -51,6 +51,11 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
     setTaskRun(response.data.task_run);
   }
 
+  const resetFormType = (newType) => {
+    resetState();
+    setFormType(newType);
+  };
+
   const displayForm = () => {
     const commonProps = {
       runsRemaining: runsRemaining,
@@ -172,7 +177,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
         <FormHeader
           user={user}
           formType={formType}
-          setFormType={setFormType}
+          setFormType={resetFormType}
         />
         {displayForm()}
       </div>

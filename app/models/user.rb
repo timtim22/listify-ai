@@ -14,6 +14,10 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :charges
 
+  attr_accessor :terms_of_service
+
+  validates :terms_of_service, acceptance: true, on: :create
+
   TRIAL_CODES = ["rentalscaleup", "friendoflistify"].freeze
 
   def name

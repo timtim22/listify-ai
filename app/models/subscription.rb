@@ -21,6 +21,14 @@ class Subscription < ApplicationRecord
     ends_at?
   end
 
+  def lapsed?
+    cancelled? && !on_grace_period?
+  end
+
+  def incomplete?
+    %w[incomplete incomplete_expired].include?(status)
+  end
+
   def has_incomplete_payment?
     ["past_due", "incomplete"].include?(status)
   end

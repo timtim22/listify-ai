@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   end
 
   resource :usage, only: [:show]
+  resource :account, only: [:edit, :update]
 
   resource :card
   resource :pricing, controller: :pricing

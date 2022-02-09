@@ -1,0 +1,57 @@
+<%= render layout: 'shared/account_layout', locals: { screen: "account" } do %>
+  <div class="w-full px-8">
+    <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
+      <div class="mb-8">
+        <h2 class="log-in-header">Account settings</h2>
+        <div class="my-4 w-full h-px bg-gray-200"></div>
+      </div>
+
+      <div class="w-full md:w-2/3">
+        <%= form_for(@user, url: account_path, html: { method: :put }) do |f| %>
+          <div class="mb-4 text-red-800">
+            <%= render "devise/shared/error_messages", resource: @user %>
+          </div>
+
+          <div class="w-full flex items-center">
+            <div class="w-full field">
+              <%= f.label :first_name, class: "form-label" %><br />
+              <%= f.text_field(
+                :first_name,
+                class: "form-text-input"
+              ) %>
+            </div>
+
+            <div class="ml-4 w-full field">
+              <%= f.label :last_name, class: "form-label" %><br />
+              <%= f.text_field(
+                :last_name,
+                class: "form-text-input"
+              ) %>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= f.label :email, class: "form-label" %><br />
+            <%= f.email_field(
+              :email,
+              autofocus: true,
+              autocomplete: "email",
+              class: "form-text-input"
+            ) %>
+          </div>
+
+          <div class="actions pt-2">
+            <%= f.submit "Update", class: "primary-button" %>
+            <%= link_to "Change password", edit_user_registration_path, class: "secondary-link text-sm ml-4" %>
+          </div>
+        <% end %>
+
+        <div class="mt-8 flex w-full text-sm text-gray-500">
+          Email hello@listify.ai if you wish to delete your account
+        </div>
+
+      </div>
+    </div>
+  </div>
+<% end %>
+

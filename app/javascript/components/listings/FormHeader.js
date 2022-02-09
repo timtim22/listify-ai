@@ -15,7 +15,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
   }
 
   const bannerForUser = () => {
-    if (user.subscription_status === "on_trial") {
+    if (user.account_status === "active_trial") {
       return trialBanner()
     } else {
       return betaBanner();
@@ -54,7 +54,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
     } else {
       return banner(
         "Your trial has expired",
-        `You can continue using Listify with a subscription. Contact us if you need help.`
+        `You can regain access by subscribing. If you would like to extend your trial please email hello@listify.ai.`
       )
     }
   }
@@ -78,7 +78,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {pillButton("Area", "neighbourhood")}
           {pillButton("Rooms", "room_description")}
           {pillButton("Listing builder", "listing_builder", "beta")}
-          {user.subscription_status !== "on_trial" && pillButton("Full listing", "full_listing")}
+          {(user.account_status === "private_beta" || user.admin) && pillButton("Full listing", "full_listing")}
         </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>

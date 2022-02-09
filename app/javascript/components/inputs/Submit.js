@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../listings/New';
-import PropTypes from 'prop-types';
 import Filter from 'bad-words';
-import GeneratingSpinner from '../common/GeneratingSpinner';
 
 const profanityFilter = new Filter();
 
@@ -18,7 +16,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 
   const requestLimitWarning = () => {
     let text = "You've used up all your spins for this month. You can get more by upgrading your subscription. Contact us if you need any help."
-    if (user.subscription_status === "on_private_beta") {
+    if (user.account_status === "private_beta") {
       text = "You've hit your request limit for today. Please contact us if you need help.";
     }
     return  warningText(text);

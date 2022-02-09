@@ -35,7 +35,7 @@
                 <%= render partial: 'shared/nav_link', locals: { name: "Admin", route: admin_index_path } %>
               <% end %>
 
-              <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_user_registration_path } %>
+              <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_account_path } %>
 
               <% if current_user.subscribed? %>
                 <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>

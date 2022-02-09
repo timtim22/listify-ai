@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 const MobileMenu = ({ admin, subscribed }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,7 +44,7 @@ const MobileMenu = ({ admin, subscribed }) => {
             App
           </a>
           <a
-            href="/users/edit"
+            href="/account/edit"
             className="block py-2 px-4 text-sm text-gray-700"
             role="menuitem"
             tabIndex="-1"

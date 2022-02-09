@@ -2,7 +2,7 @@
   <div class="w-full px-8">
     <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
       <div class="mb-8">
-        <h2 class="log-in-header">Account settings</h2>
+        <h2 class="log-in-header">Change Password</h2>
         <div class="my-4 w-full h-px bg-gray-200"></div>
       </div>
 
@@ -11,20 +11,6 @@
           <div class="mb-4 text-red-800">
             <%= render "devise/shared/error_messages", resource: resource %>
           </div>
-
-          <div class="field">
-            <%= f.label :email, class: "form-label" %><br />
-            <%= f.email_field(
-              :email,
-              autofocus: true,
-              autocomplete: "email",
-              class: "form-text-input"
-            ) %>
-          </div>
-
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-          <% end %>
 
           <div class="field">
             <%= f.label :password, class: "form-label" %>
@@ -59,15 +45,15 @@
             ) %>
           </div>
 
-          <div class="actions">
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+
+          <div class="actions pt-2">
             <%= f.submit "Update", class: "primary-button" %>
+            <%= link_to "Back", edit_account_path, class: "secondary-link text-sm ml-4" %>
           </div>
         <% end %>
-
-        <div class="mt-4 flex w-full text-sm text-gray-500">
-          Contact us if you wish to delete your account
-        </div>
-
       </div>
     </div>
   </div>

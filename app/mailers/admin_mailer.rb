@@ -30,7 +30,7 @@ class AdminMailer < ApplicationMailer
     @user = user
     @plan_name = plan_name
     mail(
-      to: 'luke@listify.ai',
+      to: ADMIN_EMAILS,
       subject: 'Changed Listify plan'
     )
   end

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
-import Switch from '../common/Switch';
 import BedroomForm from './BedroomForm';
 import OtherRoomForm from './OtherRoomForm';
 
@@ -81,7 +80,7 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
       <div className="flex items-center my-2 w-4/5 max-w-2xl">
         <label className="flex-shrink-0 w-1/3 text-sm">Room type</label>
         <select
-          onChange={(e) => changeInputType()}
+          onChange={() => changeInputType()}
           className="mx-3 mt-1 text-sm form-select">
           {roomTypes.map((item) => {
             return (

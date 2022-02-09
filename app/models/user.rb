@@ -18,18 +18,22 @@ class User < ApplicationRecord
 
   validates :terms_of_service, acceptance: true, on: :create
 
-  TRIAL_CODES = ["rentalscaleup", "friendoflistify"].freeze
+  TRIAL_CODES = %w[rentalscaleup friendoflistify].freeze
 
   def name
     "#{first_name} #{last_name}"
   end
 
   def on_private_beta?
-    self.created_at < Date.new(2022, 01, 16) && never_had_subscription?
+    account_status == 'private_beta'
   end
 
   def on_trial?
-    !on_private_beta? && self.created_at > trial_days.days.ago.beginning_of_day && never_had_subscription?
+    account_status == 'active_trial'
+  end
+
+  def account_status
+    UserAccountStatus.new(self).check
   end
 
   def trial_days
@@ -37,19 +41,7 @@ class User < ApplicationRecord
   end
 
   def trial_end_date
-    on_trial? && (self.created_at + trial_days.days).to_date
-  end
-
-  def subscription_status
-    if subscribed?
-      subscription.plan.name
-    elsif on_trial?
-      "on_trial"
-    elsif on_private_beta?
-      "on_private_beta"
-    else
-      "unknown"
-    end
+    (created_at + trial_days.days).to_date
   end
 
   def runs_remaining_today
@@ -61,13 +53,8 @@ class User < ApplicationRecord
     AdminMailer.user_account_locked(self).deliver_later
   end
 
-  def never_had_subscription?
-    subscription.nil? ||
-    subscriptions.all? { |s| s.status.downcase == "incomplete" }
-  end
-
   def subscribed?
-    subscription && subscription.active?
+    subscription&.active?
   end
 
   def subscription

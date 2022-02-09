@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import GeneratingSpinner from '../common/GeneratingSpinner';
+import { UserContext } from './New';
 
-const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setErrors }) => {
+const AreaSearchForm = ({
+  loading,
+  setLoading,
+  setSearchResult,
+  errors,
+  setErrors
+  }) => {
+
   const [inputFields, setInputFields] = useState({ search_text: '' });
+  const user = useContext(UserContext);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
@@ -48,7 +56,7 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
     )
   }
 
-  const asciiWarning = (str) => {
+  const asciiWarning = () => {
     return (
       <p className="mt-4 text-sm text-red-700">
         Sorry, your text contains a language character we can't process. Try typing the location if you've copied and pasted from another site.
@@ -61,8 +69,9 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
   }
 
   const submitButton = () => {
+    const disabled = loading || ["lapsed_trial", "lapsed_subscription"].includes(user.account_status)
     return (
-      <button disabled={loading} className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
+      <button disabled={disabled} className={`${disabled ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
         Search
       </button>
     )
@@ -81,6 +90,14 @@ const AreaSearchForm = ({ setSearchResult, loading, setLoading, errors, setError
       </div>
     </form>
   )
+}
+
+AreaSearchForm.propTypes = {
+  setSearchResult: PropTypes.func,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  errors: PropTypes.object,
+  setErrors: PropTypes.func
 }
 
 export default AreaSearchForm;

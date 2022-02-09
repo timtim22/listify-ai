@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
-import PropTypes from 'prop-types';
 
 const Alert = ({ message, timeoutAfter = 5000 }) => {
   const [timedOut, setTimedOut] = useState(false);

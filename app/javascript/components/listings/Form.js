@@ -77,7 +77,7 @@ const Form = ({
   }
 
   const showExampleButton = () => {
-    if (user.subscription_status === "on_trial" &&
+    if (user.account_status === "active_trial" &&
       listing.request_type === "listing_description") {
       return (
          <button
@@ -118,7 +118,7 @@ const Form = ({
 
 Form.propTypes = {
   user: PropTypes.object,
-  showExample: PropTypes.bool,
+  showExample: PropTypes.string,
   formType: PropTypes.string,
   loading: PropTypes.bool,
   setLoading: PropTypes.func,

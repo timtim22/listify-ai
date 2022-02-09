@@ -138,7 +138,7 @@ SplitInput.propTypes = {
   inputValue: PropTypes.string,
   onInputChange: PropTypes.func,
   inputLanguage: PropTypes.string,
-  showExample: PropTypes.bool,
+  showExample: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 };
 
 export default SplitInput;

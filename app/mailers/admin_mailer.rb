@@ -1,9 +1,11 @@
 class AdminMailer < ApplicationMailer
+  ADMIN_EMAILS = ['hello@listify.ai', 'srin@listify.ai'].freeze
+
   def welcome(user)
     @user = user
     mail(
-      :to => ['hello@listify.ai', 'srin@listify.ai'],
-      :subject => 'New Listify user',
+      to: ADMIN_EMAILS,
+      subject: 'New Listify user'
     )
   end
 
@@ -11,24 +13,33 @@ class AdminMailer < ApplicationMailer
     @user = user
     @plan_name = plan_name
     mail(
-      :to => ['hello@listify.ai', 'srin@listify.ai'],
-      :subject => 'New Listify subscription'
+      to: ADMIN_EMAILS,
+      subject: 'New Listify subscription'
     )
   end
 
   def subscription_cancelled(user)
     @user = user
     mail(
-      :to => ['hello@listify.ai', 'srin@listify.ai'],
-      :subject => 'Cancelled Listify subscription'
+      to: ADMIN_EMAILS,
+      subject: 'Cancelled Listify subscription'
+    )
+  end
+
+  def subscription_swapped(user, plan_name)
+    @user = user
+    @plan_name = plan_name
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Changed Listify plan'
     )
   end
 
   def user_account_locked(user)
     @user = user
     mail(
-      :to => ['hello@listify.ai', 'srin@listify.ai'],
-      :subject => 'User account locked!'
+      to: ADMIN_EMAILS,
+      subject: 'User account locked!'
     )
   end
 end

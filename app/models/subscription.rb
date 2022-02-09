@@ -21,6 +21,14 @@ class Subscription < ApplicationRecord
     ends_at?
   end
 
+  def lapsed?
+    cancelled? && !on_grace_period?
+  end
+
+  def incomplete?
+    %w[incomplete incomplete_expired].include?(status)
+  end
+
   def has_incomplete_payment?
     ["past_due", "incomplete"].include?(status)
   end
@@ -58,8 +66,9 @@ class Subscription < ApplicationRecord
       ]
     }
 
-    subscription = Stripe::Subscription.update(stripe_id, args)
+    Stripe::Subscription.update(stripe_id, args)
     update(stripe_plan: plan, ends_at: nil)
+    send_swap_plan_email
   end
 
   def stripe_subscription
@@ -72,5 +81,9 @@ class Subscription < ApplicationRecord
 
   def send_cancellation_email
     UserMailer.subscription_cancelled(user, self).deliver_later
+  end
+
+  def send_swap_plan_email
+    UserMailer.subscription_swapped(user).deliver_later
   end
 end

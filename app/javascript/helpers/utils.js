@@ -1,5 +1,5 @@
-export const groupBy = (xs, key) => {
-  return xs.reduce(function(rv, x) {
+export const groupBy = (array, key) => {
+  return array.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;
   }, {});
@@ -13,7 +13,7 @@ export const sortObjectsByDate = (array) => {
 
 export const cleanObjectInputText = (object) => {
   let inputText = object.input_text;
-  if (!inputText) { return object };
+  if (!inputText) { return object }
   let cleanText = inputText.trim().replace(/\n-$/, "");
   if (cleanText.length > 0 && cleanText[cleanText.length-1] !== ".") { cleanText = cleanText + "." }
   return {...object, input_text: cleanText };

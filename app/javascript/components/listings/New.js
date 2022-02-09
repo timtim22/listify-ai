@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
+import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
 import RoomFormContainer from '../rooms/FormContainer';
@@ -188,6 +189,12 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
     </div>
     </UserContext.Provider>
   )
+}
+
+New.propTypes = {
+  currentUser: PropTypes.object,
+  initialRunsRemaining: PropTypes.number,
+  showExample: PropTypes.string
 }
 
 export default New;

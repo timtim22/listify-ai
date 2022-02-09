@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useScrollToTopOnError } from '../hooks';
-import ResultItem from '../common/ResultItem';
 import ErrorNotice from '../common/ErrorNotice';
 import AreaDescriptionForm from './AreaDescriptionForm';
 import AreaSearchForm from './AreaSearchForm';
-import AreaResults from './AreaResults';
 
 const newDescriptionParams = { selectedIds: [], detailText: '' };
 
@@ -39,7 +36,7 @@ const AreaForm = ({
 
   return (
     <>
-    <div className="self-center w-4/5 text-sm">
+      <div className="self-center w-4/5 text-sm">
         <ErrorNotice errors={errors} />
       </div>
       <AreaSearchForm

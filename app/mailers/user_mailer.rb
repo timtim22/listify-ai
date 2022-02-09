@@ -9,6 +9,22 @@ class UserMailer < ApplicationMailer
     AdminMailer.welcome(@user).deliver_later
   end
 
+  def trial_expiring_soon(user)
+    @user = user
+    mail(
+      to: @user.email,
+      subject: 'Your trial is almost over'
+    )
+  end
+
+  def trial_expiring_today(user)
+    @user = user
+    mail(
+      to: @user.email,
+      subject: 'Your trial ends today'
+    )
+  end
+
   def subscription_activated(user)
     @user = user
     @plan_name = user.subscription.plan.name

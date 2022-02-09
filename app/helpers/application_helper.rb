@@ -10,11 +10,11 @@ module ApplicationHelper
   end
 
   def format_date_for_display(date)
-    date.strftime("%A %d %B")
+    date.strftime('%A %d %B')
   end
 
   def format_table_date(date)
-    date.localtime.strftime("%H:%M%P, %d %b")
+    date.localtime.strftime('%H:%M%P, %d %b')
   end
 
   def formatted_amount(amount, options={ unit: "£", precision: 2 })

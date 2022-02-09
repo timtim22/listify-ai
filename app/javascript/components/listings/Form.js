@@ -118,7 +118,7 @@ const Form = ({
 
 Form.propTypes = {
   user: PropTypes.object,
-  showExample: PropTypes.bool,
+  showExample: PropTypes.string,
   formType: PropTypes.string,
   loading: PropTypes.bool,
   setLoading: PropTypes.func,

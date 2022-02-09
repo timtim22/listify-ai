@@ -11,8 +11,6 @@ export const bannerForUser = (user) => {
   }
 }
 
-
-
 export const HelpBanner = () => {
   return (
     <Banner

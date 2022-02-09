@@ -15,16 +15,19 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   }
 
   const requestLimitWarning = () => {
-    let text = "You've used up all your spins for this month. You can get more by upgrading your subscription. Contact us if you need any help."
+    let text = "You've used up your current quota of spins. To get more, upgrade your subscription or contact us for help."
+    if (user.account_status === "lapsed_trial") {
+      text = "Your trial has expired. Upgrade your subscription or contact us for help."
+    }
     if (user.account_status === "private_beta") {
       text = "You've hit your request limit for today. Please contact us if you need help.";
     }
-    return  warningText(text);
+    return warningText(text);
   }
 
   const profanityWarning = () => {
     const text = "Our filters think that text might be unsafe. Please let us know if this is a mistake."
-    return  warningText(text);
+    return warningText(text);
   }
 
   const isProfane = () => {

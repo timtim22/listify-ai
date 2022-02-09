@@ -58,8 +58,9 @@ class Subscription < ApplicationRecord
       ]
     }
 
-    subscription = Stripe::Subscription.update(stripe_id, args)
+    Stripe::Subscription.update(stripe_id, args)
     update(stripe_plan: plan, ends_at: nil)
+    send_swap_plan_email
   end
 
   def stripe_subscription
@@ -72,5 +73,9 @@ class Subscription < ApplicationRecord
 
   def send_cancellation_email
     UserMailer.subscription_cancelled(user, self).deliver_later
+  end
+
+  def send_swap_plan_email
+    UserMailer.subscription_swapped(user).deliver_later
   end
 end

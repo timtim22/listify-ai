@@ -5,7 +5,7 @@ import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import OtherRoomForm from './OtherRoomForm';
 import KeyFeaturesForm from './KeyFeaturesForm';
-import BedroomInput from '../rooms/BedroomInput';
+import BedroomForm from './BedroomForm';
 import Submit from '../inputs/Submit';
 import AreaForm from '../listings/AreaForm';
 
@@ -175,66 +175,6 @@ const Form = ({
     setField('bedrooms', newBedrooms);
   }
 
-  const detailPlaceholder = (placeholderText, index) => {
-    return (
-      <div className="flex flex-col items-start mb-px leading-relaxed">
-        <p>{index == 0 ? placeholderText : ""}</p>
-      </div>
-    )
-  }
-
-  const bedroomRow = (title, index, placeholderText) => {
-    return (
-      <BedroomInput
-        key={index}
-        bedrooms={inputFields.bedrooms}
-        title={title}
-        index={index}
-        updateIndex={(index, value) => updateBedroomInState(index, value)}
-        placeholderContent={detailPlaceholder(placeholderText, index)}
-      />
-    )
-  }
-
-  const bedroomFields = () => {
-    if (step === 2) {
-      const number = inputFields.bedroom_count === "" ? 1 : parseInt(inputFields.bedroom_count);
-      const arrayOfIndexes = Array.from(Array(number).keys())
-      const bedroomRows = arrayOfIndexes.map((i) => {
-        return (
-          bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')
-        )
-      });
-
-      return (
-        <div className="flex flex-col pt-2">
-          <div className="mb-6">
-            <p className="mt-1 text-sm text-gray-700">
-              Add details specific to each bedroom.
-            </p>
-          </div>
-          {bedroomRows}
-          {stepButton()}
-        </div>
-      )
-    }
-  }
-
-  const roomForm = () => {
-    if (step === 3) {
-      return (
-        <div className="pt-2">
-          <OtherRoomForm
-            rooms={inputFields.rooms}
-            onChange={(rooms) => setField('rooms', rooms)}
-          />
-          {stepButton()}
-        </div>
-      )
-    }
-  }
-
-
   const keyFeaturesForm = () => {
     if (step === 1) {
       return (
@@ -248,6 +188,47 @@ const Form = ({
       )
     }
   }
+
+  const bedroomForm = () => {
+    if (step === 2) {
+      return (
+        <BedroomForm
+          inputFields={inputFields}
+          updateBedroomInState={updateBedroomInState}
+          handleSubmit={handleSubmit}
+          stepButton={stepButton}
+        />
+      )
+    }
+  }
+
+  const roomForm = () => {
+    if (step === 3) {
+      return (
+        <form onSubmit={handleSubmit} className="pt-2">
+          <OtherRoomForm
+            rooms={inputFields.rooms}
+            onChange={(rooms) => setField('rooms', rooms)}
+          />
+          {stepButton()}
+        </form>
+      )
+    }
+  }
+
+  const areaForm = () => {
+    return (
+      <AreaForm
+        handleTaskRun={onResult}
+        loading={loading}
+        setLoading={setLoading}
+        results={results}
+        setResults={() => {}}
+        runsRemaining={runsRemaining}
+        shouldGenerateFragment={true}
+      />
+    )
+  };
 
   const stepBar = (number, title) => {
     const selectedStyle = "font-bold text-lg"
@@ -302,20 +283,6 @@ const Form = ({
   }
 
 
-  const areaForm = () => {
-    return (
-      <AreaForm
-        handleTaskRun={onResult}
-        loading={loading}
-        setLoading={setLoading}
-        results={results}
-        setResults={() => {}}
-        runsRemaining={runsRemaining}
-        shouldGenerateFragment={true}
-      />
-    )
-  };
-
   const withTransition = (children, contentStep) => {
     return (
     <Transition
@@ -343,7 +310,7 @@ const Form = ({
             {stepBar(1, "Key features")}
             {withTransition(keyFeaturesForm(), 1)}
             {stepBar(2, "Bedrooms")}
-            {withTransition(bedroomFields(), 2)}
+            {withTransition(bedroomForm(), 2)}
             {stepBar(3, "Other rooms & spaces")}
             {withTransition(roomForm(), 3)}
             {stepBar(4, "Area")}

@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_01_152011) do
+ActiveRecord::Schema.define(version: 2022_02_10_105828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "area_description_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "search_location_id", null: false
+    t.string "request_type"
+    t.text "detail_text"
+    t.jsonb "input_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["search_location_id"], name: "index_area_description_fragments_on_search_location_id"
+  end
 
   create_table "area_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "search_location_id", null: false
@@ -329,6 +339,7 @@ ActiveRecord::Schema.define(version: 2022_02_01_152011) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "area_description_fragments", "search_locations"
   add_foreign_key "area_descriptions", "search_locations"
   add_foreign_key "charges", "users"
   add_foreign_key "content_filter_results", "task_results"

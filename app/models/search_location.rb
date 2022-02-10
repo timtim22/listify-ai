@@ -1,6 +1,7 @@
 class SearchLocation < ApplicationRecord
   has_many :recorded_searches, dependent: :destroy
   has_many :area_descriptions, dependent: :destroy
+  has_many :area_description_fragments, class_name: 'Inputs::AreaDescriptionFragment', dependent: :destroy
 
   validates :search_text, length: { minimum: 3 }
 

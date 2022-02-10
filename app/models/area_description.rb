@@ -3,8 +3,12 @@ class AreaDescription < ApplicationRecord
 
   belongs_to :search_location
   has_many :task_runs, as: :input_object, dependent: :destroy
+
+  attr_accessor :selected_ids
+
   validates :request_type, presence: true
   validates :detail_text, length: { minimum: 0, maximum: 300 }
+  validates :selected_ids, length: { minimum: 1, too_short: 'No attractions were selected' }, on: :create
 
   def self.new_from(params)
     AreaDescription.new(

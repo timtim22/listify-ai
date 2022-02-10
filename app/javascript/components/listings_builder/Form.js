@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
+import { Transition } from '@headlessui/react';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
@@ -8,6 +8,7 @@ import NumberField from '../common/NumberField';
 import OtherRoomForm from './OtherRoomForm';
 import BedroomInput from '../rooms/BedroomInput';
 import Submit from '../inputs/Submit';
+import AreaForm from '../listings/AreaForm';
 
 const newInputFields = {
   property_type: '',
@@ -33,14 +34,14 @@ const generalFeaturesPlaceholder = () => {
 const requestTypesForSteps = {
   1: 'summary_fragment',
   2: 'bedroom_fragment',
-  3: 'other_room_fragment'
+  3: 'other_room_fragment',
+  4: 'area_description_fragment'
 }
 
 const requestStepCharacterLimit = 800;
 
 const Form = ({
   runsRemaining,
-  setRunsRemaining,
   loading,
   setLoading,
   results,
@@ -305,7 +306,8 @@ const Form = ({
   const keyFeaturesForm = () => {
     if (step === 1) {
       return (
-        <div className="pt-2">
+
+        <form className="pt-2" onSubmit={handleSubmit}>
           <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section. <span className="italic font-medium">This is a new feature - we are still making improvements.</span></p>
           {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
           {textInputRow('Location', 'location', '', true)}
@@ -313,7 +315,7 @@ const Form = ({
           {bedroomsCountRow()}
           {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
           {stepButton()}
-        </div>
+        </form>
       )
     }
   }
@@ -321,7 +323,8 @@ const Form = ({
   const stepBar = (number, title) => {
     const selectedStyle = "font-bold text-lg"
     const unSelectedStyle = "font-bold text-gray-400 text-lg"
-    const isViewedStep = number < highestStep;
+    //const isViewedStep = number < highestStep;
+    const isViewedStep = true
     return (
       <div>
         <div onClick={() => isViewedStep && setStep(number)} className={`${isViewedStep ? "cursor-pointer" : ""} pb-4`}>
@@ -330,11 +333,6 @@ const Form = ({
         <div className="mb-4 w-full h-px bg-gray-200"></div>
       </div>
     )
-  }
-
-  const characterLimitForStep = () => {
-    const currentStepRequestType = requestTypesForSteps[step];
-    return totalCharacterLimitFor[currentStepRequestType];
   }
 
   const stepButton = () => {
@@ -374,6 +372,21 @@ const Form = ({
     }
   }
 
+
+  const areaForm = () => {
+    return (
+      <AreaForm
+        handleTaskRun={onResult}
+        loading={loading}
+        setLoading={setLoading}
+        results={results}
+        setResults={() => {}}
+        runsRemaining={runsRemaining}
+        shouldGenerateFragment={true}
+      />
+    )
+  };
+
   const withTransition = (children, contentStep) => {
     return (
     <Transition
@@ -393,7 +406,7 @@ const Form = ({
   return (
     <div className="overflow-hidden w-full">
       <div className="flex flex-col items-center pt-2 w-full h-full">
-        <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
+        <div className="flex flex-col items-center w-full text-sm" >
           <div className="w-4/5">
             <ErrorNotice errors={errors} />
           </div>
@@ -404,12 +417,25 @@ const Form = ({
             {withTransition(bedroomFields(), 2)}
             {stepBar(3, "Other rooms & spaces")}
             {withTransition(roomForm(), 3)}
+            {stepBar(4, "Area")}
+            {withTransition(areaForm(), 4)}
             {resetButton()}
          </div>
-       </form>
+       </div>
       </div>
     </div>
   )
+}
+
+Form.propTypes = {
+  runsRemaining: PropTypes.number,
+  setRunsRemaining: PropTypes.func,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  onResult: PropTypes.func,
+  resetState: PropTypes.func,
+  handleTaskRun: PropTypes.func
 }
 
 export default Form;

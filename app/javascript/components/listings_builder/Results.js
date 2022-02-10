@@ -11,7 +11,7 @@ import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
 
 const english = "EN";
-const fragmentOrder = ["summary_fragment", "bedroom_fragment_step_2", "other_room_fragment_step_2"];
+const fragmentOrder = ["summary_fragment", "bedroom_fragment_step_2", "other_room_fragment_step_2", "area_description_fragment"];
 
 const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
   const [translations, setTranslations] = useState({});

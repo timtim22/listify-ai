@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import ErrorNotice from '../common/ErrorNotice';
-import GeneratingSpinner from '../common/GeneratingSpinner';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import Submit from '../inputs/Submit';
 
@@ -16,7 +14,8 @@ const AreaDescriptionForm = ({
   runsRemaining,
   setErrors,
   loading,
-  setLoading
+  setLoading,
+  shouldGenerateFragment
 }) => {
 
   const [userInputLength, setUserInputLength] = useState(0);
@@ -42,9 +41,11 @@ const AreaDescriptionForm = ({
     e.preventDefault();
     setErrors(null);
     setLoading(true);
+    const resource = shouldGenerateFragment ? 'listing_fragment' : 'area_description';
+    const requestType = shouldGenerateFragment ? 'area_description_fragment' : 'area_description';
     createRequest(
-      "/area_descriptions.json",
-      { area_description: selectedResults() },
+      `/${resource}s.json`,
+      { [resource]: { ...selectedResults(), request_type: requestType }},
       (response) => { handleTaskRun(response) },
       (e) => { setErrors(e); setLoading(false); }
     )
@@ -216,6 +217,18 @@ const AreaDescriptionForm = ({
   } else {
     return null;
   }
+}
+
+AreaDescriptionForm.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  setErrors: PropTypes.func,
+  searchResult: PropTypes.object,
+  descriptionParams: PropTypes.object,
+  setDescriptionParams: PropTypes.func,
+  runsRemaining: PropTypes.number,
+  handleTaskRun: PropTypes.func,
+  shouldGenerateFragment: PropTypes.bool
 }
 
 export default AreaDescriptionForm;

@@ -71,7 +71,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
 
     if (formType === 'neighbourhood') {
       return (
-        <AreaForm {...commonProps} />
+        <AreaForm {...commonProps} shouldGenerateFragment={false} />
       );
     } else if (formType === 'room_description') {
       return (

@@ -3,7 +3,8 @@ class ListingFragmentsController < ApplicationController
 
   def create
     @runs_remaining = SpinCheck.runs_remaining(current_user)
-    save = Input.create_with(object_for_fragment.new(listing_fragment_params), current_user)
+    new_object = generate_new_object
+    save = Input.create_with(new_object, current_user)
     if save.success
       @listing_fragment = save.input_object
       @task_run = task_run_for_fragment
@@ -25,6 +26,14 @@ class ListingFragmentsController < ApplicationController
   end
 
   private
+
+  def generate_new_object
+    if listing_fragment_params[:request_type] == 'area_description_fragment'
+      Inputs::AreaDescriptionFragment.new_from(listing_fragment_params)
+    else
+      object_for_fragment.new(listing_fragment_params)
+    end
+  end
 
   def object_for_fragment
     case listing_fragment_params[:request_type]
@@ -52,6 +61,8 @@ class ListingFragmentsController < ApplicationController
   end
 
   def listing_fragment_params
-    params.require(:listing_fragment).permit(:request_type, :input_text)
+    params.require(:listing_fragment).permit(
+      :request_type, :input_text, :search_location_id, :detail_text, selected_ids: [], search_results: {}
+    )
   end
 end

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useScrollToTopOnError } from '../hooks';
 import ErrorNotice from '../common/ErrorNotice';
 import AreaDescriptionForm from './AreaDescriptionForm';
@@ -8,13 +9,12 @@ const newDescriptionParams = { selectedIds: [], detailText: '' };
 
 const AreaForm = ({
   runsRemaining,
-  setRunsRemaining,
   loading,
   setLoading,
   results,
   setResults,
-  taskRun,
-  handleTaskRun
+  handleTaskRun,
+  shouldGenerateFragment
 }) => {
   const [errors, setErrors] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
@@ -55,9 +55,20 @@ const AreaForm = ({
         loading={loading}
         setLoading={setLoading}
         setErrors={setErrors}
+        shouldGenerateFragment={shouldGenerateFragment}
       />
     </>
   )
+}
+
+AreaForm.propTypes = {
+  runsRemaining: PropTypes.number,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  setResults: PropTypes.func,
+  handleTaskRun: PropTypes.func,
+  shouldGenerateFragment: PropTypes.bool
 }
 
 export default AreaForm;

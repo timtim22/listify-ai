@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
-import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import NumberField from '../common/NumberField';
 import OtherRoomForm from './OtherRoomForm';
+import KeyFeaturesForm from './KeyFeaturesForm';
 import BedroomInput from '../rooms/BedroomInput';
 import Submit from '../inputs/Submit';
 import AreaForm from '../listings/AreaForm';
@@ -19,16 +18,6 @@ const newInputFields = {
   key_features: '',
   bedrooms: [''],
   rooms: [],
-}
-
-const generalFeaturesPlaceholder = () => {
-  return (
-    <div className="flex flex-col items-start mb-px leading-relaxed">
-      <p>- e.g. trendy neighbourhood</p>
-      <p>- famous for nightlife</p>
-      <p>- Great location for exploring the city</p>
-    </div>
-  )
 }
 
 const requestTypesForSteps = {
@@ -186,51 +175,6 @@ const Form = ({
     setField('bedrooms', newBedrooms);
   }
 
-  const setInputIfValid = (key, value, limit) => {
-    if (value.length <= limit) {
-      setField(key, value);
-    }
-  }
-
-  const textInputRow = (title, key, placeholder, required) => {
-    return (
-      <div className="flex justify-start items-center mb-2 w-full">
-        <label className="flex-shrink-0 w-1/3 text-sm text-gray-800">{title}</label>
-        <input
-          type="text"
-          placeholder={placeholder}
-          required={required}
-          value={inputFields[key]}
-          onChange={(e) => setInputIfValid(key, e.target.value, 35)}
-          className="w-full text-sm form-inline-field"
-        />
-      </div>
-    )
-  }
-
-  const detailField = (title, fieldName, placeholder) => {
-    const charsLeft = 200 - inputFields[fieldName].length;
-    return (
-      <div className="flex flex-col w-full">
-        <div className="flex items-start w-full">
-          <label className="flex-shrink-0 mt-3 w-1/3 text-sm text-gray-700">{title}</label>
-          <div className="px-3 w-full">
-            <TextareaWithPlaceholder
-              value={inputFields[fieldName]}
-              onChange={(value) => setInputIfValid(fieldName, value, 200)}
-              heightClass={"h-32"}
-              placeholderContent={placeholder()}
-              customClasses={"text-sm"}
-            />
-          </div>
-        </div>
-        <div className="self-end pt-2 pr-3 text-xs font-medium text-gray-500">
-          {charsLeft <= 30 && <p className={charsLeft <= 10 ? "text-red-500" : ""}>{charsLeft}</p>}
-        </div>
-      </div>
-    )
-  }
-
   const detailPlaceholder = (placeholderText, index) => {
     return (
       <div className="flex flex-col items-start mb-px leading-relaxed">
@@ -248,18 +192,6 @@ const Form = ({
         index={index}
         updateIndex={(index, value) => updateBedroomInState(index, value)}
         placeholderContent={detailPlaceholder(placeholderText, index)}
-      />
-    )
-  }
-
-  const bedroomsCountRow = () => {
-    return (
-      <NumberField
-        title="Bedrooms"
-        value={inputFields.bedroom_count}
-        onChange={(v) => setBedroomCount(v)}
-        minValue={1}
-        maxValue={8}
       />
     )
   }
@@ -306,16 +238,13 @@ const Form = ({
   const keyFeaturesForm = () => {
     if (step === 1) {
       return (
-
-        <form className="pt-2" onSubmit={handleSubmit}>
-          <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section. <span className="italic font-medium">This is a new feature - we are still making improvements.</span></p>
-          {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
-          {textInputRow('Location', 'location', '', true)}
-          {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
-          {bedroomsCountRow()}
-          {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
-          {stepButton()}
-        </form>
+        <KeyFeaturesForm
+          inputFields={inputFields}
+          setBedroomCount={setBedroomCount}
+          setField={setField}
+          handleSubmit={handleSubmit}
+          stepButton={stepButton}
+        />
       )
     }
   }
@@ -439,4 +368,3 @@ Form.propTypes = {
 }
 
 export default Form;
-

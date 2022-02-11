@@ -47,7 +47,7 @@ const AreaForm = ({
   };
 
   return (
-    <>
+    <div className="flex flex-col w-full justify-center">
       <div className="self-center w-4/5 text-sm">
         <ErrorNotice errors={errors} />
       </div>
@@ -70,7 +70,7 @@ const AreaForm = ({
         shouldGenerateFragment={shouldGenerateFragment}
         resetForm={resetForm}
       />}
-    </>
+    </div>
   )
 }
 

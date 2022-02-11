@@ -102,6 +102,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           results={results}
           onResult={handleTaskRun}
           resetState={() => resetState()}
+          taskRun={taskRun}
         />
       )
     } else {

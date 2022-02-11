@@ -148,7 +148,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 
   const resultActionButtons = (visibleResults) => {
-    if (visibleResults.length > 2) {
+    if (visibleResults.length > 1) {
       return (
         <div className="flex justify-center">
           <LanguageToggle

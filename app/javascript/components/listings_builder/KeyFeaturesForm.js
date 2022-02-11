@@ -98,7 +98,7 @@ const KeyFeaturesForm = ({
       {bedroomsCountRow()}
       {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
       {stepButton()}
-    </form>
+   </form>
   )
 };
 
@@ -107,7 +107,7 @@ KeyFeaturesForm.propTypes = {
   setField: PropTypes.func,
   setBedroomCount: PropTypes.func,
   handleSubmit: PropTypes.func,
-  stepButton: PropTypes.object
+  stepButton: PropTypes.func
 }
 
 export default KeyFeaturesForm;

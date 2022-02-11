@@ -34,7 +34,7 @@ const BedroomForm = ({ inputFields, updateBedroomInState, handleSubmit, stepButt
   });
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col pt-2">
+    <form onSubmit={handleSubmit} className="flex flex-col pt-4">
       <div className="mb-6">
         <p className="mt-1 text-sm text-gray-700">
           Add details specific to each bedroom.
@@ -51,7 +51,7 @@ BedroomForm.propTypes = {
   inputFields: PropTypes.object,
   updateBedroomInState: PropTypes.func,
   handleSubmit: PropTypes.func,
-  stepButton: PropTypes.object
+  stepButton: PropTypes.func
 }
 
 export default BedroomForm;

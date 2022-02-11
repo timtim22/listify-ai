@@ -14,20 +14,14 @@ const newInputFields = {
   location: '',
   ideal_for: '',
   bedroom_count: 1,
-  sleeps: 2,
   key_features: '',
   bedrooms: [''],
   rooms: [],
 }
 
-const requestTypesForSteps = {
-  1: 'summary_fragment',
-  2: 'bedroom_fragment',
-  3: 'other_room_fragment',
-  4: 'area_description_fragment'
-}
-
 const requestStepCharacterLimit = 800;
+
+const firstStep = "summary_fragment";
 
 const Form = ({
   runsRemaining,
@@ -35,17 +29,18 @@ const Form = ({
   setLoading,
   results,
   onResult,
-  resetState
+  resetState,
+  taskRun
 }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
-  const [highestStep, setHighestStep] = useState(1);
+  const [stepNames, setStepNames] = useState([firstStep]);
   const [leaveTransition, setLeaveTransition] = useState(false);
 
-  useEffect(() => {
-    if (step > highestStep) { setHighestStep(step) }
-  }, [step]);
+  useEffect(() => { // needed as area form calls a different submit function
+    if (taskRun) { changeStep(step + 1) }
+  }, [taskRun]);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
@@ -53,16 +48,23 @@ const Form = ({
 
   const changeStep = (nextStep) => {
     setLeaveTransition(true);
-    setTimeout(() => {
+    //setTimeout(() => {
       setStep(nextStep);
       setLeaveTransition(false);
-    }, 200);
+    //}, 500);
+  }
+
+  const selectNextStep = (nextStepName) => {
+    if (!stepNames.includes(nextStepName)) {
+      setStepNames([ ...stepNames, nextStepName ]);
+    }
   }
 
   const resetForm = () => {
     setInputFields(newInputFields);
     resetState();
     setStep(1);
+    setStepNames([firstStep]);
   }
 
   const setBedroomCount = (newCount) => {
@@ -81,10 +83,11 @@ const Form = ({
     }
   }
 
+
   const handleRequestSuccess = (response) => {
     setErrors(null);
-    changeStep(step + 1);
     onResult(response);
+    //changeStep(step + 1);
   }
 
   const assembleHeadline = () => {
@@ -118,7 +121,7 @@ const Form = ({
   }
 
   const userCharacters = () => {
-    switch(requestTypesForSteps[step]) {
+    switch(stepNames[step-1]) {
       case 'summary_fragment':
         return summaryUserCharacters();
         break;
@@ -128,6 +131,9 @@ const Form = ({
       case 'other_room_fragment':
         return otherRoomsUserCharacters();
         break;
+      case 'area_description_fragment':
+        return ''; // validated separately
+        break;
       default:
         return null;
     }
@@ -135,7 +141,7 @@ const Form = ({
 
 
   const inputTextForStep = () => {
-    switch(requestTypesForSteps[step]) {
+    switch(stepNames[step-1]) {
       case 'summary_fragment':
         return assembleHeadline();
         break;
@@ -152,20 +158,18 @@ const Form = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTimeout(() => {
-      setLoading(true);
-      createRequest(
-        "/listing_fragments.json",
-        {
-          listing_fragment: {
-            input_text: inputTextForStep(),
-            request_type: requestTypesForSteps[step]
-          },
+    setLoading(true);
+    createRequest(
+      "/listing_fragments.json",
+      {
+        listing_fragment: {
+          input_text: inputTextForStep(),
+          request_type: stepNames[step - 1]
         },
-        (response) => { handleRequestSuccess(response) },
-        (e) => { setErrors(e); setLoading(false) }
-      )
-    }, 100);
+      },
+      (response) => { handleRequestSuccess(response) },
+      (e) => { setErrors(e); setLoading(false) }
+    )
   }
 
   const updateBedroomInState = (index, newValue) => {
@@ -176,69 +180,66 @@ const Form = ({
   }
 
   const keyFeaturesForm = () => {
-    if (step === 1) {
-      return (
-        <KeyFeaturesForm
-          inputFields={inputFields}
-          setBedroomCount={setBedroomCount}
-          setField={setField}
-          handleSubmit={handleSubmit}
-          stepButton={stepButton}
-        />
-      )
-    }
+    return (
+      <KeyFeaturesForm
+        inputFields={inputFields}
+        setBedroomCount={setBedroomCount}
+        setField={setField}
+        handleSubmit={handleSubmit}
+        stepButton={stepButton}
+      />
+    )
   }
 
   const bedroomForm = () => {
-    if (step === 2) {
-      return (
-        <BedroomForm
-          inputFields={inputFields}
-          updateBedroomInState={updateBedroomInState}
-          handleSubmit={handleSubmit}
-          stepButton={stepButton}
-        />
-      )
-    }
+    return (
+      <BedroomForm
+        inputFields={inputFields}
+        updateBedroomInState={updateBedroomInState}
+        handleSubmit={handleSubmit}
+        stepButton={stepButton}
+      />
+    )
   }
 
-  const roomForm = () => {
-    if (step === 3) {
-      return (
-        <form onSubmit={handleSubmit} className="pt-2">
-          <OtherRoomForm
-            rooms={inputFields.rooms}
-            onChange={(rooms) => setField('rooms', rooms)}
-          />
-          {stepButton()}
-        </form>
-      )
-    }
+  const otherRoomForm = () => {
+    return (
+      <form onSubmit={handleSubmit} className="pt-4">
+        <OtherRoomForm
+          rooms={inputFields.rooms}
+          onChange={(rooms) => setField('rooms', rooms)}
+        />
+        {stepButton()}
+      </form>
+    )
   }
 
   const areaForm = () => {
     return (
-      <AreaForm
-        handleTaskRun={onResult}
-        loading={loading}
-        setLoading={setLoading}
-        results={results}
-        setResults={() => {}}
-        runsRemaining={runsRemaining}
-        shouldGenerateFragment={true}
-      />
+      <div className="pt-4">
+        <AreaForm
+          handleTaskRun={onResult}
+          loading={loading}
+          setLoading={setLoading}
+          results={results}
+          setResults={() => {}}
+          runsRemaining={runsRemaining}
+          shouldGenerateFragment={true}
+        />
+      </div>
     )
   };
 
-  const stepBar = (number, title) => {
+  const stepBar = (number, name) => {
     const selectedStyle = "font-bold text-lg"
     const unSelectedStyle = "font-bold text-gray-400 text-lg"
-    //const isViewedStep = number < highestStep;
     const isViewedStep = true
     return (
       <div>
         <div onClick={() => isViewedStep && setStep(number)} className={`${isViewedStep ? "cursor-pointer" : ""} pb-4`}>
-          <h1 className={step === number ? selectedStyle : unSelectedStyle }>Step {number}: {title}</h1>
+          <h1 className={step === number ? selectedStyle : unSelectedStyle }>
+            Step {number}: {displayNameFor(name)}
+          </h1>
         </div>
         <div className="mb-4 w-full h-px bg-gray-200"></div>
       </div>
@@ -246,7 +247,7 @@ const Form = ({
   }
 
   const stepButton = () => {
-    const buttonText = step === 3 ? 'Finish' : 'Next';
+    const buttonText = step === 4 ? 'Finish' : 'Next';
     return (
       <>
         <div className="flex justify-center py-8 w-full">
@@ -260,13 +261,12 @@ const Form = ({
           />
 
         </div>
-        {step !== 3 && <div className="mb-4 w-full h-px bg-gray-200"></div>}
       </>
     )
   }
 
   const resetButton = () => {
-    if (step === 4) {
+    if (step === 5) {
       return (
         <div className="flex justify-center py-8 w-full">
           <button
@@ -285,18 +285,113 @@ const Form = ({
 
   const withTransition = (children, contentStep) => {
     return (
-    <Transition
-      show={step === contentStep && !leaveTransition}
-      enter="transition ease-linear transform duration-200"
-      enterFrom="scale-25 opacity-0"
-      enterTo="scale-100 opacity-100"
-      leave="transition ease-linear transform duration-500"
-      leaveFrom="translate-y-full opacity-100"
-      leaveTo="translate-y-0 opacity-0"
-    >
-     {children}
-    </Transition>
+    //<Transition
+      //show={step === contentStep && !leaveTransition}
+      //enter="transition ease-linear transform duration-200"
+      //enterFrom="scale-25 opacity-0"
+      //enterTo="scale-100 opacity-100"
+      //leave="transition ease-linear transform duration-500"
+      //leaveFrom="translate-y-full opacity-100"
+      //leaveTo="translate-y-0 opacity-0"
+    //>
+       children
+    //</Transition>
     )
+  }
+
+  const formFor = (stepName) => {
+    const forms = {
+      summary_fragment: keyFeaturesForm(),
+      bedroom_fragment: bedroomForm(),
+      other_room_fragment: otherRoomForm(),
+      area_description_fragment: areaForm()
+    }
+    return forms[stepName];
+  }
+
+  const displayNameFor = (stepName) => {
+    const names = {
+      summary_fragment: 'Key Features',
+      bedroom_fragment: 'Bedrooms',
+      other_room_fragment: 'Other Rooms',
+      area_description_fragment: 'Area'
+    }
+    return names[stepName];
+  }
+
+
+  const contentFor = (index, stepName) => {
+    if (step === index) {
+      const form = formFor(stepName);
+      return withTransition(form, index);
+    }
+  };
+
+  const stepBars = () => {
+    return stepNames.map((name, index) => {
+      return (
+        <div key={name}>
+          {stepBar(index + 1, name)}
+          {contentFor(index + 1, name)}
+        </div>
+      )
+    });
+  }
+
+  const nextStepButtons = () => {
+    const defaultStepOrder = ['summary_fragment', 'bedroom_fragment', 'other_room_fragment', 'area_description_fragment']
+    const buttonSteps = defaultStepOrder.filter(s => !stepNames.includes(s));
+    return buttonSteps.map((buttonName) => {
+      return (
+        <button
+          key={buttonName}
+          onClick={() => selectNextStep(buttonName)}
+          className="primary-button mx-2">
+          {displayNameFor(buttonName)}
+        </button>
+      )
+    });
+  }
+
+  const nextStepBar = () => {
+    if (step > stepNames.length) {
+      return (
+        <Transition
+          show={true}
+          enter="transition ease-linear transform duration-200"
+          enterFrom="scale-25 opacity-0"
+          enterTo="scale-100 opacity-100"
+          leave="transition ease-linear transform duration-500"
+          leaveFrom="translate-y-full opacity-100"
+          leaveTo="translate-y-0 opacity-0"
+        >
+ 
+          <div className="my-4">
+            <p className="text-center">Now add:</p>
+            <div className="mb-4 flex mt-8 border-red-500 justify-center">
+              {nextStepButtons()}
+            </div>
+          </div>
+        </Transition>
+      )
+    }
+  }
+
+  const resetBar = () => {
+    if (step > 2) {
+      return (
+        <div className="w-full flex justify-center mb-4">
+          <button
+            disabled={loading}
+            type="button"
+            onClick={resetForm}
+            className={`text-xs secondary-link ${loading ? "cursor-not-allowed" : "cursor-pointer"}`}
+          >
+            Or start again
+          </button>
+        </div>
+      )
+    }
   }
 
   return (
@@ -307,15 +402,9 @@ const Form = ({
             <ErrorNotice errors={errors} />
           </div>
           <div className="flex flex-col w-4/5 max-w-2xl pb-4">
-            {stepBar(1, "Key features")}
-            {withTransition(keyFeaturesForm(), 1)}
-            {stepBar(2, "Bedrooms")}
-            {withTransition(bedroomForm(), 2)}
-            {stepBar(3, "Other rooms & spaces")}
-            {withTransition(roomForm(), 3)}
-            {stepBar(4, "Area")}
-            {withTransition(areaForm(), 4)}
-            {resetButton()}
+            {stepBars()}
+            {nextStepBar()}
+            {resetBar()}
          </div>
        </div>
       </div>
@@ -331,6 +420,7 @@ Form.propTypes = {
   results: PropTypes.array,
   onResult: PropTypes.func,
   resetState: PropTypes.func,
+  taskRun: PropTypes.object,
   handleTaskRun: PropTypes.func
 }
 

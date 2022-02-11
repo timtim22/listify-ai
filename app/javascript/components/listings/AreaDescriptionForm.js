@@ -198,7 +198,7 @@ const AreaDescriptionForm = ({
 
     return (
       <div className="w-full flex justify-center">
-        <div className="flex justify-center w-4/5">
+        <div className={`flex justify-center ${shouldGenerateFragment ? "w-full" : "w-4/5"}`}>
           <form className="text-sm" onSubmit={handleSubmit}>
             <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
               Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>

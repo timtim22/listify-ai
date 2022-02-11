@@ -15,6 +15,7 @@ const AreaDescriptionForm = ({
   setErrors,
   loading,
   setLoading,
+  resetForm,
   shouldGenerateFragment
 }) => {
 
@@ -199,7 +200,9 @@ const AreaDescriptionForm = ({
       <div className="w-full flex justify-center">
         <div className="flex justify-center w-4/5">
           <form className="text-sm" onSubmit={handleSubmit}>
-            <p>Here's what we found nearby. For best results, tick at least 3 boxes and add something to the keywords section. Then tap generate.</p>
+            <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
+              Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>
+            </p>
             <br />
             {attractionSection(topAttractions, 'Attractions', attractionRow)}
             <br />

@@ -19,6 +19,7 @@ const AreaForm = ({
   const [errors, setErrors] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [descriptionParams, setDescriptionParams] = useState(newDescriptionParams);
+  const [formVisible, setFormVisible] = useState('search_form');
 
   const onError = useScrollToTopOnError(errors);
 
@@ -34,19 +35,30 @@ const AreaForm = ({
     }
   }, [descriptionParams]);
 
+  const handleSearchResult = (newResult) => {
+    setFormVisible('description_form');
+    setSearchResult(newResult);
+  };
+
+  const resetForm = () => {
+    setSearchResult(null);
+    setDescriptionParams(newDescriptionParams);
+    setFormVisible('search_form');
+  };
+
   return (
     <>
       <div className="self-center w-4/5 text-sm">
         <ErrorNotice errors={errors} />
       </div>
-      <AreaSearchForm
-        setSearchResult={setSearchResult}
+      {formVisible === 'search_form' && <AreaSearchForm
+        setSearchResult={handleSearchResult}
         loading={loading}
         setLoading={setLoading}
         errors={errors}
         setErrors={setErrors}
-      />
-      <AreaDescriptionForm
+      />}
+      {formVisible === 'description_form' && <AreaDescriptionForm
         searchResult={searchResult}
         descriptionParams={descriptionParams}
         setDescriptionParams={setDescriptionParams}
@@ -56,7 +68,8 @@ const AreaForm = ({
         setLoading={setLoading}
         setErrors={setErrors}
         shouldGenerateFragment={shouldGenerateFragment}
-      />
+        resetForm={resetForm}
+      />}
     </>
   )
 }

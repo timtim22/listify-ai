@@ -11,6 +11,7 @@ require("stylesheets/application.scss")
 require("helpers/requests")
 require("helpers/utils")
 require("helpers/translations")
+require("helpers/listingBuilder")
 
 Rails.start()
 Turbolinks.start()

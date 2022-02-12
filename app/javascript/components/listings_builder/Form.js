@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { createRequest } from '../../helpers/requests';
+import { defaultStepOrder, displayNameFor, userCharactersFor } from '../../helpers/listingBuilder';
 import ErrorNotice from '../common/ErrorNotice';
 import OtherRoomForm from './OtherRoomForm';
 import KeyFeaturesForm from './KeyFeaturesForm';
@@ -36,35 +37,13 @@ const Form = ({
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
   const [stepNames, setStepNames] = useState([firstStep]);
-  const [leaveTransition, setLeaveTransition] = useState(false);
 
   useEffect(() => { // needed as area form calls a different submit function
-    if (taskRun) { changeStep(step + 1) }
+    if (taskRun) { setStep(step + 1) }
   }, [taskRun]);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
-  }
-
-  const changeStep = (nextStep) => {
-    setLeaveTransition(true);
-    //setTimeout(() => {
-      setStep(nextStep);
-      setLeaveTransition(false);
-    //}, 500);
-  }
-
-  const selectNextStep = (nextStepName) => {
-    if (!stepNames.includes(nextStepName)) {
-      setStepNames([ ...stepNames, nextStepName ]);
-    }
-  }
-
-  const resetForm = () => {
-    setInputFields(newInputFields);
-    resetState();
-    setStep(1);
-    setStepNames([firstStep]);
   }
 
   const setBedroomCount = (newCount) => {
@@ -83,100 +62,46 @@ const Form = ({
     }
   }
 
+  const updateBedroomInState = (index, newValue) => {
+    const { bedrooms } = inputFields;
+    let newBedrooms = [ ...bedrooms ];
+    newBedrooms[index] = newValue;
+    setField('bedrooms', newBedrooms);
+  }
+
+  const selectNextStep = (nextStepName) => {
+    if (!stepNames.includes(nextStepName)) {
+      setStepNames([ ...stepNames, nextStepName ]);
+    }
+  }
+
+  const resetForm = () => {
+    setInputFields(newInputFields);
+    resetState();
+    setStep(1);
+    setStepNames([firstStep]);
+  }
+
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
     onResult(response);
-    //changeStep(step + 1);
   }
 
-  const assembleHeadline = () => {
-    const { bedroom_count, property_type, location, ideal_for, key_features } = inputFields;
-    const first = `- ${bedroom_count} bedroom ${property_type} in ${location}\n`;
-    const second = ideal_for.length > 3 ? `- ideal for ${ideal_for}\n` : "";
-    return `${first}${second}${key_features}`
-  }
-
-  const bedroomInputText = () => {
-    const { bedrooms } = inputFields;
-    return bedrooms.map((b, i) => b.length >= 3 ? `bedroom ${i + 1}: ${b}` : "").join("\n");
-  }
-
-  const otherRoomInputText = () => {
-    const { rooms } = inputFields;
-    return rooms.map(r => r.name.length >= 3 ? `${r.name}: ${r.description}` : "").join("\n");
-  }
-
-  const summaryUserCharacters = () => {
-    const { property_type, location, key_features, ideal_for } = inputFields;
-    return `${property_type} ${location} ${key_features} ${ideal_for}`;
-  }
-
-  const bedroomsUserCharacters = () => {
-    return inputFields.bedrooms.join(" ");
-  }
-
-  const otherRoomsUserCharacters = () => {
-    return inputFields.rooms.map(r => `${r.name} ${r.description}`).join(" ");
-  }
-
-  const userCharacters = () => {
-    switch(stepNames[step-1]) {
-      case 'summary_fragment':
-        return summaryUserCharacters();
-        break;
-      case 'bedroom_fragment':
-        return bedroomsUserCharacters();
-        break;
-      case 'other_room_fragment':
-        return otherRoomsUserCharacters();
-        break;
-      case 'area_description_fragment':
-        return ''; // validated separately
-        break;
-      default:
-        return null;
-    }
-  }
-
-
-  const inputTextForStep = () => {
-    switch(stepNames[step-1]) {
-      case 'summary_fragment':
-        return assembleHeadline();
-        break;
-      case 'bedroom_fragment':
-        return bedroomInputText();
-        break;
-      case 'other_room_fragment':
-        return otherRoomInputText();
-        break;
-      default:
-        return "unmatched fragment type";
-    }
-  }
-
-  const handleSubmit = (e) => {
+   const handleSubmit = (e, inputText) => {
     e.preventDefault();
     setLoading(true);
     createRequest(
       "/listing_fragments.json",
       {
         listing_fragment: {
-          input_text: inputTextForStep(),
+          input_text: inputText,
           request_type: stepNames[step - 1]
         },
       },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
-  }
-
-  const updateBedroomInState = (index, newValue) => {
-    const { bedrooms } = inputFields;
-    let newBedrooms = [ ...bedrooms ];
-    newBedrooms[index] = newValue;
-    setField('bedrooms', newBedrooms);
   }
 
   const keyFeaturesForm = () => {
@@ -204,13 +129,13 @@ const Form = ({
 
   const otherRoomForm = () => {
     return (
-      <form onSubmit={handleSubmit} className="pt-4">
-        <OtherRoomForm
-          rooms={inputFields.rooms}
-          onChange={(rooms) => setField('rooms', rooms)}
-        />
-        {stepButton()}
-      </form>
+      <OtherRoomForm
+        inputFields={inputFields}
+        rooms={inputFields.rooms}
+        onChange={(rooms) => setField('rooms', rooms)}
+        handleSubmit={handleSubmit}
+        stepButton={stepButton}
+      />
     )
   }
 
@@ -233,10 +158,9 @@ const Form = ({
   const stepBar = (number, name) => {
     const selectedStyle = "font-bold text-lg"
     const unSelectedStyle = "font-bold text-gray-400 text-lg"
-    const isViewedStep = true
     return (
       <div>
-        <div onClick={() => isViewedStep && setStep(number)} className={`${isViewedStep ? "cursor-pointer" : ""} pb-4`}>
+        <div onClick={() => setStep(number)} className="cursor-pointer pb-4">
           <h1 className={step === number ? selectedStyle : unSelectedStyle }>
             Step {number}: {displayNameFor(name)}
           </h1>
@@ -248,12 +172,14 @@ const Form = ({
 
   const stepButton = () => {
     const buttonText = step === 4 ? 'Finish' : 'Next';
+    const activeStep = stepNames[step-1];
+    const userCharacters = userCharactersFor(activeStep, inputFields);
     return (
       <>
         <div className="flex justify-center py-8 w-full">
           <Submit
-            inputText={userCharacters()}
-            userInputLength={userCharacters().length}
+            inputText={userCharacters}
+            userInputLength={userCharacters.length}
             maxUserInput={requestStepCharacterLimit}
             loading={loading}
             runsRemaining={runsRemaining}
@@ -265,37 +191,20 @@ const Form = ({
     )
   }
 
-  const resetButton = () => {
-    if (step === 5) {
-      return (
-        <div className="flex justify-center py-8 w-full">
-          <button
-            disabled={loading}
-            className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}
-            type="button"
-            onClick={resetForm}
-          >
-            Start again
-          </button>
-        </div>
-      )
-    }
-  }
-
-
   const withTransition = (children, contentStep) => {
+    console.log({step, contentStep})
     return (
-    //<Transition
-      //show={step === contentStep && !leaveTransition}
-      //enter="transition ease-linear transform duration-200"
-      //enterFrom="scale-25 opacity-0"
-      //enterTo="scale-100 opacity-100"
+    <Transition
+      show={step === contentStep}
+      enter="transition ease-linear transform duration-1000"
+      enterFrom="scale-25 opacity-0"
+      enterTo="scale-100 opacity-100"
       //leave="transition ease-linear transform duration-500"
       //leaveFrom="translate-y-full opacity-100"
       //leaveTo="translate-y-0 opacity-0"
-    //>
-       children
-    //</Transition>
+    >
+      {children}
+    </Transition>
     )
   }
 
@@ -307,16 +216,6 @@ const Form = ({
       area_description_fragment: areaForm()
     }
     return forms[stepName];
-  }
-
-  const displayNameFor = (stepName) => {
-    const names = {
-      summary_fragment: 'Key Features',
-      bedroom_fragment: 'Bedrooms',
-      other_room_fragment: 'Other Rooms',
-      area_description_fragment: 'Area'
-    }
-    return names[stepName];
   }
 
 
@@ -339,7 +238,6 @@ const Form = ({
   }
 
   const nextStepButtons = () => {
-    const defaultStepOrder = ['summary_fragment', 'bedroom_fragment', 'other_room_fragment', 'area_description_fragment']
     const buttonSteps = defaultStepOrder.filter(s => !stepNames.includes(s));
     return buttonSteps.map((buttonName) => {
       return (
@@ -354,27 +252,21 @@ const Form = ({
   }
 
   const nextStepBar = () => {
-    if (step > stepNames.length) {
-      return (
-        <Transition
-          show={true}
-          enter="transition ease-linear transform duration-200"
-          enterFrom="scale-25 opacity-0"
-          enterTo="scale-100 opacity-100"
-          leave="transition ease-linear transform duration-500"
-          leaveFrom="translate-y-full opacity-100"
-          leaveTo="translate-y-0 opacity-0"
-        >
- 
-          <div className="my-4">
-            <p className="text-center">Now add:</p>
-            <div className="mb-4 flex mt-8 border-red-500 justify-center">
-              {nextStepButtons()}
-            </div>
+    return (
+      <Transition
+        show={step > stepNames.length}
+        enter="transition ease-linear transform duration-1000"
+        enterFrom="scale-25 opacity-0"
+        enterTo="scale-100 opacity-100"
+      >
+        <div className="mb-8 mt-4">
+          <p className="text-gray-600 font-medium text-center">Now add:</p>
+          <div className="mb-4 flex mt-8 border-red-500 justify-center">
+            {nextStepButtons()}
           </div>
-        </Transition>
-      )
-    }
+        </div>
+      </Transition>
+    )
   }
 
   const resetBar = () => {

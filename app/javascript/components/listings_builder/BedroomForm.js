@@ -4,6 +4,11 @@ import BedroomInput from '../rooms/BedroomInput';
 
 const BedroomForm = ({ inputFields, updateBedroomInState, handleSubmit, stepButton }) => {
 
+  const bedroomInputText = () => {
+    const { bedrooms } = inputFields;
+    return bedrooms.map((b, i) => b.length >= 3 ? `bedroom ${i + 1}: ${b}` : "").join("\n");
+  }
+
   const bedroomRow = (title, index, placeholderText) => {
     return (
       <BedroomInput
@@ -34,7 +39,7 @@ const BedroomForm = ({ inputFields, updateBedroomInState, handleSubmit, stepButt
   });
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col pt-4">
+    <form onSubmit={(e) => handleSubmit(e, bedroomInputText())} className="flex flex-col pt-4">
       <div className="mb-6">
         <p className="mt-1 text-sm text-gray-700">
           Add details specific to each bedroom.

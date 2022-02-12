@@ -30,6 +30,13 @@ const KeyFeaturesForm = ({
     }
   }
 
+  const assembleHeadline = () => {
+    const { bedroom_count, property_type, location, ideal_for, key_features } = inputFields;
+    const first = `- ${bedroom_count} bedroom ${property_type} in ${location}\n`;
+    const second = ideal_for.length > 3 ? `- ideal for ${ideal_for}\n` : "";
+    return `${first}${second}${key_features}`
+  }
+
   const bedroomsCountRow = () => {
     return (
       <NumberField
@@ -90,7 +97,7 @@ const KeyFeaturesForm = ({
   };
 
   return (
-    <form className="pt-2" onSubmit={handleSubmit}>
+    <form className="pt-2" onSubmit={(e) => handleSubmit(e, assembleHeadline())}>
       <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section. <span className="italic font-medium">This is a new feature - we are still making improvements.</span></p>
       {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
       {textInputRow('Location', 'location', '', true)}

@@ -11,9 +11,8 @@ import CopyButton from '../common/CopyButton';
 import LanguageToggle from '../common/LanguageToggle';
 
 const english = "EN";
-const fragmentOrder = ["summary_fragment", "bedroom_fragment_step_2", "other_room_fragment_step_2"];
 
-const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
+const Results = ({ runsRemaining, results, onRerun, loading, setLoading, stepNames }) => {
   const [translations, setTranslations] = useState({});
   const [languageVisible, setLanguageVisible] = useState(english);
   const [errors, setErrors] = useState(null);
@@ -148,7 +147,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
   }
 
   const resultActionButtons = (visibleResults) => {
-    if (visibleResults.length > 2) {
+    if (visibleResults.length > 1) {
       return (
         <div className="flex justify-center">
           <LanguageToggle
@@ -163,9 +162,19 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
     }
   }
 
+  const resultsKeysInStepOrder = () => {
+    const resultForStep = {
+      summary_fragment: 'summary_fragment',
+      bedroom_fragment: 'bedroom_fragment_step_2',
+      other_room_fragment: 'other_room_fragment_step_2',
+      area_description_fragment: 'area_description_fragment',
+    }
+    return stepNames.map(step => resultForStep[step]);
+  }
+
   const selectVisibleResults = () => {
     let visible = [];
-    fragmentOrder.forEach((key) => {
+    resultsKeysInStepOrder().forEach((key) => {
       if (resultsByRequestType[key] && typeof(visibleResultIndexes[key]) === 'number') {
         const index = visibleResultIndexes[key];
         visible.push(resultsByRequestType[key][index]);
@@ -235,7 +244,8 @@ Results.propTypes = {
   results: PropTypes.array,
   runsRemaining: PropTypes.number,
   taskRun: PropTypes.object,
-  onRerun: PropTypes.func
+  onRerun: PropTypes.func,
+  stepNames: PropTypes.array
 };
 
 export default Results;

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import { randId } from '../../helpers/utils';
 
@@ -8,10 +9,10 @@ const maxDetailLength = 150;
 const charSoftWarningLength = 30;
 const charHardWarningLength = 10;
 
-const RoomForm = ({ rooms, onChange }) => {
+const RoomForm = ({ inputFields, rooms, onChange, handleSubmit, stepButton }) => {
 
   useEffect(() => {
-    if (rooms.length === 0) { addRoom() };
+    if (rooms.length === 0) { addRoom() }
   }, [])
 
   const addRoom = () => {
@@ -35,6 +36,11 @@ const RoomForm = ({ rooms, onChange }) => {
 
   const updateIfLengthAllowed = (room, key, value, charLimit) => {
     value.length <= charLimit && updateRoom({ ...room, [key]: value });
+  }
+
+  const otherRoomInputText = () => {
+    const { rooms } = inputFields;
+    return rooms.map(r => r.name.length >= 3 ? `${r.name}: ${r.description}` : "").join("\n");
   }
 
   const header = () => {
@@ -152,14 +158,25 @@ const RoomForm = ({ rooms, onChange }) => {
   }
 
   return (
-    <div className="flex flex-col">
-      {header()}
-      <div>
-        {roomList()}
-        {addRoomButton()}
+    <form onSubmit={(e) => handleSubmit(e, otherRoomInputText())} className="pt-4">
+      <div className="flex flex-col">
+        {header()}
+        <div>
+          {roomList()}
+          {addRoomButton()}
+        </div>
       </div>
-    </div>
+      {stepButton()}
+    </form>
   )
+}
+
+RoomForm.propTypes = {
+  inputFields: PropTypes.object,
+  rooms: PropTypes.array,
+  onChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  stepButton: PropTypes.func
 }
 
 export default RoomForm;

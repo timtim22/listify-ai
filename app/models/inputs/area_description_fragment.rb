@@ -1,16 +1,19 @@
-class AreaDescription < ApplicationRecord
+class Inputs::AreaDescriptionFragment < ApplicationRecord
   include Inputable
+
+  self.table_name = 'area_description_fragments'
 
   belongs_to :search_location
   has_many :task_runs, as: :input_object, dependent: :destroy
+  has_many :task_results, through: :task_runs
 
   validates :request_type, presence: true
   validates :detail_text, length: { minimum: 0, maximum: 300 }
   validate :selected_ids, on: :create
 
   def self.new_from(params)
-    AreaDescription.new(
-      request_type: 'area_description',
+    Inputs::AreaDescriptionFragment.new(
+      request_type: 'area_description_fragment',
       search_location: SearchLocation.find(params[:search_location_id]),
       detail_text: params[:detail_text],
       input_data: {

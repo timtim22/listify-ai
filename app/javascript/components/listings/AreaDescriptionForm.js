@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import ErrorNotice from '../common/ErrorNotice';
-import GeneratingSpinner from '../common/GeneratingSpinner';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import Submit from '../inputs/Submit';
 
@@ -16,7 +14,10 @@ const AreaDescriptionForm = ({
   runsRemaining,
   setErrors,
   loading,
-  setLoading
+  setLoading,
+  resetForm,
+  shouldGenerateFragment,
+  onFragmentResponse
 }) => {
 
   const [userInputLength, setUserInputLength] = useState(0);
@@ -42,10 +43,13 @@ const AreaDescriptionForm = ({
     e.preventDefault();
     setErrors(null);
     setLoading(true);
+    const resource = shouldGenerateFragment ? 'listing_fragment' : 'area_description';
+    const requestType = shouldGenerateFragment ? 'area_description_fragment' : 'area_description';
+    const onSuccess = shouldGenerateFragment ? onFragmentResponse : handleTaskRun;
     createRequest(
-      "/area_descriptions.json",
-      { area_description: selectedResults() },
-      (response) => { handleTaskRun(response) },
+      `/${resource}s.json`,
+      { [resource]: { ...selectedResults(), request_type: requestType }},
+      (response) => { onSuccess(response) },
       (e) => { setErrors(e); setLoading(false); }
     )
   }
@@ -196,9 +200,11 @@ const AreaDescriptionForm = ({
 
     return (
       <div className="w-full flex justify-center">
-        <div className="flex justify-center w-4/5">
-          <form className="text-sm" onSubmit={handleSubmit}>
-            <p>Here's what we found nearby. For best results, tick at least 3 boxes and add something to the keywords section. Then tap generate.</p>
+        <div className={`flex justify-center ${shouldGenerateFragment ? "w-full" : "w-4/5"}`}>
+          <form className="text-sm mt-2" onSubmit={handleSubmit}>
+            <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
+              Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>
+            </p>
             <br />
             {attractionSection(topAttractions, 'Attractions', attractionRow)}
             <br />
@@ -216,6 +222,21 @@ const AreaDescriptionForm = ({
   } else {
     return null;
   }
+}
+
+AreaDescriptionForm.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  setErrors: PropTypes.func,
+  searchResult: PropTypes.object,
+  descriptionParams: PropTypes.object,
+  setDescriptionParams: PropTypes.func,
+  runsRemaining: PropTypes.number,
+  handleTaskRun: PropTypes.func,
+  resetForm: PropTypes.func,
+  shouldGenerateFragment: PropTypes.bool,
+  onFragmentResponse: PropTypes.func
+
 }
 
 export default AreaDescriptionForm;

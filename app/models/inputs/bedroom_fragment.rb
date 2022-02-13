@@ -6,5 +6,6 @@ class Inputs::BedroomFragment < ApplicationRecord
   has_many :task_runs, as: :input_object, dependent: :destroy
   has_many :task_results, through: :task_runs
 
-  validates :request_type, :input_text, presence: true
+  validates :request_type, presence: true
+  validates :input_text, length: { minimum: 3, message: 'bedrooms need at least one word' }
 end

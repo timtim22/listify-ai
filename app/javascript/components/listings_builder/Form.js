@@ -76,11 +76,18 @@ const Form = ({
     setStepNames([defaultStepOrder[0]]);
   }
 
+  const setNextStep = () => {
+    if (stepNames.length === 4) {
+      setStep(5);
+    } else {
+      setStep(step + 1);
+    }
+  }
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
     onResult(response);
-    setStep(step + 1);
+    setNextStep();
   }
 
    const handleSubmit = (e, inputText) => {

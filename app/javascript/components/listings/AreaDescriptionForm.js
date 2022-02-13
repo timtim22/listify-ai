@@ -16,7 +16,8 @@ const AreaDescriptionForm = ({
   loading,
   setLoading,
   resetForm,
-  shouldGenerateFragment
+  shouldGenerateFragment,
+  onFragmentResponse
 }) => {
 
   const [userInputLength, setUserInputLength] = useState(0);
@@ -44,10 +45,11 @@ const AreaDescriptionForm = ({
     setLoading(true);
     const resource = shouldGenerateFragment ? 'listing_fragment' : 'area_description';
     const requestType = shouldGenerateFragment ? 'area_description_fragment' : 'area_description';
+    const onSuccess = shouldGenerateFragment ? onFragmentResponse : handleTaskRun;
     createRequest(
       `/${resource}s.json`,
       { [resource]: { ...selectedResults(), request_type: requestType }},
-      (response) => { handleTaskRun(response) },
+      (response) => { onSuccess(response) },
       (e) => { setErrors(e); setLoading(false); }
     )
   }
@@ -199,7 +201,7 @@ const AreaDescriptionForm = ({
     return (
       <div className="w-full flex justify-center">
         <div className={`flex justify-center ${shouldGenerateFragment ? "w-full" : "w-4/5"}`}>
-          <form className="text-sm" onSubmit={handleSubmit}>
+          <form className="text-sm mt-2" onSubmit={handleSubmit}>
             <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
               Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>
             </p>
@@ -231,7 +233,10 @@ AreaDescriptionForm.propTypes = {
   setDescriptionParams: PropTypes.func,
   runsRemaining: PropTypes.number,
   handleTaskRun: PropTypes.func,
-  shouldGenerateFragment: PropTypes.bool
+  resetForm: PropTypes.func,
+  shouldGenerateFragment: PropTypes.bool,
+  onFragmentResponse: PropTypes.func
+
 }
 
 export default AreaDescriptionForm;

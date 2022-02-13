@@ -14,7 +14,8 @@ const AreaForm = ({
   results,
   setResults,
   handleTaskRun,
-  shouldGenerateFragment
+  shouldGenerateFragment,
+  onFragmentResponse
 }) => {
   const [errors, setErrors] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
@@ -36,8 +37,8 @@ const AreaForm = ({
   }, [descriptionParams]);
 
   const handleSearchResult = (newResult) => {
-    setFormVisible('description_form');
     setSearchResult(newResult);
+    if (newResult !== null) { setFormVisible('description_form') }
   };
 
   const resetForm = () => {
@@ -57,6 +58,7 @@ const AreaForm = ({
         setLoading={setLoading}
         errors={errors}
         setErrors={setErrors}
+        shouldGenerateFragment={shouldGenerateFragment}
       />}
       {formVisible === 'description_form' && <AreaDescriptionForm
         searchResult={searchResult}
@@ -67,8 +69,9 @@ const AreaForm = ({
         loading={loading}
         setLoading={setLoading}
         setErrors={setErrors}
-        shouldGenerateFragment={shouldGenerateFragment}
         resetForm={resetForm}
+        shouldGenerateFragment={shouldGenerateFragment}
+        onFragmentResponse={onFragmentResponse}
       />}
     </div>
   )
@@ -81,7 +84,8 @@ AreaForm.propTypes = {
   results: PropTypes.array,
   setResults: PropTypes.func,
   handleTaskRun: PropTypes.func,
-  shouldGenerateFragment: PropTypes.bool
+  shouldGenerateFragment: PropTypes.bool,
+  onFragmentResponse: PropTypes.func
 }
 
 export default AreaForm;

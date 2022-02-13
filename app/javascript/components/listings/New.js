@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
+import { defaultStepOrder } from '../../helpers/listingBuilder';
 import RoomFormContainer from '../rooms/FormContainer';
 import AreaForm from './AreaForm';
 import ListingBuilderForm from '../listings_builder/Form';
@@ -23,6 +24,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
   const [errors, setErrors] = useState(null);
+  const [builderStepNames, setBuilderStepNames] = useState([defaultStepOrder[0]]);
 
 
   useEffect(() => { resetState() }, [formType]);
@@ -30,6 +32,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const resetState = () => {
     if (taskRun) { setTaskRun(null) }
     if (results) { setResults([]) }
+    if (loading) { setLoading(false)}
   }
 
   const toggleLoading = (newState, isRerun = false) => {
@@ -103,6 +106,8 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           onResult={handleTaskRun}
           resetState={() => resetState()}
           taskRun={taskRun}
+          stepNames={builderStepNames}
+          setStepNames={setBuilderStepNames}
         />
       )
     } else {
@@ -150,6 +155,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
             results={results}
             taskRun={taskRun}
             onRerun={handleTaskRun}
+            stepNames={builderStepNames}
           />
         </>
       )

@@ -98,7 +98,7 @@ const KeyFeaturesForm = ({
 
   return (
     <form className="pt-2" onSubmit={(e) => handleSubmit(e, assembleHeadline())}>
-      <p className="mb-6 mt-2">Use our step-by-step tool to build a listing. Text will appear in the results panel as you complete each section. <span className="italic font-medium">This is a new feature - we are still making improvements.</span></p>
+      <p className="mb-6 mt-2">Build your listing step-by-step, choosing the next section as you go. Text will appear in the results panel as you complete each section.</p>
       {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
       {textInputRow('Location', 'location', '', true)}
       {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}

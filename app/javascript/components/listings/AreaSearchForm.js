@@ -8,7 +8,8 @@ const AreaSearchForm = ({
   setLoading,
   setSearchResult,
   errors,
-  setErrors
+  setErrors,
+  shouldGenerateFragment
   }) => {
 
   const [inputFields, setInputFields] = useState({ search_text: '' });
@@ -79,7 +80,7 @@ const AreaSearchForm = ({
 
   return (
     <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
-      <div className="flex flex-col w-4/5 max-w-2xl">
+      <div className={`flex flex-col w-4/5 max-w-2xl ${shouldGenerateFragment ? "w-full" : "w-4/5"}`}>
        {textRow('Location name','search_text','e.g. Waterloo, London', true)}
        {!isAscii(inputFields['search_text']) && asciiWarning()}
         {isAscii(inputFields['search_text']) &&
@@ -97,7 +98,8 @@ AreaSearchForm.propTypes = {
   loading: PropTypes.bool,
   setLoading: PropTypes.func,
   errors: PropTypes.object,
-  setErrors: PropTypes.func
+  setErrors: PropTypes.func,
+  shouldGenerateFragment: PropTypes.bool,
 }
 
 export default AreaSearchForm;

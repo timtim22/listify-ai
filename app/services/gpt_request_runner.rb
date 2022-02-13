@@ -19,7 +19,7 @@ class GptRequestRunner
       gpt_call = GptCallGenerator.generate_for(prompt, task_run.input_object)
       gpt_call.execute!
     else
-      mock_response
+      mock_response(prompt)
     end
   end
 
@@ -66,11 +66,12 @@ class GptRequestRunner
     end
   end
 
-  def mock_response
+  def mock_response(prompt)
+    text = "This is a mock #{prompt.prompt_set.request_type.upcase} response in development mode, advertising a wonderful stay in a 3 bed house in Malaga."
     {
-      check_result: { decision: "pass", label: "0", data: "" },
+      check_result: { decision: 'pass', label: '0', data: '' },
       success: true,
-      result_text: 'This is a mock response in development mode, advertising a wonderful stay in a 3 bed house in Malaga.'
+      result_text: "#{text} #{text}"
     }
   end
 end

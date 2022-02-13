@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { createRequest } from '../../helpers/requests';
@@ -22,25 +22,19 @@ const newInputFields = {
 
 const requestStepCharacterLimit = 800;
 
-const firstStep = "summary_fragment";
-
 const Form = ({
   runsRemaining,
   loading,
   setLoading,
   results,
   onResult,
-  resetState,
-  taskRun
+  stepNames,
+  setStepNames,
+  resetState
 }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
-  const [stepNames, setStepNames] = useState([firstStep]);
-
-  useEffect(() => { // needed as area form calls a different submit function
-    if (taskRun) { setStep(step + 1) }
-  }, [taskRun]);
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
@@ -79,13 +73,14 @@ const Form = ({
     setInputFields(newInputFields);
     resetState();
     setStep(1);
-    setStepNames([firstStep]);
+    setStepNames([defaultStepOrder[0]]);
   }
 
 
   const handleRequestSuccess = (response) => {
     setErrors(null);
     onResult(response);
+    setStep(step + 1);
   }
 
    const handleSubmit = (e, inputText) => {
@@ -150,6 +145,7 @@ const Form = ({
           setResults={() => {}}
           runsRemaining={runsRemaining}
           shouldGenerateFragment={true}
+          onFragmentResponse={handleRequestSuccess}
         />
       </div>
     )
@@ -191,23 +187,6 @@ const Form = ({
     )
   }
 
-  const withTransition = (children, contentStep) => {
-    console.log({step, contentStep})
-    return (
-    <Transition
-      show={step === contentStep}
-      enter="transition ease-linear transform duration-1000"
-      enterFrom="scale-25 opacity-0"
-      enterTo="scale-100 opacity-100"
-      //leave="transition ease-linear transform duration-500"
-      //leaveFrom="translate-y-full opacity-100"
-      //leaveTo="translate-y-0 opacity-0"
-    >
-      {children}
-    </Transition>
-    )
-  }
-
   const formFor = (stepName) => {
     const forms = {
       summary_fragment: keyFeaturesForm(),
@@ -218,22 +197,31 @@ const Form = ({
     return forms[stepName];
   }
 
-
-  const contentFor = (index, stepName) => {
-    if (step === index) {
-      const form = formFor(stepName);
-      return withTransition(form, index);
-    }
-  };
-
   const stepBars = () => {
-    return stepNames.map((name, index) => {
-      return (
-        <div key={name}>
-          {stepBar(index + 1, name)}
-          {contentFor(index + 1, name)}
-        </div>
-      )
+    return defaultStepOrder.map((name, index) => {
+      if (name === "summary_fragment") {
+        return (
+          <div key={name}>
+            {stepBar(index + 1, stepNames[index])}
+            {step === index + 1 && formFor(stepNames[index])}
+          </div>
+        )
+
+      } else {
+        return (
+          <div key={name}>
+            <Transition
+              show={index < stepNames.length}
+              enter="transition ease-linear transform duration-500"
+              enterFrom="scale-25 opacity-0"
+              enterTo="scale-100 opacity-100"
+            >
+              {stepBar(index + 1, stepNames[index])}
+              {step === index + 1 && formFor(stepNames[index])}
+            </Transition>
+          </div>
+        )
+      }
     });
   }
 
@@ -255,31 +243,34 @@ const Form = ({
     return (
       <Transition
         show={step > stepNames.length}
-        enter="transition ease-linear transform duration-1000"
+        enter="transition ease-linear transform duration-500"
         enterFrom="scale-25 opacity-0"
         enterTo="scale-100 opacity-100"
       >
-        <div className="mb-8 mt-4">
+        {step <= 4 && <div className="mb-8 mt-4">
           <p className="text-gray-600 font-medium text-center">Now add:</p>
-          <div className="mb-4 flex mt-8 border-red-500 justify-center">
+          <div className="mb-4 flex mt-8 justify-center">
             {nextStepButtons()}
           </div>
-        </div>
+        </div>}
       </Transition>
     )
   }
 
   const resetBar = () => {
-    if (step > 2) {
+    if (stepNames.length >= 2) {
+      const cursorStyle = loading ? "cursor-not-allowed" : "cursor-pointer";
+      const notCompletedStep = [stepNames.length, stepNames.length + 1].includes(step);
       return (
-        <div className="w-full flex justify-center mb-4">
+        <div className="w-full flex flex-col justify-center mb-4">
+          {(notCompletedStep && step !== 5) && <div className="mb-4 w-full h-px bg-gray-200"></div>}
           <button
             disabled={loading}
             type="button"
             onClick={resetForm}
-            className={`text-xs secondary-link ${loading ? "cursor-not-allowed" : "cursor-pointer"}`}
+            className={`text-xs secondary-link ${cursorStyle} mt-4`}
           >
-            Or start again
+            Clear all sections and start again
           </button>
         </div>
       )
@@ -312,7 +303,8 @@ Form.propTypes = {
   results: PropTypes.array,
   onResult: PropTypes.func,
   resetState: PropTypes.func,
-  taskRun: PropTypes.object,
+  stepNames: PropTypes.array,
+  setStepNames: PropTypes.func,
   handleTaskRun: PropTypes.func
 }
 

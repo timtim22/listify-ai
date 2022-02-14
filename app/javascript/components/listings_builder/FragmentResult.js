@@ -27,23 +27,25 @@ const FragmentResult = ({
     }
   };
 
-  const displayText = formatText(result);
+  const displayText = () => {
+    let text = formatText(result);
+    if (text === "") {
+      text = "Sorry - something went wrong with this request. Tap the refresh button to try again."
+    }
+    return text;
+  };
 
-  if (displayText !== "") {
-    return (
-      <div key={result.id} className="flex h-full items-stretch pt-4">
-        <div className="flex-grow">
-          <p className="text-sm whitespace-pre-wrap">{displayText}</p>
-        </div>
-        <div className="pl-4 flex flex-col items-start flex-shrink-0">
-          {refreshButton}
-          {cyclePreviousButton(result)}
-        </div>
+  return (
+    <div key={result.id} className="flex h-full items-stretch pt-4">
+      <div className="flex-grow">
+        <p className="text-sm whitespace-pre-wrap">{displayText()}</p>
       </div>
-    )
-  } else {
-    return null;
-  }
+      <div className="pl-4 flex flex-col items-start flex-shrink-0">
+        {refreshButton}
+        {cyclePreviousButton(result)}
+      </div>
+    </div>
+  )
 };
 
 FragmentResult.propTypes = {

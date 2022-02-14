@@ -20,6 +20,7 @@ class GptRequestRunner
       gpt_call.execute!
     else
       mock_response(prompt)
+      #mock_error_response
     end
   end
 
@@ -72,6 +73,13 @@ class GptRequestRunner
       check_result: { decision: 'pass', label: '0', data: '' },
       success: true,
       result_text: "#{text} #{text}"
+    }
+  end
+
+  def mock_error_response
+    {
+      success: false,
+      error: "{\n  \"error\": {\n    \"message\": \"The server is currently overloaded with other requests. Sorry about that! You can retry your request, or contact support@openai.com if the error persists.\",\n    \"type\": \"server_error\",\n    \"param\": null,\n    \"code\": null\n  }\n}\n"
     }
   end
 end

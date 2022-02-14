@@ -16,7 +16,7 @@ class GptTwoStepRequestWorker
         task_run_2.task_results.create!(
           success: false,
           prompt: prompt,
-          result_text: "An error occurred processing this request. We're sorry about that. Please try again shortly.",
+          result_text: "An error occurred processing this request. We're sorry about that. Please try again or contact us if this keeps happening.",
           error: "An error occurred in a previous step of this request.".to_json
         )
       end

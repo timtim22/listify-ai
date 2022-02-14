@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: arial; margin: 0px;">
+    <div style="padding: 1rem;">
+     <div style="line-height: 1.6; padding-bottom: 0.5rem;">
+
+       <p>Confirmation is needed to process your next <%= @plan_name.capitalize %>  subscription payment, and continue your access to Listify.
+       <p><%= link_to "Confirm your payment", payment_url(@payment_intent.id), target: "_blank" %></p>
+
+       <h4>Why does this payment need confirmation?</h4>
+       <p>Your bank sometimes requires an additional step to make sure an online transaction was authorized. Because of regulation to protect consumers, many online payments now require two-factor authentication. Your bank ultimately decides when authentication is required to confirm a payment, but you may notice this step when you start paying for a service or when the cost changes.</p>
+
+       <p>If you need any help or have questions, reply to this email.</p>
+
+       <p style="margin-top: 2rem;">Have a great day,</p>
+     </div>
+      <div style="">
+        <%= image_tag "listify-logo.png", height: 50, alt: "Listify logo" %>
+      </div>
+
+      <div style="font-size: 0.75rem; line-height: 1rem; color: #9CA3AF">
+        <p>
+          Need help with Listify, wish to unsubscribe, or something else? Hit reply to this email to let us know.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+

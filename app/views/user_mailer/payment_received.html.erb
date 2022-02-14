@@ -8,7 +8,7 @@
      <div style="line-height: 1.6; padding-bottom: 0.5rem;">
        <p>We received payment for your Listify subscription (<%= number_to_currency(@charge.amount / 100, unit: '£') %>). Thank you so much for being a Listify subscriber!</p>
 
-       <p>You can view your subscription or download your receipt in the <%= link_to "account section of the app", "https://app.listify.ai/subscription", target: "_blank" %></p>
+       <p>You can view your subscription or download your receipt in the <%= link_to "account section of the app", subscription_url, target: "_blank" %></p>
 
        <p>If you need any help, have feedback or suggestions, reply to this email.</p>
 

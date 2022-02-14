@@ -64,4 +64,15 @@ class UserMailer < ApplicationMailer
       subject: 'Thank you for your Listify payment'
     )
   end
+
+  def payment_action_required(user, payment_intent_id, subscription)
+    @user = user
+    @payment_intent = Stripe::PaymentIntent.retrieve(payment_intent_id)
+    @subscription = subscription
+    @plan_name = subscription.plan.name
+    mail(
+      to: @user.email,
+      subject: 'Payment confirmation required'
+    )
+  end
 end

@@ -26,4 +26,10 @@ class UserMailerPreview < ActionMailer::Preview
   def payment_received
     UserMailer.payment_received(User.first, Charge.first)
   end
+
+  def payment_action_required
+    payment_intent = Stripe::PaymentIntent.retrieve('pi_3KRDAKAAShUZq81I0LlS5tyO')
+
+    UserMailer.payment_action_required(User.first, payment_intent, Subscription.first)
+  end
 end

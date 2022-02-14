@@ -9,6 +9,7 @@ const ResultsPoll = ({ taskRun, onResult }) => {
   const [polling, setPolling] = useState(false);
   const [results, setResults] = useState([]);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
+  const [expectedResultType, setExpectedResultType] = useState(null);
 
   // start polling
   useEffect(() => {
@@ -25,10 +26,10 @@ const ResultsPoll = ({ taskRun, onResult }) => {
     }
   }, [results]);
 
-  // stop, some results received and user has waited 25 seconds
+  // stop, no result received and user has waited 25 seconds
   useEffect(() => {
-    if (polling && taskRun && results.length >= 1 && secondsElapsed > 25) {
-      endPolling();
+    if (polling && taskRun && secondsElapsed > 25) {
+      setResults([errorResult()])
     }
   }, [secondsElapsed]);
 
@@ -43,11 +44,31 @@ const ResultsPoll = ({ taskRun, onResult }) => {
     if (taskRun) {
       getRequest(
         `/listing_builder_task_results.json?task_run_id=${taskRun.id}`,
-        (response) => { setResults(response) },
-        (e) => { setErrors(e);  }
+        (response) => {setResponseInState(response)},
+        (e) => { console.log(e);  }
       )
     }
   }
+
+  const setResponseInState = (response) => {
+    const { result_type, task_results } = response;
+    if (expectedResultType !== result_type) {
+      setExpectedResultType(result_type)
+    }
+    if (task_results && task_results.length > 0) {
+      setResults(task_results);
+    }
+  };
+
+  const errorResult = () => {
+    return {
+      id: 1,
+      request_type: expectedResultType,
+      task_run_id: taskRun.id,
+      result_text: null,
+      success: false
+    }
+  };
 
   if (polling) {
     return (
@@ -59,6 +80,11 @@ const ResultsPoll = ({ taskRun, onResult }) => {
   } else {
     return null;
   }
+}
+
+ResultsPoll.propTypes = {
+  taskRun: PropTypes.object,
+  onResult: PropTypes.func
 }
 
 export default ResultsPoll;

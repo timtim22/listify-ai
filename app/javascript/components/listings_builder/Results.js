@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import { groupBy, sortObjectsByDate } from '../../helpers/utils';
+import { groupBy } from '../../helpers/utils';
 import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
@@ -29,8 +29,7 @@ const Results = ({ runsRemaining, results, onRerun, loading, setLoading, stepNam
 
   const setVisibleResults = () => {
     if (Object.keys(resultsByRequestType).length > 0) {
-      const orderedByTime   = sortObjectsByDate(results);
-      const lastRequestType = orderedByTime[orderedByTime.length -1].request_type
+      const lastRequestType = results[results.length -1].request_type
       const resultsCount    = resultsByRequestType[lastRequestType].length;
 
       setVisibleResultIndexes({
@@ -41,8 +40,7 @@ const Results = ({ runsRemaining, results, onRerun, loading, setLoading, stepNam
   };
 
   const groupResultsByType = () => {
-    const orderedByTime = sortObjectsByDate(results);
-    const groupedResults = groupBy(orderedByTime, 'request_type');
+    const groupedResults = groupBy(results, 'request_type');
     setResultsByRequestType(groupedResults);
   }
 

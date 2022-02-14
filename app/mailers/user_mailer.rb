@@ -54,4 +54,14 @@ class UserMailer < ApplicationMailer
     )
     AdminMailer.subscription_swapped(@user, @plan_name).deliver_later
   end
+
+  def payment_received(user, charge)
+    @user = user
+    @charge = charge
+    @plan_name = user.subscription.plan.name
+    mail(
+      to: @user.email,
+      subject: 'Thank you for your Listify payment'
+    )
+  end
 end

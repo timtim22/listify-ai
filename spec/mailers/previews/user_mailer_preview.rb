@@ -22,4 +22,8 @@ class UserMailerPreview < ActionMailer::Preview
   def subscription_swapped
     UserMailer.subscription_swapped(Subscription.first.user)
   end
+
+  def payment_received
+    UserMailer.payment_received(User.first, Charge.first)
+  end
 end

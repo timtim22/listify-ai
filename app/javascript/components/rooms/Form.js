@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
@@ -13,7 +14,13 @@ const roomTypes = [
   { name: 'other rooms and spaces', value: 'others' }
 ]
 
-const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onResult }) => {
+const Form = ({
+  formType,
+  loading,
+  setLoading,
+  runsRemaining,
+  onResult
+  }) => {
   const [roomDescription, setRoomDescription] = useState({ ...newRoomDescription, request_type: formType });
   const [errors, setErrors] = useState(null);
   const [inputType, setInputType] = useState('bedrooms');
@@ -132,6 +139,14 @@ const Form = ({ showExample, formType, loading, setLoading, runsRemaining, onRes
       </form>
     </div>
   )
+}
+Form.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  onResult: PropTypes.func,
+  runsRemaining: PropTypes.number,
+  formType: PropTypes.string
 }
 
 export default Form;

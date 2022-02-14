@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
 import { defaultStepOrder } from '../../helpers/listingBuilder';
-import RoomFormContainer from '../rooms/FormContainer';
+import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
@@ -61,27 +61,26 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   };
 
   const displayForm = () => {
-    const commonProps = {
-      runsRemaining: runsRemaining,
-      setRunsRemaining: setRunsRemaining,
-      loading: loading,
-      setLoading: toggleLoading,
-      results: results,
-      setResults: setResults,
-      taskRun: taskRun,
-      handleTaskRun: handleTaskRun,
-    }
-
     if (formType === 'neighbourhood') {
       return (
-        <AreaForm {...commonProps} shouldGenerateFragment={false} />
+        <AreaForm
+          loading={loading}
+          setLoading={toggleLoading}
+          results={results}
+          setResults={setResults}
+          handleTaskRun={handleTaskRun}
+          runsRemaining={runsRemaining}
+          shouldGenerateFragment={false}
+        />
       );
     } else if (formType === 'room_description') {
       return (
-        <RoomFormContainer
-          {...commonProps}
+        <RoomForm
+          loading={loading}
+          setLoading={setLoading}
           formType={formType}
-          showExample={showExample}
+          runsRemaining={runsRemaining}
+          onResult={(response) => { setResults([]); handleTaskRun(response) }}
         />
       )
     } else if (formType === 'full_listing') {
@@ -118,7 +117,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           setLoading={toggleLoading}
           formType={formType}
           runsRemaining={runsRemaining}
-          onResult={handleTaskRun}
+          onResult={(response) => { setResults([]); handleTaskRun(response) }}
           showExample={showExample}
         />
       )

@@ -5,7 +5,7 @@ class TaskRunners::TwoStep
     task_run     = create_task_run(user, prompt_set, input_object, output_language)
     second_input = Input.create_with(DerivedInputObject.new(request_type: second_request_type), user).input_object
     prompt_set_2 = prompt_set_for(second_request_type)
-    task_run_2   = create_task_run(user, prompt_set_2, second_input, output_language)
+    task_run_2   = create_task_run(user, prompt_set_2, second_input, output_language, task_run.id)
 
     generate_gpt_results(task_run, prompt_set, task_run_2, prompt_set_2)
 
@@ -28,12 +28,13 @@ class TaskRunners::TwoStep
     prompt_set
   end
 
-  def create_task_run(user, prompt_set, input_object, output_language)
+  def create_task_run(user, prompt_set, input_object, output_language, upstream_task_run_id = nil)
     task_run = TaskRun.create!(
       user: user,
       prompt_set: prompt_set,
       input_object: input_object,
-      expected_results: prompt_set.prompts.count
+      expected_results: prompt_set.prompts.count,
+      upstream_task_run_id: upstream_task_run_id
     )
     create_translation_request(task_run, output_language)
     task_run

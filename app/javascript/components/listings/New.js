@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
-import { defaultStepOrder } from '../../helpers/listingBuilder';
+import { initialStepArray } from '../../helpers/listingBuilder';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import ListingBuilderForm from '../listings_builder/Form';
@@ -24,7 +24,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
   const [errors, setErrors] = useState(null);
-  const [builderStepNames, setBuilderStepNames] = useState([defaultStepOrder[0]]);
+  const [builderStepNames, setBuilderStepNames] = useState(initialStepArray);
 
 
   useEffect(() => { resetState() }, [formType]);
@@ -32,7 +32,10 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const resetState = () => {
     if (taskRun) { setTaskRun(null) }
     if (results) { setResults([]) }
-    if (loading) { setLoading(false)}
+    if (loading) { setLoading(false) }
+    if (builderStepNames !== initialStepArray) {
+      setBuilderStepNames(initialStepArray);
+    }
   }
 
   const toggleLoading = (newState, isRerun = false) => {

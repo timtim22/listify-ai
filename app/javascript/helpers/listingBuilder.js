@@ -5,6 +5,8 @@ export const defaultStepOrder = [
   'area_description_fragment'
 ]
 
+export const initialStepArray = [defaultStepOrder[0]];
+
 export const displayNameFor = (stepName) => {
   const names = {
     summary_fragment: 'Key Features',

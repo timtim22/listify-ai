@@ -6,17 +6,17 @@ class Prompt < ApplicationRecord
 
   validates :title, :content, presence: :true
 
-  ENGINES = ["ada", "babbage", "curie", "curie-instruct-beta", "davinci", "davinci-instruct-beta"].freeze
+  ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-001 text-davinci-001].freeze
 
   def self.new_from_defaults
-    self.new(
-      stop: "\\n",
+    new(
+      stop: '\\n',
       max_tokens: 200,
       temperature: 0.0,
       top_p: 1.0,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
-      engine: "davinci-instruct-beta"
+      engine: 'text-davinci-001'
     )
   end
 

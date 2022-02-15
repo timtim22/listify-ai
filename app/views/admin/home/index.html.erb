@@ -10,6 +10,7 @@
       <li><%= link_to "View statistics", admin_statistics_path %></li>
       <li><%= link_to "View feedback", task_run_feedbacks_path %></li>
       <li><%= link_to "Manage prompt sets", prompt_sets_path %></li>
+      <li><%= link_to 'Export CSV (temp)', admin_data_exports_path(format: "csv") %></li>
     </ol>
   <% end %>
 </div>

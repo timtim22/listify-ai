@@ -4,7 +4,7 @@ class Prompt < ApplicationRecord
 
   acts_as_list scope: :prompt_set
 
-  validates :title, :content, presence: :true
+  validates :title, :content, presence: true
 
   ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-001 text-davinci-001].freeze
 

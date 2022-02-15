@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     get 'index', to: 'home#index'
     resources :statistics, only: [:index]
     resources :user_locks, only: [:create, :destroy]
+    resources :data_exports, only: [:index]
   end
 
   namespace :legacy do

@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   resources :payments
   resources :charges
 
+  resources :recruitments, only: [:create]
+
   namespace :admin do
     get 'index', to: 'home#index'
     resources :statistics, only: [:index]

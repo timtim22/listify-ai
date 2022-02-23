@@ -23,9 +23,9 @@ class Demo::DataMask
 
   def obfuscate_name
     first_name = real_attrs.name.split(' ')[0]
-    #response = name_parser.get_name(first_name)
-    #gender = name_gender(response) || 'male'
-    gender = 'male'
+    response = name_parser.get_name(first_name)
+    gender = name_gender(response) || 'male'
+    #gender = 'male'
     "#{gender == 'male' ? MALE_NAME : FEMALE_NAME} #{SURNAME}"
   end
 

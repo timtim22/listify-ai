@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useScrollToTopOnError } from '../hooks';
-import { createRequest, redirectOnSuccess } from '../../helpers/requests';
+import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 
-const maxInput = 700;
+const maxInput = 1500;
 
 const Form = ({ onResult, loading, setLoading, promptSets }) => {
   const [playgroundAttempt, setPlaygroundAttempt] = useState({ request_type: promptSets[0].request_type, input_text: '' });

@@ -16,6 +16,10 @@ class ApiClients::NameParser
       #debug_output: $stdout
     }])
 
+    Rails.logger.debug 'NAME PARSE RESPONSE'
+    Rails.logger.debug response
+    Rails.logger.debug '------'
+
     if response.code == 200
       JSON.parse(response.body)
     else

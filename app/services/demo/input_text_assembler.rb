@@ -30,7 +30,15 @@ class Demo::InputTextAssembler
   end
 
   def format_role_string(r)
-    "#{r['title']} #{format_company_string(r['company'])}(#{r['date']})"
+    date_string = format_date_with_interval(r['date'])
+    "#{r['title']} #{format_company_string(r['company'])}(#{date_string})"
+  end
+
+  def format_date_with_interval(date_string)
+    date_string
+    #dates = date_string.split('-').map(&:strip)
+    #binding.pry
+    #dates
   end
 
   def format_education_string(e)

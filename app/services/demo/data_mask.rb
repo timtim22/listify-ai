@@ -4,8 +4,8 @@ class Demo::DataMask
   MALE_NAME = 'Johanes'.freeze
   FEMALE_NAME = 'Janett'.freeze
   SURNAME = 'Doxxe'.freeze
-  CURRENT_COMPANIES = ['FakeCompany', 'NotaReal Inc', 'MadeUp Partners'].freeze
-  PREV_COMPANIES = ['Nowhere Capital', 'Nonsuch Associates', 'NeverReal Affiliates', 'The Old Company'].freeze
+  CURRENT_COMPANIES = ['FakeCompany', 'NotaReal Inc', 'MadeUp Partners', 'Noone Executives', 'Imagined Co'].freeze
+  PREV_COMPANIES = ['Nowhere Capital', 'Nonsuch Associates', 'NeverReal Affiliates', 'Invented Company', 'The Old Company'].freeze
 
   def initialize(real_attrs)
     @real_attrs = real_attrs
@@ -15,8 +15,8 @@ class Demo::DataMask
   def obfuscate
     OpenStruct.new(
       name: obfuscate_name,
-      current_roles: obfuscate_companies(real_attrs.current_roles, CURRENT_COMPANIES),
-      previous_roles: obfuscate_companies(real_attrs.previous_roles, PREV_COMPANIES),
+      current_roles: obfuscate_companies(real_attrs.current_roles, CURRENT_COMPANIES, 'current'),
+      previous_roles: obfuscate_companies(real_attrs.previous_roles, PREV_COMPANIES, 'previous'),
       educations: real_attrs.educations
     )
   end
@@ -29,16 +29,31 @@ class Demo::DataMask
     "#{gender == 'male' ? MALE_NAME : FEMALE_NAME} #{SURNAME}"
   end
 
-  def obfuscate_companies(roles, fakelist)
-    roles.map.with_index do |role, index|
-      if ['', ' ', '-'].include?(role['company'])
-        role
-      else
-        fake_role = role.dup
-        fake_role['company'] = fakelist[index]
-        fake_role
-      end
+  def obfuscate_companies(roles, fakelist, list_type)
+    roles
+    #roles.map.with_index do |role, index|
+      #if ['', ' ', '-'].include?(role['company'])
+        #role
+      #else
+        #set_company_to_first_obscured(role, roles, fakelist, list_type)
+      #end
+    #end
+  end
+
+  def set_company_to_first_obscured(role, roles, fakelist, list_type)
+    fake_role = role.dup
+    if list_type == 'previous' && current_company_index_of(role['company'])
+      current_company_index = current_company_index_of(role['company'])
+      fake_role['company'] = CURRENT_COMPANIES[current_company_index]
+    else
+      first_occurrence = roles.find_index { |role_in_list| role_in_list['company'] == role['company'] }
+      fake_role['company'] = fakelist[first_occurrence]
     end
+    fake_role
+  end
+
+  def current_company_index_of(company)
+    real_attrs.current_roles.find_index { |role| role['company'] == company }
   end
 
   def deobfuscate_results(task_run)
@@ -47,9 +62,8 @@ class Demo::DataMask
 
   def deobfuscate_result(result_text)
     with_name = deobfuscate_name(result_text)
-    with_current_companies = deobfuscate_companies(with_name, real_attrs.current_roles, CURRENT_COMPANIES)
-    with_all_companies = deobfuscate_companies(with_current_companies, real_attrs.previous_roles, PREV_COMPANIES)
-    with_all_companies
+    #with_current_companies = deobfuscate_companies(with_name, real_attrs.current_roles, CURRENT_COMPANIES)
+    #deobfuscate_companies(with_current_companies, real_attrs.previous_roles, PREV_COMPANIES)
   end
 
   def deobfuscate_name(text)

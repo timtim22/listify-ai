@@ -46,7 +46,9 @@ Rails.application.routes.draw do
   resources :payments
   resources :charges
 
-  resources :recruitments, only: [:create]
+  resources :recruitments, only: [:new, :create]
+  post '/recruitments/create_job', to: 'recruitments#create_job'
+  get '/recruitments/fetch_job', to: 'recruitments#fetch_job'
 
   namespace :admin do
     get 'index', to: 'home#index'

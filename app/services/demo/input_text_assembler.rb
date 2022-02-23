@@ -6,7 +6,7 @@ class Demo::InputTextAssembler
       current_roles_string(inputs.current_roles),
       previous_roles_string(inputs.previous_roles),
       education_string(inputs.educations),
-      'output:'
+      'summary:'
     ].compact.join("\n")
   end
 

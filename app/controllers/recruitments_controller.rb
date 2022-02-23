@@ -1,7 +1,7 @@
 class RecruitmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
   before_action :add_allow_credentials_headers, only: [:create]
-  before_action :authencticate_admin, except: [:create]
+  before_action :authenticate_admin, except: [:create]
 
   #def add_allow_credentials_headers
     #response.headers['Access-Control-Allow-Origin'] = request.headers['Origin'] || '*'

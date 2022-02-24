@@ -18,7 +18,7 @@ class Demo::ProfileParamParser
   def format_roles(roles)
     roles.map do |role|
       role['company'] = trim_content(role['company']);
-      role['date'] = trim_content(role['date']);
+      #role['date'] = trim_content(role['date']);
       role
     end
   end

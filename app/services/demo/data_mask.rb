@@ -13,20 +13,25 @@ class Demo::DataMask
   end
 
   def obfuscate
+    gender = gender_for(real_attrs.name)
     OpenStruct.new(
-      name: obfuscate_name,
+      name: obfuscate_name(gender),
+      gender: gender,
       current_roles: obfuscate_companies(real_attrs.current_roles, CURRENT_COMPANIES, 'current'),
       previous_roles: obfuscate_companies(real_attrs.previous_roles, PREV_COMPANIES, 'previous'),
       educations: real_attrs.educations
     )
   end
 
-  def obfuscate_name
-    first_name = real_attrs.name.split(' ')[0]
+  def obfuscate_name(gender)
+    "#{gender == 'male' ? MALE_NAME : FEMALE_NAME} #{SURNAME}"
+  end
+
+  def gender_for(name)
+    #gender = 'male'
+    first_name = name.split(' ')[0]
     response = name_parser.get_name(first_name)
     gender = name_gender(response) || 'male'
-    #gender = 'male'
-    "#{gender == 'male' ? MALE_NAME : FEMALE_NAME} #{SURNAME}"
   end
 
   def obfuscate_companies(roles, fakelist, list_type)

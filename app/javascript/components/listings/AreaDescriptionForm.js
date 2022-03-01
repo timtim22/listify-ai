@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import Submit from '../inputs/Submit';
+import AreaAttractionList from './AreaAttractionList';
 
 const maxInput = 200;
 
@@ -72,90 +73,6 @@ const AreaDescriptionForm = ({
     }
   }
 
-  const filterRestaurants = (restaurants) => {
-    const hotels = restaurants.filter((r) => {
-      return r.categories.includes("lodging")
-    }).map(r => r.place_id);
-    if (hotels.length > 5) {
-      return restaurants.filter(r => !(hotels.includes(r.place_id))).slice(0, 8);
-    } else {
-      return restaurants.slice(0, 8);
-    }
-  }
-
-  const checkboxFor = (attraction) => {
-    return (
-      <input
-        type="checkbox"
-        checked={descriptionParams.selectedIds.includes(attraction.place_id)}
-        onChange={() => toggleSelected(attraction.place_id)}
-        className="mx-1 cursor-pointer focus:ring-0"
-      />
-    )
-  }
-
-  const pillIcon = (name) => {
-    return (
-      <span className="py-0.5 px-2 mr-2 font-semibold tracking-wider bg-blue-100 rounded-full shadow-sm">
-        {name}
-      </span>
-    )
-  }
-
-  const attractionRow = (attraction) => {
-    const ratingsCount = attraction.total_ratings > 1000 ? `${Math.round(attraction.total_ratings / 1000)}k` : attraction.total_ratings;
-    return (
-      <div key={attraction.place_id} className="w-full hover:bg-gray-100">
-        <label className="flex justify-between items-center py-1 w-full cursor-pointer">
-          <span className="flex-grow">{attraction.name}
-            <span className="ml-2 text-xs font-semibold">
-              {attraction.categories.includes("meal_takeaway") && !attraction.categories.includes("cafe") && pillIcon("takeaway")}
-              {attraction.categories.includes("cafe") && pillIcon("cafe")}
-              {attraction.rating}
-            </span>
-            <span className="mr-2 text-xs italic text-gray-600">
-              <i className="mx-1 text-yellow-400 fas fa-star"></i>
-              ({ratingsCount} votes)
-            </span>
-          </span>
-          {checkboxFor(attraction)}
-        </label>
-      </div>
-    )
-  }
-
-  const stationRow = (station) => {
-    const { distance, duration } = station.distance;
-    const durationSubstring =  duration < 26 ? `, ${duration} min walk` : "";
-    return (
-      <div key={station.place_id} className="w-full hover:bg-gray-100">
-        <label className="flex justify-between items-center py-1 w-full cursor-pointer">
-          <span className="flex-grow">
-            {station.name}
-            <span className="ml-2 text-xs">
-              {station.categories.includes("subway_station") && pillIcon("subway")}
-              {station.categories.includes("light_rail_station") && pillIcon("light rail")}
-              ({distance} km{durationSubstring})
-            </span>
-          </span>
-          {checkboxFor(station)}
-        </label>
-      </div>
-    )
-  }
-
-  const attractionSection = (attractions, sectionTitle, titleFunction) => {
-    const noResult = <p>We didn't find anything to show here. </p>;
-    const content = attractions.length > 0 ? attractions.map(a => titleFunction(a)) : noResult;
-    return (
-      <div className="flex-col justify-center w-full">
-        <p className="font-semibold">{sectionTitle}</p>
-        <div className="my-2 w-full h-px bg-gray-300"></div>
-        {content}
-      </div>
-    )
-  }
-
   const detailsField = () => {
     return (
       <div className="flex flex-col justify-center w-full">
@@ -194,9 +111,8 @@ const AreaDescriptionForm = ({
   }
 
   if (searchResult) {
-    const results = searchResult.attractions;
-    const topAttractions = results.attractions.slice(0,8);
-    const filteredRestaurants = filterRestaurants(results.restaurants);
+    const { attractions, restaurants, stations } = searchResult.attractions;
+    const topAttractions = attractions.slice(0,8);
 
     return (
       <div className="w-full flex justify-center">
@@ -206,11 +122,27 @@ const AreaDescriptionForm = ({
               Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>
             </p>
             <br />
-            {attractionSection(topAttractions, 'Attractions', attractionRow)}
+            <AreaAttractionList
+              attractions={topAttractions}
+              attractionType={'attractions'}
+              selectedIds={descriptionParams.selectedIds}
+              toggleSelected={toggleSelected}
+            />
             <br />
-            {attractionSection(results.stations, 'Stations & Subways', stationRow)}
+            <AreaAttractionList
+              attractions={stations}
+              attractionType={'stations'}
+              selectedIds={descriptionParams.selectedIds}
+              toggleSelected={toggleSelected}
+            />
             <br />
-            {attractionSection(filteredRestaurants, 'Restaurants, bars & more', attractionRow)}
+            <AreaAttractionList
+              attractions={restaurants}
+              attractionType={'restaurants'}
+              selectedIds={descriptionParams.selectedIds}
+              toggleSelected={toggleSelected}
+            />
+
             <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
             <br />
             {detailsField()}

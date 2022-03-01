@@ -1,6 +1,11 @@
 class GptCallGenerator
 
   CHECK_CONTENT = ENV['CONTENT_CHECK_ENABLED'] || ENV['LIVE_REQUESTS']
+  CLASSES_WITH_EXTRA_INTERPOLATION = %w[
+    AreaDescription
+    Inputs::AreaDescriptionFragment
+    Inputs::BrandDescription
+  ].freeze
 
   def self.generate_for(prompt, input_object)
     request_object = generate_request_object(prompt, input_object)
@@ -57,13 +62,18 @@ class GptCallGenerator
     body_params.to_json
   end
 
+  def self.interpolate_extra_fields(input_object, input_text)
+    input_text
+      .gsub!('{area}', input_object.location.titleize)
+      .gsub!('{brand_name}', input_object.brand_name.titleize)
+  end
+
   def self.construct_prompt_body(prompt_text, input_object)
-    with_input = prompt_text.gsub('{input}', input_object.input_text)
-    area_classes = %w[AreaDescription Inputs::AreaDescriptionFragment]
-    if area_classes.include?(input_object.class.to_s)
-      with_input.gsub!('{area}', input_object.search_location.search_text.titleize)
+    prompt_with_input = prompt_text.gsub('{input}', input_object.input_text)
+    if CLASSES_WITH_EXTRA_INTERPOLATION.include?(input_object.class.to_s)
+      prompt_with_input = interpolate_extra_fields(input_object, prompt_with_input)
     end
-    with_input
+    prompt_with_input
   end
 
   def self.set_stop_sequence(prompt)

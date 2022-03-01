@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FormHeader from './FormHeader';
 import ListingForm from './Form';
 import { initialStepArray } from '../../helpers/listingBuilder';
+import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import ListingBuilderForm from '../listings_builder/Form';
@@ -84,6 +85,15 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           formType={formType}
           runsRemaining={runsRemaining}
           onResult={(response) => { setResults([]); handleTaskRun(response) }}
+        />
+      )
+    } else if (formType === 'about') {
+      return (
+        <AboutForm
+          loading={loading}
+          setLoading={setLoading}
+          runsRemaining={runsRemaining}
+          onResult={handleTaskRun}
         />
       )
     } else if (formType === 'full_listing') {

@@ -7,7 +7,6 @@ const AreaSearchForm = ({
   loading,
   setLoading,
   setSearchResult,
-  errors,
   setErrors,
   shouldGenerateFragment
   }) => {
@@ -97,7 +96,6 @@ AreaSearchForm.propTypes = {
   setSearchResult: PropTypes.func,
   loading: PropTypes.bool,
   setLoading: PropTypes.func,
-  errors: PropTypes.object,
   setErrors: PropTypes.func,
   shouldGenerateFragment: PropTypes.bool,
 }

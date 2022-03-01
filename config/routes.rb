@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :listing_fragments, only: [:create]
   resources :room_descriptions, only: [:create]
   resources :area_descriptions, only: [:create]
+  resources :brand_descriptions, only: [:create]
   resources :search_locations, only: [:create]
   resources :recorded_searches, only: [:index]
   resources :translations, only: [:create] do

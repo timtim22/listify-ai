@@ -7,7 +7,7 @@ class SearchLocationsController < ApplicationController
     record_search_by_user
 
     if @search_location.latitude.nil?
-      render json: { no_results: ["Sorry, we didn't find any results. Please try another search."] }, status: :unprocessable_entity
+      render json: { no_results: ["Sorry, we didn't find any results for this area. Please try another search."] }, status: :unprocessable_entity
     else
       @attractions = AttractionFinder.new(@search_location).find!
 

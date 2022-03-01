@@ -29,7 +29,7 @@ const TextareaWithPlaceholder = ({ value, onChange, placeholderContent, customCl
 TextareaWithPlaceholder.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
-  placeholderContent: PropTypes.element
+  placeholderContent: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
 };
 
 

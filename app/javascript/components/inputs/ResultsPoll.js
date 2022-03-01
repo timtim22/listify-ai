@@ -61,4 +61,9 @@ const ResultsPoll = ({ taskRun, onResult }) => {
   }
 }
 
+ResultsPoll.propTypes = {
+  taskRun: PropTypes.object,
+  onResult: PropTypes.func
+}
+
 export default ResultsPoll;

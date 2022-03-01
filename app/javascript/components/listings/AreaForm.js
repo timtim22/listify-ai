@@ -56,7 +56,6 @@ const AreaForm = ({
         setSearchResult={handleSearchResult}
         loading={loading}
         setLoading={setLoading}
-        errors={errors}
         setErrors={setErrors}
         shouldGenerateFragment={shouldGenerateFragment}
       />}

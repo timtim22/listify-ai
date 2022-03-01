@@ -33,4 +33,8 @@ class AreaDescription < ApplicationRecord
       errors.add(:attractions, 'No attractions were selected')
     end
   end
+
+  def location
+    search_location.search_text # used by call_generator
+  end
 end

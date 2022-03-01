@@ -36,4 +36,8 @@ class Inputs::AreaDescriptionFragment < ApplicationRecord
       errors.add(:attractions, 'No attractions were selected')
     end
   end
+
+  def location
+    search_location.search_text
+  end
 end

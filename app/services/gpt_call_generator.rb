@@ -65,7 +65,7 @@ class GptCallGenerator
   def self.interpolate_extra_fields(input_object, input_text)
     input_text
       .gsub!('{area}', input_object.location.titleize)
-      .gsub!('{brand_name}', input_object.brand_name.titleize)
+      .gsub!('{brand_name}', input_object&.brand_name&.titleize) # fix this!
   end
 
   def self.construct_prompt_body(prompt_text, input_object)

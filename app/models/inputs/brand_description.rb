@@ -12,6 +12,10 @@ class Inputs::BrandDescription < ApplicationRecord
     "#{property_string}#{attractions_string}#{location_string}#{brand_string}"
   end
 
+  def displayable_input_text
+    "Brand name: #{brand_name}\n#{input_text}"
+  end
+
   def property_string
     if property_details.present?
       "About the properties: #{without_newlines(property_details)}\n"

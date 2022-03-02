@@ -16,6 +16,10 @@ const FormHeader = ({ user, formType, setFormType }) => {
     )
   }
 
+  const canSeeAbout = () => {
+    return user.admin || user.id === "197d4687-e3a9-40bb-948b-ec0285c3485e"
+  };
+
   return (
     <div className="flex overflow-x-hidden flex-col items-center w-full">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
@@ -28,7 +32,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {navLink("Area", "neighbourhood")}
           {navLink("Rooms", "room_description")}
           {navLink("Listing builder", "listing_builder", "beta")}
-          {(user.admin) && navLink("About", "about", "beta")}
+          {canSeeAbout() && navLink("About", "about", "beta")}
         </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>

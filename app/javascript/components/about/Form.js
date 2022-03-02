@@ -90,9 +90,9 @@ const Form = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {textRow('Brand name', 'brand_name', 'e.g. Sunrise Holidays', true)}
-          {textAreaField('Brand details', 'brand_details', 'e.g. family run business, founded 2011' )}
-          {textAreaField('Property details', 'property_details', 'e.g. fully furnished apartments with TV, free Wifi...')}
+          {textRow('Business name', 'brand_name', 'e.g. Sunrise Holidays', true)}
+          {textAreaField('About the business', 'brand_details', 'e.g. family run business, founded 2011' )}
+          {textAreaField('About the properties', 'property_details', 'e.g. fully furnished apartments with TV, free Wifi...')}
           <div className="mb-4 mt-8 w-full h-px bg-gray-200"></div>
           {textRow('Location', 'location', 'e.g. Bristol, UK', true)}
           {textAreaField('Location details', 'location_details', 'e.g. in the north of the city, close to bars and restaurants')}

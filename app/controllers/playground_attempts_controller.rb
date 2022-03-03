@@ -1,5 +1,5 @@
 class PlaygroundAttemptsController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authenticate_playground_access
 
   def new
     @playground_attempt = PlaygroundAttempt.new
@@ -20,6 +20,14 @@ class PlaygroundAttemptsController < ApplicationController
         format.json { render json: save.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  private
+
+  def authenticate_playground_access
+    return if user_signed_in? && (current_user.admin? || current_user.id == '215ef9f4-359f-4bdd-972b-e16940c1e7a3')
+
+    redirect_to '/', alert: 'Not authorized.'
   end
 
   def playground_attempt_params

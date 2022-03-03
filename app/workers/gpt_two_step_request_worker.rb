@@ -7,7 +7,7 @@ class GptTwoStepRequestWorker
     prompt_set_2 = PromptSet.find(prompt_set_2_id)
     task_run_2 = TaskRun.find(task_run_2_id)
     if first_result.success
-      task_run_2.input_object.update(input_text: first_result.result_text) # if no error
+      task_run_2.input_object.update(input_text: first_result.result_text&.strip) # if no error
       prompt_set_2.prompts.map do |prompt|
         GptRequestWorker.perform_async(task_run_2_id, prompt.id)
       end

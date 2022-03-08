@@ -1,5 +1,5 @@
 class UserLock
-  UNSAFE_THRESHOLD    = 5
+  UNSAFE_THRESHOLD    = 8
   SENSITIVE_THRESHOLD = 10
 
   class << self

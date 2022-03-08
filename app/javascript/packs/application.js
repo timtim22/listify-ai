@@ -31,6 +31,8 @@ document.addEventListener("turbolinks:load", () => {
       event.preventDefault();
       document.querySelector("#payment-form").classList.remove("hidden");
       document.querySelector("#existing-card").classList.add("hidden");
+      const countrySelect = document.getElementById('user_country');
+      if (countrySelect) { setVatNotice(countrySelect.value) }
     })
   }
 
@@ -159,3 +161,32 @@ function clearLoading(form) {
   form.querySelector("#submit-container").classList.remove("hidden");
   form.querySelector("#submit-loading").classList.add("hidden");
 }
+
+// VAT notice
+
+function setVatNotice(value) {
+  const vatNotices = document.querySelectorAll('span.vat_notice');
+  const cardVatNotice = document.getElementById('card_vat_notice');
+
+  if (value === "GB") {
+    vatNotices.forEach((notice) => {
+      notice.innerText = " (plus UK VAT at 20%) ";
+    });
+    cardVatNotice.innerText = " (plus UK VAT at 20%) ";
+  } else {
+    vatNotices.forEach((notice) => {
+      notice.innerText = "";
+    });
+    cardVatNotice.innerText = "";
+  }
+}
+
+document.addEventListener("turbolinks:load", () => {
+  const countrySelect = document.getElementById('user_country');
+  if (countrySelect) {
+    countrySelect.addEventListener('change', (event) => {
+      setVatNotice(event.target.value);
+    });
+    setVatNotice(countrySelect.value);
+  }
+});

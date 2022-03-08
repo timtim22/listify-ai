@@ -12,7 +12,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     current_user.update_card(params[:payment_method_id]) if params[:payment_method_id]
-    current_user.subscribe(@plan.stripe_id)
+    current_user.subscribe(@plan.stripe_id, country_options)
     redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
     redirect_to payment_path(e.payment_intent.id)
@@ -40,6 +40,16 @@ class SubscriptionsController < ApplicationController
   end
 
   private
+
+  def country_options
+    country_code = params.dig(:user, :country)
+    current_user.update!(country_code: country_code) if country_code.present?
+    if country_code == 'GB' || (country_code.nil? && current_user.country_code == 'GB')
+      { automatic_tax: { enabled: true } }
+    else
+      {}
+    end
+  end
 
   def set_plan
     @plan = Plan.find_by(id: params[:plan_id])

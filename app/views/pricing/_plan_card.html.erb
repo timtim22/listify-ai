@@ -8,6 +8,7 @@
       <h2 class="text-4xl font-extrabold text-gray-900"><%= formatted_amount(plan.amount, { unit: "£", precision: 0 }) %></h2>
       <div class="text-base font-medium text-gray-500">/<%= plan.interval %></div>
     </div>
+    <span id="card_vat_notice" class="text-sm"></span>
 
     <% if button_action == "subscribe" %>
       <%= link_to "Subscribe", new_subscription_path(plan_id: plan.id), class: "block w-full py-2 px-6 text-sm text-center text-white bg-blue-600 font-semibold cursor-pointer rounded-lg hover:bg-blue-700" %>

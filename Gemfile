@@ -62,6 +62,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'acts_as_list', '~> 1.0', '>= 1.0.4'
+gem 'country_select', '~> 3.1', '>= 3.1.1'
 gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'honeybadger', '~> 4.9'

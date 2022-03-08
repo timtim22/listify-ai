@@ -31,7 +31,7 @@ class Charge < ApplicationRecord
     items = [
       ['Date', created_at.to_s],
       ['Account billed', "#{user.name} (#{user.email})"],
-      ['Product', 'Listify subscription'],
+      ['Product', 'Listify subscription (plus VAT, if applicable)'],
       ['Amount', ApplicationController.helpers.formatted_amount(amount)],
       ['Charged to', "#{card_brand} ending in #{card_last4}"]
     ]

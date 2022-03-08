@@ -69,7 +69,6 @@ class User < ApplicationRecord
       expand: ['latest_invoice.payment_intent'],
       off_session: true
     }.merge(options)
-    args[:trial_from_plan] = true if !args[:trial_period_days]
 
     sub = Stripe::Subscription.create(args)
     subscription = subscriptions.create(
@@ -80,8 +79,8 @@ class User < ApplicationRecord
       ends_at: nil
     )
 
-    if sub.status == "incomplete" && ["requires_action", "requires_payment_method"].include?(sub.latest_invoice.payment_intent.status)
-      raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), "Subscription requires authentication"
+    if sub.status == 'incomplete' && ['requires_action', 'requires_payment_method'].include?(sub.latest_invoice.payment_intent.status)
+      raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), 'Subscription requires authentication'
     end
 
     subscription.send_activation_email

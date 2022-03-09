@@ -1,1 +1,1 @@
-Webpacker::Compiler.env['FRONTEND_API_KEY'] = 'test'
+Webpacker::Compiler.env['HONEYBADGER_KEY'] = Rails.application.credentials.dig(:honeybadger, :api_key)

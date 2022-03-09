@@ -17,12 +17,18 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-console.log(process.env.FRONTEND_API_KEY)
-
 // Support component names relative to this directory:
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
+
+if (process.env.NODE_ENV === 'production') {
+  var Honeybadger = require("@honeybadger-io/js");
+  Honeybadger.configure({
+    apiKey: process.env.HONEYBADGER_KEY,
+    environment: process.env.NODE_ENV
+  });
+}
 
 document.addEventListener("turbolinks:load", () => {
   let cardElement = document.querySelector("#card-element");

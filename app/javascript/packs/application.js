@@ -16,6 +16,9 @@ require("helpers/listingBuilder")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+console.log(process.env.FRONTEND_API_KEY)
+
 // Support component names relative to this directory:
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");

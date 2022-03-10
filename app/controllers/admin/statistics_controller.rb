@@ -2,7 +2,7 @@ class Admin::StatisticsController < ApplicationController
   before_action :authenticate_admin
 
   def index
-    users = User.all
+    users = User.all.includes(:team)
     @users_with_stats = users.map do |user|
       stats = SpinCounter.new(user).spin_stats
       OpenStruct.new(
@@ -14,7 +14,8 @@ class Admin::StatisticsController < ApplicationController
         created_today: user.created_at > Date.today.beginning_of_day,
         created_last_7_days: user.created_at > (Date.today - 7.days).beginning_of_day,
         spins_this_month: stats.spins,
-        monthly_spin_quota: stats.quota
+        monthly_spin_quota: stats.quota,
+        team_name: user.team&.name
       )
     end.sort_by { |u| u.spins_this_month }.reverse
     @new_users = @users_with_stats.select(&:created_today)

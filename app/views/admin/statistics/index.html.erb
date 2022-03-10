@@ -14,6 +14,7 @@
           <th class="py-3 px-6">Created at</th>
           <th class="py-3 px-6">Spins this month</th>
           <th class="py-3 px-6">Spin quota</th>
+          <th class="py-3 px-6">Team</th>
           <th class="py-3 px-6">Actions</th>
         </tr>
       </thead>
@@ -26,6 +27,7 @@
             <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
             <td class="py-3 px-6"><%= user.spins_this_month %></td>
             <td class="py-3 px-6"><%= user.monthly_spin_quota %></td>
+            <td class="py-3 px-6"><%= user.team_name %></td>
             <td class="py-3 px-6">
               <% if user.locked %>
                 <%= link_to(

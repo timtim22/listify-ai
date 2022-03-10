@@ -37,7 +37,9 @@ class SpinCounter
   private
 
   def monthly_spin_quota
-    if user.subscribed?
+    if user.member_of_team?
+      team_spins_quota
+    elsif user.subscribed?
       user.subscription.plan.monthly_spin_cap
     elsif user.on_trial?
       TRIAL_SPINS
@@ -47,9 +49,12 @@ class SpinCounter
   end
 
   def team_spins_remaining
-    user.team.monthly_spins #update this to reflect actual usage!
+    team_spins_quota # update this to reflect actual usage!
   end
 
+  def team_spins_quota
+    user.team.monthly_spins
+  end
 
   def subscription_spins_remaining
     user.subscription.plan.monthly_spin_cap - spins_this_month

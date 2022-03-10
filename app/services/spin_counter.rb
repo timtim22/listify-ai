@@ -15,6 +15,8 @@ class SpinCounter
   def spins_remaining
     if user.admin?
       DAILY_BETA_SPINS
+    elsif user.member_of_team?
+      team_spins_remaining
     elsif user.custom_run_limit?
       user.custom_run_limit - spins_today
     elsif user.on_private_beta?
@@ -43,6 +45,11 @@ class SpinCounter
       nil
     end
   end
+
+  def team_spins_remaining
+    user.team.monthly_spins #update this to reflect actual usage!
+  end
+
 
   def subscription_spins_remaining
     user.subscription.plan.monthly_spin_cap - spins_this_month

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_08_090119) do
+ActiveRecord::Schema.define(version: 2022_03_09_155017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -298,6 +298,23 @@ ActiveRecord::Schema.define(version: 2022_03_08_090119) do
     t.index ["user_id"], name: "index_task_runs_on_user_id"
   end
 
+  create_table "team_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "team_id", null: false
+    t.uuid "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id"], name: "index_team_roles_on_team_id"
+    t.index ["user_id"], name: "index_team_roles_on_user_id"
+  end
+
+  create_table "teams", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "custom_spin_count"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "text_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_run_id", null: false
     t.text "result_text"
@@ -380,6 +397,8 @@ ActiveRecord::Schema.define(version: 2022_03_08_090119) do
   add_foreign_key "task_run_feedbacks", "users"
   add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
+  add_foreign_key "team_roles", "teams"
+  add_foreign_key "team_roles", "users"
   add_foreign_key "text_results", "task_runs"
   add_foreign_key "translation_requests", "task_runs"
 end

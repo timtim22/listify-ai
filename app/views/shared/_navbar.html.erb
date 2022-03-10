@@ -37,7 +37,7 @@
 
               <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_account_path } %>
 
-              <% if current_user.subscribed? %>
+              <% if current_user.subscribed? || current_user.member_of_team? %>
                 <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
               <% else %>
                 <%= link_to "Subscribe", pricing_path, class: "primary-button" %>
@@ -48,6 +48,7 @@
           <div class="flex -mr-2 md:hidden">
             <%= react_component "common/MobileMenu", {
               subscribed: current_user.subscribed?,
+              memberOfTeam: current_user.member_of_team?,
               admin: current_user.admin?
             } %>
           </div>

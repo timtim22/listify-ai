@@ -27,6 +27,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def member_of_team?
+    account_status == 'team_member'
+  end
+
   def on_private_beta?
     account_status == 'private_beta'
   end

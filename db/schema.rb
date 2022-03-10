@@ -310,6 +310,7 @@ ActiveRecord::Schema.define(version: 2022_03_09_155017) do
 
   create_table "teams", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
+    t.integer "custom_spin_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

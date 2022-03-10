@@ -2,6 +2,7 @@ class CreateTeams < ActiveRecord::Migration[6.1]
   def change
     create_table :teams, id: :uuid do |t|
       t.string :name
+      t.integer :custom_spin_count
       t.timestamps
     end
     create_table :team_roles, id: :uuid do |t|

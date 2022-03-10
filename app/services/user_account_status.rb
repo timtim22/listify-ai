@@ -6,7 +6,9 @@ class UserAccountStatus
   end
 
   def check
-    if ever_subscribed?
+    if member_of_team?
+      'team_member'
+    elsif ever_subscribed?
       subscription_status
     elsif on_private_beta?
       'private_beta'
@@ -16,6 +18,10 @@ class UserAccountStatus
   end
 
   private
+
+  def member_of_team?
+    user.team && !user.team_role.purchaser?
+  end
 
   def ever_subscribed?
     user.subscriptions.any? { |s| !s.incomplete? }

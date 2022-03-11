@@ -1,7 +1,7 @@
 class SpinCounter
 
-  DERIVATIVE_TASK_TYPES = ["ListingFragment", "DerivedInputObject"].freeze
-  BUILDER_TASK_TYPES = ["Inputs::SummaryFragment", "Inputs::BedroomFragment", "Inputs::OtherRoomFragment"].freeze
+  DERIVATIVE_TASK_TYPES = ['ListingFragment', 'DerivedInputObject'].freeze
+  BUILDER_TASK_TYPES = ['Inputs::SummaryFragment', 'Inputs::BedroomFragment', 'Inputs::OtherRoomFragment', 'Inputs::AreaDescriptionFragment'].freeze
   IGNORED_TASK_TYPES = [DERIVATIVE_TASK_TYPES, BUILDER_TASK_TYPES].flatten
   DAILY_BETA_SPINS = 30
   TRIAL_SPINS = 100
@@ -54,6 +54,7 @@ class SpinCounter
 
   def team_spins_quota
     user.team.monthly_spins
+    #user_ids = team.users.pluck(:id)
   end
 
   def subscription_spins_remaining
@@ -69,11 +70,11 @@ class SpinCounter
   end
 
   def spins_today
-    spins_since(Date.today.beginning_of_day)
+    spins_since(Time.zone.today.beginning_of_day)
   end
 
   def spins_this_month
-    spins_since(Date.today.beginning_of_month.beginning_of_day)
+    spins_since(Time.zone.today.beginning_of_month.beginning_of_day)
   end
 
   def spins_since(datetime)

@@ -1,7 +1,12 @@
 class SpinCounter
 
   DERIVATIVE_TASK_TYPES = ['ListingFragment', 'DerivedInputObject'].freeze
-  BUILDER_TASK_TYPES = ['Inputs::SummaryFragment', 'Inputs::BedroomFragment', 'Inputs::OtherRoomFragment', 'Inputs::AreaDescriptionFragment'].freeze
+  BUILDER_TASK_TYPES = [
+    'Inputs::SummaryFragment',
+    'Inputs::BedroomFragment',
+    'Inputs::OtherRoomFragment',
+    'Inputs::AreaDescriptionFragment'
+  ].freeze
   IGNORED_TASK_TYPES = [DERIVATIVE_TASK_TYPES, BUILDER_TASK_TYPES].flatten
   DAILY_BETA_SPINS = 30
   TRIAL_SPINS = 100
@@ -34,7 +39,11 @@ class SpinCounter
     OpenStruct.new(spins: spins_this_month, quota: monthly_spin_quota)
   end
 
-  private
+  def team_spins_remaining
+    team_spins_quota - team_spins_since(start_of_month, user.team)
+  end
+
+  #private
 
   def monthly_spin_quota
     if user.member_of_team?
@@ -48,13 +57,8 @@ class SpinCounter
     end
   end
 
-  def team_spins_remaining
-    team_spins_quota # update this to reflect actual usage!
-  end
-
   def team_spins_quota
     user.team.monthly_spins
-    #user_ids = team.users.pluck(:id)
   end
 
   def subscription_spins_remaining
@@ -74,7 +78,7 @@ class SpinCounter
   end
 
   def spins_this_month
-    spins_since(Time.zone.today.beginning_of_month.beginning_of_day)
+    spins_since(start_of_month)
   end
 
   def spins_since(datetime)
@@ -88,17 +92,43 @@ class SpinCounter
       .count
   end
 
-  def full_listings_since(datetime)
-    user.full_listings
-      .where('created_at > ?', datetime)
-      .count
-  end
-
   def builder_listings_since(datetime)
     builder_runs = user.task_runs
       .where(input_object_type: BUILDER_TASK_TYPES)
       .where('created_at > ?', datetime)
       .count
     builder_runs / 3 #rounds down %
+  end
+
+  def full_listings_since(datetime)
+    user.full_listings
+      .where('created_at > ?', datetime)
+      .count
+  end
+
+  def team_spins_since(datetime, team)
+    user_ids = team.users.pluck(:id)
+    team_runs_since(datetime, user_ids) + team_builder_listings_since(datetime, user_ids)
+  end
+
+  def team_runs_since(datetime, team_user_ids)
+    TaskRun
+      .where(user_id: team_user_ids)
+      .where.not(input_object_type: IGNORED_TASK_TYPES)
+      .where('created_at > ?', datetime)
+      .count
+  end
+
+
+  def team_builder_listings_since(datetime, team_user_ids)
+    builder_runs = TaskRun.where(user_id: team_user_ids)
+      .where(input_object_type: BUILDER_TASK_TYPES)
+      .where('created_at > ?', datetime)
+      .count
+    builder_runs / 3 #rounds down %
+  end
+
+  def start_of_month
+    Time.zone.today.beginning_of_month.beginning_of_day
   end
 end

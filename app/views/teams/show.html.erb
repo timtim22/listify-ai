@@ -1,0 +1,38 @@
+<%= render layout: 'shared/account_layout', locals: { screen: "team" } do %>
+  <div class="w-full px-8">
+    <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
+      <div class="w-full">
+        <h2 class="log-in-header">Team</h2>
+        <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
+        <p class="mb-8 text-sm">You are an admin of the <span class="font-semibold"><%= @team.name %></span> team.</p>
+        <div class="my-8 w-full h-px bg-gray-200"></div>
+        <h5 class="mb-4 text-xl font-medium">Seats</h5>
+
+        <p class="text-gray-500 text-sm mb-8">You are using <span class="font-semibold"><%= @team_users.count %></span> of the <%= @team.seat_count %> seats on your plan. Contact us if you need to make changes.</p>
+        <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+          <table class="w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+              <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                <th class="py-3 px-6">User</th>
+                <th class="py-3 px-6">Role</th>
+                <th class="py-3 px-6">Spins this month</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <% @team_users.map do |user| %>
+                <tr class="text-xs">
+                  <td class="py-3 px-6"><%= user.email %></td>
+                  <td class="py-3 px-6"><%= user.team_role.name %> </td>
+                  <td class="py-3 px-6">Coming soon</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-8 mb-8 w-full h-px bg-gray-200"></div>
+        <p class="mt-8 text-sm">Need to talk to someone? Contact us — we'd love to help.</p>
+      </div>
+    </div>
+  </div>
+<% end %>

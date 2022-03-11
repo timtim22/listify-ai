@@ -39,11 +39,7 @@ class SpinCounter
     OpenStruct.new(spins: spins_this_month, quota: monthly_spin_quota)
   end
 
-  def team_spins_remaining
-    team_spins_quota - team_spins_since(start_of_month, user.team)
-  end
-
-  #private
+  private
 
   def monthly_spin_quota
     if user.member_of_team?
@@ -55,6 +51,10 @@ class SpinCounter
     else
       nil
     end
+  end
+
+  def team_spins_remaining
+    team_spins_quota - team_spins_since(start_of_month, user.team)
   end
 
   def team_spins_quota
@@ -82,7 +82,7 @@ class SpinCounter
   end
 
   def spins_since(datetime)
-    runs_since(datetime) + full_listings_since(datetime) + builder_listings_since(datetime)
+    runs_since(datetime) + builder_listings_since(datetime)
   end
 
   def runs_since(datetime)
@@ -100,12 +100,6 @@ class SpinCounter
     builder_runs / 3 #rounds down %
   end
 
-  def full_listings_since(datetime)
-    user.full_listings
-      .where('created_at > ?', datetime)
-      .count
-  end
-
   def team_spins_since(datetime, team)
     user_ids = team.users.pluck(:id)
     team_runs_since(datetime, user_ids) + team_builder_listings_since(datetime, user_ids)
@@ -118,7 +112,6 @@ class SpinCounter
       .where('created_at > ?', datetime)
       .count
   end
-
 
   def team_builder_listings_since(datetime, team_user_ids)
     builder_runs = TaskRun.where(user_id: team_user_ids)

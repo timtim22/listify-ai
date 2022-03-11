@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
   resource :usage, only: [:show]
   resource :account, only: [:edit, :update]
+  resources :teams, only: [:show]
 
   resource :card
   resource :pricing, controller: :pricing

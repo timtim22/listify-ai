@@ -7,6 +7,11 @@ class Team < ApplicationRecord
     team_roles.create_user_role(self, user) if user
   end
 
+  def add_admin(email)
+    user = User.find_by(email: email)
+    team_roles.create_admin_role(self, user) if user
+  end
+
   def monthly_spins
     custom_spin_count
   end

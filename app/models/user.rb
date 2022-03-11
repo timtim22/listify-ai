@@ -31,6 +31,10 @@ class User < ApplicationRecord
     account_status == 'team_member'
   end
 
+  def team_admin?
+    team && team_role.admin_privileges?
+  end
+
   def on_private_beta?
     account_status == 'private_beta'
   end

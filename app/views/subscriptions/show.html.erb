@@ -70,6 +70,7 @@
                         <td class="py-3 px-6"><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
                         <td class="py-3 px-6"><%= formatted_amount(charge.amount) %></td>
                         <td class="py-3 px-6"><%= link_to "Download", charge_path(charge, format: :pdf), class: "secondary-link", target: :_blank %></td>
+                      </tr>
                     <% end %>
                   </tbody>
                 </table>

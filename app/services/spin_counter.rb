@@ -118,7 +118,7 @@ class SpinCounter
       .where(input_object_type: BUILDER_TASK_TYPES)
       .where('created_at > ?', datetime)
       .count
-    builder_runs / 3 #rounds down %
+    builder_runs / 3 # rounds down %
   end
 
   def start_of_month

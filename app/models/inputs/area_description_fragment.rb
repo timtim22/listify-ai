@@ -24,7 +24,7 @@ class Inputs::AreaDescriptionFragment < ApplicationRecord
   end
 
   def displayable_input_text
-    "Search: #{search_location.search_text.titleize}\n----\n" + input_text
+    "- search area: #{search_location.search_text.titleize}\n" + input_text
   end
 
   def input_text

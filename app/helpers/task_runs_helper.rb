@@ -69,7 +69,7 @@ module TaskRunsHelper
   end
 
   def text_with_translation(result, translations)
-    if translations
+    if translations.any?
       tr_strings = translations.map do |translation|
         "#{translation.to}: #{translation.result_text} \n"
       end

@@ -21,6 +21,10 @@ class TaskRun < ApplicationRecord
     task_results.count
   end
 
+  def all_results_failed?
+    task_results.none?(&:success)
+  end
+
   def output_language
     translation_requests&.first&.to
   end

@@ -2,31 +2,35 @@
   <div class="flex justify-between items-center mb-4 w-full">
     <h1 class="text-xl font-medium text-gray-900 mt-12">Your spin history</h1>
   </div>
-  <p class="text-sm mb-4">Displaying up to 30 of your most recent spins and results. Please note spins from Listify's private beta period may not appear.</p>
-  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
-    <table class="w-full divide-y divide-gray-200">
-      <thead class="bg-gray-100">
-        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-          <th class="py-3 px-6">Spin Type</th>
-          <th class="py-3 px-6">Input</th>
-          <th class="py-3 px-6">Outputs</th>
-        </tr>
-      </thead>
+  <% if @task_runs.any? %>
+    <p class="text-sm mb-4">Displaying up to 30 of your most recent spins and results. Please note spins from Listify's private beta period may not appear.</p>
+    <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+      <table class="w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 px-6">Spin Type</th>
+            <th class="py-3 px-6">Input</th>
+            <th class="py-3 px-6">Outputs</th>
+          </tr>
+        </thead>
 
-      <tbody class="divide-y divide-gray-200">
-        <% @task_runs.each do |task_run| %>
-          <% if !@upstream_ids.include? task_run.id %>
-            <tr class="text-xs">
-              <td class="py-3 px-6"><%= history_request_title(task_run.input_object.request_type) %></td>
-              <td class="py-3 px-6 whitespace-pre-wrap"><%= display_history_input(task_run, @task_runs) %></td>
-              <td class="py-3 px-6">
-                <%= format_history_output(task_run.task_results) %>
-              </td>
-            </tr>
+        <tbody class="divide-y divide-gray-200">
+          <% @task_runs.each do |task_run| %>
+            <% if !@upstream_ids.include? task_run.id %>
+              <tr class="text-xs">
+                <td class="py-3 px-6"><%= history_request_title(task_run.input_object.request_type) %></td>
+                <td class="py-3 px-6 whitespace-pre-wrap"><%= display_history_input(task_run, @task_runs) %></td>
+                <td class="py-3 px-6">
+                  <%= format_history_output(task_run.task_results) %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p>No history items were found.</p>
+  <% end %>
   <br />
 </div>

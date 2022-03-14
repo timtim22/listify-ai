@@ -17,13 +17,14 @@ module HistoriesHelper
   end
 
   def format_history_output(results)
-    results.map { |r| display_history_result(r) }.join('<br />--<br /><br />').html_safe
+    results.map { |r| display_history_result(r, r.translations) }.join('<br />--<br /><br />').html_safe
   end
 
   def display_history_input(task_run, task_runs)
     input_object = history_input_object(task_run, task_runs)
-
-    if input_object.respond_to?(:displayable_input_text)
+    if input_object.respond_to?(:input_language) && input_object.input_language != "EN"
+      input_object.untranslated_input_text
+    elsif input_object.respond_to?(:displayable_input_text)
       input_object.displayable_input_text
     else
       input_object.input_text
@@ -39,9 +40,9 @@ module HistoriesHelper
     end
   end
 
-  def display_history_result(result, translation = nil)
+  def display_history_result(result, translations = nil)
     if result.success && result.safe?
-      result_text = history_text_with_translation(result, translation)
+      result_text = history_text_with_translation(result, translations)
       display_text = simple_format(result_text)
       "<div>#{display_text}</div>"
     else
@@ -49,9 +50,12 @@ module HistoriesHelper
     end
   end
 
-  def history_text_with_translation(result, translation)
-    if translation
-      "#{translation.result_text} \n---\n ENGLISH: #{result.result_text}"
+  def history_text_with_translation(result, translations)
+    if translations
+      tr_strings = translations.map do |translation|
+        "#{translation.to}: #{translation.result_text} \n"
+      end
+      "#{tr_strings.join('')} EN: #{result.result_text}"
     else
       result.result_text
     end

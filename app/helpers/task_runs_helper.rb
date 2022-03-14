@@ -25,7 +25,7 @@ module TaskRunsHelper
       if !result.success?
         display_error(result, result_with_prompt[:prompt_title])
       elsif result.safe?
-        display_result(result, result_with_prompt[:prompt_title], result.translations.first)
+        display_result(result, result_with_prompt[:prompt_title], result.translations)
       else
         display_filtered(result)
       end
@@ -43,8 +43,8 @@ module TaskRunsHelper
     { position: prompt&.position, prompt_title: prompt&.title, result: result }
   end
 
-  def display_result(result, prompt_title, translation = nil)
-    result_text = text_with_translation(result, translation)
+  def display_result(result, prompt_title, translations)
+    result_text = text_with_translation(result, translations)
     display_text = simple_format(result_text)
     formatted_result = "<div>#{display_text}#{title_html(prompt_title)}</div>"
     result.user_copied? ? display_copied(formatted_result) : formatted_result
@@ -68,9 +68,12 @@ module TaskRunsHelper
     "<p class='text-red-700'>#{filtered_warning} #{result.result_text}</p>"
   end
 
-  def text_with_translation(result, translation)
-    if translation
-      "#{translation.result_text} \n---\n ENGLISH: #{result.result_text}"
+  def text_with_translation(result, translations)
+    if translations
+      tr_strings = translations.map do |translation|
+        "#{translation.to}: #{translation.result_text} \n"
+      end
+      "#{tr_strings.join('')} EN: #{result.result_text}"
     else
       result.result_text
     end

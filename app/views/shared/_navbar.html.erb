@@ -37,6 +37,8 @@
 
               <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_account_path } %>
 
+              <%= render partial: 'shared/nav_link', locals: { name: "History", route: history_path } %>
+
               <% if current_user.subscribed? || current_user.member_of_team? %>
                 <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
               <% else %>

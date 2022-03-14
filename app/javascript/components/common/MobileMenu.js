@@ -52,6 +52,14 @@ const MobileMenu = ({ admin, subscribed, memberOfTeam }) => {
             id="dd-account-link">
             Account
           </a>
+          <a
+            href="/history"
+            className="block py-2 px-4 text-sm text-gray-700"
+            role="menuitem"
+            tabIndex="-1"
+            id="dd-account-link">
+            History
+          </a>
           {subscribeLink()}
           {adminLink()}
           <a href="/users/sign_out"

@@ -2,7 +2,9 @@ class HistoriesController < ApplicationController
   before_action :authenticate_admin
 
   def show
+    start_date = Date.new(2022, 2, 18).beginning_of_day # to exclude results before upstream ids migration
     recent_task_runs = current_user.task_runs
+      .where('created_at > ?', start_date)
       .includes(:input_object, :task_results, task_results: [:content_filter_results, :translations])
       .order(created_at: :desc)
       .limit(50)

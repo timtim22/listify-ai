@@ -9,6 +9,8 @@ module HistoriesHelper
     summary_fragment: 'Listing Builder (intro)',
     other_room_fragment_step_2: 'Listing Builder (rooms)',
     bedroom_fragment_step_2: 'Listing Builder (rooms)',
+    headline_fragment: 'Listing Builder (intro)', # deprecated full listing
+    full_listing_room_step_2: 'Listing Builder (rooms)',
     area_description_fragment: 'Listing Builder (area)',
   }
 

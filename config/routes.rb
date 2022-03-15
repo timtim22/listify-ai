@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users, controllers: { registrations: "registrations" }
+  devise_for :users, controllers: { registrations: 'registrations' }
 
   root to: 'listings#new'
   get '/terms', to: 'home#terms'
@@ -56,10 +56,5 @@ Rails.application.routes.draw do
     resources :statistics, only: [:index]
     resources :user_locks, only: [:create, :destroy]
     resources :data_exports, only: [:index]
-  end
-
-  namespace :legacy do
-    resources :task_runs, only: [:index]
-    resources :prompts, only: [:index]
   end
 end

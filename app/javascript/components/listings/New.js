@@ -9,9 +9,6 @@ import AreaForm from './AreaForm';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
-import FullListingForm from '../full_listings/Form';
-import FullListingResults from '../full_listings/FullListingResults';
-import FullListingPoll from '../full_listings/FullListingPoll';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
@@ -96,17 +93,6 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           onResult={handleTaskRun}
         />
       )
-    } else if (formType === 'full_listing') {
-      return (
-        <FullListingForm
-          runsRemaining={runsRemaining}
-          setRunsRemaining={setRunsRemaining}
-          loading={loading}
-          setLoading={toggleLoading}
-          results={results}
-          setResults={setResults}
-        />
-      )
     } else if (formType === 'listing_builder') {
       return (
         <ListingBuilderForm
@@ -138,22 +124,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   }
 
   const resultsSection = () => {
-    if (formType === "full_listing") {
-      return (
-        <>
-          <FullListingPoll
-            fullListing={results[0]}
-            onComplete={(completedListing) => { setResults([completedListing]); setLoading(false) }}
-            onError={setErrors}
-          />
-          <FullListingResults
-            runsRemaining={runsRemaining}
-            loading={loading}
-            results={results}
-          />
-        </>
-      )
-    } else if (formType === "listing_builder") {
+    if (formType === "listing_builder") {
       return (
         <>
           <ListingBuilderResultsPoll

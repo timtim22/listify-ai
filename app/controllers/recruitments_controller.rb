@@ -9,9 +9,6 @@ class RecruitmentsController < ApplicationController
     #response.headers['Access-Control-Allow-Headers'] = 'accept, content-type'
   #end
 
-  def new
-  end
-
   def create
     auth_token = Rails.application.credentials.extension[:token]
     raise 'Auth error!'if params[:auth] != auth_token # temp solution!
@@ -24,19 +21,5 @@ class RecruitmentsController < ApplicationController
         format.json { render json: @task_run_result.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def create_job
-    respond_to do |format|
-      format.json { render :create_job, status: :created }
-    end
-  end
-
-  def fetch_job
-    send_file(
-      Rails.root.join('public/demo-profile-outputs.csv'),
-      filename: 'profile_summaries.csv',
-      type: 'application/csv'
-    )
   end
 end

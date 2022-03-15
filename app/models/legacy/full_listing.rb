@@ -1,13 +1,12 @@
-class FullListing < ApplicationRecord
+# Old full listing, deprecated beginning of March - namespace as legacy soon
+class Legacy::FullListing < ApplicationRecord
+  self.table_name = 'full_listings'
+
   has_many :listing_fragments, dependent: :destroy
   has_many :translations, as: :translatable, dependent: :destroy
   belongs_to :user
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
-
-  def self.from(attrs, user)
-    FullListingGenerator.new(attrs, user).create!
-  end
 
   def result_text
     if requests_completed?

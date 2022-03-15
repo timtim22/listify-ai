@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users, controllers: { registrations: "registrations" }
+  devise_for :users, controllers: { registrations: 'registrations' }
 
   root to: 'listings#new'
   get '/terms', to: 'home#terms'
@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   resources :task_runs, only: [:index] do
     resources :task_results, only: [:index]
   end
-  resources :task_run_feedbacks, only: [:index, :create]
-
-  resources :full_listings, only: [:create, :show]
 
   resources :listings, only: [:new, :create]
   resources :listing_fragments, only: [:create]
@@ -28,7 +25,6 @@ Rails.application.routes.draw do
   resources :translations, only: [:create] do
     post :create_batch, on: :collection
   end
-  resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]
   resources :copy_events, only: [:create]
@@ -49,19 +45,12 @@ Rails.application.routes.draw do
   resources :payments
   resources :charges
 
-  resources :recruitments, only: [:new, :create]
-  post '/recruitments/create_job', to: 'recruitments#create_job'
-  get '/recruitments/fetch_job', to: 'recruitments#fetch_job'
+  resources :recruitments, only: [:create]
 
   namespace :admin do
     get 'index', to: 'home#index'
     resources :statistics, only: [:index]
     resources :user_locks, only: [:create, :destroy]
     resources :data_exports, only: [:index]
-  end
-
-  namespace :legacy do
-    resources :task_runs, only: [:index]
-    resources :prompts, only: [:index]
   end
 end

@@ -38,7 +38,7 @@ class TranslationsController < ApplicationController
   private
 
   def class_for(object_name)
-    translatable_classes = [TaskResult, FullListing]
+    translatable_classes = [TaskResult, Legacy::FullListing]
     translatable_classes.find { |c| c == object_name.constantize }
   end
 

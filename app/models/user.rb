@@ -6,12 +6,12 @@ class User < ApplicationRecord
   has_one :team_role, required: false
   has_one :team, through: :team_role
 
-  has_many :legacy_task_runs, class_name: "Legacy::TaskRun"
+  has_many :legacy_task_runs, class_name: 'Legacy::TaskRun'
   has_many :task_runs, dependent: :destroy
   has_many :task_results, through: :task_runs
   has_many :task_run_feedbacks, dependent: :destroy
   has_many :inputs, dependent: :destroy
-  has_many :full_listings, dependent: :destroy
+  has_many :full_listings, dependent: :destroy, class_name: 'Legacy::FullListing'
   has_many :recorded_searches, dependent: :destroy
 
   has_many :subscriptions

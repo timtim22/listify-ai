@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   resources :task_runs, only: [:index] do
     resources :task_results, only: [:index]
   end
-  resources :task_run_feedbacks, only: [:index, :create]
 
   resources :listings, only: [:new, :create]
   resources :listing_fragments, only: [:create]

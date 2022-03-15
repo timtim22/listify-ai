@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   resources :translations, only: [:create] do
     post :create_batch, on: :collection
   end
-  resources :writings, only: [:new, :create]
   resources :playground_attempts, only: [:new, :create]
   resources :task_reruns, only: [:create]
   resources :copy_events, only: [:create]

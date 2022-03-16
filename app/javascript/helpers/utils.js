@@ -37,3 +37,20 @@ export const coerceWithinRange = (inputNumber, min, max) => {
 export const randId = () => {
   return Math.random().toString().substr(2, 8);
 }
+
+export const bedroomTextForBackend = (bedrooms) => {
+  return bedrooms.map((b, i) => {
+    return `bedroom ${i + 1}: ${bedText(b)}${b.details}`
+  }).join("\n");
+}
+
+const bedText = (bedroom) => {
+  const { bed, details } = bedroom;
+  if (!bed || bed === '' || bed.includes('Other')) {
+    return '';
+  } else {
+    const s = bed === 'twin' ? 's' : '';
+    const comma = details.length > 0 ? ', ' : '';
+    return `${bed} bed${s}${comma}`
+  }
+};

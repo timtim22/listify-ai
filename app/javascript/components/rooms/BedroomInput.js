@@ -22,20 +22,20 @@ const BedroomInput = ({ bedroom, title, updateIndex, placeholderContent }) => {
   }
 
   const buttonFor = (bedName) => {
-    if (bedroom.bed === bedName.toLowerCase()) {
-      console.log(title, bedName)
-    }
-
+    const onClick = () => updateIndex({ ...bedroom, bed: bedName.toLowerCase()});
     return (
-      <div className={`${bedName.includes("Other") ? '' : 'w-24'} flex items-center`}>
+      <div
+        onClick={onClick}
+        className={`${bedName.includes("Other") ? '' : 'w-24'} cursor-pointer flex items-center`}
+      >
         <input
           type="radio"
           name={`${title}-${bedName}`}
           checked={bedroom.bed === bedName.toLowerCase()}
-          className="m-2 focus:shadow-none focus:ring-0"
-          onChange={() => updateIndex({ ...bedroom, bed: bedName.toLowerCase()})}
+          className="my-2 mr-2 cursor-pointer focus:shadow-none focus:ring-0"
+          onChange={onClick}
         />
-        <label>
+        <label className="cursor-pointer">
           {bedName}
         </label>
       </div>
@@ -59,7 +59,7 @@ const BedroomInput = ({ bedroom, title, updateIndex, placeholderContent }) => {
             {buttonFor('Twin')}
             {buttonFor('Other (give details)')}
           </div>
-          <label className="text-xs font-semibold">More details</label>
+          <label className="text-xs font-semibold mb-1">More details:</label>
 
           <TextareaWithPlaceholder
             value={bedroom.details || ""}

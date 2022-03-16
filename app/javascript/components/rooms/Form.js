@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
+import { bedroomTextForBackend } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 import BedroomForm from './BedroomForm';
 import OtherRoomForm from './OtherRoomForm';
 
 const maxInput = 800;
-const newRoomDescription = { bedrooms: [{ id: 1, details: '' }], rooms: [], request_type: 'room_description' };
+const newRoomDescription = {
+  bedrooms: [{ id: 1, details: '' }],
+  rooms: [],
+  request_type: 'room_description'
+};
 const roomTypes = [
   { name: 'bedrooms', value: 'bedrooms' },
   { name: 'other rooms and spaces', value: 'others' }
@@ -57,19 +62,8 @@ const Form = ({
   }
 
   const bedroomInputText = () => {
-    const { bedrooms } = roomDescription;
-    return bedrooms.map((b, i) => {
-      return `bedroom ${i + 1}: ${bedText(b.bed)}${b.details}`
-    }).join("\n");
+    return bedroomTextForBackend(roomDescription.bedrooms);
   }
-
-  const bedText = (bed) => {
-    if (!bed || bed === '' || bed.includes('Other')) {
-      return '';
-    } else {
-      return `${bed}, `
-    }
-  };
 
   const otherRoomInputText = () => {
     const { rooms } = roomDescription;

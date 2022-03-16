@@ -1,41 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bedroomTextForBackend } from '../../helpers/utils';
 import BedroomInput from '../rooms/BedroomInput';
 
 const BedroomForm = ({ inputFields, updateBedroomInState, handleSubmit, stepButton }) => {
 
   const bedroomInputText = () => {
-    const { bedrooms } = inputFields;
-    return bedrooms.map((b, i) => b.length >= 3 ? `bedroom ${i + 1}: ${b}` : "").join("\n");
+    return bedroomTextForBackend(inputFields.bedrooms);
   }
 
-  const bedroomRow = (title, index, placeholderText) => {
+  const bedroomRow = (title, bedroom) => {
     return (
       <BedroomInput
-        key={index}
-        bedroom={inputFields.bedrooms[index]}
+        key={bedroom.id}
+        bedroom={bedroom}
         title={title}
-        index={index}
-        updateIndex={(index, value) => updateBedroomInState(index, value)}
-        placeholderContent={detailPlaceholder(placeholderText, index)}
+        updateIndex={(value) => updateBedroomInState(value)}
+        placeholderContent={detailPlaceholder(title === 'Bedroom 1')}
       />
     )
   }
 
-  const detailPlaceholder = (placeholderText, index) => {
+  const detailPlaceholder = (showPlaceholder) => {
     return (
       <div className="flex flex-col items-start mb-px leading-relaxed">
-        <p>{index == 0 ? placeholderText : ""}</p>
+        <p className="mt-1 ml-px">{showPlaceholder ? 'e.g. wardrobe, ensuite...' : ""}</p>
       </div>
     )
   }
 
-  const number = inputFields.bedroom_count === "" ? 1 : parseInt(inputFields.bedroom_count);
-  const arrayOfIndexes = Array.from(Array(number).keys())
-  const bedroomRows = arrayOfIndexes.map((i) => {
-    return (
-      bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')
-    )
+  const bedroomRows = inputFields.bedrooms.map((bedroom, i) => {
+    return bedroomRow(`Bedroom ${i + 1}`, bedroom)
   });
 
   return (

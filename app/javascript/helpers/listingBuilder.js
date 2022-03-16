@@ -27,18 +27,15 @@ export const userCharactersFor = (stepName, inputFields) => {
   return functions[stepName](inputFields);
 }
 
-
 const summaryUserCharacters = (inputFields) => {
   const { property_type, location, key_features, ideal_for } = inputFields;
   return `${property_type} ${location} ${key_features} ${ideal_for}`;
 }
 
 const bedroomsUserCharacters = (inputFields) => {
-  return inputFields.bedrooms.join(" ");
+  return inputFields.bedrooms.map(r => r.details).join(" ");
 }
 
 const otherRoomsUserCharacters = (inputFields) => {
   return inputFields.rooms.map(r => `${r.name} ${r.description}`).join(" ");
 }
-
-

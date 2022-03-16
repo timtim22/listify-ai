@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import { randId } from '../../helpers/utils';
 
@@ -11,7 +12,7 @@ const charHardWarningLength = 10;
 const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   useEffect(() => {
-    if (rooms.length === 0) { addRoom() };
+    if (rooms.length === 0) { addRoom() }
   }, [])
 
   const addRoom = () => {
@@ -167,6 +168,12 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
       </div>
     </div>
   )
+}
+
+RoomForm.propTypes = {
+  rooms: PropTypes.object,
+  showHeader: PropTypes.bool,
+  onChange: PropTypes.func,
 }
 
 export default RoomForm;

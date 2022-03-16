@@ -13,7 +13,7 @@ const BedroomForm = ({ inputFields, updateBedroomInState, handleSubmit, stepButt
     return (
       <BedroomInput
         key={index}
-        bedrooms={inputFields.bedrooms}
+        bedroom={inputFields.bedrooms[index]}
         title={title}
         index={index}
         updateIndex={(index, value) => updateBedroomInState(index, value)}

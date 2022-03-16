@@ -8,7 +8,7 @@ import BedroomForm from './BedroomForm';
 import OtherRoomForm from './OtherRoomForm';
 
 const maxInput = 800;
-const newRoomDescription = { bedrooms: [''], rooms: [], request_type: 'room_description' };
+const newRoomDescription = { bedrooms: [{ id: 1, details: '' }], rooms: [], request_type: 'room_description' };
 const roomTypes = [
   { name: 'bedrooms', value: 'bedrooms' },
   { name: 'other rooms and spaces', value: 'others' }
@@ -58,8 +58,18 @@ const Form = ({
 
   const bedroomInputText = () => {
     const { bedrooms } = roomDescription;
-    return bedrooms.map((b, i) => b.length >= 3 ? `bedroom ${i + 1}: ${b}` : "").join("\n");
+    return bedrooms.map((b, i) => {
+      return `bedroom ${i + 1}: ${bedText(b.bed)}${b.details}`
+    }).join("\n");
   }
+
+  const bedText = (bed) => {
+    if (!bed || bed === '' || bed.includes('Other')) {
+      return '';
+    } else {
+      return `${bed}, `
+    }
+  };
 
   const otherRoomInputText = () => {
     const { rooms } = roomDescription;
@@ -103,8 +113,8 @@ const Form = ({
     if (inputType === 'bedrooms') {
       return (
         <BedroomForm
-          roomDescription={roomDescription}
-          setRoomDescription={setRoomDescription}
+          bedrooms={roomDescription.bedrooms}
+          setBedrooms={(bedrooms) => setField('bedrooms', bedrooms)}
         />
       )
     } else {

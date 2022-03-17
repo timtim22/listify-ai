@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { createRequest } from '../../helpers/requests';
+import { randId } from '../../helpers/utils';
 import { defaultStepOrder, displayNameFor, userCharactersFor } from '../../helpers/listingBuilder';
 import ErrorNotice from '../common/ErrorNotice';
 import OtherRoomForm from './OtherRoomForm';
@@ -16,7 +17,7 @@ const newInputFields = {
   ideal_for: '',
   bedroom_count: 1,
   key_features: '',
-  bedrooms: [''],
+  bedrooms: [{ id: 1, details: '' }],
   rooms: [],
 }
 
@@ -50,17 +51,24 @@ const Form = ({
     } else {
       setInputFields({
         ...inputFields,
-        bedrooms: [ ...inputFields.bedrooms, '' ],
+        bedrooms: newBedrooms(newCount),
         bedroom_count: newCount
       });
     }
   }
 
-  const updateBedroomInState = (index, newValue) => {
-    const { bedrooms } = inputFields;
-    let newBedrooms = [ ...bedrooms ];
-    newBedrooms[index] = newValue;
-    setField('bedrooms', newBedrooms);
+  const newBedrooms = (newCount) => {
+    let newBedrooms = [ ...inputFields.bedrooms ]
+    const toAdd = newCount - inputFields.bedrooms.length;
+    for (let i = 0; i < toAdd; i++) { newBedrooms.push({ id: randId(), details: '' }) }
+    return newBedrooms;
+  };
+
+  const updateBedroomInState = (newRoom) => {
+    let newRooms = [...inputFields.bedrooms];
+    const index = newRooms.findIndex(e => e.id === newRoom.id);
+    newRooms[index] = newRoom;
+    setField('bedrooms', newRooms);
   }
 
   const selectNextStep = (nextStepName) => {

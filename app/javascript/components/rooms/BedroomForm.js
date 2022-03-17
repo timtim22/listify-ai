@@ -1,46 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { randId } from '../../helpers/utils';
 import NumberField from '../common/NumberField';
 import BedroomInput from './BedroomInput';
 
-const BedroomForm = ({ roomDescription, setRoomDescription }) => {
+const BedroomForm = ({ bedrooms, setBedrooms }) => {
   const [bedroomCount, setBedroomCount] = useState(1);
 
-  const updateBedroomInState = (index, newValue) => {
-    const { bedrooms } = roomDescription;
-    let newBedrooms = [ ...bedrooms ];
-    newBedrooms[index] = newValue;
-    setRoomDescription({ ...roomDescription, bedrooms: newBedrooms });
+  const updateBedroomInState = (newRoom) => {
+    let newRooms = [...bedrooms];
+    const index = newRooms.findIndex(e => e.id === newRoom.id);
+    newRooms[index] = newRoom;
+    setBedrooms(newRooms);
   }
 
   const changeBedroomCount = (newCount) => {
-    if (newCount < roomDescription.bedrooms.length) {
-      setRoomDescription({
-        ...roomDescription,
-        bedrooms: roomDescription.bedrooms.slice(0, newCount)
-      });
+    if (newCount < bedrooms.length) {
+      setBedrooms(bedrooms.slice(0, newCount));
       setBedroomCount(newCount);
     } else {
-      setRoomDescription({
-        ...roomDescription,
-        bedrooms: [ ...roomDescription.bedrooms, '' ]
-      });
+      let newBedrooms = [ ...bedrooms ]
+      const toAdd = newCount - bedrooms.length;
+      for (let i = 0; i < toAdd; i++) { newBedrooms.push({ id: randId(), details: '' }) }
+      setBedrooms(newBedrooms);
       setBedroomCount(newCount);
     }
-  }
-
-  const bedroomCountAsArray = () => {
-    const number = bedroomCount === "" ? 1 : parseInt(bedroomCount);
-    return Array.from(Array(number).keys());
   }
 
   const bedroomFields = () => {
     return (
       <div className="flex flex-col">
-        {bedroomCountAsArray().map((i) => {
-          return (
-            bedroomRow(`Bedroom ${i + 1}`, i, 'e.g. double bed, ensuite...')
-          )
+        {bedrooms.map((bedroom, i) => {
+          return bedroomRow(`Bedroom ${i + 1}`, bedroom)
         })}
       </div>
     )
@@ -61,20 +52,23 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
   const detailPlaceholder = (placeholderText) => {
     return (
       <div className="flex flex-col items-start mb-px text-sm leading-relaxed">
-        <p>{placeholderText}</p>
+        <p className="mt-1 ml-px">
+          {placeholderText}
+        </p>
       </div>
     )
   }
 
-  const bedroomRow = (title, index, placeholderText) => {
+  const bedroomRow = (title, bedroom) => {
+    const placeholder = title === 'Bedroom 1' ? 'e.g. large room, wardrobe, ensuite' : '';
     return (
       <BedroomInput
-        key={index}
-        bedrooms={roomDescription.bedrooms}
+        key={bedroom.id}
+        bedroom={bedroom}
+        bed={bedroom.bed}
         title={title}
-        index={index}
-        updateIndex={(index, value) => updateBedroomInState(index, value)}
-        placeholderContent={detailPlaceholder(placeholderText)}
+        updateIndex={(value) => updateBedroomInState(value)}
+        placeholderContent={detailPlaceholder(placeholder)}
       />
     )
   }
@@ -86,5 +80,10 @@ const BedroomForm = ({ roomDescription, setRoomDescription }) => {
     </>
   )
 }
+
+BedroomForm.propTypes = {
+  bedrooms: PropTypes.array,
+  setBedrooms: PropTypes.func,
+};
 
 export default BedroomForm;

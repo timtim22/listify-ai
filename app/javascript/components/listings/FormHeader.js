@@ -17,7 +17,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
   }
 
   const canSeeAbout = () => {
-    return user.admin || user.id === "197d4687-e3a9-40bb-948b-ec0285c3485e"
+    return user.admin || user.id === "197d4687-e3a9-40bb-948b-ec0285c3485e" || user.id === "0948adc5-66c5-492d-aa43-77685cf86f11"
   };
 
   return (

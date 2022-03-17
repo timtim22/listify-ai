@@ -46,7 +46,7 @@ export const bedroomTextForBackend = (bedrooms) => {
 
 const bedText = (bedroom) => {
   const { bed, details } = bedroom;
-  if (!bed || bed === '' || bed.includes('Other')) {
+  if (!bed || bed === '' || bed.toLowerCase().includes('other')) {
     return '';
   } else {
     const s = bed === 'twin' ? 's' : '';

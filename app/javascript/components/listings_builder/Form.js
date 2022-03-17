@@ -71,13 +71,6 @@ const Form = ({
     setField('bedrooms', newRooms);
   }
 
-  //const updateBedroomInState = (index, newValue) => {
-    //const { bedrooms } = inputFields;
-    //let newBedrooms = [ ...bedrooms ];
-    //newBedrooms[index] = newValue;
-    //setField('bedrooms', newBedrooms);
-  //}
-
   const selectNextStep = (nextStepName) => {
     if (!stepNames.includes(nextStepName)) {
       setStepNames([ ...stepNames, nextStepName ]);

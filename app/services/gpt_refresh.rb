@@ -39,7 +39,7 @@ class GptRefresh
         two_step_task_runner.run_for!(
           save.input_object,
           user,
-          'full_listing_room_step_2', # only uses 1 spin
+          'room_step_2',
           nil
         )
       end

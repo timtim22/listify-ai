@@ -42,12 +42,21 @@ const Form = ({
         room_description: {
         request_type: roomDescription.request_type,
         input_text: swapBulletsForCommas(currentViewInputText())
-        }
+        },
+        just_beds: justBedsInput()
       },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )
   }
+
+  const justBedsInput = () => {
+    return (
+      inputType === 'bedrooms' &&
+      roomDescription.bedrooms.length > 5 &&
+      roomDescription.bedrooms.every(b => b.details.trim() === '')
+    )
+  };
 
   const swapBulletsForCommas = (string) => {
     return string.replaceAll("\n- ", ",").replaceAll(": -", ":");

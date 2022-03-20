@@ -2,7 +2,7 @@ class GptRefresh
 
   attr_reader :user, :one_step_task_runner, :two_step_task_runner
 
-  REFRESH_HOURS = 4
+  REFRESH_MINUTES = 30
 
   def initialize
     @user = User.find_by(email: 'test2@venturerocket.co.uk')
@@ -52,7 +52,7 @@ class GptRefresh
   end
 
   def recent_spins_for(input_object_type)
-    TaskRun.where('created_at > ?', REFRESH_HOURS.hours.ago)
+    TaskRun.where('created_at > ?', REFRESH_MINUTES.minutes.ago)
       .where(input_object_type: input_object_type)
       .count
   end

@@ -3,15 +3,12 @@ class RoomDescriptionsController < ApplicationController
 
   def create
     @runs_remaining = SpinCheck.runs_remaining(current_user)
-    save = Input.create_with(RoomDescription.new(room_description_params), current_user)
+    room = RoomDescription.new(room_description_params)
+    room.request_type = 'room_step_1_text' if params[:just_beds]
+    save = Input.create_with(room, current_user)
     if save.success
       @room_description = save.input_object
-      @task_run = TaskRunners::TwoStep.new.run_for!(
-        @room_description,
-        current_user,
-        'room_step_2',
-        params[:output_language]
-      )
+      run_task!
       @runs_remaining -= 1
     end
 
@@ -25,6 +22,15 @@ class RoomDescriptionsController < ApplicationController
   end
 
   private
+
+  def run_task!
+    @task_run = TaskRunners::TwoStep.new.run_for!(
+      @room_description,
+      current_user,
+      'room_step_2',
+      params[:output_language]
+    )
+  end
 
   def room_description_params
     params.require(:room_description).permit(:request_type, :input_text)

@@ -62,7 +62,15 @@ class SpinCounter
   end
 
   def subscription_spins_remaining
-    user.subscription.plan.monthly_spin_cap - spins_this_month
+    user.subscription.plan.monthly_spin_cap - subscription_spins_used(user.subscription)
+  end
+
+  def subscription_spins_used(subscription)
+    if subscription.created_at >= Time.zone.now.beginning_of_month
+      spins_since(subscription.created_at)
+    else
+      spins_this_month
+    end
   end
 
   def trial_spins_remaining

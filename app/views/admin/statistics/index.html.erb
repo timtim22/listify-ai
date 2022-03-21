@@ -47,7 +47,7 @@
 
                 ) %>
               <% end %>
-              <% if current_user.email == 'test2@venturerocket.co.uk' %>
+              <% if Rails.env.development? || current_user.email == 'test2@venturerocket.co.uk' %>
                 <%= link_to(
                   "Login As",
                   masquerade_path(user.user_object),

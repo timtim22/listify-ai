@@ -35,9 +35,10 @@
                 <%= render partial: 'shared/nav_link', locals: { name: "Admin", route: admin_index_path } %>
               <% end %>
 
-              <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_account_path } %>
-
-              <%= render partial: 'shared/nav_link', locals: { name: "History", route: history_path } %>
+              <% if !current_user.account_links_hidden? %>
+                <%= render partial: 'shared/nav_link', locals: { name: "Account", route: edit_account_path } %>
+                <%= render partial: 'shared/nav_link', locals: { name: "History", route: history_path } %>
+              <% end %>
 
               <% if current_user.subscribed? || current_user.member_of_team? %>
                 <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
@@ -51,6 +52,7 @@
             <%= react_component "common/MobileMenu", {
               subscribed: current_user.subscribed?,
               memberOfTeam: current_user.member_of_team?,
+              accountLinksHidden: current_user.account_links_hidden?,
               admin: current_user.admin?
             } %>
           </div>

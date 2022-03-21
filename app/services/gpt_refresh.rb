@@ -17,11 +17,14 @@ class GptRefresh
     create_room_spin
   end
 
+  private
+
   def create_listing_spin
     if recent_spins_for('Listing').positive?
       log_skipping('listing')
     else
       log_running('listing')
+      run_listing_spin
     end
   end
 
@@ -30,6 +33,7 @@ class GptRefresh
       log_skipping('room')
     else
       log_running('room')
+      run_room_spin
     end
   end
 

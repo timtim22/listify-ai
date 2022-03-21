@@ -17,8 +17,6 @@ class GptRefresh
     create_room_spin
   end
 
-  private
-
   def create_listing_spin
     if recent_spins_for('Listing').positive?
       log_skipping('listing')

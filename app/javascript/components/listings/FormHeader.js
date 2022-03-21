@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bannerForUser } from '../common/HeaderBanner';
 
+const aboutUsers = [
+  "197d4687-e3a9-40bb-948b-ec0285c3485e", //boostly
+  "0948adc5-66c5-492d-aa43-77685cf86f11",  // casa
+  "d5a62173-ec2b-4cf0-aca5-5bb296eeb710", // local test
+]
+
 const FormHeader = ({ user, formType, setFormType }) => {
 
   const navLink = (title, value, subtitle) => {
@@ -17,7 +23,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
   }
 
   const canSeeAbout = () => {
-    return user.admin || user.id === "197d4687-e3a9-40bb-948b-ec0285c3485e" || user.id === "0948adc5-66c5-492d-aa43-77685cf86f11"
+    return user.admin || aboutUsers.includes(user.id);
   };
 
   return (

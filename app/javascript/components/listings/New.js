@@ -14,16 +14,19 @@ import ResultsPoll from '../inputs/ResultsPoll';
 
 export const UserContext = createContext();
 
+const aboutFirstUser = (user) => {
+  const ids = ["197d4687-e3a9-40bb-948b-ec0285c3485e", "d5a62173-ec2b-4cf0-aca5-5bb296eeb710"] //boostly & local test
+  return ids.includes(user.id);
+};
+
 const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const [user, setUser] = useState(currentUser);
   const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
-  const [formType, setFormType] = useState('listing_description');
+  const [formType, setFormType] = useState(aboutFirstUser(currentUser) ? 'about' : 'listing_description');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
-  const [errors, setErrors] = useState(null);
   const [builderStepNames, setBuilderStepNames] = useState(initialStepArray);
-
 
   useEffect(() => { resetState() }, [formType]);
 

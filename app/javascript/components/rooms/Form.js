@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useScrollToTopOnError } from '../hooks';
+import { useScrollToTopOnError, useScrollOnLoading } from '../hooks';
 import { createRequest } from '../../helpers/requests';
 import { bedroomTextForBackend } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
@@ -31,6 +31,7 @@ const Form = ({
   const [inputType, setInputType] = useState('bedrooms');
 
   const onError = useScrollToTopOnError(errors);
+  const onLoading = useScrollOnLoading(loading);
 
   const handleSubmit = (e) => {
     e.preventDefault();

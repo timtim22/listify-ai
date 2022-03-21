@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :masquerade_user!
+
   rescue_from Errors::ShortRequest, with: :render_error_response
   rescue_from Errors::NoSpinsRemaining, with: :render_error_response
   rescue_from Errors::UserAccountLocked, with: :render_error_response

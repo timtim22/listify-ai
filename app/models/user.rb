@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :masqueradable
 
   has_one :team_role, required: false
   has_one :team, through: :team_role
@@ -35,6 +35,11 @@ class User < ApplicationRecord
     team && team_role.admin_privileges?
   end
 
+  def account_links_hidden?
+    hidden = ['197d4687-e3a9-40bb-948b-ec0285c3485e', 'd5a62173-ec2b-4cf0-aca5-5bb296eeb710'] # boostly & local test
+    hidden.include? id
+  end
+
   def on_private_beta?
     account_status == 'private_beta'
   end
@@ -60,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def lock_account!
-    self.update(account_locked: true)
+    update(account_locked: true)
     AdminMailer.user_account_locked(self).deliver_later
   end
 

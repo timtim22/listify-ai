@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const MobileMenu = ({ admin, subscribed, memberOfTeam }) => {
+const MobileMenu = ({ admin, subscribed, memberOfTeam, accountLinksHidden }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const adminLink = () => {
@@ -32,6 +32,31 @@ const MobileMenu = ({ admin, subscribed, memberOfTeam }) => {
     }
   }
 
+  const accountLinks = () => {
+    if (!accountLinksHidden) {
+      return (
+        <>
+          <a
+          href="/account/edit"
+          className="block py-2 px-4 text-sm text-gray-700"
+          role="menuitem"
+          tabIndex="-1"
+          id="dd-account-link">
+            Account
+          </a>
+          <a
+            href="/history"
+            className="block py-2 px-4 text-sm text-gray-700"
+            role="menuitem"
+            tabIndex="-1"
+            id="dd-account-link">
+            History
+          </a>
+        </>
+      )
+    }
+  }
+
   const menuDropdown = () => {
     if (menuOpen) {
       return (
@@ -44,22 +69,7 @@ const MobileMenu = ({ admin, subscribed, memberOfTeam }) => {
             id="dd-app-link">
             App
           </a>
-          <a
-            href="/account/edit"
-            className="block py-2 px-4 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex="-1"
-            id="dd-account-link">
-            Account
-          </a>
-          <a
-            href="/history"
-            className="block py-2 px-4 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex="-1"
-            id="dd-account-link">
-            History
-          </a>
+          {accountLinks()}
           {subscribeLink()}
           {adminLink()}
           <a href="/users/sign_out"
@@ -113,6 +123,7 @@ MobileMenu.propTypes = {
   admin: PropTypes.bool,
   subscribed: PropTypes.bool,
   memberOfTeam: PropTypes.bool,
+  accountLinksHidden: PropTypes.bool
 };
 
 

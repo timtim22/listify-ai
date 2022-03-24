@@ -36,7 +36,7 @@ class SpinCounter
   end
 
   def spin_stats
-    OpenStruct.new(spins: spins_this_month, quota: monthly_spin_quota)
+    OpenStruct.new(spins: spins_in_current_period, quota: monthly_spin_quota)
   end
 
   private
@@ -50,6 +50,14 @@ class SpinCounter
       TRIAL_SPINS
     else
       nil
+    end
+  end
+
+  def spins_in_current_period
+    if user.subscription
+      subscription_spins_used(user.subscription)
+    else
+      spins_this_month
     end
   end
 

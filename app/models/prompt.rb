@@ -6,7 +6,7 @@ class Prompt < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-001 text-davinci-001].freeze
+  ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-001 text-davinci-001 text-davinci-002].freeze
 
   def self.new_from_defaults
     new(

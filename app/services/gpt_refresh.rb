@@ -2,7 +2,7 @@ class GptRefresh
 
   attr_reader :user, :one_step_task_runner, :two_step_task_runner
 
-  REFRESH_MINUTES = 30
+  REFRESH_MINUTES = 60
   LIST_TASK_RUN_ID = '00ebac53-2c24-41de-9db9-f70627d4fe71'.freeze
   ROOM_TASK_RUN_ID = '4c27cc64-fba6-48b1-9626-65e560fbd023'.freeze
 

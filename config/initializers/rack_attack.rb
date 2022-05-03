@@ -8,7 +8,7 @@ REQUEST_ROUTES = [
   '/translations.json'
 ]
 
-Rack::Attack.throttle("requests by ip", limit: 5, period: 2) do |request|
+Rack::Attack.throttle("requests by ip", limit: 8, period: 2) do |request|
   request.ip
 end
 

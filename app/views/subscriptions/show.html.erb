@@ -6,7 +6,7 @@
         <h2 class="log-in-header">Billing</h2>
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
 
-        <% if current_user.member_of_team? %>
+        <% if current_user.member_of_team? && @subscription.nil? %>
           <p class="mb-8">You are using Listify as part of the <span class="font-semibold"><%= current_user.team.name %></span> team - contact your team admin (or us, if that's you!) to talk about your subscription.</p>
         <% else %>
           <h5 class="mb-4 text-xl font-medium">Subscription</h5>

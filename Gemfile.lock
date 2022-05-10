@@ -306,7 +306,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stripe (5.41.0)
+    stripe (5.55.0)
     stripe_event (2.3.1)
       activesupport (>= 3.1)
       stripe (>= 2.8, < 6)
@@ -383,7 +383,7 @@ DEPENDENCIES
   selenium-webdriver (~> 4.1)
   sidekiq (~> 6.4)
   spring
-  stripe (~> 5.41)
+  stripe (~> 5.55)
   stripe_event (~> 2.3, >= 2.3.1)
   turbolinks (~> 5)
   tzinfo-data

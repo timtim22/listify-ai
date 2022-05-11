@@ -46,7 +46,7 @@ group :development do
   gem 'brakeman', '~> 5.2'
   gem 'bullet', '~> 6.1', '>= 6.1.5'
   gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
-  gem 'overcommit', '~> 0.58.0'
+  gem 'overcommit', '~> 0.59.1'
 end
 
 group :test do

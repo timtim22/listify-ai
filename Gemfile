@@ -40,13 +40,13 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
-  gem 'listen', '~> 3.3'
+  gem 'listen', '~> 3.7'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'brakeman', '~> 5.2'
   gem 'bullet', '~> 6.1', '>= 6.1.5'
   gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
-  gem 'overcommit', '~> 0.58.0'
+  gem 'overcommit', '~> 0.59.1'
 end
 
 group :test do
@@ -64,7 +64,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'acts_as_list', '~> 1.0', '>= 1.0.4'
 gem 'country_select', '~> 3.1', '>= 3.1.1'
 gem 'devise', '~> 4.7', '>= 4.7.1'
-gem 'devise_masquerade', '~> 1.3', '>= 1.3.9'
+gem 'devise_masquerade', '~> 1.3'
 gem 'font-awesome-sass', '~> 6.1'
 gem 'honeybadger', '~> 4.9'
 gem 'httparty', '~> 0.18.1'

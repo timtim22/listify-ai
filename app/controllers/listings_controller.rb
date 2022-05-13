@@ -28,10 +28,10 @@ class ListingsController < ApplicationController
 
   def params_for_language
     language = listing_params[:input_language]
-    if language.present? && language != "EN"
-      translation_result = DeepLClient.new.translate(
+    if language.present? && language != 'EN'
+      translation_result = ApiClients::DeepL.new.translate(
         language,
-        "EN-GB",
+        'EN-GB',
         listing_params[:input_text]
       )
       listing_params.merge({

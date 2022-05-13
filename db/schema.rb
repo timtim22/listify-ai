@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_11_124305) do
+ActiveRecord::Schema.define(version: 2022_05_13_201714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -369,13 +369,6 @@ ActiveRecord::Schema.define(version: 2022_03_11_124305) do
     t.string "country_code"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "writings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "request_type"
-    t.text "input_text"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "area_description_fragments", "search_locations"

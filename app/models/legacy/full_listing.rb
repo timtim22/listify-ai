@@ -2,7 +2,7 @@
 class Legacy::FullListing < ApplicationRecord
   self.table_name = 'full_listings'
 
-  has_many :listing_fragments, dependent: :destroy
+  has_many :listing_fragments, class_name: 'Legacy::ListingFragment', dependent: :destroy
   has_many :translations, as: :translatable, dependent: :destroy
   belongs_to :user
 

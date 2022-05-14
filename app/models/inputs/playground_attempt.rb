@@ -1,5 +1,7 @@
-class PlaygroundAttempt < ApplicationRecord
+class Inputs::PlaygroundAttempt < ApplicationRecord
   include Inputable
+
+  self.table_name = 'playground_attempts'
 
   has_many :task_runs, as: :input_object, dependent: :destroy
 

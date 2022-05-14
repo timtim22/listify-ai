@@ -2,7 +2,7 @@ class GptRequestRunner
 
   def initialize
     @custom_filter = CustomResultFilter
-    @client        = DeepLClient.new
+    @client        = ApiClients::DeepL.new
   end
 
   def for(task_run_id, prompt_id)

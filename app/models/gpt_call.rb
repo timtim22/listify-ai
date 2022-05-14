@@ -4,7 +4,7 @@ class GptCall
   def initialize(request_object, request_config)
     @request = request_object
     @config  = request_config
-    @client  = GptClient.new
+    @client  = ApiClients::Gpt.new
   end
 
   def execute!

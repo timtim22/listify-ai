@@ -2,7 +2,7 @@ class AttractionFinder
   attr_reader :search_location, :client
   attr_accessor :found
 
-  def initialize(search_location, client = GoogleClient.new)
+  def initialize(search_location, client = ApiClients::GoogleMaps.new)
     @search_location = search_location
     @client = client
     @found = { attractions: [], stations: [], restaurants: [] }

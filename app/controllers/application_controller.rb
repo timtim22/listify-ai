@@ -7,13 +7,6 @@ class ApplicationController < ActionController::Base
   rescue_from Errors::NoSpinsRemaining, with: :render_error_response
   rescue_from Errors::UserAccountLocked, with: :render_error_response
 
-  def authorise_with_token
-    auth_token = Rails.application.credentials.extension[:token]
-    if request.headers['HTTP_AUTHORIZATION'] != auth_token
-      raise 'Token invalid!'
-    end
-  end
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[terms_of_service promotion_code])
   end

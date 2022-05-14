@@ -1,6 +1,6 @@
 class SpinCounter
 
-  DERIVATIVE_TASK_TYPES = ['ListingFragment', 'DerivedInputObject'].freeze
+  DERIVATIVE_TASK_TYPES = ['DerivedInputObject'].freeze
   BUILDER_TASK_TYPES = [
     'Inputs::SummaryFragment',
     'Inputs::BedroomFragment',

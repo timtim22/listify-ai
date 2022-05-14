@@ -3,7 +3,7 @@ class GptCheckedResponse
   FAIL            = "fail".freeze
   TOXIC_THRESHOLD = -0.355
 
-  def self.for(response, client = GptClient.new)
+  def self.for(response, client = ApiClients::Gpt.new)
     filter_check = run_filter_check(response, client)
     check_result = result_for(filter_check)
     response.merge({ check_result: check_result })

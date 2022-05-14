@@ -2,7 +2,7 @@ class GptRequestRunner
 
   def initialize
     @content_filters = ContentFilters::Runner.new
-    @client          = ApiClients::DeepL.new
+    @translations    = Translations::Runner.new
   end
 
   def for(task_run_id, prompt_id)
@@ -26,8 +26,8 @@ class GptRequestRunner
 
   def process_response(task_run, response, prompt)
     task_result = create_task_result(task_run, response, prompt)
-    run_content_filters(response, task_result, task_run)
-    translate(task_run, task_result)
+    @content_filters.run(response, task_result, task_run)
+    @translations.run(task_run, task_result)
     task_result
   end
 
@@ -38,19 +38,6 @@ class GptRequestRunner
       result_text: response[:result_text],
       error: response[:error]
     )
-  end
-
-  def run_content_filters(response, task_result, task_run)
-    if response[:should_check_content]
-      @content_filters.run(response, task_result, task_run)
-    end
-  end
-
-  def translate(task_run, task_result)
-    task_run.translation_requests.each do |req|
-      response = @client.translate(req.from, req.to, task_result.result_text)
-      Translation.create_for!(task_result, response)
-    end
   end
 
   def mock_response(prompt)

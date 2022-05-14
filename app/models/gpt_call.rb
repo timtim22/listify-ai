@@ -10,22 +10,17 @@ class GptCall
   def execute!
     log_request
     response = execute_request
-    if response[:success] && config[:check_content]
-      GptCheckedResponse.for(response, client)
-    else
-      response
-    end
+    result_from(response)
   end
 
   private
 
   def execute_request
     if config[:model].present?
-      response = client.request_with_model(request)
+      client.request_with_model(request)
     else
-      response = client.request_with_text(request, config[:engine])
+      client.request_with_text(request, config[:engine])
     end
-    result_from(response)
   end
 
   def result_from(response)
@@ -35,18 +30,19 @@ class GptCall
       {
         success: true,
         result_text: result_text(response),
-        user_id: JSON.parse(request)["user"]
+        user_id: JSON.parse(request)['user'],
+        should_check_content: config[:check_content]
       }
     end
   end
 
   def result_text(response)
-    response["choices"].first.dig("text")
+    response['choices'].first['text']
   end
 
   def log_request
-    puts "REQUEST"
+    puts 'REQUEST'
     puts request
-    puts "-----"
+    puts '-----'
   end
 end

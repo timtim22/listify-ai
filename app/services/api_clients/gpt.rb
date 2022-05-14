@@ -3,6 +3,14 @@ module ApiClients
 
     TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
 
+    def request_for(request, config)
+      if config[:model].present?
+        request_with_model(request)
+      else
+        request_with_text(request, config[:engine])
+      end
+    end
+
     def request_with_model(body)
       request('post', model_url, headers, body)
     end

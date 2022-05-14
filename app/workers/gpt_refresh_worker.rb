@@ -4,6 +4,6 @@ class GptRefreshWorker
 
   def perform
     Rails.logger.info 'Running Gpt refresh worker...'
-    GptRefresh.new.run!
+    Background::GptRefresh.new.run!
   end
 end

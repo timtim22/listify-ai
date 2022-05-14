@@ -28,7 +28,7 @@ class Inputs::AreaDescriptionFragment < ApplicationRecord
   end
 
   def input_text
-    AreaTextGenerator.input_text_for(self)
+    AreaSearch::TextGenerator.input_text_for(self)
   end
 
   def selected_ids

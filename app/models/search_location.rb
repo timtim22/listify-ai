@@ -12,12 +12,12 @@ class SearchLocation < ApplicationRecord
         search_location.set_coordinates if !search_location.latitude
       end
     else
-      search_location = find_or_create_by(MockData.new.search_params)
+      search_location = find_or_create_by(AreaSearch::MockData.new.search_params)
     end
     search_location
   end
 
   def set_coordinates
-    Geocoder.set_coordinates(self)
+    AreaSearch::Geocoder.set_coordinates(self)
   end
 end

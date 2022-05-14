@@ -36,7 +36,7 @@ class GptCallGenerator
     {
       "prompt" => body.gsub("\\n", "\n"),
       "max_tokens" => prompt.max_tokens,
-      "stop" => ["\n", "\\n", " END"],
+      "stop" => ["\n", "\\n", " END"], # is this correct?
       "model" => prompt.gpt_model_id,
       "temperature" => prompt.temperature,
       "frequency_penalty" => prompt.frequency_penalty,

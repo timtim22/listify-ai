@@ -51,7 +51,7 @@ module TaskRunsHelper
   end
 
   def display_error(result, prompt_title)
-    error = result.error.starts_with? '<html>' ? result.error : JSON.parse(result.error)
+    error = result.error.starts_with?('<html>') ? result.error : JSON.parse(result.error)
     display_text = "<p class='text-red-700'>#{error}</p>"
     formatted_result = "<div>#{display_text}#{title_html(prompt_title)}</div>"
   end

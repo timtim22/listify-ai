@@ -273,17 +273,6 @@ ActiveRecord::Schema.define(version: 2022_05_13_202502) do
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end
 
-  create_table "task_run_feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "task_run_id", null: false
-    t.integer "score"
-    t.text "comment"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["task_run_id"], name: "index_task_run_feedbacks_on_task_run_id"
-    t.index ["user_id"], name: "index_task_run_feedbacks_on_user_id"
-  end
-
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "prompt_set_id", null: false
@@ -387,8 +376,6 @@ ActiveRecord::Schema.define(version: 2022_05_13_202502) do
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
-  add_foreign_key "task_run_feedbacks", "task_runs"
-  add_foreign_key "task_run_feedbacks", "users"
   add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
   add_foreign_key "team_roles", "teams"

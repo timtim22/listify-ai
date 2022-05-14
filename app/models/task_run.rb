@@ -4,7 +4,6 @@ class TaskRun < ApplicationRecord
   belongs_to :input_object, polymorphic: :true
   has_many :task_results, dependent: :destroy
   has_many :text_results, dependent: :destroy
-  has_many :task_run_feedbacks, dependent: :destroy
   has_many :translation_requests, dependent: :destroy
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }

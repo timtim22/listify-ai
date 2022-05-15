@@ -7,7 +7,7 @@ class Listing < ApplicationRecord
   validates :input_text, length: { minimum: 10, maximum: 300 }
 
   def displayable_input_text
-    if input_language != "EN"
+    if input_language != 'EN'
       "Original language: #{input_language}\nOriginal_text:\n #{untranslated_input_text}\n\nTranslated:\n#{input_text}"
     else
       input_text

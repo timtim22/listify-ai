@@ -1,4 +1,4 @@
-class GptRequestRunner
+class CompletionRequestRunner
 
   def for(task_run_id, prompt_id, response_handler = CompletionResponseHandler.new)
     task_run = TaskRun.find(task_run_id)

@@ -1,6 +1,6 @@
 class Input < ApplicationRecord
   belongs_to :user
-  delegated_type :inputable, types: %w[ Listing ListingFragment DerivedInputObject RoomDescription AreaDescription PlaygroundAttempt ]
+  delegated_type :inputable, types: %w[ Listing ListingFragment DerivedInputObject RoomDescription AreaDescription PlaygroundAttempt Inputs::Advert ]
 
   def self.create_with(new_delegate, user)
     if new_delegate.valid?

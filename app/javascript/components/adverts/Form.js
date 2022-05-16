@@ -69,7 +69,7 @@ const Form = ({
 
   const adTypeSwitch = () => {
     return (
-      <div className="flex items-center my-2 max-w-2xl">
+      <div className="flex items-center mb-2 max-w-2xl">
         <label className="flex-shrink-0 w-1/3 text-sm">
           {translateLabel('Advert type', inputLanguage)}
         </label>

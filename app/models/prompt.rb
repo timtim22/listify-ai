@@ -11,12 +11,12 @@ class Prompt < ApplicationRecord
   def self.new_from_defaults
     new(
       stop: '\\n',
-      max_tokens: 200,
+      max_tokens: 250,
       temperature: 0.0,
       top_p: 1.0,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
-      engine: 'text-davinci-001'
+      engine: 'text-davinci-002'
     )
   end
 

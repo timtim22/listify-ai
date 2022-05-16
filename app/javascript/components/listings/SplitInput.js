@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { translationFor, translatedSummaryString } from '../../helpers/translations';
-import { capitaliseFirstLetter } from '../../helpers/utils';
+import { translateLabel, translationFor, translatedSummaryString } from '../../helpers/translations';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
 
@@ -51,11 +50,6 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
     onInputChange(inputText, trueLength);
   }, [inputFields]);
 
-  const translateLabel = (string) => {
-    const translation = translationFor(inputLanguage, string.toLowerCase());
-    return capitaliseFirstLetter(translation);
-  }
-
   const idealStr = (idealFor) => {
     if (idealFor && idealFor.length > 0) {
       return `\n- ${translationFor(inputLanguage, 'ideal for')} ${idealFor}`;
@@ -97,7 +91,7 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
   const bedroomsCountRow = () => {
     return (
       <NumberField
-        title={translateLabel('Bedrooms')}
+        title={translateLabel('Bedrooms', inputLanguage)}
         value={inputFields.bedrooms}
         onChange={(v) => setField('bedrooms', v)}
         minValue={1}
@@ -109,12 +103,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
   return (
     <div className="flex flex-col justify-start w-full">
       <div className="flex flex-col justify-start">
-        {textRow(translateLabel('Property type'), 'propertyType', 'e.g. apartment, house...', true)}
+        {textRow(translateLabel('Property type', inputLanguage), 'propertyType', 'e.g. apartment, house...', true)}
         {bedroomsCountRow()}
-        {textRow(translateLabel('Location'), 'location', '')}
-        {textRow(translateLabel('Ideal for'), 'idealFor', 'e.g. families, couples')}
+        {textRow(translateLabel('Location', inputLanguage), 'location', '')}
+        {textRow(translateLabel('Ideal for', inputLanguage), 'idealFor', 'e.g. families, couples')}
         <div className="flex items-start w-full">
-          <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features')}</label>
+          <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features', inputLanguage)}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
               value={inputFields.keyFeatures}

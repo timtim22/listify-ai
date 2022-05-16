@@ -37,7 +37,8 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {navLink("Title", "listing_title")}
           {navLink("Area", "neighbourhood")}
           {navLink("Rooms", "room_description")}
-          {navLink("Listing builder", "listing_builder", "beta")}
+          {navLink("Listing builder", "listing_builder")}
+          {user.admin && navLink("Ads", "advert", "beta")}
           {canSeeAbout() && navLink("About", "about", "beta")}
         </div>
       </div>

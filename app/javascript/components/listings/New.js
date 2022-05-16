@@ -6,6 +6,7 @@ import { initialStepArray } from '../../helpers/listingBuilder';
 import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
+import AdvertForm from '../adverts/Form';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
@@ -105,10 +106,22 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           setLoading={setLoading}
           results={results}
           onResult={handleTaskRun}
-          resetState={() => resetState()}
+          resetState={resetState}
           taskRun={taskRun}
           stepNames={builderStepNames}
           setStepNames={setBuilderStepNames}
+        />
+      )
+    } else if (formType === 'advert') {
+      return (
+        <AdvertForm
+          user={user}
+          loading={loading}
+          setLoading={toggleLoading}
+          runsRemaining={runsRemaining}
+          resetState={resetState}
+          onResult={(response) => { setResults([]); handleTaskRun(response) }}
+          showExample={showExample}
         />
       )
     } else {

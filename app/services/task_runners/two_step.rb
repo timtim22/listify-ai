@@ -19,10 +19,10 @@ class TaskRunners::TwoStep
       first_result = create_first_result(task_run, prompt_set, result_text)
       task_run_2.input_object.update(input_text: first_result.result_text&.strip) # if no error
       prompt_set_2.prompts.map do |prompt|
-        GptRequestWorker.perform_async(task_run_2.id, prompt.id)
+        Completions::OneStepRequestWorker.perform_async(task_run_2.id, prompt.id)
       end
     else
-      GptTwoStepRequestWorker.perform_async(
+      Completions::TwoStepRequestWorker.perform_async(
         task_run.id,
         step_one_prompt.id,
         task_run_2.id,

@@ -106,7 +106,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           setLoading={setLoading}
           results={results}
           onResult={handleTaskRun}
-          resetState={() => resetState()}
+          resetState={resetState}
           taskRun={taskRun}
           stepNames={builderStepNames}
           setStepNames={setBuilderStepNames}
@@ -119,6 +119,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           loading={loading}
           setLoading={toggleLoading}
           runsRemaining={runsRemaining}
+          resetState={resetState}
           onResult={(response) => { setResults([]); handleTaskRun(response) }}
           showExample={showExample}
         />

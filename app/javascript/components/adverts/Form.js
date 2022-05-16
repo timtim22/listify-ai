@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { translateLabel } from '../../helpers/translations';
 import { createRequest } from '../../helpers/requests';
 import { cleanObjectInputText } from '../../helpers/utils';
 import ErrorNotice from '../common/ErrorNotice';
@@ -10,8 +11,8 @@ import SplitInput from '../listings/SplitInput';
 const maxInput = 250;
 const newAdvert = { input_text: '', request_type: 'facebook_advert' };
 const adTypes = [
-  { name: 'Facebook', value: 'facebook_advert' },
-  { name: 'Google', value: 'google_advert' }
+  { name: 'Facebook Ad', value: 'facebook_advert' },
+  { name: 'Google Ad Title', value: 'google_advert' }
 ]
 
 const Form = ({
@@ -20,7 +21,8 @@ const Form = ({
   loading,
   setLoading,
   runsRemaining,
-  onResult
+  onResult,
+  resetState
 }) => {
 
   const [advert, setAdvert] = useState(newAdvert);
@@ -62,12 +64,15 @@ const Form = ({
     const newType = advert.request_type === 'facebook_advert' ? 'google_advert' : 'facebook_advert';
     setErrors(null);
     setField('request_type', newType);
+    resetState();
   }
 
   const adTypeSwitch = () => {
     return (
       <div className="flex items-center my-2 max-w-2xl">
-        <label className="flex-shrink-0 w-1/3 text-sm">Advert type</label>
+        <label className="flex-shrink-0 w-1/3 text-sm">
+          {translateLabel('Advert type', inputLanguage)}
+        </label>
         <select
           onChange={() => changeInputType()}
           className="mx-3 mt-1 text-sm form-select">
@@ -138,7 +143,8 @@ Form.propTypes = {
   loading: PropTypes.bool,
   setLoading: PropTypes.func,
   runsRemaining: PropTypes.number,
-  onResult: PropTypes.func
+  onResult: PropTypes.func,
+  resetState: PropTypes.func
 };
 
 export default Form;

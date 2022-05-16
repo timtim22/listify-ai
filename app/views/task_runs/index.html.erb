@@ -16,6 +16,7 @@
           <th class="py-3 px-6">Results</th>
           <th class="py-3 px-6">User</th>
           <th class="py-3 px-6">Created at</th>
+          <th class="py-3 px-6">Task Id</th>
         </tr>
       </thead>
 
@@ -29,6 +30,7 @@
             </td>
             <td class="py-3 px-6"><%= task_run.user.email %></td>
             <td class="py-3 px-6"><%= format_table_date(task_run.created_at) %></td>
+            <td class=""><%= task_run.id %></td>
           </tr>
         <% end %>
       </tbody>

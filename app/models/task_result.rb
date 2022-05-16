@@ -21,6 +21,11 @@ class TaskResult < ApplicationRecord
     !safe?
   end
 
+  def awaiting_filter?
+    content_filter_results.empty? &&
+      (Rails.env.production? || ENV['LIVE_REQUESTS'])
+  end
+
   def awaiting_translation?
     task_run.translation_requests.count > self.translations.count
   end

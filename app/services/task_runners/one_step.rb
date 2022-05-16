@@ -32,7 +32,7 @@ class TaskRunners::OneStep
   end
 
   def create_translation_request(task_run, output_language)
-    if output_language && output_language != "EN"
+    if output_language && output_language != 'EN'
       task_run.translation_requests.create_for!(output_language)
     end
   end

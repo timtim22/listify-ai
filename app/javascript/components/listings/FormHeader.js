@@ -8,10 +8,6 @@ const aboutUsers = [
   "d5a62173-ec2b-4cf0-aca5-5bb296eeb710", // local test
 ]
 
-const adUsers = [
-  "d19649cf-83c8-41b8-82ef-ca3cca5afbd0"
-]
-
 const FormHeader = ({ user, formType, setFormType }) => {
 
   const navLink = (title, value, subtitle) => {
@@ -25,10 +21,6 @@ const FormHeader = ({ user, formType, setFormType }) => {
       </div>
     )
   }
-
-  const canSeeAds = () => {
-    return user.admin || adUsers.includes(user.id);
-  };
 
   const canSeeAbout = () => {
     return user.admin || aboutUsers.includes(user.id);
@@ -46,7 +38,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {navLink("Area", "neighbourhood")}
           {navLink("Rooms", "room_description")}
           {navLink("Listing builder", "listing_builder")}
-          {canSeeAds() && navLink("Ads", "advert", "beta")}
+          {navLink("Ads", "advert", "beta")}
           {canSeeAbout() && navLink("About", "about", "beta")}
         </div>
       </div>

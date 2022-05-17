@@ -1,14 +1,16 @@
 AUTH_ROUTES = ['/users', '/users/sign_in']
 REQUEST_ROUTES = [
-  '/listings.json',
-  '/task_reruns.json',
-  '/playground_attempts.json',
-  '/search_locations.json',
+  '/adverts.json',
   '/area_descriptions.json',
+  '/listings.json',
+  '/playground_attempts.json',
+  '/room_descriptions.json',
+  '/search_locations.json',
+  '/task_reruns.json',
   '/translations.json'
 ]
 
-Rack::Attack.throttle("requests by ip", limit: 8, period: 2) do |request|
+Rack::Attack.throttle('requests by ip', limit: 8, period: 2) do |request|
   request.ip
 end
 

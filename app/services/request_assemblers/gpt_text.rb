@@ -1,5 +1,6 @@
 module RequestAssemblers
   class GptText
+
     def self.parameters(prompt, prompt_body, input_object)
       body_params = {
         'prompt' => prompt_body,
@@ -16,13 +17,13 @@ module RequestAssemblers
       end
       body_params.to_json
     end
-  end
 
-  def self.set_stop_sequence(prompt)
-    if prompt.stop == "\\n"
-      ["\n", "\n\n"]
-    else
-      [prompt.stop]
+    def self.set_stop_sequence(prompt)
+      if prompt.stop == "\\n"
+        ["\n", "\n\n"]
+      else
+        [prompt.stop]
+      end
     end
   end
 end

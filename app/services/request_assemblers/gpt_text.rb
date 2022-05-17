@@ -27,5 +27,3 @@ module RequestAssemblers
     end
   end
 end
-
-

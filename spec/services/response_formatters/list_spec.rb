@@ -42,6 +42,13 @@ RSpec.describe ResponseFormatters::List do
       expect(result).to eq output
     end
 
+    it 'strips incomplete last line' do
+      input = "1)\r\nvilla in Lisbon\r\n\r\n2)\r\nSpacious \r\n\r\n3)\r\nSwimming pool. It has"
+      output = "1. villa in Lisbon\r\n\r\n2. Spacious \r\n\r\n3. Swimming pool."
+      result = ResponseFormatters::List.format(input)
+      expect(result).to eq output
+    end
+
     it 'removes ad headline string' do
       input = "villa in Lisbon\r\n\r\nGoogle Ad headline: Spacious\" \r\n\r\nGoogle Ad headline: Swimming pool"
       output = "1. villa in Lisbon\r\n\r\n2. Spacious \r\n\r\n3. Swimming pool"

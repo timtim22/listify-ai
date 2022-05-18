@@ -48,6 +48,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'index', to: 'home#index'
+    resources :examples, only: [:index]
     resources :statistics, only: [:index]
     resources :user_locks, only: [:create, :destroy]
     resources :data_exports, only: [:index]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_18_152511) do
+ActiveRecord::Schema.define(version: 2022_05_18_175742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,6 +86,20 @@ ActiveRecord::Schema.define(version: 2022_05_18_152511) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["task_result_id"], name: "index_content_filter_results_on_task_result_id"
+  end
+
+  create_table "custom_inputs_oyo_ones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.string "property_type"
+    t.string "target_user"
+    t.string "location"
+    t.string "location_detail"
+    t.string "usp_one"
+    t.string "usp_two"
+    t.string "usp_three"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "derived_input_objects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

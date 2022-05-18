@@ -12,7 +12,8 @@ const maxInput = 250;
 const newAdvert = { input_text: '', request_type: 'facebook_advert' };
 const adTypes = [
   { name: 'Facebook Ad', value: 'facebook_advert' },
-  { name: 'Google Ad Title', value: 'google_advert' }
+  { name: 'Google Ad Title', value: 'google_advert_title' },
+  { name: 'Google Ad', value: 'google_advert' }
 ]
 
 const Form = ({
@@ -60,10 +61,9 @@ const Form = ({
     )
   }
 
-  const changeInputType = () => {
-    const newType = advert.request_type === 'facebook_advert' ? 'google_advert' : 'facebook_advert';
+  const changeInputType = (value) => {
     setErrors(null);
-    setField('request_type', newType);
+    setField('request_type', value);
     resetState();
   }
 
@@ -74,7 +74,7 @@ const Form = ({
           {translateLabel('Advert type', inputLanguage)}
         </label>
         <select
-          onChange={() => changeInputType()}
+          onChange={(e) => changeInputType(e.target.value)}
           className="mx-3 mt-1 text-sm form-select">
           {adTypes.map((item) => {
             return (

@@ -13,7 +13,8 @@ module HistoriesHelper
     full_listing_room_step_2: 'Listing Builder (rooms)',
     area_description_fragment: 'Listing Builder (area)',
     facebook_advert: 'Facebook Ad',
-    google_advert: 'Google Ad'
+    google_advert: 'Google Ad',
+    google_advert_title: 'Google Ad Title'
   }
 
   def history_request_title(request_type)

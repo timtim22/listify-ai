@@ -7,6 +7,7 @@ import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import AdvertForm from '../adverts/Form';
+import CustomForm from '../custom_forms/Form';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
@@ -122,6 +123,15 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           resetState={resetState}
           onResult={(response) => { setResults([]); handleTaskRun(response) }}
           showExample={showExample}
+        />
+      )
+    } else if (formType === 'custom_form') {
+      return (
+        <CustomForm
+          loading={loading}
+          setLoading={setLoading}
+          runsRemaining={runsRemaining}
+          onResult={handleTaskRun}
         />
       )
     } else {

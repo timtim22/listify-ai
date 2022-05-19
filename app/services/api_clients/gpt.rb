@@ -3,11 +3,27 @@ module ApiClients
 
     TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
 
-    def request_for(request, config)
-      if config[:model].present?
-        request_with_model(request)
+    def run_request!(request, config)
+      response = request_for(request, config)
+      if response[:error]
+        response
       else
-        request_with_text(request, config[:engine])
+        wrap_successful_response(response, request, config)
+      end
+    end
+
+    def request_content_filter(body)
+      engine = 'content-filter-alpha-c4'
+      request('post', url_for(engine), headers, body)
+    end
+
+    private
+
+    def request_for(request_params, config)
+      if config[:model].present?
+        request_with_model(request_params)
+      else
+        request_with_text(request_params, config[:engine])
       end
     end
 
@@ -18,13 +34,6 @@ module ApiClients
     def request_with_text(body, engine)
       request('post', url_for(engine), headers, body)
     end
-
-    def request_content_filter(body)
-      engine = 'content-filter-alpha-c4'
-      request('post', url_for(engine), headers, body)
-    end
-
-    private
 
     def model_url
       'https://api.openai.com/v1/completions'
@@ -42,7 +51,7 @@ module ApiClients
     end
 
     def request(method, url, headers, body)
-      binding.pry
+      #binding.pry
       response = HTTParty.send(method, *[url, {
         headers: headers,
         body: body,
@@ -56,8 +65,26 @@ module ApiClients
       if response.code == 200
         JSON.parse(response.body)
       else
-        { error: response.body, success: false }
+        error_response(response)
       end
+    end
+
+    def wrap_successful_response(response, request_params, config)
+      {
+        service: Completion::Services::GPT,
+        success: true,
+        result_text: response['choices'].first['text'],
+        user_id: JSON.parse(request_params)['user'],
+        should_check_content: config[:check_content]
+      }
+    end
+
+    def error_response(response)
+      {
+        service: Completion::Services::GPT,
+        success: false,
+        error: response.body
+      }
     end
   end
 end

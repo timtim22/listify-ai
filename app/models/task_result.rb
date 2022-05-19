@@ -8,7 +8,7 @@ class TaskResult < ApplicationRecord
     if safe?
       result_text
     else
-      "This result was flagged as sensitive or unsafe. This may be a mistake - we are looking into it."
+      'This result was flagged as sensitive or unsafe. This may be a mistake - we are looking into it.'
     end
   end
 
@@ -21,9 +21,14 @@ class TaskResult < ApplicationRecord
     !safe?
   end
 
+  def still_processing?
+    awaiting_filter? || awaiting_translation?
+  end
+
   def awaiting_filter?
-    content_filter_results.empty? &&
-      (Rails.env.production? || ENV['LIVE_REQUESTS'])
+    service == Completion::Services::GPT &&
+      Constants.live_requests? &&
+      content_filter_results.empty?
   end
 
   def awaiting_translation?

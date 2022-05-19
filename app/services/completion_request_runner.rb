@@ -10,12 +10,11 @@ class CompletionRequestRunner
   private
 
   def execute_request!(prompt, task_run)
-    if Rails.env.production? || ENV['LIVE_REQUESTS']
+    if Constants.live_requests?
       request, config = RequestAssemblers::Coordinate.for(prompt, task_run.input_object)
       log_request(request)
       client = client_for(config)
-      response = client.request_for(request, config)
-      result_from(request, config, response)
+      client.run_request!(request, config)
     else
       mock_response(prompt)
       # mock_error_response
@@ -30,23 +29,6 @@ class CompletionRequestRunner
 
   def client_for(config)
     "ApiClients::#{config[:client_name]}".constantize.new
-  end
-
-  def result_from(request, config, response)
-    if response[:error]
-      response
-    else
-      {
-        success: true,
-        result_text: result_text(response),
-        user_id: JSON.parse(request)['user'],
-        should_check_content: config[:check_content]
-      }
-    end
-  end
-
-  def result_text(response)
-    response['choices'].first['text']
   end
 
   def mock_response(prompt)

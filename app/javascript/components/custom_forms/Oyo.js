@@ -36,7 +36,7 @@ const Oyo = ({ loading, setLoading, onResult, runsRemaining }) => {
     setErrors(null);
     createRequest(
       "/custom_inputs/oyo_one.json",
-      { oyo_one: inputFields },
+      { oyo_one: inputFields, live_request: false },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false) }
     )

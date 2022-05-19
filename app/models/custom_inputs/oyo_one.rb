@@ -5,6 +5,10 @@ class CustomInputs::OyoOne < ApplicationRecord
 
   after_create :generate_tags
 
+  def client
+    'Mock'
+  end
+
   def generate_tags
     update!(input_text: generate_input_text)
     Taggers::OyoOne.tag_object!(self, attributes)

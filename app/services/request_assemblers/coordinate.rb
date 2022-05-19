@@ -1,12 +1,10 @@
 module RequestAssemblers
   class Coordinate
-    CHECK_CONTENT = ENV['CONTENT_CHECK_ENABLED'] || ENV['LIVE_REQUESTS']
-
     class << self
       def for(prompt, input_object)
         prompt_body = assemble_prompt_body(prompt.content, input_object)
         request = assemble_request_parameters(prompt, prompt_body, input_object)
-        config = assemble_config(prompt)
+        config = assemble_config(input_object, prompt)
         [request, config]
       end
 
@@ -31,13 +29,26 @@ module RequestAssemblers
         end
       end
 
-      def assemble_config(prompt)
+      def assemble_config(input_object, prompt)
+        client_name = client_name(input_object)
         {
-          client_name: 'Gpt',
+          client_name: client_name,
           engine: prompt.engine,
           model: prompt.gpt_model_id,
-          check_content: CHECK_CONTENT
+          check_content: should_check_content?(client_name)
         }
+      end
+
+      def should_check_content?(client_name)
+        Constants.live_requests? && client_name == Completion::Services::GPT
+      end
+
+      def client_name(input_object)
+        if input_object.respond_to?(:client)
+          input_object.client
+        else
+          Completion::Services::GPT
+        end
       end
 
       def model_request?(prompt)

@@ -15,6 +15,7 @@ class CompletionResponseHandler
 
   def create_task_result(task_run, response, prompt)
     task_run.task_results.create!(
+      service: response[:service],
       success: response[:success],
       prompt: prompt,
       result_text: response[:result_text],

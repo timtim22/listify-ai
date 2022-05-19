@@ -44,7 +44,9 @@ module RequestAssemblers
       end
 
       def client_name(input_object)
-        if input_object.respond_to?(:client)
+        if Constants.live_requests_disabled?
+          Completion::Services::Mock
+        elsif input_object.respond_to?(:client)
           input_object.client
         else
           Completion::Services::GPT

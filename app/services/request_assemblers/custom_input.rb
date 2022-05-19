@@ -5,7 +5,11 @@ module RequestAssemblers
         examples = ExamplePickers::OyoOne.call(input_object)
         prompt_text
           .gsub('{examples}', assemble_examples(examples))
-          .gsub('{input}', input_object.input_text)
+          .gsub('{input}', formatted_input(input_object.input_text))
+      end
+
+      def formatted_input(input_text)
+        "Features:\n#{input_text}\nSummary:"
       end
 
       def assemble_examples(examples)
@@ -16,6 +20,7 @@ module RequestAssemblers
       end
 
       def individual_prompt(data)
+        # this is also in the model - may be refactorable
         obj = OpenStruct.new(data)
         strings = [
           "#{obj.property_type}#{obj.location && " in #{obj.location}"}",

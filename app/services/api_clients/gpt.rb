@@ -51,7 +51,7 @@ module ApiClients
     end
 
     def request(method, url, headers, body)
-      #binding.pry
+      binding.pry
       response = HTTParty.send(method, *[url, {
         headers: headers,
         body: body,

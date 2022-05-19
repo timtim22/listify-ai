@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
-import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 
@@ -67,22 +66,6 @@ const Oyo = ({ loading, setLoading, onResult, runsRemaining }) => {
     )
   }
 
-  const textAreaField = (title, key, placeholder) => {
-    return (
-      <div className="flex items-start w-full mt-2">
-        <label className="flex-shrink-0 mt-2 w-1/3">{title}</label>
-        <div className="px-3 w-full">
-          <TextareaWithPlaceholder
-            value={inputFields[key]}
-            onChange={(value) => setField(key, value)}
-            heightClass={"h-16"}
-            customClasses={"text-sm"}
-            placeholderContent={placeholder} />
-        </div>
-      </div>
-    )
-  };
-
   return (
     <div className="flex flex-col items-center w-full text-sm">
       <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
@@ -90,13 +73,13 @@ const Oyo = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {textRow('Property Type', 'property_type', 'e.g. Sunrise Holidays', true)}
-          {textRow('Target user', 'target_user', 'e.g. family run business, founded 2011' )}
-          {textRow('Location', 'location', 'e.g. fully furnished apartments with TV, free Wifi...')}
-          {textRow('Location detail', 'location_detail', 'e.g. fully furnished apartments with TV, free Wifi...')}
-          {textRow('USP', 'usp_one', 'e.g. fully furnished apartments with TV, free Wifi...')}
-          {textRow('USP', 'usp_two', 'e.g. fully furnished apartments with TV, free Wifi...')}
-          {textRow('USP', 'usp_three', 'e.g. fully furnished apartments with TV, free Wifi...')}
+          {textRow('Property Type', 'property_type', 'e.g. apartment', true)}
+          {textRow('Target user', 'target_user', 'e.g. couples' )}
+          {textRow('Location', 'location', 'e.g. London')}
+          {textRow('Location detail', 'location_detail', 'e.g. in the heart of the city')}
+          {textRow('USP', 'usp_one')}
+          {textRow('USP', 'usp_two')}
+          {textRow('USP', 'usp_three')}
           <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={joinedInputs()}

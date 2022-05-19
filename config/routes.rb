@@ -33,6 +33,10 @@ Rails.application.routes.draw do
     resources :prompts, only: [:new, :edit, :create, :update, :destroy]
   end
 
+  namespace :custom_inputs do
+    resources :oyo_one, only: [:create]
+  end
+
   resource :usage, only: [:show]
   resource :account, only: [:edit, :update]
   resources :teams, only: [:show]

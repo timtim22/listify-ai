@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2022_05_18_175742) do
 
   create_table "custom_inputs_oyo_ones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "request_type"
+    t.string "input_text"
     t.string "property_type"
     t.string "target_user"
     t.string "location"

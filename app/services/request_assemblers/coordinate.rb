@@ -12,6 +12,8 @@ module RequestAssemblers
 
       def assemble_prompt_body(input_text, input_object)
         case input_object.class.to_s
+        when 'CustomInputs::OyoOne'
+          RequestAssemblers::CustomInput
         when 'Inputs::BrandDescription'
           RequestAssemblers::Brand
         when 'AreaDescription', 'Inputs::AreaDescriptionFragment'

@@ -68,8 +68,7 @@ module CsvImporters
       end
 
       def tag_example(example)
-        tagger = Taggers::OyoOne.new
-        tagger.tag_object!(example)
+        Taggers::OyoOne.tag_object!(example, example.input_data)
       end
     end
   end

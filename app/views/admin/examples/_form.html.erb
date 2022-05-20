@@ -1,0 +1,26 @@
+<%= form_with(model: [:admin, @example], class: "w-full px-20 my-4") do |form| %>
+  <% if @example.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@example.errors.count, "error") %> prohibited this prompt from being saved:</h2>
+
+      <ul>
+        <% @example.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="w-full">
+    <div class="field">
+      <%= form.label :request_type, "Request Type (this matches the request type submitted when using the service)", class: "form-label" %>
+      <%= form.text_field :request_type, class: "form-text-input" %>
+    </div>
+
+    <div class="mt-4 actions">
+      <%= form.submit "Submit", class: "add-button" %>
+    </div>
+  </div>
+<% end %>
+
+

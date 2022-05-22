@@ -3,6 +3,7 @@ module ApiClients
 
     def run_request!(request_params, config)
       successful_response(request_params, config)
+      # error_response
     end
 
     def successful_response(request_params, config)
@@ -15,11 +16,12 @@ module ApiClients
     end
 
     def request_details(request_params, config)
-      req = JSON.parse(request_params)
-      prompt = req['prompt']
-      rest = format_param_list(req.except('prompt'))
-      config_list = format_param_list(config)
-      "Request info:\n\n#{prompt}\n\n---\nSettings:\n#{rest}\n\nConfig:\n#{config_list}"
+      'Successful response from ApiClients::Mock'
+      #req = JSON.parse(request_params)
+      #prompt = req['prompt']
+      #rest = format_param_list(req.except('prompt'))
+      #config_list = format_param_list(config)
+      #"Request info:\n\n#{prompt}\n\n---\nSettings:\n#{rest}\n\nConfig:\n#{config_list}"
     end
 
     def format_param_list(hash)

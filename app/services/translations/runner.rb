@@ -1,9 +1,8 @@
 module Translations
   class Runner
-    def run(task_run, task_result, client = ApiClients::DeepL.new)
+    def run(task_run, task_result)
       task_run.translation_requests.each do |req|
-        response = client.translate(req.from, req.to, task_result.result_text)
-        Translation.create_for!(task_result, response)
+        Translation.fetch_new!(req.to, task_result)
       end
     end
 

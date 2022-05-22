@@ -35,6 +35,7 @@ module RequestAssemblers
           client_name: client_name,
           engine: prompt.engine,
           model: prompt.gpt_model_id,
+          prompt_title: prompt.title,
           check_content: should_check_content?(client_name)
         }
       end
@@ -45,7 +46,7 @@ module RequestAssemblers
 
       def client_name(input_object)
         if Constants.live_requests_disabled?
-          Completion::Services::Mock
+          Completion::Services::MOCK
         elsif input_object.respond_to?(:client)
           input_object.client
         else

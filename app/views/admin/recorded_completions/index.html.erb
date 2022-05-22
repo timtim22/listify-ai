@@ -1,0 +1,50 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Completions</h1>
+    <% if !params[:admin] %>
+      <%= link_to "Not showing admins (tap to change)", task_runs_path(admin: true), class: "text-sm" %>
+    <% else %>
+      <%= link_to "Showing admins only (tap to change)", task_runs_path, class: "text-sm" %>
+    <% end %>
+  </div>
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Request type</th>
+          <th class="py-3 px-6">User</th>
+          <th class="py-3 px-6">User Input</th>
+          <th class="py-3 px-6">Completion</th>
+          <th class="py-3 px-6">Api</th>
+          <th class="py-3 px-6">Ran filter</th>
+          <th class="py-3 px-6">Input Lang</th>
+          <th class="py-3 px-6">Translations</th>
+          <th class="py-3 px-6">Objects</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @completions_by_task_run.each do |group| %>
+          <% group.last.each_with_index do |record, index| %>
+            <tr class="text-xs">
+              <td class="py-3 px-6"><%= index.zero? ? record.request_type : '' %> </td>
+              <td class="py-3 px-6"><%= index.zero? ? record.user.email : '' %> </td>
+              <td class="py-3 px-6 whitespace-pre-wrap"><%= index.zero? ? input_text(record) : '' %> </td>
+              <td class="py-3 px-6 whitespace-pre-wrap"><%= sanitize(completion_text(record)) %> </td>
+              <td class="py-3 px-6"><%= record.api_client %> </td>
+              <td class="py-3 px-6"><%= record.ran_content_filter? %> </td>
+              <td class="py-3 px-6"><%= record.input_language_code %></td>
+              <td class="py-3 px-6"><%= record.completion_translation_codes.join(', ') %> </td>
+              <td class="py-3 px-6">
+                <p>id: <%= record.id %></p>
+                <p>task_run_id: <%= record.task_run_id %></p>
+                <p>task_result_id: <%= record.task_result_id %></p>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+</div>

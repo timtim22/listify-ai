@@ -3,6 +3,7 @@ import { UserContext } from '../listings/New';
 import Filter from 'bad-words';
 
 const profanityFilter = new Filter();
+profanityFilter.removeWords('spac');
 
 const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText }) => {
   const user = useContext(UserContext);

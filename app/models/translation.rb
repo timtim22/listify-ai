@@ -1,13 +1,21 @@
 class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
-  def self.fetch_new!(to, translatable_object)
-    response = ApiClients::DeepL.new.translate('EN', to, translatable_object.result_text)
-    create_for!(translatable_object, response)
+  def self.fetch_multiple!(output_language, translatable_objects)
+    translatable_objects.map do |object|
+      fetch_new!(output_language, object)
+    end
+  end
+
+  def self.fetch_new!(output_language, translatable_object)
+    response = ApiClients::DeepL.new.translate('EN', output_language, translatable_object.result_text)
+    translation = create_for!(translatable_object, response)
+    trigger_completion_update(translation)
+    translation
   end
 
   def self.create_for!(translatable_object, response_object)
-    self.create(
+    create!(
       translatable: translatable_object,
       from: response_object[:from],
       to: response_object[:to],
@@ -15,5 +23,13 @@ class Translation < ApplicationRecord
       success: response_object[:success],
       error: response_object[:error]
     )
+  end
+
+  def self.trigger_completion_update(translation)
+    translated_object = translation.translatable
+    return unless translation.success? && translated_object.instance_of?(TaskResult)
+
+    translated_object.reload
+    RecordedCompletion.update_translations!(translated_object)
   end
 end

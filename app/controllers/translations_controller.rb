@@ -22,9 +22,7 @@ class TranslationsController < ApplicationController
   def create_batch
     @language = params[:language]
     task_results = TaskResult.find(params[:object_ids])
-    @translations = task_results.map do |result|
-      Translation.fetch_new!(params[:language], result)
-    end
+    @translations = Translation.fetch_multiple!(params[:language], task_results)
 
     respond_to do |format|
       if @translations.each(&:save!)

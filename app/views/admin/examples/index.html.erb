@@ -1,0 +1,37 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Examples</h1>
+    <%= link_to 'Add Example', new_admin_example_path, class: "add-button" %>
+  </div>
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Input structure</th>
+          <th class="py-3 px-6">Request types</th>
+          <th class="py-3 px-6">Prompt</th>
+          <th class="py-3 px-6">Completion</th>
+          <th class="py-3 px-6">Tags</th>
+          <th class="py-3 px-6">Id</th>
+          <th class="py-3 px-6">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @examples.each do |example| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= example.input_structure %></td>
+            <td class="py-3 px-6"><%= example.request_types.join(', ') %></td>
+            <td class="py-3 px-6 whitespace-pre-wrap"><%= example.prompt %></td>
+            <td class="py-3 px-6 whitespace-pre-wrap"><%= example.completion %></td>
+            <td class="py-3 px-6"><%= example.tags.join(', ') %></td>
+            <td class="py-3 px-6"><%= example.id %></td>
+            <td class="py-3 px-6"><%= link_to('delete', admin_example_path(example), method: :delete, data: { confirm: 'Are you sure?' }) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <%== pagy_nav(@pagy) %>
+</div>

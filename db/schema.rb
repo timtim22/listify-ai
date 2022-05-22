@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_15_134630) do
+ActiveRecord::Schema.define(version: 2022_05_20_061710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -88,9 +88,35 @@ ActiveRecord::Schema.define(version: 2022_05_15_134630) do
     t.index ["task_result_id"], name: "index_content_filter_results_on_task_result_id"
   end
 
+  create_table "custom_inputs_oyo_ones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.string "input_text"
+    t.string "property_type"
+    t.string "target_user"
+    t.string "location"
+    t.string "location_detail"
+    t.string "usp_one"
+    t.string "usp_two"
+    t.string "usp_three"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "derived_input_objects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "request_type"
     t.text "input_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "examples", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "input_structure"
+    t.jsonb "input_data"
+    t.text "prompt"
+    t.text "completion", null: false
+    t.string "request_types", default: [], array: true
+    t.string "tags", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -224,6 +250,35 @@ ActiveRecord::Schema.define(version: 2022_05_15_134630) do
     t.index ["prompt_set_id"], name: "index_prompts_on_prompt_set_id"
   end
 
+  create_table "recorded_completions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_run_id"
+    t.uuid "task_result_id"
+    t.uuid "user_id"
+    t.datetime "task_run_created_at"
+    t.string "input_object_type"
+    t.text "input_text_snapshot"
+    t.text "prompt_text"
+    t.text "completion_text"
+    t.string "result_error"
+    t.jsonb "request_configuration"
+    t.string "request_type"
+    t.string "api_client"
+    t.string "engine"
+    t.string "remote_model_id"
+    t.string "prompt_title"
+    t.boolean "ran_content_filter", default: false
+    t.boolean "failed_filter", default: false
+    t.boolean "completion_copied", default: false
+    t.string "completion_translation_codes", default: [], array: true
+    t.string "input_language_code"
+    t.text "untranslated_input_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_result_id"], name: "index_recorded_completions_on_task_result_id"
+    t.index ["task_run_id"], name: "index_recorded_completions_on_task_run_id"
+    t.index ["user_id"], name: "index_recorded_completions_on_user_id"
+  end
+
   create_table "recorded_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "search_location_id", null: false
     t.uuid "user_id", null: false
@@ -278,6 +333,7 @@ ActiveRecord::Schema.define(version: 2022_05_15_134630) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "failed_custom_filter", default: false
     t.boolean "user_copied", default: false
+    t.string "service"
     t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end
@@ -380,6 +436,9 @@ ActiveRecord::Schema.define(version: 2022_05_15_134630) do
   add_foreign_key "legacy_task_runs", "users"
   add_foreign_key "listing_fragments", "full_listings"
   add_foreign_key "prompts", "prompt_sets"
+  add_foreign_key "recorded_completions", "task_results"
+  add_foreign_key "recorded_completions", "task_runs"
+  add_foreign_key "recorded_completions", "users"
   add_foreign_key "recorded_searches", "search_locations"
   add_foreign_key "recorded_searches", "users"
   add_foreign_key "subscriptions", "users"

@@ -1,8 +1,16 @@
 class TaskResult < ApplicationRecord
   belongs_to :task_run
   belongs_to :prompt, optional: true
+
+  has_one :recorded_completion, dependent: :nullify
   has_many :content_filter_results, dependent: :destroy
   has_many :translations, as: :translatable, dependent: :destroy
+
+
+  def record_copy_event!
+    recorded_completion&.update!(completion_copied: true)
+    update!(user_copied: true)
+  end
 
   def filtered_result_text
     if safe?
@@ -13,12 +21,15 @@ class TaskResult < ApplicationRecord
   end
 
   def safe?
-    !failed_custom_filter &&
-    (content_filter_results.empty? || content_filter_results.all?(&:safe?))
+    !awaiting_filter? && !failed_any_filter?
   end
 
-  def unsafe?
-    !safe?
+  def failed_any_filter?
+    failed_custom_filter? || failed_content_filter?
+  end
+
+  def failed_content_filter?
+    content_filter_results.any?(&:unsafe?)
   end
 
   def still_processing?
@@ -32,6 +43,6 @@ class TaskResult < ApplicationRecord
   end
 
   def awaiting_translation?
-    task_run.translation_requests.count > self.translations.count
+    task_run.translation_requests.count > translations.count
   end
 end

@@ -23,7 +23,7 @@ class ListingFragmentsController < ApplicationController
   def task_results
     task_run = TaskRun.find(params[:task_run_id])
     @result_type = task_run.input_object.request_type
-    @task_results = task_run.task_results
+    @task_results = task_run.task_results.reject(&:still_processing?)
   end
 
   private

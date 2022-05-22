@@ -35,6 +35,8 @@ module Minotaur
 
     config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
+    config.action_controller.include_all_helpers = false
+
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.hosts << Rails.application.credentials.deploy_url

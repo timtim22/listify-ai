@@ -23,6 +23,10 @@ class Inputs::AreaDescriptionFragment < ApplicationRecord
     )
   end
 
+  def search_location_text
+    search_location.search_text
+  end
+
   def displayable_input_text
     "- search area: #{search_location.search_text.titleize}\n" + input_text
   end

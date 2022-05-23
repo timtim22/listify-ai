@@ -80,7 +80,7 @@ const Dashboard = ({ groupedCompletions }) => {
           <div>
             {group.completions.map((c) => {
               return (
-                <div key={c.id} className="grid grid-cols-8">
+                <div key={c.id} className="grid grid-cols-8 pt-3">
                   <div className="py-3 px-6 mb-4 col-span-4">{displayCompletion(c)}</div>
                   <div className="py-3 px-6 mb-4 col-span-1">{c.api_client}</div>
                   <div className="py-3 px-6 mb-4 col-span-1">{c.ran_content_filter.toString()}</div>
@@ -88,7 +88,9 @@ const Dashboard = ({ groupedCompletions }) => {
                     <p>in: {group.input_language_code}</p>
                     <p>out: {c.completion_translation_codes.join(', ')}</p>
                   </div>
-                  <div className="py-3 px-6 mb-4 col-span-1">debug</div>
+                  <div className="py-3 px-6 mb-4 col-span-1">
+                    <a href={`/admin/recorded_completions/${c.id}`} className="secondary-link">Debug</a>
+                  </div>
                 </div>
               )
             })}

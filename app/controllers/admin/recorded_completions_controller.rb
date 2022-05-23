@@ -12,4 +12,8 @@ class Admin::RecordedCompletionsController < ApplicationController
       .sort
       .reverse
   end
+
+  def show
+    @recorded_completion = RecordedCompletion.find(params[:id])
+  end
 end

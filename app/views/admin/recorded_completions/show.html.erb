@@ -1,0 +1,59 @@
+<div class="flex flex-col items-start px-4">
+  <div class="flex justify-center pt-8 w-full h-full bg-gray-50">
+    <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md lg:w-4/5">
+      <div class="p-8 w-full h-full">
+
+        <h2 class="log-in-header">Completion</h2>
+        <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
+        <h2 class="font-medium">Ids</h2>
+        <p>id: <%= @recorded_completion.id %></p>
+        <p>task_run_id: <%= @recorded_completion.task_run_id %></p>
+        <p>task_result_id: <%= @recorded_completion.task_result_id %></p>
+        <p>user: <%= @recorded_completion.user.email %></p>
+        <p>input_object_type: <%= @recorded_completion.input_object_type %></p>
+        <p>task_run_created_at: <%= format_table_date(@recorded_completion.task_run_created_at) %></p>
+        <br/>
+        <p>-----</p>
+        <h2 class="font-medium">Input / Output</h2>
+        <br/>
+        <p>input_text_snapshot:</p>
+        <p class="whitespace-pre-wrap"><%= @recorded_completion.input_text_snapshot %></p>
+        <br/>
+        <p>completion_text:</p>
+        <p class="whitespace-pre-wrap"> <%= @recorded_completion.completion_text %></p>
+        <br/>
+        <p>-----</p>
+        <h2 class="font-medium">Prompt</h2>
+        <p>request_type: <%= @recorded_completion.request_type %></p>
+        <p>api_client: <%= @recorded_completion.api_client %></p>
+        <p>prompt_title: <%= @recorded_completion.prompt_title %></p>
+        <p>engine: <%= @recorded_completion.engine %></p>
+        <p>remote_model_id: <%= @recorded_completion.remote_model_id %></p>
+        <p>request_configuration: <%= @recorded_completion.request_configuration %></p>
+        <br/>
+        <p>prompt_text:</p>
+        <p class="whitespace-pre-wrap"><%= @recorded_completion.prompt_text %></p>
+
+        <br/>
+        <p>-----</p>
+        <h2 class="font-medium">Statuses</h2>
+        <p class="text-red-700">result_error: <%= @recorded_completion.result_error %></p>
+        <p>ran_content_filter: <%= @recorded_completion.ran_content_filter %></p>
+        <p>failed_filter: <%= @recorded_completion.failed_filter %></p>
+        <p>completion_copied: <%= @recorded_completion.completion_copied %></p>
+        <br/>
+        <p>-----</p>
+        <h2 class="font-medium">Language</h2>
+        <p>input_language_code: <%= @recorded_completion.input_language_code %></p>
+        <p>untranslated_input_text: <%= @recorded_completion.untranslated_input_text %></p>
+        <p>completion_translation_codes: <%= @recorded_completion.completion_translation_codes.join(', ') %></p>
+
+        <div class="flex justify-center pt-8 pb-4 w-full text-xs">
+          <%= link_to "Back to all", admin_recorded_completions_path, class: 'secondary-link' %>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+<br />

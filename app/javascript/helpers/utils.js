@@ -1,3 +1,16 @@
+export const tableDate = (date) => {
+  return date.toLocaleTimeString(
+    'en-US',
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      month: 'short',
+      day: 'numeric'
+    }
+  )
+}
+
 export const groupBy = (array, key) => {
   return array.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);

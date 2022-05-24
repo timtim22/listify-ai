@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_20_061710) do
+ActiveRecord::Schema.define(version: 2022_05_23_173358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -241,12 +241,13 @@ ActiveRecord::Schema.define(version: 2022_05_20_061710) do
     t.float "frequency_penalty", null: false
     t.float "presence_penalty", null: false
     t.string "engine", null: false
-    t.string "gpt_model_id"
+    t.string "remote_model_id"
     t.integer "number_of_results", default: 1
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "labels"
+    t.string "service"
     t.index ["prompt_set_id"], name: "index_prompts_on_prompt_set_id"
   end
 

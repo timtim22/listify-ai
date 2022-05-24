@@ -3,12 +3,12 @@ module ApiClients
 
     TOKEN = Rails.application.credentials.dig(:gpt, :api_key)
 
-    def run_request!(request, config)
-      response = request_for(request, config)
+    def run_request!(request_params, config)
+      response = request_for(request_params, config)
       if response[:error]
         response
       else
-        wrap_successful_response(response, request, config)
+        wrap_successful_response(response, request_params, config)
       end
     end
 

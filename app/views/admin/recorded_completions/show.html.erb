@@ -37,7 +37,7 @@
         <br/>
         <p>-----</p>
         <h2 class="font-medium">Statuses</h2>
-        <p class="text-red-700">result_error: <%= @recorded_completion.result_error %></p>
+        <p>result_error: <span class="text-red-700"><%= @recorded_completion.result_error %></span></p>
         <p>ran_content_filter: <%= @recorded_completion.ran_content_filter %></p>
         <p>failed_filter: <%= @recorded_completion.failed_filter %></p>
         <p>completion_copied: <%= @recorded_completion.completion_copied %></p>
@@ -51,7 +51,6 @@
         <div class="flex justify-center pt-8 pb-4 w-full text-xs">
           <%= link_to "Back to all", admin_recorded_completions_path, class: 'secondary-link' %>
         </div>
- 
       </div>
     </div>
   </div>

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const bannerForUser = (user) => {
-  if (user.account_status === "active_trial") {
+  if (user.recently_subscribed) {
+    return <NewSubscriptionBanner />;
+  } else if (user.account_status === "active_trial") {
     return <TrialActiveBanner endDate={new Date(user.trial_end_date)} />;
   } else if (user.account_status === "lapsed_trial") {
     return <TrialExpiredBanner />;
@@ -16,6 +18,15 @@ export const HelpBanner = () => {
     <Banner
       title="Need any help?"
       text="Get in touch with us at hello@listify.ai if you need help or have any feedback."
+    />
+  )
+};
+
+export const NewSubscriptionBanner = () => {
+  return (
+    <Banner
+      title="Thank you for subscribing!"
+      text="We hope you enjoy using Listify - get in touch with us at hello@listify.ai if you need any help."
     />
   )
 };

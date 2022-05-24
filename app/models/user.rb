@@ -73,6 +73,15 @@ class User < ApplicationRecord
     subscription&.active?
   end
 
+  def recently_subscribed?
+    if subscription
+      subscription.active? &&
+        subscription.created_at > Time.zone.now - 2.days
+    else
+      false
+    end
+  end
+
   def subscription
     subscriptions.order(:created_at).last
   end

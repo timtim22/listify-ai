@@ -2,12 +2,12 @@ module ContentFilters
   class Runner
 
     def run(response, task_result, task_run)
-      run_custom_filter(task_result)
 
       return unless should_run_gpt_filter?(response, task_result)
 
       filter_result = run_gpt_filter(response, task_result)
       UserLock.run!(task_run.user) if filter_result.unsafe?
+      run_custom_filter(task_result)
     end
 
     def should_run_gpt_filter?(response, task_result)

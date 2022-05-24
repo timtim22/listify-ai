@@ -33,8 +33,12 @@ module RequestAssemblers
           "applyToWhitespaces": false,
           "applyToEmojis": false
         },
-        "stopSequences": prompt.stop
+        "stopSequences": stop_sequence(prompt.stop)
       }.to_json
+    end
+
+    def self.stop_sequence(stop)
+      stop.present? ? [stop] : []
     end
   end
 end

@@ -6,7 +6,11 @@ module ApiClients
 
     def run_request!(request_params, config)
       response = request('post', url, headers, request_params)
-      wrap_successful_response(response, request_params, config)
+      if response[:error]
+        response
+      else
+        wrap_successful_response(response, config)
+      end
     end
 
     private
@@ -23,7 +27,6 @@ module ApiClients
     end
 
     def request(method, url, headers, body)
-      binding.pry
       response = HTTParty.send(method, *[url, {
         headers: headers,
         body: body,
@@ -32,17 +35,16 @@ module ApiClients
 
 
       puts 'AI21 RESPONSE RECEIVED'
-      #puts JSON.parse(response.body)
       puts '------'
 
       if response.code == 200
         JSON.parse(response.body)
       else
-        error_response
+        error_response(response)
       end
     end
 
-    def wrap_successful_response(response, request_params, config)
+    def wrap_successful_response(response, config)
       {
         service: Completion::Services::AI21,
         success: true,

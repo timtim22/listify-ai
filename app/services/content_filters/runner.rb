@@ -2,11 +2,17 @@ module ContentFilters
   class Runner
 
     def run(response, task_result, task_run)
-      return unless response[:should_check_content]
+      run_custom_filter(task_result)
+
+      return unless should_run_gpt_filter?(response, task_result)
 
       filter_result = run_gpt_filter(response, task_result)
       UserLock.run!(task_run.user) if filter_result.unsafe?
-      run_custom_filter(task_result)
+    end
+
+    def should_run_gpt_filter?(response, task_result)
+      response[:should_check_content] &&
+        task_result.service == Completion::Services::GPT
     end
 
     def run_gpt_filter(response, task_result)

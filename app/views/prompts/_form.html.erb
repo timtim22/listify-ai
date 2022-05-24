@@ -1,78 +1,13 @@
-<%= form_with(model: [@prompt_set, @prompt], class: "w-full px-20 my-4") do |form| %>
-  <% if @prompt.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@prompt.errors.count, "error") %> prohibited this prompt from being saved:</h2>
-
-      <ul>
-        <% @prompt.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="w-full">
-    <div class="field">
-      <%= form.label :title, class: "form-label" %>
-      <%= form.text_field :title, class: "form-text-input" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :content, class: "form-label" %>
-      <%= form.text_area :content, class: "h-48 form-text-area" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :stop, "Stop (use \\n for newline)", class: "form-label" %>
-      <%= form.text_field :stop, class: "form-text-input" %>
-    </div>
-
-    <div class="grid grid-cols-5 gap-2">
-      <div class="field">
-        <%= form.label :temperature, class: "form-label" %>
-        <%= form.text_field :temperature, class: "form-text-input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :max_tokens, class: "form-label" %>
-        <%= form.number_field :max_tokens, max: 250, class: "form-text-input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :top_p, class: "form-label" %>
-        <%= form.text_field :top_p, class: "form-text-input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :frequency_penalty, class: "form-label" %>
-        <%= form.text_field :frequency_penalty, class: "form-text-input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :presence_penalty, class: "form-label" %>
-        <%= form.text_field :presence_penalty, class: "form-text-input" %>
-      </div>
-    </div>
-
-    <div class="field">
-      <%= form.label :engine, class: "form-label" %>
-      <%= form.select :engine, options_for_select(Prompt::ENGINES, selected: form.object.engine), {}, { class: "form-text-input" } %>
-    </div>
-
-    <div class="field">
-      <%= form.label :gpt_model_id, "Gpt finetuning model id (leave blank for none)", class: "form-label" %>
-      <%= form.text_field :gpt_model_id, class: "form-text-input" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :labels, "Labels (separate with commas, e.g. 'creative, short')", class: "form-label" %>
-      <%= form.text_field :labels, class: "form-text-input" %>
-    </div>
-
-
-
-    <div class="mt-4 actions">
-      <%= form.submit "Submit", class: "add-button" %>
-    </div>
-  </div>
-<% end %>
+<div class="w-full">
+  <%= react_component(
+    'prompts/Form',
+    {
+      actionType: locals[:action_type],
+      promptProps: @prompt,
+      promptSet: @prompt_set,
+      serviceOptions: @service_options,
+      serviceConstraints: Prompt::SERVICE_CONSTRAINTS,
+      engines: Prompt::ENGINES
+    }
+  ) %>
+</div>

@@ -2,6 +2,7 @@ class PromptsController < ApplicationController
   before_action :authenticate_admin
   before_action :set_prompt_set
   before_action :set_prompt, only: [:edit, :update, :destroy]
+  before_action :set_service_options, only: [:new, :edit]
 
   def new
     @prompt = @prompt_set.prompts.new_from_defaults
@@ -10,13 +11,13 @@ class PromptsController < ApplicationController
   def edit
   end
 
-  def update
-    @prompt.assign_attributes(prompt_params)
+  def create
+    @prompt = @prompt_set.prompts.new(prompt_params)
 
     respond_to do |format|
       if @prompt.save
-        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt updated." }
-        format.json { render :show, status: :created, location: prompt_set_path(@prompt_set) }
+        format.html { redirect_to prompt_set_path(@prompt_set), notice: 'Prompt created.' }
+        format.json { redirect_to @prompt_set, status: :created, notice: 'Prompt created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @prompt.errors, status: :unprocessable_entity }
@@ -24,13 +25,13 @@ class PromptsController < ApplicationController
     end
   end
 
-  def create
-    @prompt = @prompt_set.prompts.new(prompt_params)
+  def update
+    @prompt.assign_attributes(prompt_params)
 
     respond_to do |format|
       if @prompt.save
-        format.html { redirect_to prompt_set_path(@prompt_set), notice: "Prompt created." }
-        format.json { render :show, status: :created, location: prompt_set_path(@prompt_set) }
+        format.html { redirect_to prompt_set_path(@prompt_set), notice: 'Prompt updated.' }
+        format.json { redirect_to @prompt_set, status: :created, notice: 'Prompt updated.' }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @prompt.errors, status: :unprocessable_entity }
@@ -41,8 +42,8 @@ class PromptsController < ApplicationController
   def destroy
     if @prompt.destroy
       respond_to do |format|
-        format.html { redirect_to prompt_set_url(@prompt_set), notice: "Prompt deleted." }
-        format.json { head :no_content }
+        format.html { redirect_to prompt_set_url(@prompt_set), notice: 'Prompt deleted.' }
+        format.json { head :no_content, status: :ok }
       end
     end
   end
@@ -51,8 +52,8 @@ class PromptsController < ApplicationController
 
   def prompt_params
     params.require(:prompt).permit(
-      :title, :content, :stop, :temperature, :max_tokens, :top_p,
-      :frequency_penalty, :presence_penalty, :engine, :gpt_model_id, :labels
+      :title, :content, :stop, :temperature, :max_tokens, :top_p, :service,
+      :frequency_penalty, :presence_penalty, :engine, :remote_model_id, :labels
     )
   end
 
@@ -62,5 +63,13 @@ class PromptsController < ApplicationController
 
   def set_prompt
     @prompt = @prompt_set.prompts.find(params[:id])
+  end
+
+  def set_service_options
+    @service_options = if Rails.env.production?
+      Completion::Services::PRODUCTION
+    else
+      Completion::Services::ALL
+    end
   end
 end

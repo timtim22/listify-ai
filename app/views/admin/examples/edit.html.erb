@@ -1,7 +1,8 @@
 <div class="flex justify-center pt-8 mb-4 w-full h-full bg-gray-50">
   <div class="flex flex-col items-center w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
-    <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">New example</h1>
-    <%= render 'admin/examples/form', locals: { action_type: 'new' } %>
+    <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">Edit example</h1>
+    <%= render 'admin/examples/form', locals: { action_type: 'edit' } %>
     <%= link_to 'Back', admin_examples_path, class: "text-xs py-8" %>
   </div>
 </div>
+

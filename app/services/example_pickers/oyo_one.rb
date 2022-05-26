@@ -15,7 +15,7 @@ module ExamplePickers
       end
 
       def examples_with_matches(input_object)
-        examples = Example.where('request_types && ?', '{oyo_one}')
+        examples = Example.where(request_type: 'oyo_one')
 
         examples.map do |example|
           matches = example.tags.intersection(input_object.tags)

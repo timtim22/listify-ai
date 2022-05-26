@@ -12,6 +12,37 @@ class Admin::ExamplesController < ApplicationController
     @example = Example.new
   end
 
+  def edit
+  end
+
+  def create
+    @example = Example.new(example_params)
+
+    respond_to do |format|
+      if @example.save!
+        format.html { redirect_to admin_examples_path, notice: 'Example created.' }
+        format.json { redirect_to admin_examples_path, status: :created, notice: 'Example created.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @example.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    @example.assign_attributes(example_params)
+
+    respond_to do |format|
+      if @example.save!
+        format.html { redirect_to admin_examples_path, notice: 'Example updated.' }
+        format.json { redirect_to admin_examples_path, status: :created, notice: 'Example updated.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @example.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @example.destroy
 
@@ -27,6 +58,6 @@ class Admin::ExamplesController < ApplicationController
   end
 
   def example_params
-    params.require(:example).permit(:title)
+    params.require(:example).permit(:request_type, :completion, :input_structure, input_data: {})
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_23_173358) do
+ActiveRecord::Schema.define(version: 2022_05_25_053921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -115,10 +115,10 @@ ActiveRecord::Schema.define(version: 2022_05_23_173358) do
     t.jsonb "input_data"
     t.text "prompt"
     t.text "completion", null: false
-    t.string "request_types", default: [], array: true
     t.string "tags", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "request_type"
   end
 
   create_table "feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

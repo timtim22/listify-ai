@@ -8,7 +8,7 @@
       <thead class="bg-gray-100">
         <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
           <th class="py-3 px-6">Input structure</th>
-          <th class="py-3 px-6">Request types</th>
+          <th class="py-3 px-6">Request type</th>
           <th class="py-3 px-6">Prompt</th>
           <th class="py-3 px-6">Completion</th>
           <th class="py-3 px-6">Tags</th>
@@ -21,12 +21,18 @@
         <% @examples.each do |example| %>
           <tr class="text-xs">
             <td class="py-3 px-6"><%= example.input_structure %></td>
-            <td class="py-3 px-6"><%= example.request_types.join(', ') %></td>
+            <td class="py-3 px-6"><%= example.request_type %></td>
             <td class="py-3 px-6 whitespace-pre-wrap"><%= example.prompt %></td>
             <td class="py-3 px-6 whitespace-pre-wrap"><%= example.completion %></td>
             <td class="py-3 px-6"><%= example.tags.join(', ') %></td>
             <td class="py-3 px-6"><%= example.id %></td>
-            <td class="py-3 px-6"><%= link_to('delete', admin_example_path(example), method: :delete, data: { confirm: 'Are you sure?' }) %></td>
+            <td class="py-3 px-6">
+              <div class="flex justify-start">
+                <%= link_to 'edit', edit_admin_example_path(example) %>
+                <span class="mx-1">|</span>
+                <%= link_to('delete', admin_example_path(example), method: :delete, data: { confirm: 'Are you sure?' }) %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

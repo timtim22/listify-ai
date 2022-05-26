@@ -1,4 +1,5 @@
 class Admin::ExamplesController < ApplicationController
+  before_action :authenticate_user!
   before_action :authorize_example
   before_action :set_example, only: %i[ show edit update destroy ]
 

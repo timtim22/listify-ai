@@ -95,7 +95,6 @@ const AreaDescriptionForm = ({
     )
   }
 
-
   const submitButton = () => {
     return (
       <div className="flex justify-center py-8 w-full">
@@ -110,44 +109,65 @@ const AreaDescriptionForm = ({
     )
   }
 
+  const attractionForm = (topAttractions, stations, restaurants) => {
+    return (
+      <form className="text-sm mt-2" onSubmit={handleSubmit}>
+        <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
+          Or <button type='button' onClick={resetForm} className="secondary-link">{` search again.`}</button>
+        </p>
+        <br />
+        <AreaAttractionList
+          attractions={topAttractions}
+          attractionType={'attractions'}
+          selectedIds={descriptionParams.selectedIds}
+          toggleSelected={toggleSelected}
+        />
+        <br />
+        <AreaAttractionList
+          attractions={stations}
+          attractionType={'stations'}
+          selectedIds={descriptionParams.selectedIds}
+          toggleSelected={toggleSelected}
+        />
+        <br />
+        <AreaAttractionList
+          attractions={restaurants}
+          attractionType={'restaurants'}
+          selectedIds={descriptionParams.selectedIds}
+          toggleSelected={toggleSelected}
+        />
+
+        <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
+        {detailsField()}
+        <br />
+        {submitButton()}
+      </form>
+    )
+  };
+
+  const noResultsMessage = () => {
+    return (
+      <div className="text-center">
+        {"Sorry, we couldn't find anything for this search. You could try a different search term; generally the names of towns, cities or smaller local areas work better than countries or specific addresses. If changing the search term doesn't help, please let us know."}
+        <div className="flex justify-center py-8 w-full">
+          <button type='button' onClick={resetForm} className="primary-button">
+            Search again
+          </button>
+        </div>
+      </div>
+    )
+  };
+
   if (searchResult) {
     const { attractions, restaurants, stations } = searchResult.attractions;
     const topAttractions = attractions.slice(0,8);
+    const attractionsFound = attractions.length + restaurants.length + stations.length > 0;
 
     return (
       <div className="w-full flex justify-center">
         <div className={`flex justify-center ${shouldGenerateFragment ? "w-full" : "w-4/5"}`}>
-          <form className="text-sm mt-2" onSubmit={handleSubmit}>
-            <p>Here's what we found nearby. For the best description, tick at least 3 boxes and add something to the keywords section. 
-              Or <button onClick={resetForm} className="secondary-link">{` search again.`}</button>
-            </p>
-            <br />
-            <AreaAttractionList
-              attractions={topAttractions}
-              attractionType={'attractions'}
-              selectedIds={descriptionParams.selectedIds}
-              toggleSelected={toggleSelected}
-            />
-            <br />
-            <AreaAttractionList
-              attractions={stations}
-              attractionType={'stations'}
-              selectedIds={descriptionParams.selectedIds}
-              toggleSelected={toggleSelected}
-            />
-            <br />
-            <AreaAttractionList
-              attractions={restaurants}
-              attractionType={'restaurants'}
-              selectedIds={descriptionParams.selectedIds}
-              toggleSelected={toggleSelected}
-            />
-
-            <p className="mt-4 text-xs text-right text-gray-300">Search results powered by Google Maps</p>
-            <br />
-            {detailsField()}
-            {submitButton()}
-          </form>
+          {!attractionsFound && noResultsMessage()}
+          {attractionsFound && attractionForm(topAttractions, stations, restaurants)}
         </div>
       </div>
     )

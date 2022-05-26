@@ -51,8 +51,6 @@ module CsvImporters
         "- #{strings.join("\n- ")}"
       end
 
-
-
       def create_record!(fields)
         if ::Example.find_by(completion: fields[:completion])
           puts "Skipped #{fields[:completion][0..50]}..."
@@ -68,7 +66,8 @@ module CsvImporters
       end
 
       def tag_example(example)
-        Taggers::OyoOne.tag_object!(example, example.input_data)
+        data = Taggers::Coordinate.for(example.input_structure, example.input_data)
+        example.update!(tags: data[:tags], prompt: data[:prompt])
       end
     end
   end

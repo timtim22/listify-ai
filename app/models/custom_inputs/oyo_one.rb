@@ -6,19 +6,7 @@ class CustomInputs::OyoOne < ApplicationRecord
   after_create :generate_tags
 
   def generate_tags
-    update!(input_text: generate_input_text)
-    Taggers::OyoOne.tag_object!(self, attributes)
-  end
-
-  def generate_input_text
-    strings = [
-      "#{property_type}#{location && " in #{location}"}",
-      location_detail,
-      "ideal for #{target_user}",
-      usp_one,
-      usp_two,
-      usp_three
-    ].compact_blank
-    "- #{strings.join("\n- ")}"
+    data = Taggers::Coordinate.for(request_type, attributes)
+    update!(tags: data[:tags], input_text: data[:prompt])
   end
 end

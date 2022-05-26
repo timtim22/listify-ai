@@ -33,7 +33,7 @@ class Admin::ExamplesController < ApplicationController
     @example.assign_attributes(example_params)
 
     respond_to do |format|
-      if @example.save
+      if @example.save!
         format.html { redirect_to admin_examples_path, notice: 'Example updated.' }
         format.json { redirect_to admin_examples_path, status: :created, notice: 'Example updated.' }
       else

@@ -2,6 +2,7 @@ module Admin
   module Taggers
     class RulesController < ApplicationController
       before_action :authenticate_user!
+      before_action :authorize_rule
       before_action :set_rule, only: %i[ show edit update destroy ]
 
       def index
@@ -60,7 +61,9 @@ module Admin
         @rule = ::Taggers::Rule.find(params[:id])
       end
 
-
+      def authorize_rule
+        authorize ::Taggers::Rule
+      end
 
       def rule_params
         params.require(:rule).permit(:rule_type, :input_structure, :tag, :keywords, applicable_fields: [])

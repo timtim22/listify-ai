@@ -1,5 +1,5 @@
 class Admin::ExamplesController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authorize_example
   before_action :set_example, only: %i[ show edit update destroy ]
 
   def index
@@ -52,6 +52,10 @@ class Admin::ExamplesController < ApplicationController
   end
 
   private
+
+  def authorize_example
+    authorize Example
+  end
 
   def set_example
     @example = Example.find(params[:id])

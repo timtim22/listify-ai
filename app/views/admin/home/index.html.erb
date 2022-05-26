@@ -1,9 +1,9 @@
-<div class="flex flex-col items-start px-4 md:px-8">
+<div class="flex flex-col items-start my-4 px-4 md:px-8">
   <% if current_user.admin? %>
     <p>You are signed in as an admin. Links: </p>
     <br />
     <ol type="1" class="list-decimal list-inside">
-      <li><%= link_to "Create a property listing", new_listing_path %></li>
+      <li><%= link_to "Go to app", new_listing_path %></li>
       <li><%= link_to "Test prompt in playground", new_playground_attempt_path %></li>
       <li><%= link_to "View Completions", admin_recorded_completions_path %></li>
       <li><%= link_to "View task runs", task_runs_path %></li>
@@ -13,5 +13,15 @@
       <li><%= link_to "Manage Example sets", admin_examples_path %></li>
       <li><%= link_to 'Export CSV (temp)', admin_data_exports_path(format: "csv") %></li>
     </ol>
+  <% elsif policy(:admin).index? %>
+    <p>You are signed in as member of the Listify team. Links: </p>
+    <br />
+    <ol type="1" class="list-decimal list-inside">
+      <li><%= link_to "Go to app", new_listing_path %></li>
+      <li><%= link_to "Test prompt in playground", new_playground_attempt_path %></li>
+      <li><%= link_to "View Completions", admin_recorded_completions_path %></li>
+      <li><%= link_to "Manage Example sets", admin_examples_path %></li>
+    </ol>
+  <% else %>
   <% end %>
 </div>

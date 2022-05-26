@@ -1,4 +1,4 @@
-class ExamplePolicy < ApplicationPolicy
+class RecordedCompletionPolicy < ApplicationPolicy
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -10,23 +10,7 @@ class ExamplePolicy < ApplicationPolicy
     user.admin? || user.on_listify_team?
   end
 
-  def create?
-    index?
-  end
-
-  def new?
-    index?
-  end
-
-  def update?
-    index?
-  end
-
-  def edit?
-    index?
-  end
-
-  def destroy?
+  def show?
     index?
   end
 end

@@ -26,6 +26,10 @@ const FormHeader = ({ user, formType, setFormType }) => {
     return user.admin || aboutUsers.includes(user.id);
   };
 
+  const canSeeCustomForm = () => {
+    return user.admin || user.on_listify_team
+  }
+
   return (
     <div className="flex overflow-x-hidden flex-col items-center w-full">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
@@ -40,7 +44,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {navLink("Listing builder", "listing_builder")}
           {navLink("Ads", "advert", "beta")}
           {canSeeAbout() && navLink("About", "about", "beta")}
-          {user.admin && navLink("Custom form", "custom_form", "beta")}
+          {canSeeCustomForm && navLink("Custom form", "custom_form", "beta")}
         </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>

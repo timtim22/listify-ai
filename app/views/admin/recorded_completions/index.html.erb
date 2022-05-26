@@ -2,6 +2,8 @@
   <%= react_component(
     'completions/Dashboard',
     {
+      currentUser: from_partial('users/user.json', user: current_user),
+      showAdmins: params[:admin],
       groupedCompletions: from_partial(
         'admin/recorded_completions/recorded_completion_group.json',
         recorded_completion_group: @completions_by_task_run

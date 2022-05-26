@@ -29,7 +29,7 @@ class SearchLocationsController < ApplicationController
 
   def record_search_by_user
     @search_location.recorded_searches.create!(user: current_user)
-    if RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count > 50
+    if RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count > 200
       raise "Unexpected search volume recorded!"
     end
   end

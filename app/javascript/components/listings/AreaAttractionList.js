@@ -54,8 +54,6 @@ const AreaAttractionList = ({
   }
 
   const stationRow = (station) => {
-    const { distance, duration } = station.distance;
-    const durationSubstring =  duration < 26 ? `, ${duration} min walk` : "";
     return (
       <div key={station.place_id} className="w-full hover:bg-gray-100">
         <label className="flex justify-between items-center py-1 w-full cursor-pointer">
@@ -64,7 +62,7 @@ const AreaAttractionList = ({
             <span className="ml-2 text-xs">
               {station.categories.includes("subway_station") && pillIcon("subway")}
               {station.categories.includes("light_rail_station") && pillIcon("light rail")}
-              ({distance} km{durationSubstring})
+              {distanceString(station)}
             </span>
           </span>
           {checkboxFor(station)}
@@ -72,6 +70,16 @@ const AreaAttractionList = ({
       </div>
     )
   }
+
+  const distanceString = (attraction) => {
+    if (attraction.distance) {
+      const { distance, duration } = attraction.distance;
+      const durationSubstring =  duration && duration < 26 ? `, ${duration} min walk` : "";
+      return `(${distance} km${durationSubstring})`
+    } else {
+      return '';
+    }
+  };
 
   const pillIcon = (name) => {
     return (

@@ -1,0 +1,42 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Tagger Rules</h1>
+    <%= link_to 'Add Rule', new_admin_taggers_rule_path, class: "add-button" %>
+  </div>
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">Input structure</th>
+          <th class="py-3 px-6">Rule type</th>
+          <th class="py-3 px-6">Tag</th>
+          <th class="py-3 px-6">Keywords</th>
+          <th class="py-3 px-6">Applicable fields</th>
+          <th class="py-3 px-6">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @rules.each do |rule| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= rule.input_structure %></td>
+            <td class="py-3 px-6"><%= rule.rule_type %></td>
+            <td class="py-3 px-6"><%= rule.tag %></td>
+            <td class="py-3 px-6"><%= rule.keywords %></td>
+            <td class="py-3 px-6"><%= rule.applicable_fields.join(', ') %></td>
+            <td class="py-3 px-6">
+              <div class="flex justify-start">
+                <%= link_to 'edit', edit_admin_taggers_rule_path(rule) %>
+                <span class="mx-1">|</span>
+                <%= link_to('delete', admin_taggers_rule_path(rule), method: :delete, data: { confirm: 'Are you sure?' }) %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <%== pagy_nav(@pagy) %>
+</div>
+

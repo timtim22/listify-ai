@@ -3,26 +3,26 @@ class Attraction
 
   def self.from_remote_object(hash)
     Attraction.new(
-      hash["name"],
-      hash["search_type"],
-      hash["types"],
-      hash["rating"],
-      hash["user_ratings_total"],
-      hash.dig("geometry", "location") || hash["location"],
-      hash["place_id"]
+      hash['name'],
+      hash['search_type'],
+      hash['types'],
+      hash['rating'],
+      hash['user_ratings_total'],
+      hash.dig('geometry', 'location') || hash['location'],
+      hash['place_id']
     )
   end
 
   def self.from_hash(hash)
     Attraction.new(
-      hash["name"],
-      hash["classification"],
-      hash["categories"],
-      hash["rating"],
-      hash["total_ratings"],
-      hash["location"],
-      hash["place_id"],
-      hash["distance"]
+      hash['name'],
+      hash['classification'],
+      hash['categories'],
+      hash['rating'],
+      hash['total_ratings'],
+      hash['location'],
+      hash['place_id'],
+      hash['distance']
     )
   end
 
@@ -39,8 +39,8 @@ class Attraction
 
   def set_distance(distance_obj)
     @distance = {
-      distance: (distance_obj["distance"]["value"] / 1000.0).round(1),
-      duration: (distance_obj["duration"]["value"] / 60.0).round
+      distance: (distance_obj['distance']['value'] / 1000.0).round(1),
+      duration: (distance_obj['duration']['value'] / 60.0).round
     }
   end
 end

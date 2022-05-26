@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { tableDate } from '../../helpers/utils';
 
-const Dashboard = ({ groupedCompletions }) => {
-  console.log(groupedCompletions)
+const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
 
   const headerRow = () => {
     return (
       <div className="flex justify-between items-center my-4 w-full">
         <h1 className="text-xl font-medium text-gray-900">Completions</h1>
+        {currentUser.admin && <a
+          href={`/admin/recorded_completions${showAdmins ? '' : '?admin=true'}`}
+          className="text-xs"
+        >
+          Toggle admins
+        </a>}
       </div>
     )
   };
@@ -133,6 +138,8 @@ const Dashboard = ({ groupedCompletions }) => {
 }
 
 Dashboard.propTypes = {
+  currentUser: PropTypes.object,
+  showAdmins: PropTypes.boolean,
   groupedCompletions: PropTypes.array,
 }
 

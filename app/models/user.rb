@@ -22,9 +22,14 @@ class User < ApplicationRecord
   validates :terms_of_service, acceptance: true, on: :create
 
   TRIAL_CODES = %w[rentalscaleup friendoflistify].freeze
+  LISTIFY_TEAM_SCOPE = 'listify_team'.freeze
 
   def name
     "#{first_name} #{last_name}"
+  end
+
+  def on_listify_team?
+    authorization_scopes.include? LISTIFY_TEAM_SCOPE
   end
 
   def member_of_team?

@@ -52,6 +52,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'index', to: 'home#index'
+    patch 'tag_batch', to: 'examples#tag_batch'
+
     resources :examples
     namespace :taggers do
       resources :rules

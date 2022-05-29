@@ -327,9 +327,9 @@ ActiveRecord::Schema.define(version: 2022_05_26_182042) do
   create_table "taggers_rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "rule_type"
     t.string "input_structure"
-    t.string "applicable_fields", default: [], array: true
     t.string "tag"
-    t.string "keywords"
+    t.string "applicable_fields", default: [], array: true
+    t.string "keywords", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

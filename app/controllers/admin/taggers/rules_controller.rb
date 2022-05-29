@@ -20,7 +20,6 @@ module Admin
 
       def create
         @rule = ::Taggers::Rule.new(rule_params)
-        binding.pry
 
         respond_to do |format|
           if @rule.save!
@@ -66,7 +65,7 @@ module Admin
       end
 
       def rule_params
-        params.require(:rule).permit(:rule_type, :input_structure, :tag, :keywords, applicable_fields: [])
+        params.require(:rule).permit(:rule_type, :input_structure, :tag, :keywords, applicable_fields: [], keywords: [])
       end
     end
   end

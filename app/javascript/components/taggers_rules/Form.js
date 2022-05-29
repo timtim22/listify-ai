@@ -56,6 +56,7 @@ const Form = ({
           rule: {
           ...rule,
           applicable_fields: rule.applicable_fields.split(', '),
+          keywords: rule.keywords.split(', '),
           input_structure: inputStructure
           }
         },

@@ -29,4 +29,9 @@ class ExamplePolicy < ApplicationPolicy
   def destroy?
     index?
   end
+
+  def tag_batch?
+    index?
+  end
+
 end

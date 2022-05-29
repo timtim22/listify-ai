@@ -145,7 +145,10 @@ const Form = ({
         {textField('Tag', 'tag')}
         {textField('Keywords', 'keywords')}
         {textField('Applicable fields', 'applicable_fields')}
-        <p>Types: {taggableFields.join(', ')}</p>
+        <div className="text-left">
+          <p>Applicable fields can be: {taggableFields.join(', ')}</p>
+          <p>Applicable fields and keywords are comma separated lists.</p>
+        </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
           <div className="flex justify-center py-8 w-full">
             <button className="add-button" type="submit">Submit</button>

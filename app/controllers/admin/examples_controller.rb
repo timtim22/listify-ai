@@ -1,7 +1,7 @@
 class Admin::ExamplesController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_example
-  before_action :set_example, only: %i[ show edit update destroy ]
+  before_action :set_example, only: %i[ edit update destroy ]
 
   def index
     @examples = Example.all
@@ -43,6 +43,25 @@ class Admin::ExamplesController < ApplicationController
       end
     end
   end
+
+  def tag_batch
+    @examples = Example.all
+    @examples.each do |e|
+      e.generate_derived_data
+      e.save!
+    end
+
+    respond_to do |format|
+      if @examples.each(&:save!)
+        format.html { redirect_to admin_examples_path, notice: 'Examples tagged.' }
+        format.json { redirect_to admin_examples_path, status: :created, notice: 'Examples tagged.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @examples.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   def destroy
     @example.destroy

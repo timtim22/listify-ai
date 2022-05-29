@@ -1,7 +1,11 @@
 <div class="px-10 w-full">
   <div class="flex justify-between items-center my-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Examples</h1>
-    <%= link_to 'Add Example', new_admin_example_path, class: "add-button" %>
+    <div class="flex items-center">
+      <%= link_to 'Retag All!', admin_tag_batch_url, method: :patch, class: "add-button mr-2" %>
+      <%= link_to 'Rules', admin_taggers_rules_path, class: "add-button mr-2" %>
+      <%= link_to 'Add Example', new_admin_example_path, class: "add-button" %>
+    </div>
   </div>
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full divide-y divide-gray-200">
@@ -24,7 +28,7 @@
             <td class="py-3 px-6"><%= example.request_type %></td>
             <td class="py-3 px-6 whitespace-pre-wrap"><%= example.prompt %></td>
             <td class="py-3 px-6 whitespace-pre-wrap"><%= example.completion %></td>
-            <td class="py-3 px-6"><%= example.tags.join(', ') %></td>
+            <td class="py-3 px-6"><%= example.tags&.join(', ') %></td>
             <td class="py-3 px-6"><%= example.id %></td>
             <td class="py-3 px-6">
               <div class="flex justify-start">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_073219) do
+ActiveRecord::Schema.define(version: 2022_05_26_182042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -320,6 +320,16 @@ ActiveRecord::Schema.define(version: 2022_05_26_073219) do
   create_table "summary_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "input_text"
     t.string "request_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "taggers_rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "rule_type"
+    t.string "input_structure"
+    t.string "tag"
+    t.string "applicable_fields", default: [], array: true
+    t.string "keywords", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

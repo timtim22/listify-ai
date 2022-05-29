@@ -1,4 +1,4 @@
-class ExamplePolicy < ApplicationPolicy
+class Taggers::RulePolicy < ApplicationPolicy
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -29,9 +29,5 @@ class ExamplePolicy < ApplicationPolicy
   def destroy?
     index?
   end
-
-  def tag_batch?
-    index?
-  end
-
 end
+

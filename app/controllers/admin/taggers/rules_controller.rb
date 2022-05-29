@@ -65,7 +65,7 @@ module Admin
       end
 
       def rule_params
-        params.require(:rule).permit(:rule_type, :input_structure, :tag, :keywords, applicable_fields: [], keywords: [])
+        params.require(:rule).permit(:rule_type, :input_structure, :tag, keywords: [], applicable_fields: [])
       end
     end
   end

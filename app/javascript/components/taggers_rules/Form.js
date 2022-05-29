@@ -29,7 +29,9 @@ const Form = ({
 }) => {
   const [rule, setRule] = useState({
     ...ruleProps,
-    rule_type: ruleProps.rule_type || ruleTypes[0]
+    rule_type: ruleProps.rule_type || ruleTypes[0],
+    applicable_fields: ruleProps.applicable_fields.join(', '),
+    keywords: ruleProps.keywords.join(', '),
   });
   const [inputStructure, setInputStructure] = useState(rule.input_structure || inputStructures[0]);
   const [taggableFields, setTaggableFields] = useState([]);
@@ -63,9 +65,15 @@ const Form = ({
       )
     } else {
       updateRequest(
-        `/admin/rules/${ruleProps.id}.json`,
-        { rule: { ...rule, input_structure: inputStructure } },
-        redirectOnSuccess,
+        `/admin/taggers/rules/${ruleProps.id}.json`,
+        {
+          rule: {
+          ...rule,
+          applicable_fields: rule.applicable_fields.split(', '),
+          keywords: rule.keywords.split(', '),
+          input_structure: inputStructure
+          }
+        },
         redirectOnSuccess,
         (e) => { setErrors(e); setLoading(false) }
       )

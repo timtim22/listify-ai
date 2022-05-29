@@ -36,8 +36,6 @@ const Form = ({
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  console.log(rule)
-
   useEffect(() => {
     if (inputStructure) {
       const fields = fieldsFor(inputStructure);
@@ -111,34 +109,6 @@ const Form = ({
               )
             })}
         </select>
-      </div>
-    )
-  };
-
-
-
-  const textArea = (title, field) => {
-    return (
-      <div className="w-full mb-6">
-        <label className="form-label">{title}</label>
-        <textarea
-          type="text"
-          value={rule[field] || ''}
-          onChange={(e) => {setField(field, e.target.value)}}
-          className="w-full h-48 form-text-area"></textarea>
-      </div>
-    )
-  };
-
-  const requestField = () => {
-    return (
-      <div className="w-full mb-6">
-        <label className="form-label">Request type (usually should be the same as input structure)</label>
-        <input
-          type="text"
-          value={rule.request_type || ''}
-          onChange={(e) => setField('request_type', e.target.value)}
-          className="w-full form-text-input"></input>
       </div>
     )
   };

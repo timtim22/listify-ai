@@ -77,23 +77,20 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
   const tableRowFor = (group) => {
     return (
       <tr key={group.task_run_timestamp} className="text-xs">
-        <td className="py-3 px-6">{tableDate(new Date(group.task_run_timestamp))}</td>
         <td className="py-3 px-6">{group.user_email}</td>
         <td className="py-3 px-6">{group.request_type}</td>
-        <td className="py-3 px-6 whitespace-pre-wrap">{formattedUserInput(group)}</td>
+        <td className="py-3 px-6 whitespace-pre-wrap w-80">{formattedUserInput(group)}</td>
         <td>
           <div>
             {group.completions.map((c) => {
               return (
-                <div key={c.id} className="grid grid-cols-8 pt-3">
-                  <div className="py-3 px-6 mb-4 col-span-4">{displayCompletion(c)}</div>
-                  <div className="py-3 px-6 mb-4 col-span-1">{c.api_client}</div>
-                  <div className="py-3 px-6 mb-4 col-span-1">{c.ran_content_filter.toString()}</div>
+                <div key={c.id} className="grid grid-cols-4 pt-3">
+                  <div className="py-3 px-6 mb-4 col-span-3">{displayCompletion(c)}</div>
                   <div className="py-3 px-6 mb-4 col-span-1">
-                    <p>in: {group.input_language_code}</p>
-                    <p>out: {c.completion_translation_codes.join(', ')}</p>
-                  </div>
-                  <div className="py-3 px-6 mb-4 col-span-1">
+                    <p>api: {c.api_client}</p>
+                    <p>filter: {c.ran_content_filter.toString()}</p>
+                    <p>lang_in: {group.input_language_code}</p>
+                    <p>lang_out: {c.completion_translation_codes.join(', ')}</p>
                     <a href={`/admin/recorded_completions/${c.id}`} className="secondary-link">Debug</a>
                   </div>
                 </div>
@@ -101,6 +98,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
             })}
           </div>
         </td>
+        <td className="py-3 px-6">{tableDate(new Date(group.task_run_timestamp))}</td>
       </tr>
     )
   };
@@ -112,19 +110,16 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
             <tr className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-              <th className="py-3 px-6">Created</th>
               <th className="py-3 px-6">User</th>
               <th className="py-3 px-6">Request type</th>
               <th className="py-3 px-6">User Input</th>
               <th>
-                <div className="grid grid-cols-8">
-                  <span className="py-3 px-6 col-span-4">Completion</span>
-                  <span className="py-3 px-6 col-span-1">Api</span>
-                  <span className="py-3 px-6 col-span-1">Ran filter</span>
-                  <span className="py-3 px-6 col-span-1">Language</span>
-                  <span className="py-3 px-6 col-span-1">Debug</span>
+                <div className="grid grid-cols-4">
+                  <span className="py-3 px-6 col-span-3 min-w-min">Completion</span>
+                  <span className="py-3 px-6 col-span-1 min-w-min">Request Details</span>
                 </div>
-                </th>
+              </th>
+              <th className="py-3 px-6">Created</th>
             </tr>
           </thead>
 

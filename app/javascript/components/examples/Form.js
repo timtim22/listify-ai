@@ -104,6 +104,7 @@ const Form = ({
           type="text"
           value={example[field] || ''}
           onChange={(e) => {setField(field, e.target.value)}}
+          required={true}
           className="w-full h-48 form-text-area"></textarea>
       </div>
     )

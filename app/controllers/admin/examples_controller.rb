@@ -4,7 +4,8 @@ class Admin::ExamplesController < ApplicationController
   before_action :set_example, only: %i[ edit update destroy ]
 
   def index
-    @examples = Example.all
+    @q = Example.ransack(params[:q])
+    @examples = @q.result
 
     @pagy, @examples = pagy(@examples)
   end

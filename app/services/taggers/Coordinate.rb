@@ -10,8 +10,13 @@ module Taggers
         }
       end
 
-      def tagger_for(_request_type)
-        Taggers::OyoOne.new
+      def tagger_for(request_type)
+        case request_type
+        when 'oyo_one' then Taggers::OyoOne.new
+        when 'oyo_two' then Taggers::OyoTwo.new
+        else
+          raise 'Error in Taggers::Coordinate - Request Type missing!'
+        end
       end
     end
   end

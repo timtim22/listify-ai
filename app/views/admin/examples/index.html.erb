@@ -7,6 +7,19 @@
       <%= link_to 'Add Example', new_admin_example_path, class: "add-button" %>
     </div>
   </div>
+
+  <div class="flex w-1/2">
+    <%= search_form_for(@q, url: admin_examples_path , method: :get) do |f| %>
+      <%= f.label :input_structure_cont, "Input structure:", class: "form-label" %>
+      <%= f.search_field :input_structure_cont, class: "form-inline-field" %>
+
+      <%= f.label :completion_cont, "Completion:", class: "form-label" %>
+      <%= f.search_field :completion_cont, class: "form-inline-field" %>
+
+      <%= f.submit name: '', class: "my-4 add-button" %>
+    <% end %>
+  </div>
+
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">

@@ -77,8 +77,13 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
   const tableRowFor = (group) => {
     return (
       <tr key={group.task_run_timestamp} className="text-xs">
-        <td className="py-3 px-6">{group.user_email}</td>
-        <td className="py-3 px-6">{group.request_type}</td>
+        <td className="py-3 px-6">
+          <p><strong>{group.user_email}</strong></p>
+          <br />
+          <p>{group.request_type}</p>
+          <br />
+          <p className="text-gray-500">{tableDate(new Date(group.task_run_timestamp))}</p>
+        </td>
         <td className="py-3 px-6 whitespace-pre-wrap w-80">{formattedUserInput(group)}</td>
         <td>
           <div>
@@ -98,7 +103,6 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
             })}
           </div>
         </td>
-        <td className="py-3 px-6">{tableDate(new Date(group.task_run_timestamp))}</td>
       </tr>
     )
   };
@@ -110,8 +114,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
             <tr className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-              <th className="py-3 px-6">User</th>
-              <th className="py-3 px-6">Request type</th>
+              <th className="py-3 px-6">User Request</th>
               <th className="py-3 px-6">User Input</th>
               <th>
                 <div className="grid grid-cols-4">
@@ -119,7 +122,6 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
                   <span className="py-3 px-6 col-span-1 min-w-min">Request Details</span>
                 </div>
               </th>
-              <th className="py-3 px-6">Created</th>
             </tr>
           </thead>
 

@@ -17,7 +17,11 @@ const fieldsFor = (inputStructure) => {
       'usp_three'
     ],
     oyo_two: [
-      'demo_field'
+      'usp_one',
+      'usp_two',
+      'usp_three',
+      'usp_four',
+      'usp_five'
     ]
   }
   return structures[inputStructure];
@@ -145,7 +149,7 @@ const Form = ({
         {textField('Tag', 'tag')}
         {textField('Keywords', 'keywords')}
         {textField('Applicable fields', 'applicable_fields')}
-        <div className="text-left">
+        <div className="w-full text-left">
           <p>Applicable fields can be: {taggableFields.join(', ')}</p>
           <p>Applicable fields and keywords are comma separated lists.</p>
         </div>

@@ -16,7 +16,11 @@ const inputFieldsFor = (inputStructure) => {
       { key: 'usp_three', title: 'USP 3', type: 'string', default: '' },
     ],
     oyo_two: [
-      { key: 'demo_field', title: "Test - don't submit this form!", type: 'string', default: '' }
+      { key: 'usp_one', title: 'USP 1', type: 'string', default: '' },
+      { key: 'usp_two', title: 'USP 2', type: 'string', default: '' },
+      { key: 'usp_three', title: 'USP 3', type: 'string', default: '' },
+      { key: 'usp_four', title: 'USP 4', type: 'string', default: '' },
+      { key: 'usp_five', title: 'USP 5', type: 'string', default: '' },
     ]
   }
   return structures[inputStructure];

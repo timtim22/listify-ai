@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   end
 
   namespace :custom_inputs do
-    resources :oyo_one, only: [:create]
+    resources :oyo, only: [:create]
   end
 
   resource :usage, only: [:show]

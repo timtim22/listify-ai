@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_182042) do
+ActiveRecord::Schema.define(version: 2022_05_31_144432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -98,6 +98,19 @@ ActiveRecord::Schema.define(version: 2022_05_26_182042) do
     t.string "usp_one"
     t.string "usp_two"
     t.string "usp_three"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "custom_inputs_oyo_twos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.text "input_text"
+    t.string "usp_one"
+    t.string "usp_two"
+    t.string "usp_three"
+    t.string "usp_four"
+    t.string "usp_five"
     t.string "tags", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

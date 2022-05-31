@@ -1,6 +1,6 @@
-json.oyo_one do
-  json.id @oyo_one.id
-  json.request_type @oyo_one.request_type
+json.oyo_obj do
+  json.id @oyo_obj.id
+  json.request_type @oyo_obj.request_type
 end
 
 json.runs_remaining @runs_remaining

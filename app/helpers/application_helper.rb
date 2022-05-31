@@ -29,8 +29,8 @@ module ApplicationHelper
   }
 
   SPIN_COUNT = { #move to db
-    starter: 30,
-    standard: 200,
+    starter: 75,
+    standard: 250,
     premium: 1000
   }
 

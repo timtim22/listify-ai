@@ -43,10 +43,10 @@ RSpec.describe SpinCounter do
         user = create(:user)
         create(:plan, stripe_id: 'StarterPlanId')
         create(:subscription, user: user, stripe_plan: 'StarterPlanId')
-        expect(SpinCounter.new(user).spins_remaining).to eq 30
+        expect(SpinCounter.new(user).spins_remaining).to eq 75
         5.times { create(:task_run, :for_listing, user: user) }
         create(:task_run, :for_listing, user: user, created_at: Time.zone.today.beginning_of_month - 1.day)
-        expect(SpinCounter.new(user).spins_remaining).to eq 25
+        expect(SpinCounter.new(user).spins_remaining).to eq 70
       end
 
       it 'ignores spins before subscription date' do
@@ -54,10 +54,10 @@ RSpec.describe SpinCounter do
         create(:task_run, :for_listing, user: user)
         create(:plan, stripe_id: 'StarterPlanId')
         create(:subscription, user: user, stripe_plan: 'StarterPlanId')
-        expect(SpinCounter.new(user).spins_remaining).to eq 30
+        expect(SpinCounter.new(user).spins_remaining).to eq 75
         5.times { create(:task_run, :for_listing, user: user) }
         create(:task_run, :for_listing, user: user, created_at: Time.zone.today.beginning_of_month - 1.day)
-        expect(SpinCounter.new(user).spins_remaining).to eq 25
+        expect(SpinCounter.new(user).spins_remaining).to eq 70
       end
     end
 

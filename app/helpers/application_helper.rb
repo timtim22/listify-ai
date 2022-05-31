@@ -31,7 +31,7 @@ module ApplicationHelper
   SPIN_COUNT = { #move to db
     starter: 75,
     standard: 250,
-    premium: 1000
+    premium: 1200
   }
 
   SEAT_COUNT = {

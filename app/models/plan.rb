@@ -11,7 +11,7 @@ class Plan < ApplicationRecord
     when 'starter_dep' then 75
     when 'starter (2021)' then 75
     when 'standard' then 250
-    when 'enterprise' then 1000
+    when 'enterprise' then 1200
     else 0
     end
   end

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import OyoOne from './OyoOne';
 import OyoTwo from './OyoTwo';
+import OyoThree from './OyoThree';
 
 const formTypeOptions = [
   { name: 'Why stay here?', value: 'oyo_one' },
   { name: 'Things to do around', value: 'oyo_two' },
+  { name: 'What to expect from the space', value: 'oyo_three' },
 ];
 
 
@@ -12,10 +14,16 @@ const Oyo = (props) => {
   const [formType, setFormType] = useState(formTypeOptions[0].value);
 
   const renderForm = () => {
-    if (formType === 'oyo_one') {
-      return <OyoOne {...props}/>
-    } else {
-      return <OyoTwo {...props}/>
+    switch(formType) {
+      case 'oyo_one':
+        return <OyoOne {...props}/>
+        break;
+      case 'oyo_two':
+        return <OyoTwo {...props}/>
+        break;
+      case 'oyo_three':
+        return <OyoThree {...props}/>
+        break;
     }
   };
 

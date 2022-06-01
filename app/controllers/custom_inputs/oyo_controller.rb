@@ -29,11 +29,10 @@ class CustomInputs::OyoController < ApplicationController
     end
   end
 
-
-
   def oyo_params
     params.require(:oyo).permit(
-      :request_type, :property_type, :target_user, :location, :location_detail, :usp_one, :usp_two, :usp_three, :usp_four, :usp_five
+      :request_type, :property_type, :target_user, :location, :location_detail,
+      :usp_one, :usp_two, :usp_three, :usp_four, :usp_five
     )
   end
 end

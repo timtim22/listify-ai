@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest, updateRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 
-const exampleTypes = ['oyo_one', 'oyo_two'];
+const exampleTypes = ['oyo_one', 'oyo_two', 'oyo_three'];
 const inputFieldsFor = (inputStructure) => {
   const structures = {
     oyo_one: [
@@ -16,6 +16,13 @@ const inputFieldsFor = (inputStructure) => {
       { key: 'usp_three', title: 'USP 3', type: 'string', default: '' },
     ],
     oyo_two: [
+      { key: 'usp_one', title: 'USP 1', type: 'string', default: '' },
+      { key: 'usp_two', title: 'USP 2', type: 'string', default: '' },
+      { key: 'usp_three', title: 'USP 3', type: 'string', default: '' },
+      { key: 'usp_four', title: 'USP 4', type: 'string', default: '' },
+      { key: 'usp_five', title: 'USP 5', type: 'string', default: '' },
+    ],
+    oyo_three: [
       { key: 'usp_one', title: 'USP 1', type: 'string', default: '' },
       { key: 'usp_two', title: 'USP 2', type: 'string', default: '' },
       { key: 'usp_three', title: 'USP 3', type: 'string', default: '' },

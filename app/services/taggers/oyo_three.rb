@@ -1,5 +1,5 @@
 module Taggers
-  class OyoTwo
+  class OyoThree
     def prompt_for(obj)
       strings = [
         obj.usp_one,
@@ -7,13 +7,14 @@ module Taggers
         obj.usp_three,
         obj.usp_four,
         obj.usp_five
-      ].compact_blank
+       ].compact_blank
 
       "- #{strings.join("\n- ")}"
     end
 
     def tags_for(obj)
-      Taggers::CommonMethods.tags_for(obj, 'oyo_two')
+      Taggers::CommonMethods.tags_for(obj, 'oyo_three')
     end
   end
 end
+

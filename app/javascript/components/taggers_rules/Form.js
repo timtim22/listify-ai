@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRequest, updateRequest, redirectOnSuccess } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 
-const inputStructures = ['oyo_one', 'oyo_two'];
+const inputStructures = ['oyo_one', 'oyo_two', 'oyo_three'];
 const ruleTypes = ['keywords_match'];
 const fieldsFor = (inputStructure) => {
   const structures = {
@@ -22,7 +22,15 @@ const fieldsFor = (inputStructure) => {
       'usp_three',
       'usp_four',
       'usp_five'
+    ],
+    oyo_three: [
+      'usp_one',
+      'usp_two',
+      'usp_three',
+      'usp_four',
+      'usp_five'
     ]
+
   }
   return structures[inputStructure];
 }

@@ -58,7 +58,9 @@ Rails.application.routes.draw do
     namespace :taggers do
       resources :rules
     end
-    resources :recorded_completions, only: [:index, :show]
+    resources :recorded_completions, only: [:index, :show] do
+      get 'search', on: :collection
+    end
     resources :statistics, only: [:index]
     resources :user_locks, only: [:create, :destroy]
     resources :data_exports, only: [:index]

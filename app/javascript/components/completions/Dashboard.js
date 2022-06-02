@@ -1,20 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Completion from './Completion';
 import { tableDate } from '../../helpers/utils';
+import { getRequest } from '../../helpers/requests';
 
 const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
+  const [completionsInView, setCompletionsInView] = useState(groupedCompletions);
+  const [adminsInView, setAdminsInView] = useState(showAdmins);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const headerRow = () => {
+  const headerBar = () => {
     return (
       <div className="flex justify-between items-center my-4 w-full">
         <h1 className="text-xl font-medium text-gray-900">Completions</h1>
-        {currentUser.admin && <a
-          href={`/admin/recorded_completions${showAdmins ? '' : '?admin=true'}`}
-          className="text-xs"
-        >
-          Toggle admins
-        </a>}
+        {currentUser.admin && <div className="flex items-center">
+          {searchForm()}
+          <a
+            href={`/admin/recorded_completions${adminsInView ? '' : '?admin=true'}`}
+            className="text-xs"
+          >
+            Toggle admins
+          </a>
+        </div>}
       </div>
+    )
+  };
+
+
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getRequest(
+      `/admin/recorded_completions/search?query=${searchQuery}`,
+        (response) => { setCompletionsInView(response.grouped_completions); setAdminsInView(false); },
+        (error) => { console.log(error) }
+    )
+  };
+
+  const searchForm = () => {
+    return (
+      <form onSubmit={handleSearch} className="px-4 my-4 flex items-center">
+        <label className="form-label mt-1">User:</label>
+        <input
+          type="text"
+          value={searchQuery || ''}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="form-inline-field text-xs">
+        </input>
+
+        <button className="add-button mt-1">Search</button>
+      </form>
     )
   };
 
@@ -26,52 +61,6 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
     } else {
       return group.user_input;
     }
-  };
-
-  const displayCompletion = (completion) => {
-    if (completion.result_error) {
-      return displayError(completion.result_error, completion.prompt_title);
-    } else if (completion.failed_filter) {
-      return displayFiltered(completion.completion_text, completion.prompt_title)
-    } else if (completion.completion_copied) {
-      return displayCopied(completion.completion_text, completion.prompt_title);
-    } else {
-      return displayNormal(completion.completion_text, completion.prompt_title);
-    }
-  };
-
-  const displayNormal = (completionText, promptTitle) => {
-    return (
-      <div>{completionText.trim()}<p>{formattedTitle(promptTitle)}</p></div>
-    )
-  };
-
-  const displayFiltered = (completionText, promptTitle) => {
-    const content = displayNormal(completionText, promptTitle);
-    return (
-      <div className='text-red-700'>FAILED FILTER: {content}</div>
-    )
-  };
-
-  const displayCopied = (completionText, promptTitle) => {
-    const content = displayNormal(completionText, promptTitle);
-    return (
-      <div className='text-green-600'>USER COPIED: {content}</div>
-    )
-  };
-
-  const displayError = (error, promptTitle) => {
-    const errorMsg = error.startsWith('<html>') ? error : error;
-    const formattedError = <p className='text-red-700'>{errorMsg}</p>
-    return (
-      <div>{formattedError}{formattedTitle(promptTitle)}</div>
-    )
-  };
-
-  const formattedTitle = (title) => {
-    return (
-      <span className='font-medium text-purple-800'>{title}</span>
-    )
   };
 
   const tableRowFor = (group) => {
@@ -90,7 +79,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
             {group.completions.map((c) => {
               return (
                 <div key={c.id} className="grid grid-cols-4 pt-3">
-                  <div className="py-3 px-6 mb-4 col-span-3">{displayCompletion(c)}</div>
+                  <div className="py-3 px-6 mb-4 col-span-3"><Completion completion={c} /></div>
                   <div className="py-3 px-6 mb-4 col-span-1">
                     <p>api: {c.api_client}</p>
                     <p>filter: {c.ran_content_filter.toString()}</p>
@@ -109,7 +98,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
 
   return (
     <div className="w-full">
-      {headerRow()}
+      {headerBar()}
       <div className="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
@@ -126,7 +115,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {groupedCompletions.map(g => tableRowFor(g))}
+            {completionsInView.map(g => tableRowFor(g))}
           </tbody>
         </table>
       </div>
@@ -136,7 +125,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
 
 Dashboard.propTypes = {
   currentUser: PropTypes.object,
-  showAdmins: PropTypes.boolean,
+  showAdmins: PropTypes.bool,
   groupedCompletions: PropTypes.array,
 }
 

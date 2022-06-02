@@ -11,7 +11,7 @@ const headers = {
 }
 
 export const getRequest = (url, onSuccess, onFailure) => {
-  axios.get(url)
+  axios.get(url, { headers })
     .then(response => {
       onSuccess(response.data);
     })

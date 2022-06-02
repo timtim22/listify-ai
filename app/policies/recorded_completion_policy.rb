@@ -13,4 +13,8 @@ class RecordedCompletionPolicy < ApplicationPolicy
   def show?
     index?
   end
+
+  def search?
+    user.admin?
+  end
 end

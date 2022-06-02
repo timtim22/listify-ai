@@ -20,6 +20,18 @@ class Admin::RecordedCompletionsController < ApplicationController
     @recorded_completion = RecordedCompletion.find(params[:id])
   end
 
+  def search
+    @completions_by_task_run =
+      RecordedCompletion
+      .joins(:user).where('users.email like ?', '%' + params[:query] + '%')
+      .where(user_id: users_in_view)
+      .order(created_at: :desc)
+      .limit(200)
+      .group_by(&:task_run_created_at)
+      .sort
+      .reverse
+  end
+
   private
 
   def authorize_recorded_completion

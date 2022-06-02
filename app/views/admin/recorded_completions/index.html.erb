@@ -3,7 +3,7 @@
     'completions/Dashboard',
     {
       currentUser: from_partial('users/user', user: current_user),
-      showAdmins: params[:admin],
+      showAdmins: params[:admin] == 'true',
       groupedCompletions: from_partial(
         'admin/recorded_completions/recorded_completion_group',
         recorded_completion_group: @completions_by_task_run

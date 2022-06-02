@@ -1,65 +1,144 @@
 <div class="px-10 w-full">
   <div class="flex justify-between items-center my-4 w-full">
-    <h1 class="text-xl font-medium text-gray-900">Accounts & Usages</h1>
+    <h1 class="text-xl font-medium text-gray-900">Users</h1>
   </div>
-  <h5 class="mb-4 text-xl font-medium">Users</h5>
-  <p class="">Today: <%= @new_users.count %> : <%= @new_users.map(&:email).join(",") %></p>
-  <p class="mb-4">This week: <%= @users_with_stats.select(&:created_last_7_days).count %></p>
-  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
-    <table class="w-full divide-y divide-gray-200">
-      <thead class="bg-gray-100">
-        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-          <th class="py-3 px-6">Email</th>
-          <th class="py-3 px-6">Created at</th>
-          <th class="py-3 px-6">Spins this month</th>
-          <th class="py-3 px-6">Spin quota</th>
-          <th class="py-3 px-6">Account status</th>
-          <th class="py-3 px-6">Team</th>
-          <th class="py-3 px-6">Actions</th>
-        </tr>
-      </thead>
+  <div class="w-max p-4 mb-4 text-sm border broder-gray-200 bg-white rounded-lg">
+    <h3 class="font-medium mb-4">Accounts by status</h3>
+    <% @account_status_counts.each do |k, v| %>
+      <p><%= k %>: <%= v %></p>
+    <% end %>
+  </div>
 
-      <tbody class="divide-y divide-gray-200">
-        <% @users_with_stats.each do |user| %>
-          <tr class="text-xs">
-            <td class="py-3 px-6"><%= user.email %></td>
-            <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
-            <td class="py-3 px-6"><%= user.spins_this_month %></td>
-            <td class="py-3 px-6"><%= user.monthly_spin_quota %></td>
-            <td class="py-3 px-6"><%= user.account_status %></td>
-            <td class="py-3 px-6"><%= user.team_name %></td>
-            <td class="py-3 px-6">
-              <% if user.locked %>
-                <%= link_to(
-                  "Unlock",
-                  admin_user_lock_path(id: user.id),
-                  method: :delete,
-                  class: 'py-2 px-4 rounded-lg bg-green-700 text-white text-sm hover:bg-green-500'
-                ) %>
-              <% end %>
-              <% if !user.locked && !user.admin %>
-                <%= link_to(
-                  "Soft lock",
-                  admin_user_locks_path(id: user.id),
-                  method: :post,
-                  data: { confirm: 'Are you sure you wish to lock this user?' },
-                  class: 'py-2 px-4 rounded-lg bg-red-700 text-white text-sm hover:bg-red-500'
+  <div class="flex w-full justify-between items-center mb-4">
+    <div class="flex items-center text-sm pl-4">
+      <%= link_to(
+        'Subscriptions',
+        admin_statistics_path(account_status: 'subscriptions'),
+        class: "add-button mr-2"
+      ) %>
+      <%= link_to(
+        'Trials',
+        admin_statistics_path(account_status: 'trial'),
+        class: "add-button"
+      ) %>
+    </div>
+  </div>
 
-                ) %>
-              <% end %>
-              <% if Rails.env.development? || current_user.email == 'test2@venturerocket.co.uk' %>
-                <%= link_to(
-                  "Login As",
-                  masquerade_path(user.user_object),
-                  class: 'py-2 px-4 rounded-lg bg-purple-700 text-white text-sm hover:bg-purple-500'
-                ) %>
-              <% end %>
-            </td>
+
+
+  <% if params[:account_status] == 'trial' %>
+    <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+      <table class="w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 px-6">Created at</th>
+            <th class="py-3 px-6">Email</th>
+            <th class="py-3 px-6">Spins during trial</th>
+            <th class="py-3 px-6">Spin quota</th>
+            <th class="py-3 px-6">Account status</th>
+            <th class="py-3 px-6">Trial end</th>
+            <th class="py-3 px-6">Actions</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          <% @users.each do |user| %>
+            <tr class="text-xs">
+              <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
+              <td class="py-3 px-6"><%= user.email %></td>
+              <td class="py-3 px-6"><%= user.spins_used_in_current_period %></td>
+              <td class="py-3 px-6"><%= user.spin_quota %></td>
+              <td class="py-3 px-6"><%= user.account_status %></td>
+              <td class="py-3 px-6"><%= format_date_for_display(user.trial_end_date) %></td>
+              <td class="py-3 px-6">
+                <% if user.account_locked %>
+                  <%= link_to(
+                    "Unlock",
+                    admin_user_lock_path(id: user.id),
+                    method: :delete,
+                    class: 'py-2 px-4 rounded-lg bg-green-700 text-white text-sm hover:bg-green-500'
+                  ) %>
+                <% end %>
+                <% if !user.account_locked && !user.admin %>
+                  <%= link_to(
+                    "Soft lock",
+                    admin_user_locks_path(id: user.id),
+                    method: :post,
+                    data: { confirm: 'Are you sure you wish to lock this user?' },
+                    class: 'py-2 px-4 rounded-lg bg-red-700 text-white text-sm hover:bg-red-500'
+
+                  ) %>
+                <% end %>
+                <% if Rails.env.development? || current_user.email == 'test2@venturerocket.co.uk' %>
+                  <%= link_to(
+                    "Login As",
+                    masquerade_path(user),
+                    class: 'py-2 px-4 rounded-lg bg-purple-700 text-white text-sm hover:bg-purple-500'
+                  ) %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+      <table class="w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+            <th class="py-3 px-6">Created at</th>
+            <th class="py-3 px-6">Email</th>
+            <th class="py-3 px-6">Spins this month</th>
+            <th class="py-3 px-6">Spin quota</th>
+            <th class="py-3 px-6">Account status</th>
+            <th class="py-3 px-6">Team</th>
+            <th class="py-3 px-6">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          <% @users.each do |user| %>
+            <tr class="text-xs">
+              <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
+              <td class="py-3 px-6"><%= user.email %></td>
+              <td class="py-3 px-6"><%= user.spins_used_in_current_period %></td>
+              <td class="py-3 px-6"><%= user.spin_quota %></td>
+              <td class="py-3 px-6"><%= user.account_status %></td>
+              <td class="py-3 px-6"><%= user&.team&.name %></td>
+              <td class="py-3 px-6">
+                <% if user.account_locked %>
+                  <%= link_to(
+                    "Unlock",
+                    admin_user_lock_path(id: user.id),
+                    method: :delete,
+                    class: 'py-2 px-4 rounded-lg bg-green-700 text-white text-sm hover:bg-green-500'
+                  ) %>
+                <% end %>
+                <% if !user.account_locked && !user.admin %>
+                  <%= link_to(
+                    "Soft lock",
+                    admin_user_locks_path(id: user.id),
+                    method: :post,
+                    data: { confirm: 'Are you sure you wish to lock this user?' },
+                    class: 'py-2 px-4 rounded-lg bg-red-700 text-white text-sm hover:bg-red-500'
+
+                  ) %>
+                <% end %>
+                <% if Rails.env.development? || current_user.email == 'test2@venturerocket.co.uk' %>
+                  <%= link_to(
+                    "Login As",
+                    masquerade_path(user),
+                    class: 'py-2 px-4 rounded-lg bg-purple-700 text-white text-sm hover:bg-purple-500'
+                  ) %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
   <br />
 </div>
 

@@ -16,6 +16,7 @@ class Admin::StatisticsController < ApplicationController
         spins_this_month: stats.spins,
         monthly_spin_quota: stats.quota,
         team_name: user.team&.name,
+        account_status: user.account_status,
         user_object: user
       )
     end.sort_by { |u| u.spins_this_month }.reverse

@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def from_partial(partial, options = {})
-    JSON.parse(render(partial: partial, locals: options))
+    JSON.parse(render(partial: partial, formats: [:json], locals: options))
   end
 
   def format_date_for_display(date)

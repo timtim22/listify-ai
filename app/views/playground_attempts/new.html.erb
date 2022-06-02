@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md md:w-4/5">
     <div class="w-full h-full">
       <%= react_component "playground_attempts/New", {
-        promptSets: from_partial('prompt_sets/prompt_set_collection.json', prompt_sets: @prompt_sets) } %>
+        promptSets: from_partial('prompt_sets/prompt_set_collection', prompt_sets: @prompt_sets) } %>
     </div>
   </div>
 </div>

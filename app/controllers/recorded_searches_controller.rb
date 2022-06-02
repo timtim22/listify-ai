@@ -18,7 +18,7 @@ class RecordedSearchesController < ApplicationController
   def assign_statistics
     @statistics = OpenStruct.new(
       last_1_day: RecordedSearch.since(24.hours.ago).count,
-      last_7_days: RecordedSearch.since(7.days.ago).count,
+      last_7_days: RecordedSearch.since(7.days.ago).count
     )
   end
 end

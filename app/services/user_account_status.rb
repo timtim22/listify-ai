@@ -1,17 +1,32 @@
 class UserAccountStatus
   attr_reader :user
 
+  LISTIFY_TEAM = 'listify_team'.freeze
+  PRIVATE_BETA = 'private_beta'.freeze
+  TEAM_MEMBER  = 'team_member'.freeze
+  ACTIVE_SUB   = 'active_subscription'.freeze
+  LAPSED_SUB   = 'lapsed_subscription'.freeze
+  UNKNOWN_SUB  = 'unknown_subscription'.freeze
+  ACTIVE_TRIAL = 'active_trial'.freeze
+  LAPSED_TRIAL = 'lapsed_trial'.freeze
+  TRIAL_STATES = [ACTIVE_TRIAL, LAPSED_TRIAL].freeze
+
+  def self.tally_all
+    users = User.all.includes(:subscriptions, :team, :team_role)
+    users.map(&:account_status).tally
+  end
+
   def initialize(user)
     @user = user
   end
 
   def check
     if user.admin? || user.on_listify_team?
-      'listify_team'
+      LISTIFY_TEAM
     elsif user.private_beta_account?
-      'private_beta'
+      PRIVATE_BETA
     elsif member_of_team?
-      'team_member'
+      TEAM_MEMBER
     elsif ever_subscribed?
       subscription_status
     else
@@ -31,19 +46,19 @@ class UserAccountStatus
 
   def subscription_status
     if current_subscription.active?
-      'active_subscription'
+      ACTIVE_SUB
     elsif current_subscription.lapsed?
-      'lapsed_subscription'
+      LAPSED_SUB
     else
-      'unknown_subscription_status'
+      UNKNOWN_SUB
     end
   end
 
   def trial_status
     if still_on_trial?
-      'active_trial'
+      ACTIVE_TRIAL
     else
-      'lapsed_trial'
+      LAPSED_TRIAL
     end
   end
 

@@ -8,7 +8,7 @@
           <p>
             You've used <%= @usage.spins %> spins this month. You can use up to <%= current_user.custom_run_limit %> spins a day on your subscription plan.
           </p>
-        <% elsif current_user.on_private_beta? %>
+        <% elsif current_user.private_beta_account? %>
           <p>
             You've used <%= @usage.spins %> spins this month. You have a <span class="font-semibold">private beta test account</span>.
           </p>

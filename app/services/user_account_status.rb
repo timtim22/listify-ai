@@ -6,12 +6,14 @@ class UserAccountStatus
   end
 
   def check
-    if member_of_team?
+    if user.admin? || user.on_listify_team?
+      'listify_team'
+    elsif user.private_beta_account?
+      'private_beta'
+    elsif member_of_team?
       'team_member'
     elsif ever_subscribed?
       subscription_status
-    elsif on_private_beta?
-      'private_beta'
     else
       trial_status
     end
@@ -25,10 +27,6 @@ class UserAccountStatus
 
   def ever_subscribed?
     user.subscriptions.any? { |s| !s.incomplete? }
-  end
-
-  def on_private_beta?
-    user.created_at < Date.new(2022, 1, 16)
   end
 
   def subscription_status

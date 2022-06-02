@@ -8,7 +8,6 @@ class SpinCounter
     'Inputs::AreaDescriptionFragment'
   ].freeze
   IGNORED_TASK_TYPES = [DERIVATIVE_TASK_TYPES, BUILDER_TASK_TYPES].flatten
-  DAILY_BETA_SPINS = 30
   TRIAL_SPINS = 100
 
   attr_reader :user
@@ -18,13 +17,13 @@ class SpinCounter
   end
 
   def spins_remaining
-    if user.admin?
-      DAILY_BETA_SPINS
+    if user.admin? || user.on_listify_team?
+      TRIAL_SPINS
     elsif user.member_of_team?
       team_spins_remaining
     elsif user.custom_run_limit?
       user.custom_run_limit - spins_today
-    elsif user.on_private_beta?
+    elsif user.private_beta_account?
       beta_user_spins_remaining
     elsif user.subscribed?
       subscription_spins_remaining
@@ -86,7 +85,7 @@ class SpinCounter
   end
 
   def beta_user_spins_remaining
-    DAILY_BETA_SPINS - spins_today
+    TRIAL_SPINS - spins_today
   end
 
   def spins_today

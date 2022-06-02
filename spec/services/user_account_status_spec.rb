@@ -1,8 +1,18 @@
 RSpec.describe UserAccountStatus do
 
   describe 'check' do
+    it 'admin' do
+      user = create(:user, admin: true)
+      expect(UserAccountStatus.new(user).check).to eq 'listify_team'
+    end
+
+    it 'listify_team_member' do
+      user = create(:user, authorization_scopes: [User::LISTIFY_TEAM_SCOPE])
+      expect(UserAccountStatus.new(user).check).to eq 'listify_team'
+    end
+
     it 'private_beta' do
-      user = create(:user, created_at: Date.new(2022, 1, 1).end_of_day)
+      user = create(:user, private_beta_account: true) 
       expect(UserAccountStatus.new(user).check).to eq 'private_beta'
     end
 

@@ -45,16 +45,16 @@ class User < ApplicationRecord
     hidden.include? id
   end
 
-  def on_private_beta?
-    account_status == 'private_beta'
-  end
-
   def on_trial?
     account_status == 'active_trial'
   end
 
   def account_status
     UserAccountStatus.new(self).check
+  end
+
+  def spin_stats
+    SpinCounter.new(self).spin_stats
   end
 
   def trial_days

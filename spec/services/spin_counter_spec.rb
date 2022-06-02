@@ -3,23 +3,23 @@ RSpec.describe SpinCounter do
   describe 'spins_remaining' do
     it 'counts regular spins correctly' do
       user = create(:user)
-      allow(user).to receive(:on_private_beta?).and_return(true)
+      allow(user).to receive(:on_trial?).and_return(true)
       3.times { create(:task_run, :for_listing, user: user) }
-      expected = SpinCounter::DAILY_BETA_SPINS - 3
+      expected = SpinCounter::TRIAL_SPINS - 3
       expect(SpinCounter.new(user).spins_remaining).to eq expected
     end
 
     it 'counts builder listings correctly' do
       user = create(:user)
-      allow(user).to receive(:on_private_beta?).and_return(true)
+      allow(user).to receive(:on_trial?).and_return(true)
       3.times { create(:task_run, :for_summary_fragment, user: user) }
-      expected = SpinCounter::DAILY_BETA_SPINS - 1
+      expected = SpinCounter::TRIAL_SPINS - 1
       expect(SpinCounter.new(user).spins_remaining).to eq expected
       2.times { create(:task_run, :for_summary_fragment, user: user) }
-      expected = SpinCounter::DAILY_BETA_SPINS - 1
+      expected = SpinCounter::TRIAL_SPINS - 1
       expect(SpinCounter.new(user).spins_remaining).to eq expected
       create(:task_run, :for_summary_fragment, user: user)
-      expected = SpinCounter::DAILY_BETA_SPINS - 2
+      expected = SpinCounter::TRIAL_SPINS - 2
       expect(SpinCounter.new(user).spins_remaining).to eq expected
     end
 
@@ -83,9 +83,9 @@ RSpec.describe SpinCounter do
     context 'beta user' do
       it 'returns daily limit - spins today' do
         user = create(:user)
-        allow(user).to receive(:on_private_beta?).and_return(true)
+        allow(user).to receive(:private_beta_account?).and_return(true)
         5.times { create(:task_run, :for_listing, user: user) }
-        expected = SpinCounter::DAILY_BETA_SPINS - 5
+        expected = SpinCounter::TRIAL_SPINS - 5
         expect(SpinCounter.new(user).spins_remaining).to eq expected
       end
     end
@@ -99,10 +99,10 @@ RSpec.describe SpinCounter do
     end
 
     context 'admin' do
-      it 'returns daily limit' do
+      it 'returns trial limit' do
         user = create(:user, admin: true)
         create(:task_run, :for_listing, user: user)
-        expected = SpinCounter::DAILY_BETA_SPINS
+        expected = SpinCounter::TRIAL_SPINS
         expect(SpinCounter.new(user).spins_remaining).to eq expected
       end
     end

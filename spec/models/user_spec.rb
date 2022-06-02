@@ -21,30 +21,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'on_private_beta?' do
-    it 'true before date' do
-      @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)
-      expect(@user.on_private_beta?).to eq true
-    end
-
-    it 'true if subscription failed' do @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)
-      subscription = create(:subscription, user: @user, status: "incomplete")
-      @user.save
-      expect(@user.on_private_beta?).to eq true
-    end
-
-    it 'false after date' do
-      expect(@user.on_private_beta?).to eq false
-    end
-
-    it 'false with subscription' do
-      @user.update(created_at: Date.new(2022, 01, 05).beginning_of_day)
-      subscription = create(:subscription, user: @user)
-      @user.save
-      expect(@user.on_private_beta?).to eq false
-    end
-  end
-
   describe 'update_card' do
     it 'updates card', :vcr do
       @user.update_card("pm_card_visa")

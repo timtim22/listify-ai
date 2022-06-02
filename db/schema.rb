@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_01_131128) do
+ActiveRecord::Schema.define(version: 2022_06_02_095025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -459,6 +459,7 @@ ActiveRecord::Schema.define(version: 2022_06_01_131128) do
     t.boolean "account_locked", default: false
     t.string "country_code"
     t.string "authorization_scopes", default: [], array: true
+    t.boolean "private_beta_account", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

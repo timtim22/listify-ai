@@ -1,5 +1,5 @@
 <div class="px-10 w-full">
-  <div class="flex justify-between items-center mb-4 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Accounts & Usages</h1>
   </div>
   <h5 class="mb-4 text-xl font-medium">Users</h5>
@@ -9,11 +9,11 @@
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">
         <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-          <th class="py-3 px-6">Id</th>
           <th class="py-3 px-6">Email</th>
           <th class="py-3 px-6">Created at</th>
           <th class="py-3 px-6">Spins this month</th>
           <th class="py-3 px-6">Spin quota</th>
+          <th class="py-3 px-6">Account status</th>
           <th class="py-3 px-6">Team</th>
           <th class="py-3 px-6">Actions</th>
         </tr>
@@ -22,11 +22,11 @@
       <tbody class="divide-y divide-gray-200">
         <% @users_with_stats.each do |user| %>
           <tr class="text-xs">
-            <td class="py-3 px-6"><%= user.id %></td>
             <td class="py-3 px-6"><%= user.email %></td>
             <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
             <td class="py-3 px-6"><%= user.spins_this_month %></td>
             <td class="py-3 px-6"><%= user.monthly_spin_quota %></td>
+            <td class="py-3 px-6"><%= user.account_status %></td>
             <td class="py-3 px-6"><%= user.team_name %></td>
             <td class="py-3 px-6">
               <% if user.locked %>
@@ -39,7 +39,7 @@
               <% end %>
               <% if !user.locked && !user.admin %>
                 <%= link_to(
-                  "Soft lock (spins won't work)",
+                  "Soft lock",
                   admin_user_locks_path(id: user.id),
                   method: :post,
                   data: { confirm: 'Are you sure you wish to lock this user?' },

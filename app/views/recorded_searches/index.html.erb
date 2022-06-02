@@ -1,14 +1,31 @@
 <div class="px-10 w-full">
-  <div class="flex justify-between items-center mb-4 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Location Searches</h1>
   </div>
+
+  <div class="flex w-full justify-between items-center">
+    <div class="text-sm pl-4">
+      <p>Last 24 hours: <%= @statistics.last_1_day %></p>
+      <p>Last 7 days: <%= @statistics.last_7_days %></p>
+    </div>
+
+    <div class="flex">
+      <%= search_form_for(@q, url: recorded_searches_path , method: :get) do |f| %>
+        <%= f.label :user_email_or_search_location_search_text_cont, "Search:", class: "form-label" %>
+        <%= f.search_field :user_email_or_search_location_search_text_cont, class: "form-inline-field" %>
+
+        <%= f.submit name: '', class: "my-4 add-button" %>
+      <% end %>
+    </div>
+  </div>
+
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">
         <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
           <th class="py-3 px-6">Id</th>
           <th class="py-3 px-6">Search</th>
-          <th class="py-3 px-6">Email</th>
+          <th class="py-3 px-6">User</th>
           <th class="py-3 px-6">Created at</th>
         </tr>
       </thead>
@@ -26,5 +43,9 @@
     </table>
   </div>
   <br />
+  <div class="px-4 flex justify-between items-center text-sm">
+    <%== pagy_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
+  </div>
 </div>
 

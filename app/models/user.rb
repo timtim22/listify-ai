@@ -28,6 +28,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def admin_or_listify_team?
+    admin? || on_listify_team?
+  end
+
   def on_listify_team?
     authorization_scopes.include? LISTIFY_TEAM_SCOPE
   end
@@ -53,8 +57,12 @@ class User < ApplicationRecord
     UserAccountStatus.new(self).check
   end
 
-  def spin_stats
-    SpinCounter.new(self).spin_stats
+  def spin_quota
+    SpinCounter.new(self).spin_quota
+  end
+
+  def spins_used_in_current_period
+    SpinCounter.new(self).spins_used_in_current_period
   end
 
   def trial_days

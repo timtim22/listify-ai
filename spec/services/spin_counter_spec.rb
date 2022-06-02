@@ -81,7 +81,7 @@ RSpec.describe SpinCounter do
     end
 
     context 'beta user' do
-      it 'returns daily limit - spins today' do
+      it 'returns daily limit - spins this month' do
         user = create(:user)
         allow(user).to receive(:private_beta_account?).and_return(true)
         5.times { create(:task_run, :for_listing, user: user) }
@@ -91,7 +91,7 @@ RSpec.describe SpinCounter do
     end
 
     context 'user with custom limit' do
-      it 'returns custom limit - spins today' do
+      it 'returns custom limit - spins this month' do
         user = create(:user, custom_run_limit: 10)
         create(:task_run, :for_listing, user: user)
         expect(SpinCounter.new(user).spins_remaining).to eq 9

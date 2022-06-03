@@ -14,14 +14,16 @@ class User < ApplicationRecord
   has_many :recorded_searches, dependent: :destroy
   has_many :recorded_completions, dependent: :nullify
 
-  has_many :subscriptions
-  has_many :charges
+  has_many :subscriptions, dependent: :destroy
+  has_many :charges, dependent: :destroy
 
   attr_accessor :terms_of_service
 
   validates :terms_of_service, acceptance: true, on: :create
 
   TRIAL_CODES = %w[rentalscaleup friendoflistify].freeze
+  STANDARD_TRIAL_LENGTH = 14;
+  TRIAL_LENGTH_WITH_CODE = 44;
   LISTIFY_TEAM_SCOPE = 'listify_team'.freeze
 
   def name
@@ -66,11 +68,15 @@ class User < ApplicationRecord
   end
 
   def trial_days
-    TRIAL_CODES.include?(promotion_code&.downcase) ? 44 : 14
+    if TRIAL_CODES.include?(promotion_code&.downcase)
+      TRIAL_LENGTH_WITH_CODE
+    else
+      STANDARD_TRIAL_LENGTH
+    end
   end
 
   def trial_end_date
-    (created_at + trial_days.days).to_date
+    custom_trial_end_date || (created_at + trial_days.days).to_date
   end
 
   def runs_remaining_today

@@ -1,4 +1,6 @@
 class Admin::SubscriptionsController < ApplicationController
+  before_action :authenticate_admin
+
   def index
     @q = Subscription.ransack(params[:q])
 

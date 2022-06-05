@@ -95,6 +95,10 @@ class User < ApplicationRecord
     AdminMailer.user_account_locked(self).deliver_later
   end
 
+  def last_charge_date
+    charges.order(created_at: :desc).first&.created_at
+  end
+
   def subscribed?
     subscription&.active?
   end

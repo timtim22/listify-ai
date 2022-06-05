@@ -29,31 +29,7 @@
             <td class="py-3 px-6"><%= user.account_status %></td>
             <td class="py-3 px-6"><%= user&.team&.name %></td>
             <td class="py-3 px-6">
-              <% if user.account_locked %>
-                <%= link_to(
-                  "Unlock",
-                  admin_user_lock_path(id: user.id),
-                  method: :delete,
-                  class: 'py-2 px-4 rounded-lg bg-green-700 text-white text-sm hover:bg-green-500'
-                ) %>
-              <% end %>
-              <% if !user.account_locked && !user.admin %>
-                <%= link_to(
-                  "Soft lock",
-                  admin_user_locks_path(id: user.id),
-                  method: :post,
-                  data: { confirm: 'Are you sure you wish to lock this user?' },
-                  class: 'py-2 px-4 rounded-lg bg-red-700 text-white text-sm hover:bg-red-500'
-
-                ) %>
-              <% end %>
-              <% if Rails.env.development? || current_user.email == 'test2@venturerocket.co.uk' %>
-                <%= link_to(
-                  "Login As",
-                  masquerade_path(user),
-                  class: 'py-2 px-4 rounded-lg bg-purple-700 text-white text-sm hover:bg-purple-500'
-                ) %>
-              <% end %>
+              <%= render partial: 'admin/shared/user_actions', locals: { user: user } %>
             </td>
           </tr>
         <% end %>

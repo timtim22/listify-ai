@@ -1,6 +1,10 @@
 class Subscription < ApplicationRecord
   belongs_to :user
 
+  scope :with_created_states, -> { where.not(status: %w[incomplete incomplete_expired]) }
+  scope :cancelled, -> { with_created_states.where.not(ends_at: nil) }
+  scope :active, -> { with_created_states.where(ends_at: nil) }
+
   def plan
     Plan.find_by(stripe_id: stripe_plan)
   end

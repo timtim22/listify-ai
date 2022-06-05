@@ -1,18 +1,21 @@
 module Admin::SubscriptionsHelper
 
   def mrr_count(subscriptions)
-    amount = formatted_amount(subscriptions.map(&:plan).sum(&:amount))
+    active = subscriptions.select(&:active?)
+    amount = formatted_amount(active.map(&:plan).sum(&:amount))
     sanitize("<span class='text-sm'> (approx #{amount} MRR, exc VAT)</span>")
   end
 
   def format_plan_name(name)
-    color = case name
-            when 'starter' then 'text-yellow-800'
-            when 'standard' then 'text-purple-800'
-            when 'premium' then 'text-pink-800'
-            end
+    colors = {
+      'starter': 'text-yellow-800',
+      'starter (2021)': 'text-yellow-800',
+      'starter_dep': 'text-yellow-800',
+      'standard': 'text-purple-800',
+      'premium': 'text-pink-800'
+    }
 
-    sanitize("<span class=#{color}>#{name}</span>")
+    sanitize("<span class=#{colors[name.to_sym] || ''}>#{name}</span>")
   end
 
   def format_sub_status(status)

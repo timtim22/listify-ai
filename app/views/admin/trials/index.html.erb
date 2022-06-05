@@ -3,6 +3,15 @@
 
   <div class="flex justify-between items-center my-4 w-full">
     <h1 class="text-xl font-medium text-gray-900">Trial users</h1>
+
+    <div class="flex">
+      <%= search_form_for(@q, url: admin_trials_path , method: :get) do |f| %>
+        <%= f.label :email_cont, "Find user in table:", class: "form-label" %>
+        <%= f.search_field :email_cont, class: "form-inline-field" %>
+
+        <%= f.submit name: '', class: "my-4 add-button" %>
+      <% end %>
+    </div>
   </div>
 
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -26,8 +35,8 @@
             <td class="py-3 px-6"><%= user.email %></td>
             <td class="py-3 px-6"><%= user.spins_used_in_current_period %></td>
             <td class="py-3 px-6"><%= user.spin_quota %></td>
-            <td class="py-3 px-6"><%= user.account_status %></td>
-            <td class="py-3 px-6"><%= format_date_for_display(user.trial_end_date) %></td>
+            <td class="py-3 px-6"><%= format_trial_status(user.account_status) %></td>
+            <td class="py-3 px-6"><%= format_trial_end_date(user.trial_end_date) %></td>
             <td class="py-3 px-6">
               <%= render partial: 'admin/shared/user_actions', locals: { user: user } %>
             </td>
@@ -35,5 +44,10 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <br />
+  <div class="px-4 flex justify-between items-center text-sm">
+    <%== pagy_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
   </div>
 </div>

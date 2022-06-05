@@ -15,9 +15,27 @@ RSpec.describe User, type: :model do
       expect(user.on_trial?).to eq false
     end
 
-    it 'false if expired' do
+    it 'false if trial expired' do
       user = create(:user, created_at: Date.today - 15.days)
       expect(user.on_trial?).to eq false
+    end
+  end
+
+  describe 'trial_end_date' do
+    it 'custom trial end date' do
+      end_date = Time.zone.today + 4.days
+      user = create(:user, custom_trial_end_date: end_date)
+      expect(user.trial_end_date).to eq end_date
+    end
+
+    it '14 days by default' do
+      user = create(:user)
+      expect(user.trial_end_date).to eq Time.zone.today + 14.days
+    end
+
+    it '44 days with promotion code' do
+      user = create(:user, promotion_code: 'friendoflistify')
+      expect(user.trial_end_date).to eq Time.zone.today + 44.days
     end
   end
 

@@ -1,0 +1,27 @@
+<div class="flex w-full justify-between items-center my-4">
+  <div class="flex items-center text-sm">
+    <%= link_to(
+      'Subscriptions',
+      admin_subscriptions_path,
+      class: active == 'subscriptions' ? 'secondary-link' : ''
+    ) %>
+    <span class="mx-1">|<span>
+    <%= link_to(
+      'Teams',
+      admin_teams_path,
+      class: active == 'teams' ? 'secondary-link' : ''
+    ) %>
+    <span class="mx-1">|<span>
+    <%= link_to(
+      'Trials',
+      admin_trials_path,
+      class: active == 'trials' ? 'secondary-link' : ''
+    ) %>
+    <span class="mx-1">|<span>
+    <%= link_to(
+      'Admins',
+      admin_admins_path,
+      class: active == 'admins' ? 'secondary-link' : ''
+    ) %>
+  </div>
+</div>

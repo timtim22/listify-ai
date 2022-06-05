@@ -61,7 +61,11 @@ Rails.application.routes.draw do
     resources :recorded_completions, only: [:index, :show] do
       get 'search', on: :collection
     end
-    resources :statistics, only: [:index]
+
+    resources :subscriptions, only: [:index]
+    resources :trials, only: [:index]
+    resources :teams, only: [:index]
+    resources :admins, only: [:index]
     resources :user_locks, only: [:create, :destroy]
     resources :data_exports, only: [:index]
   end

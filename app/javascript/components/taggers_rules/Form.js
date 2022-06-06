@@ -1,39 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest, updateRequest, redirectOnSuccess } from '../../helpers/requests';
+import { customInputs, customInputFieldKeys } from '../../helpers/customInputStructures';
 import ErrorNotice from '../common/ErrorNotice';
 
-const inputStructures = ['oyo_one', 'oyo_two', 'oyo_three'];
 const ruleTypes = ['keywords_match'];
-const fieldsFor = (inputStructure) => {
-  const structures = {
-    oyo_one: [
-      'property_type',
-      'target_user',
-      'location',
-      'location_detail',
-      'usp_one',
-      'usp_two',
-      'usp_three'
-    ],
-    oyo_two: [
-      'usp_one',
-      'usp_two',
-      'usp_three',
-      'usp_four',
-      'usp_five'
-    ],
-    oyo_three: [
-      'usp_one',
-      'usp_two',
-      'usp_three',
-      'usp_four',
-      'usp_five'
-    ]
-
-  }
-  return structures[inputStructure];
-}
 
 const Form = ({
   actionType,
@@ -45,22 +16,29 @@ const Form = ({
     applicable_fields: ruleProps.applicable_fields.join(', '),
     keywords: ruleProps.keywords.join(', '),
   });
-  const [inputStructure, setInputStructure] = useState(rule.input_structure || inputStructures[0]);
-  const [taggableFields, setTaggableFields] = useState([]);
+  const [inputStructure, setInputStructure] = useState(rule.input_structure || customInputs[0]);
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (inputStructure) {
-      const fields = fieldsFor(inputStructure);
-      setTaggableFields(fields);
-    }
-  }, [inputStructure]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors(null);
+    if (validApplicableFields()) {
+      setErrors(null);
+      submitForm();
+    } else {
+      setErrors({ message: 'Unexpected value in applicable fields - it might just be a space missing between names' })
+    }
+  }
+
+  const validApplicableFields = () => {
+    const selectedFields = rule.applicable_fields.split(', ');
+    return (
+      selectedFields.every(f => customInputFieldKeys(inputStructure).includes(f))
+    )
+  };
+
+  const submitForm = () => {
     if (actionType === 'new') {
       createRequest(
         `/admin/taggers/rules.json`,
@@ -90,7 +68,7 @@ const Form = ({
         (e) => { setErrors(e); setLoading(false) }
       )
     }
-  }
+  };
 
   const setField = (field, value) => {
     setRule({ ...rule, [field]: value });
@@ -105,7 +83,7 @@ const Form = ({
           value={inputStructure}
           onChange={(e) => setInputStructure(e.target.value)}
           className="w-full form-select">
-            {inputStructures.map((item) => {
+            {customInputs.map((item) => {
               return (
                 <option key={item} value={item}>{item}</option>
               )
@@ -149,7 +127,7 @@ const Form = ({
   return (
     <div className="w-full px-20 my-4">
       <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
-        <div className="w-4/5 text-sm">
+        <div className="w-full text-sm">
           <ErrorNotice errors={errors} />
         </div>
         {inputStructureToggle()}
@@ -157,9 +135,11 @@ const Form = ({
         {textField('Tag', 'tag')}
         {textField('Keywords', 'keywords')}
         {textField('Applicable fields', 'applicable_fields')}
-        <div className="w-full text-left">
-          <p>Applicable fields can be: {taggableFields.join(', ')}</p>
+        <div className="w-full text-left text-sm">
           <p>Applicable fields and keywords are comma separated lists.</p>
+          <p>Applicable fields can be:
+            <span className="font-medium"> {customInputFieldKeys(inputStructure).join(', ')}</span>
+          </p>
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
           <div className="flex justify-center py-8 w-full">

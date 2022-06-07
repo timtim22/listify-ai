@@ -32,7 +32,7 @@ const Oyo = (props) => {
       <div className="flex justify-start items-center my-2 w-full">
         <label className="flex-shrink-0 w-1/3">{title}</label>
         <select
-          value={prompt[field]}
+          value={formType}
           onChange={(e) => {setFormType(e.target.value)}}
           className="mx-3 mt-1 text-sm form-select">
             {options.map((item) => {
@@ -46,13 +46,9 @@ const Oyo = (props) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full text-sm">
-      <div className="flex flex-col items-center w-full">
-        <div className="flex flex-col w-4/5 max-w-2xl">
-          {selectField('Form', 'form_type', formTypeOptions)}
-          {renderForm()}
-        </div>
-      </div>
+    <div>
+      {selectField('Form', 'form_type', formTypeOptions)}
+      {renderForm()}
     </div>
   )
 };

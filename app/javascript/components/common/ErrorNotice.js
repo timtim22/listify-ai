@@ -12,7 +12,7 @@ const ErrorNotice = ({ errors }) => {
     let errorMessages = [];
     if (errors === 'Network Error') {
       errorMessages = [networkError];
-    } else if (errors.status && errors.status >= 500) {
+    } else if (errors.status && errors.status >= 400) {
       errorMessages = [serverError];
       if (!internalError) { setInternalError(true) }
     } else if (errors.message) {

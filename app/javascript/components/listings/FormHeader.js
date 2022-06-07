@@ -45,7 +45,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
           {navLink("Listing builder", "listing_builder")}
           {navLink("Ads", "advert", "beta")}
           {canSeeAbout() && navLink("About", "about", "beta")}
-          {canSeeCustomForm() && navLink("Custom form", "custom_form", "beta")}
+          {canSeeCustomForm() && navLink("Custom", "custom_form", "*")}
         </div>
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>

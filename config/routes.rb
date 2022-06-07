@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   namespace :custom_inputs do
     resources :oyo, only: [:create]
+    resources :sykes, only: [:create]
   end
 
   resource :usage, only: [:show]

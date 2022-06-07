@@ -26,7 +26,7 @@ class SpinCounter
     elsif user.on_trial? || user.private_beta_account? || user.admin_or_listify_team?
       TRIAL_SPINS
     else
-      0
+      5
     end
   end
 

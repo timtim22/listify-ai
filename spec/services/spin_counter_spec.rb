@@ -73,10 +73,10 @@ RSpec.describe SpinCounter do
     end
 
     context 'expired trial user' do
-      it 'returns 0' do
+      it 'returns 5' do
         user = create(:user)
         allow(user).to receive(:on_trial?).and_return(false)
-        expect(SpinCounter.new(user).spins_remaining).to eq 0
+        expect(SpinCounter.new(user).spins_remaining).to eq 5
       end
     end
 

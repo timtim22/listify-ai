@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { UserContext } from '../listings/New';
 import Filter from 'bad-words';
 
 const profanityFilter = new Filter();
 profanityFilter.removeWords('spac');
 
-const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText }) => {
+const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText, location }) => {
   const user = useContext(UserContext);
 
   const inputLengthWarning = () => {
@@ -17,11 +18,8 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
 
   const requestLimitWarning = () => {
     let text = "You've used up your current quota of spins. To get more, upgrade your subscription or contact us for help."
-    if (user.account_status === "lapsed_trial") {
-      text = "Your trial has expired. Upgrade your subscription or contact us for help."
-    }
-    if (user.account_status === "private_beta") {
-      text = "You've hit your request limit for today. Please contact us if you need help.";
+    if (noSpinsForForm()) {
+      text = "This form isn't available on your current plan. Upgrade your subscription or contact us for help."
     }
     return warningText(text);
   }
@@ -57,11 +55,25 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
     )
   }
 
-  if (runsRemaining < 1) { return requestLimitWarning(); }
+  const noSpinsForForm = () => {
+    return user.account_status === 'lapsed_trial' && location === 'listing_builder';
+  };
+
+  if (runsRemaining < 1 || noSpinsForForm()) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }
   return submitButton();
 
+}
+
+Submit.propTypes = {
+  inputText: PropTypes.string,
+  loading: PropTypes.bool,
+  runsRemaining: PropTypes.number,
+  userInputLength: PropTypes.number,
+  maxUserInput: PropTypes.number,
+  buttonText: PropTypes.string,
+  location: PropTypes.string,
 }
 
 export default Submit;

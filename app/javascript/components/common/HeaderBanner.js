@@ -46,7 +46,7 @@ export const TrialExpiredBanner = () => {
   return (
     <Banner
       title="Your trial has expired"
-      text='You can regain access by subscribing. If you would like to extend your trial please email hello@listify.ai.'
+      text='You are limited to 5 spins per month. To access more, subscribe or contact hello@listify.ai.'
     />
   )
 }

@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users, controllers: { registrations: 'registrations' }
+  devise_for :users, controllers: {
+    registrations: 'registrations',
+    sessions: 'sessions'
+  }
 
   root to: 'listings#new'
   get '/terms', to: 'home#terms'

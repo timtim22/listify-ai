@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useScrollToTopOnError } from '../hooks';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
@@ -121,6 +122,13 @@ const Form = ({ onResult, loading, setLoading, promptSets }) => {
       </div>
     </form>
   )
+}
+
+Form.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  onResult: PropTypes.func,
+  promptSets: PropTypes.array
 }
 
 export default Form;

@@ -56,7 +56,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   }
 
   const noSpinsForForm = () => {
-    return user.account_status === 'lapsed_trial' && location === 'listing_builder';
+    return location === 'listing_builder' && user.account_status === 'lapsed_trial';
   };
 
   if (runsRemaining < 1 || noSpinsForForm()) { return requestLimitWarning(); }

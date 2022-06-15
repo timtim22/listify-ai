@@ -71,11 +71,13 @@ const OyoThree = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-full max-w-2xl">
-          {textRow('USP', 'usp_one')}
-          {textRow('USP', 'usp_two')}
-          {textRow('USP', 'usp_three')}
-          {textRow('USP', 'usp_four')}
-          {textRow('USP', 'usp_five')}
+          <h1 className="font-bold text-lg text-gray-400">3. What to expect from the space</h1>
+          <div className="my-4 w-full h-px bg-gray-200"></div>
+          {textRow('USP 1', 'usp_one', 'e.g. separate bathrooms')}
+          {textRow('USP 2', 'usp_two', 'e.g. barbecue')}
+          {textRow('USP 3', 'usp_three', 'e.g. parking')}
+          {textRow('USP 4', 'usp_four')}
+          {textRow('USP 5', 'usp_five')}
          <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={joinedInputs()}

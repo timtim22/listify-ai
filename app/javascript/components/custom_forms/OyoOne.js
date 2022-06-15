@@ -73,13 +73,15 @@ const OyoOne = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-full max-w-2xl">
+          <h1 className="font-bold text-lg text-gray-400">1. Why stay here?</h1>
+          <div className="my-4 w-full h-px bg-gray-200"></div>
           {textRow('Property Type', 'property_type', 'e.g. apartment', true)}
           {textRow('Target user', 'target_user', 'e.g. couples' )}
           {textRow('Location', 'location', 'e.g. London')}
           {textRow('Location detail', 'location_detail', 'e.g. in the heart of the city')}
-          {textRow('USP', 'usp_one')}
-          {textRow('USP', 'usp_two')}
-          {textRow('USP', 'usp_three')}
+          {textRow('Primary USP', 'usp_one', 'e.g. outdoor jacuzzi')}
+          {textRow('Secondary USP', 'usp_two', 'e.g. shared pool')}
+          {textRow('Third USP', 'usp_three', 'e.g. beautiful decor')}
           <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={joinedInputs()}

@@ -8,9 +8,11 @@ import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import AdvertForm from '../adverts/Form';
 import CustomForm from '../custom_forms/Form';
+import OyoForm from '../custom_forms/Oyo';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
+import FixedOrderMultiStepResults from '../custom_forms/FixedOrderMultiStepResults';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
 
@@ -125,13 +127,28 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           showExample={showExample}
         />
       )
+    } else if (formType === 'custom_oyo') {
+      return (
+        <OyoForm
+          loading={loading}
+          setLoading={setLoading}
+          runsRemaining={runsRemaining}
+          results={results}
+          onResult={handleTaskRun}
+          stepNames={builderStepNames}
+          setStepNames={setBuilderStepNames}
+          resetState={resetState}
+        />
+      )
     } else if (formType === 'custom_form') {
       return (
         <CustomForm
           loading={loading}
           setLoading={setLoading}
           runsRemaining={runsRemaining}
+          results={results}
           onResult={handleTaskRun}
+          resetState={resetState}
         />
       )
     } else {
@@ -150,7 +167,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   }
 
   const resultsSection = () => {
-    if (formType === "listing_builder") {
+    if (formType === 'listing_builder') {
       return (
         <>
           <ListingBuilderResultsPoll
@@ -165,6 +182,24 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
             taskRun={taskRun}
             onRerun={handleTaskRun}
             stepNames={builderStepNames}
+          />
+        </>
+      )
+    } else if (['custom_oyo'].includes(formType)) {
+      return (
+        <>
+          <ListingBuilderResultsPoll
+            taskRun={taskRun}
+            onResult={(newResults) => { setResults([ ...results, ...newResults ]); setLoading(false); } }
+          />
+          <FixedOrderMultiStepResults
+            loading={loading}
+            setLoading={(newState) => toggleLoading(newState, true)}
+            runsRemaining={runsRemaining}
+            results={results}
+            taskRun={taskRun}
+            onRerun={handleTaskRun}
+            formType={formType}
           />
         </>
       )

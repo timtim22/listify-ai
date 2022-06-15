@@ -16,6 +16,7 @@ module Taggers
         when 'oyo_two' then Taggers::OyoTwo.new
         when 'oyo_three' then Taggers::OyoThree.new
         when 'sykes_middle' then Taggers::SykesMiddle.new
+        when 'vacasa_one' then Taggers::VacasaOne.new
         else
           raise 'Error in Taggers::Coordinate - Request Type missing!'
         end

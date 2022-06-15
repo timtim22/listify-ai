@@ -24,7 +24,10 @@ export const customInputStructures = {
   ],
   sykes_middle: [
     { key: 'key_features', title: 'Key Features', field_type: 'text', default: '' }
-  ]
+  ],
+  vacasa_one: [
+    { key: 'key_features', title: 'Key Features', field_type: 'text', default: '' }
+  ],
 }
 
 export const customInputs = Object.keys(customInputStructures);

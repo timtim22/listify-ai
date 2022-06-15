@@ -71,11 +71,13 @@ const OyoTwo = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-full max-w-2xl">
-          {textRow('USP', 'usp_one')}
-          {textRow('USP', 'usp_two')}
-          {textRow('USP', 'usp_three')}
-          {textRow('USP', 'usp_four')}
-          {textRow('USP', 'usp_five')}
+          <h1 className="font-bold text-lg text-gray-400">2. Things to do around</h1>
+          <div className="my-4 w-full h-px bg-gray-200"></div>
+          {textRow('USP 1', 'usp_one', 'e.g. places of interest')}
+          {textRow('USP 2', 'usp_two', 'e.g. nearby attractions')}
+          {textRow('USP 3', 'usp_three')}
+          {textRow('USP 4', 'usp_four')}
+          {textRow('USP 5', 'usp_five')}
           <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={joinedInputs()}

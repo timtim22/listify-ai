@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Oyo from './Oyo';
 import Sykes from './Sykes';
+import Kf from './Kf';
 
-const availableForms = ['oyo_test', 'sykes_test'];
+const availableForms = ['sykes_test', 'kf'];
 
 const Form = (props) => {
   const [formType, setFormType] = useState(availableForms[0]);
@@ -26,10 +26,10 @@ const Form = (props) => {
   };
 
   const formInView = () => {
-    if (formType === 'oyo_test') {
-      return <Oyo {...props}/>
-    } else {
+    if (formType === 'sykes_test') {
       return <Sykes {...props}/>
+    } else {
+      return <Kf {...props}/>
     }
   };
 

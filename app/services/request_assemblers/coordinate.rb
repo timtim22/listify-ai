@@ -11,7 +11,7 @@ module RequestAssemblers
 
       def assemble_prompt_body(input_text, input_object)
         case input_object.class.to_s
-        when 'CustomInputs::OyoOne', 'CustomInputs::OyoTwo', 'CustomInputs::OyoThree', 'CustomInputs::SykesMiddle'
+        when CustomInput
           RequestAssemblers::CustomInput
         when 'Inputs::BrandDescription'
           RequestAssemblers::Brand
@@ -59,6 +59,12 @@ module RequestAssemblers
       def model_request?(prompt)
         prompt.remote_model_id.present?
       end
+    end
+  end
+
+  class CustomInput
+    def self.===(item)
+      item.starts_with? 'CustomInput'
     end
   end
 end

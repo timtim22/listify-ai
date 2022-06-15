@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_07_181355) do
+ActiveRecord::Schema.define(version: 2022_06_15_154142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -130,6 +130,15 @@ ActiveRecord::Schema.define(version: 2022_06_07_181355) do
   end
 
   create_table "custom_inputs_sykes_middles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.text "input_text"
+    t.text "key_features"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "custom_inputs_vacasa_ones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "request_type"
     t.text "input_text"
     t.text "key_features"

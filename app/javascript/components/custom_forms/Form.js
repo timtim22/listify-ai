@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Sykes from './Sykes';
+import VacasaOne from './VacasaOne';
 import Kf from './Kf';
 
-const availableForms = ['sykes_test', 'kf'];
+const availableForms = ['sykes_test', 'vacasa_one', 'kf'];
 
 const Form = (props) => {
   const [formType, setFormType] = useState(availableForms[0]);
@@ -27,9 +28,11 @@ const Form = (props) => {
 
   const formInView = () => {
     if (formType === 'sykes_test') {
-      return <Sykes {...props}/>
+      return <Sykes {...props}/>;
+    } else if (formType === 'vacasa_one') {
+      return <VacasaOne {...props} />;
     } else {
-      return <Kf {...props}/>
+      return <Kf {...props}/>;
     }
   };
 

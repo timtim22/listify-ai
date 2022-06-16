@@ -7,7 +7,6 @@ import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import AdvertForm from '../adverts/Form';
-import CustomForm from '../custom_forms/Form';
 import OyoForm from '../custom_forms/Oyo';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
@@ -137,17 +136,6 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           onResult={handleTaskRun}
           stepNames={builderStepNames}
           setStepNames={setBuilderStepNames}
-          resetState={resetState}
-        />
-      )
-    } else if (formType === 'custom_form') {
-      return (
-        <CustomForm
-          loading={loading}
-          setLoading={setLoading}
-          runsRemaining={runsRemaining}
-          results={results}
-          onResult={handleTaskRun}
           resetState={resetState}
         />
       )

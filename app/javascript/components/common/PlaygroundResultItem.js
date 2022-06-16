@@ -81,13 +81,7 @@ const PlaygroundResultItem = ({ result }) => {
           <p>result_error: <span className="text-red-700">{recordedCompletion.result_error}</span></p>
           <p>ran_content_filter: {recordedCompletion.ran_content_filter}</p>
           <p>failed_filter: {recordedCompletion.failed_filter}</p>
-          <p>completion_copied: {recordedCompletion.completion_copied}</p>
           <br/>
-          <p>-----</p>
-          <h2 className="font-medium">Language</h2>
-          <p>input_language_code: {recordedCompletion.input_language_code}</p>
-          <p>untranslated_input_text: {recordedCompletion.untranslated_input_text}</p>
-          <p>completion_translation_codes: {recordedCompletion.completion_translation_codes.join(', ')}</p>
         </div>
       )
     }

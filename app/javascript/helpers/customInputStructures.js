@@ -26,7 +26,15 @@ export const customInputStructures = {
     { key: 'key_features', title: 'Key Features', field_type: 'text', default: '' }
   ],
   vacasa_one: [
-    { key: 'key_features', title: 'Key Features', field_type: 'text', default: '' }
+    { key: 'property_type', title: 'Property Type', field_type: 'string', default: '' },
+    { key: 'property_name', title: 'Property name (optional)', field_type: 'string', default: '' },
+    { key: 'target_user', title: 'Target user', field_type: 'string', default: '' },
+    { key: 'location', title: 'location', field_type: 'string', default: '' },
+    { key: 'usp_one', title: 'Detail 1', field_type: 'string', default: '' },
+    { key: 'usp_two', title: 'Detail 2', field_type: 'string', default: '' },
+    { key: 'usp_three', title: 'Detail 3', field_type: 'string', default: '' },
+    { key: 'usp_four', title: 'Detail 4', field_type: 'string', default: '' },
+    { key: 'usp_five', title: 'Detail 5', field_type: 'string', default: '' },
   ],
 }
 

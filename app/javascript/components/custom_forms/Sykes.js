@@ -53,12 +53,10 @@ const Sykes = ({ loading, setLoading, onResult, runsRemaining }) => {
           value={inputFields[field] || ''}
           onChange={(e) => {setField(field, e.target.value)}}
           required={true}
-          className="h-32 form-text-area mx-3"></textarea>
+          className="h-32 text-sm form-text-area mx-3"></textarea>
       </div>
     )
   };
-
-
 
   return (
     <div>

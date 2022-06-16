@@ -4,7 +4,9 @@
     <br />
     <ol type="1" class="list-decimal list-inside">
       <li><%= link_to "Go to app", new_listing_path %></li>
+
       <li><%= link_to "Test prompt in playground", new_playground_attempt_path %></li>
+      <li><%= link_to "Test form in playground", new_admin_playground_form_path %></li>
       <li><%= link_to "View Completions", admin_recorded_completions_path %></li>
       <li><%= link_to "View task runs", task_runs_path %></li>
       <li><%= link_to "View location searches", recorded_searches_path %></li>
@@ -20,6 +22,7 @@
     <ol type="1" class="list-decimal list-inside">
       <li><%= link_to "Go to app", new_listing_path %></li>
       <li><%= link_to "Test prompt in playground", new_playground_attempt_path %></li>
+      <li><%= link_to "Test form in playground", new_admin_playground_form_path %></li>
       <li><%= link_to "View Completions", admin_recorded_completions_path %></li>
       <li><%= link_to "Manage Example sets", admin_examples_path %></li>
       <li><%= link_to "Manage Tagger rules", admin_taggers_rules_path %></li>

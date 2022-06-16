@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createRequest } from '../../helpers/requests';
+import { getRequest, createRequest } from '../../helpers/requests';
 import CopyButton from './CopyButton';
 import LanguageToggle from './LanguageToggle';
 
-const ResultItem = ({ result }) => {
+const PlaygroundResultItem = ({ result }) => {
   const [translations, setTranslations] = useState([]);
   const [languageVisible, setLanguageVisible] = useState("EN");
   const [errors, setErrors] = useState(null);
+  const [recordedCompletion, setRecordedCompletion] = useState(null);
 
   useEffect(() => {
     if (initialTranslationPresent()) {
@@ -29,6 +30,14 @@ const ResultItem = ({ result }) => {
     setErrors(null);
   }
 
+  const fetchRecordedCompletion = () => {
+    getRequest(
+      `/admin/recorded_completions/${result.completion_id}`,
+      (completion) => setRecordedCompletion(completion),
+      (e) => console.log(e)
+    )
+  };
+
   const fetchTranslation = (languageCode) => {
     setLanguageVisible(languageCode);
     if (!(fetchedLanguages().includes(languageCode))) {
@@ -44,6 +53,45 @@ const ResultItem = ({ result }) => {
       )
     }
   }
+
+  const requestInfo = (config) => {
+    return Object.keys(config).map((k) => {
+      return `${k}: ${config[k]}`
+    }).join(', ')
+  };
+
+  const displayDebugInfo = () => {
+    if (recordedCompletion) {
+      return (
+        <div className="text-xs">
+          <h2 className="font-medium">Prompt</h2>
+          <p>request_type: {recordedCompletion.request_type}</p>
+          <p>api_client: {recordedCompletion.api_client}</p>
+          <p>prompt_title: {recordedCompletion.prompt_title}</p>
+          <p>engine: {recordedCompletion.engine}</p>
+          <p>remote_model_id: {recordedCompletion.remote_model_id}</p>
+          <p>request_configuration: {requestInfo(recordedCompletion.request_configuration)}</p>
+          <br/>
+          <p className="font-medium">prompt_text:</p>
+          <p className="whitespace-pre-wrap">{recordedCompletion.prompt_text}</p>
+          <br/>
+          <p>-----</p>
+          <h2 className="font-medium">Statuses</h2>
+          <p>input_object_type: {recordedCompletion.input_object_type}</p>
+          <p>result_error: <span className="text-red-700">{recordedCompletion.result_error}</span></p>
+          <p>ran_content_filter: {recordedCompletion.ran_content_filter}</p>
+          <p>failed_filter: {recordedCompletion.failed_filter}</p>
+          <p>completion_copied: {recordedCompletion.completion_copied}</p>
+          <br/>
+          <p>-----</p>
+          <h2 className="font-medium">Language</h2>
+          <p>input_language_code: {recordedCompletion.input_language_code}</p>
+          <p>untranslated_input_text: {recordedCompletion.untranslated_input_text}</p>
+          <p>completion_translation_codes: {recordedCompletion.completion_translation_codes.join(', ')}</p>
+        </div>
+      )
+    }
+  };
 
   const visibleResult = () => {
     if (languageVisible === "EN") {
@@ -67,6 +115,19 @@ const ResultItem = ({ result }) => {
     )
   }
 
+  const debugButton = () => {
+    return (
+      <button
+        title="Debug"
+        type="button"
+        onClick={fetchRecordedCompletion}
+        className="flex justify-center items-center uppercase text-xs font-medium px-2 bg-gray-50 text-red-900 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
+      >
+        Debug
+      </button>
+    )
+  };
+
   const trimmedResult = (visibleResult().result_text || "").trim();
 
   if (trimmedResult !== "") {
@@ -77,6 +138,7 @@ const ResultItem = ({ result }) => {
         <div className="flex justify-between items-center h-10">
           {tags(result)}
           <div className="flex justify-center">
+            {debugButton()}
             <LanguageToggle
               languageVisible={languageVisible}
               toggleVisible={(lang) => { fetchTranslation(lang) }}
@@ -84,6 +146,7 @@ const ResultItem = ({ result }) => {
             <CopyButton result={result} copyText={trimmedResult} />
           </div>
         </div>
+        {displayDebugInfo()}
      </div>
     )
   } else {
@@ -91,8 +154,8 @@ const ResultItem = ({ result }) => {
   }
 }
 
-ResultItem.propTypes = {
+PlaygroundResultItem.propTypes = {
   result: PropTypes.object
 }
 
-export default ResultItem;
+export default PlaygroundResultItem;

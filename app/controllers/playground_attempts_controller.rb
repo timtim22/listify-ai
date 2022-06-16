@@ -29,12 +29,6 @@ class PlaygroundAttemptsController < ApplicationController
     authorize Inputs::PlaygroundAttempt
   end
 
-  def authenticate_playground_access
-    return if user_signed_in? && (current_user.admin? || current_user.id == '215ef9f4-359f-4bdd-972b-e16940c1e7a3')
-
-    redirect_to '/', alert: 'Not authorized.'
-  end
-
   def playground_attempt_params
     params.require(:playground_attempt).permit(:request_type, :input_text)
   end

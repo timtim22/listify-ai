@@ -85,6 +85,7 @@ const Form = ({
         <input
           type="text"
           value={example.request_type || ''}
+          required={true}
           onChange={(e) => setField('request_type', e.target.value)}
           className="w-full form-text-input"></input>
       </div>

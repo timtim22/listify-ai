@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   namespace :custom_inputs do
     resources :oyo, only: [:create]
     resources :sykes, only: [:create]
+    resources :vacasa, only: [:create]
     resources :generic_inputs, only: [:create]
   end
 
@@ -59,19 +60,19 @@ Rails.application.routes.draw do
     get 'index', to: 'home#index'
     patch 'tag_batch', to: 'examples#tag_batch'
 
+    resources :admins, only: [:index]
+    resources :data_exports, only: [:index]
     resources :examples
-    namespace :taggers do
-      resources :rules
-    end
+    resources :playground_forms, only: [:new]
     resources :recorded_completions, only: [:index, :show] do
       get 'search', on: :collection
     end
-
     resources :subscriptions, only: [:index]
-    resources :trials, only: [:index]
+    namespace :taggers do
+      resources :rules
+    end
     resources :teams, only: [:index]
-    resources :admins, only: [:index]
+    resources :trials, only: [:index]
     resources :user_locks, only: [:create, :destroy]
-    resources :data_exports, only: [:index]
   end
 end

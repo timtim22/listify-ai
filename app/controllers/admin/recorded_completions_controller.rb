@@ -18,6 +18,10 @@ class Admin::RecordedCompletionsController < ApplicationController
 
   def show
     @recorded_completion = RecordedCompletion.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: @recorded_completion, status: :ok }
+    end
   end
 
   def search

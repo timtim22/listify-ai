@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-//import { useScrollOnResult } from '../hooks';
 import Form from './Form';
 import Results from '../inputs/Results';
 import ResultsPoll from '../inputs/ResultsPoll';
@@ -10,8 +9,6 @@ const New = () => {
   const [taskRun, setTaskRun] = useState(null);
   const [runsRemaining, setRunsRemaining] = useState(20);
 
-  //const onResult = useScrollOnResult(results);
-
   const handleNewResults = (newResults) => {
     const newList = taskRun.is_rerun ? [...results, ...newResults] : newResults;
     setResults(newList);
@@ -21,7 +18,6 @@ const New = () => {
   const handleTaskRun = (response) => {
     setTaskRun(response.data.task_run);
   }
-
 
   return (
     <>
@@ -43,6 +39,7 @@ const New = () => {
         loading={loading}
         setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
+        playgroundMode={true}
       />
     </>
   )

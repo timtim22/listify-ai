@@ -6,7 +6,7 @@ import RequestCounter from '../common/RequestCounter';
 import NoResultsContent from '../common/NoResultsContent';
 import GeneratingSpinner from '../common/GeneratingSpinner';
 
-const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading }) => {
+const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading, playgroundMode = false }) => {
 
   if (results.length > 0) {
     return (
@@ -14,7 +14,7 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
         <div className="flex flex-col items-center mb-4 w-full">
           <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Results</h1>
           <div className="flex flex-col items-center py-4 w-full">
-            <ResultList results={results} />
+            <ResultList results={results} playgroundMode={playgroundMode} />
             <div className="flex justify-center py-8 w-full">
               <TaskRerunButton
                 runsRemaining={runsRemaining}
@@ -37,6 +37,16 @@ const Results = ({ runsRemaining, results, taskRun, onRerun, loading, setLoading
       </>
     )
   }
+}
+
+Results.propTypes = {
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
+  results: PropTypes.array,
+  taskRun: PropTypes.object,
+  onRerun: PropTypes.func,
+  runsRemaining: PropTypes.number,
+  playgroundMode: PropTypes.bool
 }
 
 export default Results;

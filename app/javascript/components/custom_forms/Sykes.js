@@ -58,8 +58,6 @@ const Sykes = ({ loading, setLoading, onResult, runsRemaining }) => {
     )
   };
 
-
-
   return (
     <div>
       <div className="flex flex-col items-center w-full text-sm">

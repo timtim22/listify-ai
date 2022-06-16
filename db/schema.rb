@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_15_154142) do
+ActiveRecord::Schema.define(version: 2022_06_16_125151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -145,6 +145,15 @@ ActiveRecord::Schema.define(version: 2022_06_15_154142) do
     t.string "tags", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "property_type"
+    t.string "property_name"
+    t.string "location"
+    t.string "target_user"
+    t.string "usp_one"
+    t.string "usp_two"
+    t.string "usp_three"
+    t.string "usp_four"
+    t.string "usp_five"
   end
 
   create_table "derived_input_objects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

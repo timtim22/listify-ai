@@ -6,7 +6,15 @@ import Submit from '../inputs/Submit';
 
 const newInputFields = {
   request_type: 'vacasa_one',
-  key_features: ''
+  property_type: '',
+  property_name: '',
+  target_user: '',
+  location: '',
+  usp_one: '',
+  usp_two: '',
+  usp_three: '',
+  usp_four: '',
+  usp_five: ''
 }
 
 const maxInput = 800;
@@ -44,21 +52,21 @@ const VacasaOne = ({ loading, setLoading, onResult, runsRemaining }) => {
     return joinedInputs().length;
   }
 
-  const textArea = (title, field) => {
+  const textRow = (title, key, placeholder, required) => {
     return (
-      <div key={field} className="flex items-start w-full">
-        <label className="flex-shrink-0 mt-2 w-1/3">{title}</label>
-        <textarea
+      <div className="flex justify-start items-center mt-2 w-full">
+        <label className="flex-shrink-0 w-1/3">{title}</label>
+        <input
           type="text"
-          value={inputFields[field] || ''}
-          onChange={(e) => {setField(field, e.target.value)}}
-          required={true}
-          className="h-32 form-text-area mx-3"></textarea>
+          placeholder={placeholder}
+          required={required}
+          value={inputFields[key]}
+          onChange={(e) => {setField(key, e.target.value)}}
+          className="w-full text-sm form-inline-field"
+        />
       </div>
     )
-  };
-
-
+  }
 
   return (
     <div>
@@ -68,7 +76,16 @@ const VacasaOne = ({ loading, setLoading, onResult, runsRemaining }) => {
             <ErrorNotice errors={errors} />
           </div>
           <div className="flex flex-col w-full max-w-2xl">
-            {textArea('Key Features', 'key_features')}
+            {textRow('Property Type', 'property_type', 'e.g. apartment', true)}
+            {textRow('Property Name (optional)', 'property_name')}
+            {textRow('Target user', 'target_user', 'e.g. couples' )}
+            {textRow('Location', 'location', 'e.g. London')}
+            {textRow('Detail 1', 'usp_one', 'e.g. outdoor jacuzzi')}
+            {textRow('Detail 2', 'usp_two')}
+            {textRow('Detail 3', 'usp_three')}
+            {textRow('Detail 4', 'usp_four')}
+            {textRow('Detail 5', 'usp_five')}
+
             <div className="flex flex-col items-center justify-center py-8 w-full">
               <Submit
                 inputText={joinedInputs()}

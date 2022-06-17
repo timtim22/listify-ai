@@ -18,7 +18,7 @@ module Taggers
         when 'sykes_middle' then Taggers::SykesMiddle.new
         when 'vacasa_one' then Taggers::VacasaOne.new
         else
-          raise 'Error in Taggers::Coordinate - Request Type missing!'
+          raise "Error in Taggers::Coordinate - Request Type #{request_type} missing!"
         end
       end
     end

@@ -38,6 +38,10 @@ const PlaygroundResultItem = ({ result }) => {
     )
   };
 
+  const fetchOrClearCompletion = () => {
+    recordedCompletion ? setRecordedCompletion(null) : fetchRecordedCompletion();
+  };
+
   const fetchTranslation = (languageCode) => {
     setLanguageVisible(languageCode);
     if (!(fetchedLanguages().includes(languageCode))) {
@@ -114,7 +118,7 @@ const PlaygroundResultItem = ({ result }) => {
       <button
         title="Debug"
         type="button"
-        onClick={fetchRecordedCompletion}
+        onClick={fetchOrClearCompletion}
         className="flex justify-center items-center uppercase text-xs font-medium px-2 bg-gray-50 text-red-900 rounded-lg border border-gray-200 hover:bg-gray-100 active:bg-gray-200"
       >
         Debug

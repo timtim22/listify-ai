@@ -57,7 +57,7 @@ const Form = ({ onResult, loading, setLoading }) => {
     <div className="w-full h-full">
       <div className="flex flex-col items-center w-full">
         <h1 className="my-8 text-xl font-medium tracking-wider text-gray-700">Test Form</h1>
-        <p className="text-sm">A place to test forms without impacting users.</p>
+        <p className="text-sm">Test and demo new forms.</p>
         <div className="mt-4 mb-8 w-3/4 h-px bg-gray-300"></div>
       </div>
       <div className="flex flex-col items-center w-full text-sm">

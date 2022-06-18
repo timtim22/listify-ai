@@ -136,7 +136,7 @@ const Form = ({
           {numberField('Frequency penalty', 'frequency_penalty', 0.0, maxValue('frequency_penalty'), 0.1)}
           {numberField('Presence penalty', 'presence_penalty', 0.0, 1.0, 0.1)}
         </div>
-        {selectField('Engine', 'engine', engines[prompt['service'].toLowerCase()])}
+        {selectField('Engine (must be correct if using a trained AI21 model)', 'engine', engines[prompt['service'].toLowerCase()])}
         {textField('Remote finetuning model id (leave blank for none)', 'remote_model_id')}
         {textField("Labels (separate with commas, e.g. 'creative, short')", 'labels')}
         <div className="flex flex-col w-4/5 max-w-2xl">

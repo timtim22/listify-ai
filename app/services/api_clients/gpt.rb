@@ -23,7 +23,7 @@ module ApiClients
       if config[:model].present?
         request_with_model(request_params)
       else
-        request_with_text(request_params, config[:engine])
+        request_without_model(request_params, config[:engine])
       end
     end
 
@@ -31,7 +31,7 @@ module ApiClients
       request('post', model_url, headers, body)
     end
 
-    def request_with_text(body, engine)
+    def request_without_model(body, engine)
       request('post', url_for(engine), headers, body)
     end
 

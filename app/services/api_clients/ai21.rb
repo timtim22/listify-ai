@@ -2,10 +2,9 @@ module ApiClients
   class Ai21
 
     TOKEN = Rails.application.credentials.dig(:ai21, :api_key)
-    MODEL = 'j1-jumbo'.freeze
 
     def run_request!(request_params, config)
-      response = request('post', url, headers, request_params)
+      response = request_for(request_params, config)
       if response[:error]
         response
       else
@@ -15,8 +14,28 @@ module ApiClients
 
     private
 
-    def url
-      "https://api.ai21.com/studio/v1/#{MODEL}/complete"
+    def request_for(request_params, config)
+      if config[:model].present?
+        request_with_model(request_params, config[:engine], config[:model])
+      else
+        request_without_model(request_params, config[:engine])
+      end
+    end
+
+    def request_with_model(body, engine, model)
+      request('post', trained_model_url(engine, model), headers, body)
+    end
+
+    def request_without_model(body, engine)
+      request('post', untrained_url(engine), headers, body)
+    end
+
+    def trained_model_url(engine, model)
+      "https://api.ai21.com/studio/v1/#{engine}/#{model}/complete"
+    end
+
+    def untrained_url(engine)
+      "https://api.ai21.com/studio/v1/#{engine}/complete"
     end
 
     def headers

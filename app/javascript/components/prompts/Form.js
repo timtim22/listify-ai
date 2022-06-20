@@ -130,7 +130,7 @@ const Form = ({
         {textField('Stop (use \\n for newline)', 'stop')}
         {selectField('Service', 'service', serviceOptions)}
         <div className="w-full grid grid-cols-5 gap-2">
-          {numberField('Temperature', 'temperature', 0.0, 1.0, 0.1)}
+          {numberField('Temperature', 'temperature', 0.0, 1.0, 0.01)}
           {numberField('Max tokens', 'max_tokens', 0, 250)}
           {numberField('Top p', 'top_p', 0.0, 1.0, 0.1)}
           {numberField('Frequency penalty', 'frequency_penalty', 0.0, maxValue('frequency_penalty'), 0.1)}

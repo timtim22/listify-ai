@@ -6,7 +6,7 @@
     <%= link_to 'Add Prompt', new_prompt_set_prompt_path(@prompt_set), class: "add-button" %>
   </div>
   <% if @prompt_set.prompts.any? %>
-    <div class="overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm">
+    <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
       <table class="w-full divide-y divide-gray-200">
         <thead class="bg-gray-100">
           <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
@@ -25,7 +25,7 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody class="divide-y divide-gray-200">
           <% @prompt_set.prompts.order(:position).each do |prompt| %>
             <tr class="text-xs">
               <td class="py-3 pl-6"><%= prompt.position %></td>

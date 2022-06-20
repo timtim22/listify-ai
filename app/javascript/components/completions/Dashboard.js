@@ -4,7 +4,7 @@ import Completion from './Completion';
 import { tableDate } from '../../helpers/utils';
 import { getRequest } from '../../helpers/requests';
 
-const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
+const Dashboard = ({ currentUser, groupedCompletions, showAdmins, last_24_hr_stats }) => {
   const [completionsInView, setCompletionsInView] = useState(groupedCompletions);
   const [adminsInView, setAdminsInView] = useState(showAdmins);
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,8 +25,6 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
       </div>
     )
   };
-
-
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -96,9 +94,36 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins }) => {
     )
   };
 
+  const countFor = (key, object) => {
+    return (
+      <p key={key}>{key}: {object[key]}</p>
+    )
+  };
+
+  const summaryTable = () => {
+    const { spin_count, request_counts, user_counts } = last_24_hr_stats.table;
+    return (
+      <div className="w-max p-4 mb-4 text-sm border broder-gray-200 bg-white rounded-lg">
+        <h3 className="font-medium mb-1">Last 24 hours ({spin_count} total spins)</h3>
+        <div className="mb-4 w-full h-px bg-gray-200"></div>
+        <div className="flex items-start">
+          <div className="mr-8">
+            <span className="font-medium">Request types:</span>
+            {Object.keys(request_counts).map(k => countFor(k, request_counts))}
+          </div>
+          <div>
+            <span className="font-medium">Users:</span>
+            {Object.keys(user_counts).map(k => countFor(k, user_counts))}
+          </div>
+        </div>
+      </div>
+    )
+  };
+
   return (
     <div className="w-full">
       {headerBar()}
+      {summaryTable()}
       <div className="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
@@ -127,6 +152,7 @@ Dashboard.propTypes = {
   currentUser: PropTypes.object,
   showAdmins: PropTypes.bool,
   groupedCompletions: PropTypes.array,
+  last_24_hr_stats: PropTypes.object,
 }
 
 export default Dashboard;

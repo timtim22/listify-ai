@@ -4,6 +4,7 @@
     {
       currentUser: from_partial('users/user', user: current_user),
       showAdmins: params[:admin] == 'true',
+      last_24_hr_stats: @last_24_hr_stats,
       groupedCompletions: from_partial(
         'admin/recorded_completions/recorded_completion_group',
         recorded_completion_group: @completions_by_task_run

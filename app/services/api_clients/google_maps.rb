@@ -65,8 +65,7 @@ module ApiClients
         #debug_output: $stdout
       }])
 
-      puts 'GOOGLE RESPONSE'
-      puts response
+      puts 'GOOGLE RESPONSE RECEIVED'
       puts '------'
 
       if response.code == 200

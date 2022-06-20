@@ -5,11 +5,11 @@ class Admin::RecordedCompletionsController < ApplicationController
   def index
     @completions_by_task_run =
       RecordedCompletion
-      .where('task_run_created_at > ?', 1.week.ago)
+      .where('task_run_created_at > ?', 4.days.ago)
       .where(user_id: users_in_view)
       .includes(:user)
       .order(created_at: :desc)
-      .limit(200)
+      .limit(400)
       .group_by(&:task_run_created_at)
       .sort
       .reverse

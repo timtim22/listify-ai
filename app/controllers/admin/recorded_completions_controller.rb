@@ -13,8 +13,9 @@ class Admin::RecordedCompletionsController < ApplicationController
       .group_by(&:task_run_created_at)
       .sort
       .reverse
-  end
 
+    last_24_hr_stats
+  end
 
   def show
     @recorded_completion = RecordedCompletion.find(params[:id])
@@ -50,5 +51,14 @@ class Admin::RecordedCompletionsController < ApplicationController
     else
       User.where.not(admin: true)
     end.pluck(:id)
+  end
+
+  def last_24_hr_stats
+    last_24_hr_spins = @completions_by_task_run.select { |k, v| k >= 24.hours.ago }
+    @last_24_hr_stats = OpenStruct.new(
+      spin_count: last_24_hr_spins.count,
+      request_counts: last_24_hr_spins.map { |k, v| v.first.request_type }.tally,
+      user_counts: last_24_hr_spins.map { |k, v| v.first.user.email }.tally
+    )
   end
 end

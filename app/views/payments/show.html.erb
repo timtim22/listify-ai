@@ -16,7 +16,7 @@
           </h1>
           <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
           <p class="mb-4">
-            Extra confirmation is needed to process your payment.
+            Extra confirmation is needed to process your payment. Instructions from your payment provider should appear automatically.
           </p>
 
           <%= form_with url: payment_path(@payment_intent.id), method: :patch, local: true, id: "payment-form", data: { payment_intent: @payment_intent.client_secret, status: @payment_intent.status } do |form| %>

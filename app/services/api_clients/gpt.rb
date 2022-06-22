@@ -59,7 +59,7 @@ module ApiClients
       }])
 
       puts 'GPT RESPONSE'
-      puts response
+      puts url
       puts '------'
 
       if response.code == 200

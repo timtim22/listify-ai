@@ -58,9 +58,7 @@ module ApiClients
         #debug_output: $stdout
       }])
 
-      puts 'GPT RESPONSE'
-      puts url
-      puts '------'
+      puts "GPT RESPONSE: #{url}"
 
       if response.code == 200
         JSON.parse(response.body)

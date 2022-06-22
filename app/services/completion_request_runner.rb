@@ -22,9 +22,7 @@ class CompletionRequestRunner
   end
 
   def log_request(request)
-    puts 'REQUEST'
-    puts request
-    puts '-----'
+    puts "Request initiated: #{request}"
   end
 
   def client_for(config)

@@ -76,6 +76,18 @@ function setupStripe() {
     }
   })
 
+  const countrySelect = document.getElementById('user_country');
+  if (countrySelect) {
+    countrySelect.addEventListener('change', (event) => {
+      setVatNotice(event.target.value);
+      if (countrySelect.value === 'CA') {
+        card.update({ hidePostalCode: true });
+      }
+    });
+    setVatNotice(countrySelect.value);
+  }
+
+
   const form = document.querySelector("#payment-form");
 
   let paymentIntentId = form.dataset.paymentIntent;
@@ -190,12 +202,14 @@ function setVatNotice(value) {
   }
 }
 
-document.addEventListener("turbolinks:load", () => {
-  const countrySelect = document.getElementById('user_country');
-  if (countrySelect) {
-    countrySelect.addEventListener('change', (event) => {
-      setVatNotice(event.target.value);
-    });
-    setVatNotice(countrySelect.value);
-  }
-});
+//document.addEventListener("turbolinks:load", () => {
+  //const countrySelect = document.getElementById('user_country');
+  //if (countrySelect) {
+    //countrySelect.addEventListener('change', (event) => {
+      //setVatNotice(event.target.value);
+      //const cardElement = elements.getElement('card')
+      //cardElement.update({ hidePostalCode: false });
+    //});
+    //setVatNotice(countrySelect.value);
+  //}
+//});

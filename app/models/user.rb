@@ -183,7 +183,7 @@ class User < ApplicationRecord
 
   def otp_qr_code
     issuer = 'ListifyAI'
-    label = "#{issuer}:#{email}"
+    label = email
     qrcode = RQRCode::QRCode.new(otp_provisioning_uri(label, issuer: issuer))
     qrcode.as_svg(module_size: 4)
   end

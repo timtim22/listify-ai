@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_16_125151) do
+ActiveRecord::Schema.define(version: 2022_06_24_073548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -488,6 +488,12 @@ ActiveRecord::Schema.define(version: 2022_06_16_125151) do
     t.string "authorization_scopes", default: [], array: true
     t.boolean "private_beta_account", default: false
     t.datetime "custom_trial_end_date"
+    t.string "encrypted_otp_secret"
+    t.string "encrypted_otp_secret_iv"
+    t.string "encrypted_otp_secret_salt"
+    t.integer "consumed_timestep"
+    t.boolean "otp_required_for_login"
+    t.string "otp_backup_codes", array: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -45,16 +45,22 @@
             ) %>
           </div>
 
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-          <% end %>
-
           <div class="actions pt-2">
             <%= f.submit "Update", class: "primary-button" %>
             <%= link_to "Back", edit_account_path, class: "secondary-link text-sm ml-4" %>
           </div>
         <% end %>
+
+        <% if current_user.admin_or_listify_team? %>
+          <div class="my-8 w-full h-px bg-gray-200"></div>
+          <h3 class="mb-8 text-xl font-medium">Two Factor Authentication</h3>
+          <div id="two_factor">
+            <%= render partial: "devise/registrations/two_factor" %>
+          </div>
+        <% end %>
       </div>
+
+
     </div>
   </div>
 <% end %>

@@ -4,9 +4,17 @@ Rails.application.routes.draw do
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
   devise_for :users, controllers: {
-    registrations: 'registrations',
-    sessions: 'sessions'
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
+
+  devise_scope :user do
+    scope :users, as: :users do
+      post 'pre_otp', to: 'users/sessions#pre_otp'
+    end
+  end
+
+  resource :two_factor, only: [:create, :destroy]
 
   root to: 'listings#new'
   get '/terms', to: 'home#terms'

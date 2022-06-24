@@ -1,0 +1,16 @@
+const stepOne = document.getElementById("step-1");
+const stepTwo = document.getElementById("step-2");
+
+stepOne.classList.add("hidden");
+stepTwo.classList.remove("hidden");
+
+const email = stepOne.querySelector("#step-one-email").value;
+stepTwo.querySelector("#user_email").value = email;
+
+const passwordField = stepTwo.querySelector("#user_password");
+passwordField.focus();
+
+<% if @two_factor_enabled %>
+  const otp_field =  stepTwo.querySelector("#step-2-otp");
+  otp_field.classList.remove("hidden");
+<% end %>

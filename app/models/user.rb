@@ -1,7 +1,10 @@
 class User < ApplicationRecord
+  devise :two_factor_authenticatable, :two_factor_backupable,
+         otp_secret_encryption_key: Rails.application.credentials.dig(:otp, :key)
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :masqueradable
+  devise :registerable, :recoverable, :rememberable, :validatable, :masqueradable
 
   has_one :team_role, required: false, dependent: :destroy
   has_one :team, through: :team_role
@@ -176,5 +179,12 @@ class User < ApplicationRecord
       update(stripe_id: customer.id)
       customer
     end
+  end
+
+  def otp_qr_code
+    issuer = 'ListifyAI'
+    label = "#{issuer}:#{email}"
+    qrcode = RQRCode::QRCode.new(otp_provisioning_uri(label, issuer: issuer))
+    qrcode.as_svg(module_size: 4)
   end
 end

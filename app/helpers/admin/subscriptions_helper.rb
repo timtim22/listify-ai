@@ -3,7 +3,7 @@ module Admin::SubscriptionsHelper
   def mrr_count(subscriptions)
     active = subscriptions.select(&:active?)
     amount = formatted_amount(active.map(&:plan).sum(&:amount))
-    sanitize("<span class='text-sm'> (approx #{amount} MRR, exc VAT)</span>")
+    sanitize("<span class='text-sm'> (approx #{amount} MRR, after VAT)</span>")
   end
 
   def format_plan_name(name)

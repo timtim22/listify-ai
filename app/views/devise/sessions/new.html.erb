@@ -1,7 +1,7 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
   function onSubmit(token) {
-    document.getElementById("new_user").submit();
+    document.getElementById("step-2").submit();
   }
 </script>
 
@@ -13,7 +13,26 @@
           <h2 class="log-in-header">Welcome back</h2>
           <p class="py-2 text-gray-500">Enter your credentials to access your account.</p>
         </div>
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+        <%= form_for(resource, as: resource_name, url: users_pre_otp_path, method: :post, remote: :true, html: { class: "user-step-1", id: "step-1" }) do |f| %>
+          <div class="mb-6">
+            <%= f.label :email, class: "bold-form-label" %><br />
+            <%= f.email_field(
+              :email,
+              id: "step-one-email",
+              autofocus: true,
+              autocomplete: "email",
+              placeholder: "you@example.com",
+              class: "form-text-input")%>
+          </div>
+          <div class="actions">
+            <%= f.submit "Next", class: "log-in-button" %>
+          </div>
+        <% end %>
+
+
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "hidden", id: "step-2" }) do |f| %>
           <div class="mb-6">
             <%= f.label :email, class: "bold-form-label" %><br />
             <%= f.email_field(
@@ -33,6 +52,16 @@
               class: "form-text-input")%>
           </div>
 
+          <div class="mb-6 hidden" id="step-2-otp">
+            <%= f.label "OTP", class: "bold-form-label uppercase" %><br />
+            <%= f.text_field(
+              :otp_attempt,
+              autocomplete: "off",
+              placeholder: "Code",
+              class: "form-text-input")%>
+          </div>
+
+
           <% if devise_mapping.rememberable? %>
             <div class="flex justify-start items-center mb-6">
               <%= f.check_box :remember_me, class: "h-5 w-5 rounded-md border-gray-300 shadow-sm mr-2 focus:ring-0" %>
@@ -42,7 +71,6 @@
 
           <div class="actions">
             <%= f.submit "Sign in", class: "log-in-button g-recaptcha", data: { sitekey: Rails.application.credentials.dig(:recaptcha, :site_key), callback: "onSubmit" }  %>
-
           </div>
         <% end %>
         <div class="flex justify-center w-full text-blue-600">

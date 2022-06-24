@@ -45,9 +45,10 @@
             ) %>
           </div>
 
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-          <% end %>
+          <h2>Two Factor Authentication</h2>
+          <div id="two_factor">
+            <%= render partial: "devise/registrations/two_factor" %>
+          </div>
 
           <div class="actions pt-2">
             <%= f.submit "Update", class: "primary-button" %>

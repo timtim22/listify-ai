@@ -7,6 +7,18 @@
     </div>
   </div>
 
+  <div class="flex px-4 border border-gray-200 rounded-lg mb-4 items-center">
+    <%= search_form_for(@q, url: admin_taggers_rules_path, method: :get) do |f| %>
+      <%= f.label :input_structure_or_tag_cont, "Input structure:", class: "form-label" %>
+      <%= f.search_field :input_structure_or_tag_cont, class: "form-inline-field" %>
+
+      <%= f.label :keywords, "Keywords:", class: "form-label" %>
+      <%= f.search_field :keywords_include, class: "form-inline-field" %>
+      <%= f.submit name: '', class: "my-4 add-button" %>
+    <% end %>
+    <%= link_to "Clear", admin_taggers_rules_path, class: 'ml-2 text-xs text-red-800' %>
+  </div>
+
   <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">
@@ -41,6 +53,9 @@
     </table>
   </div>
   <br />
-  <%== pagy_nav(@pagy) %>
+  <div class="px-4 flex justify-between items-center text-sm">
+    <%== pagy_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
+  </div>
 </div>
 

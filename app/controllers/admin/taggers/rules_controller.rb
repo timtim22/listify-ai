@@ -6,7 +6,8 @@ module Admin
       before_action :set_rule, only: %i[ show edit update destroy ]
 
       def index
-        @rules = ::Taggers::Rule.all
+        @q = ::Taggers::Rule.ransack(params[:q])
+        @rules = @q.result
 
         @pagy, @rules = pagy(@rules)
       end

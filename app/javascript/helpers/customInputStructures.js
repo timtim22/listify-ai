@@ -36,6 +36,12 @@ export const customInputStructures = {
     { key: 'usp_four', title: 'Detail 4', field_type: 'string', default: '' },
     { key: 'usp_five', title: 'Detail 5', field_type: 'string', default: '' },
   ],
+  vacasa_two: [
+    { key: 'things_nearby', title: "What's nearby", field_type: 'text', default: '' }
+  ],
+  vacasa_three: [
+    { key: 'things_to_know', title: 'Things to know', field_type: 'text', default: '' }
+  ]
 }
 
 export const customInputs = Object.keys(customInputStructures);

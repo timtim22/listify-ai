@@ -6,7 +6,8 @@ module Admin
       before_action :set_rule, only: %i[ show edit update destroy ]
 
       def index
-        @rules = ::Taggers::Rule.all
+        @q = ::Taggers::Rule.ransack(params[:q])
+        @rules = @q.result
 
         @pagy, @rules = pagy(@rules)
       end
@@ -22,7 +23,7 @@ module Admin
         @rule = ::Taggers::Rule.new(rule_params)
 
         respond_to do |format|
-          if @rule.save!
+          if @rule.save
             format.html { redirect_to admin_taggers_rules_path, notice: 'rule created.' }
             format.json { redirect_to admin_taggers_rules_path, status: :created, notice: 'rule created.' }
           else
@@ -36,7 +37,7 @@ module Admin
         @rule.assign_attributes(rule_params)
 
         respond_to do |format|
-          if @rule.save!
+          if @rule.save
             format.html { redirect_to admin_taggers_rules_path, notice: 'rule updated.' }
             format.json { redirect_to admin_taggers_rules_path, status: :created, notice: 'rule updated.' }
           else

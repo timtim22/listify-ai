@@ -15,6 +15,7 @@
           <th class="py-3 px-6">Spins this month</th>
           <th class="py-3 px-6">Spin quota</th>
           <th class="py-3 px-6">Full admin?</th>
+          <th class="py-3 px-6">OTP?</th>
           <th class="py-3 px-6">Actions</th>
         </tr>
       </thead>
@@ -27,6 +28,7 @@
             <td class="py-3 px-6"><%= user.spins_used_in_current_period %></td>
             <td class="py-3 px-6"><%= user.spin_quota %></td>
             <td class="py-3 px-6"><%= user.admin? %></td>
+            <td class="py-3 px-6"><%= user.otp_required_for_login.present? %></td>
             <td class="py-3 px-6">
               <%= render partial: 'admin/shared/user_actions', locals: { user: user } %>
             </td>

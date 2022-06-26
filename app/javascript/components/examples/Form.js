@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRequest, updateRequest, redirectOnSuccess } from '../../helpers/requests';
+import { useScrollToTopOnError } from '../hooks';
 import { customInputFields, customInputs } from '../../helpers/customInputStructures';
 import ErrorNotice from '../common/ErrorNotice';
 
@@ -13,6 +14,8 @@ const Form = ({
   const [inputFields, setInputFields] = useState([]);
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const onError = useScrollToTopOnError(errors);
 
   useEffect(() => {
     if (inputStructure) { generateInputFields() }
@@ -43,7 +46,6 @@ const Form = ({
       updateRequest(
         `/admin/examples/${exampleProps.id}.json`,
         { example: { ...example, input_structure: inputStructure } },
-        redirectOnSuccess,
         redirectOnSuccess,
         (e) => { setErrors(e); setLoading(false) }
       )
@@ -101,6 +103,7 @@ const Form = ({
           value={example.completion || ''}
           onChange={(e) => {setField('completion', e.target.value)}}
           required={true}
+          maxLength={1000}
           className="w-full h-48 form-text-area"></textarea>
       </div>
     )

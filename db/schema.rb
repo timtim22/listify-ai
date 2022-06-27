@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_24_073548) do
+ActiveRecord::Schema.define(version: 2022_06_27_202040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -154,6 +154,24 @@ ActiveRecord::Schema.define(version: 2022_06_24_073548) do
     t.string "usp_three"
     t.string "usp_four"
     t.string "usp_five"
+  end
+
+  create_table "custom_inputs_vacasa_threes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.text "input_text"
+    t.text "things_to_know"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "custom_inputs_vacasa_twos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "request_type"
+    t.text "input_text"
+    t.text "things_nearby"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "derived_input_objects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

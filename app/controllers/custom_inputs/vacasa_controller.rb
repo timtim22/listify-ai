@@ -3,9 +3,9 @@ class CustomInputs::VacasaController < ApplicationController
 
   def create
     @runs_remaining = SpinCheck.runs_remaining(current_user)
-    save = Input.create_with(CustomInputs::VacasaOne.new(vacasa_params), current_user)
+    save = Input.create_with(vacasa_object.new(vacasa_params), current_user)
     if save.success
-      @object  = save.input_object
+      @object = save.input_object
       @task_run = TaskRunners::OneStep.new.run_for!(@object, current_user)
       @runs_remaining -= 1
     end
@@ -21,10 +21,18 @@ class CustomInputs::VacasaController < ApplicationController
 
   private
 
+  def vacasa_object
+    case vacasa_params[:request_type]
+    when 'vacasa_one' then CustomInputs::VacasaOne
+    when 'vacasa_two' then CustomInputs::VacasaTwo
+    when 'vacasa_three' then CustomInputs::VacasaThree
+    end
+  end
+
   def vacasa_params
     params.require(:vacasa).permit(
       :request_type, :property_type, :property_name, :target_user, :location,
-      :usp_one, :usp_two, :usp_three, :usp_four, :usp_five
+      :usp_one, :usp_two, :usp_three, :usp_four, :usp_five, :usp_five, :things_nearby, :things_to_know
     )
   end
 end

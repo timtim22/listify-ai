@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Sykes from '../custom_forms/Sykes';
 import VacasaOne from '../custom_forms/VacasaOne';
+import VacasaTwo from '../custom_forms/VacasaTwo';
+import VacasaThree from '../custom_forms/VacasaThree';
 import Kf from '../custom_forms/Kf';
 import OyoOne from '../custom_forms/OyoOne';
 import OyoTwo from '../custom_forms/OyoTwo';
 import OyoThree from '../custom_forms/OyoThree';
 
-const availableForms = ['sykes_test', 'vacasa_one', 'oyo_one', 'oyo_two', 'oyo_three', 'kf'];
+const availableForms = ['sykes_test', 'vacasa_one', 'vacasa_two', 'vacasa_three', 'oyo_one', 'oyo_two', 'oyo_three', 'kf'];
 
 const Form = ({ onResult, loading, setLoading }) => {
   const [formType, setFormType] = useState(availableForms[0]);
@@ -48,6 +50,10 @@ const Form = ({ onResult, loading, setLoading }) => {
       return <OyoThree {...formProps } />;
     } else if (formType === 'vacasa_one') {
       return <VacasaOne {...formProps} />;
+   } else if (formType === 'vacasa_two') {
+      return <VacasaTwo {...formProps} />;
+  } else if (formType === 'vacasa_three') {
+    return <VacasaThree {...formProps} />;
     } else {
       return <Kf {...formProps}/>;
     }

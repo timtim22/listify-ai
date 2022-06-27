@@ -83,12 +83,12 @@ const Form = ({
   const requestField = () => {
     return (
       <div className="w-full mb-6">
-        <label className="form-label">Request type (usually should be the same as input structure)</label>
+        <label className="form-label">Request type (usually the same as input structure, no spaces allowed)</label>
         <input
           type="text"
           value={example.request_type || ''}
           required={true}
-          onChange={(e) => setField('request_type', e.target.value)}
+          onChange={(e) => setField('request_type', e.target.value.trim())}
           className="w-full form-text-input"></input>
       </div>
     )

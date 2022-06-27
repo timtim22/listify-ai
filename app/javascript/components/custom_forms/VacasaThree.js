@@ -5,7 +5,7 @@ import ErrorNotice from '../common/ErrorNotice';
 import Submit from '../inputs/Submit';
 
 const newInputFields = {
-  request_type: 'vacasa_two',
+  request_type: 'vacasa_three',
   things_to_know: ''
 }
 

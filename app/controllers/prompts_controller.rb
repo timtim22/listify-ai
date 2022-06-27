@@ -1,5 +1,6 @@
 class PromptsController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authenticate_user!
+  before_action :authorize_prompt
   before_action :set_prompt_set
   before_action :set_prompt, only: [:edit, :update, :destroy]
   before_action :set_service_options, only: [:new, :edit]
@@ -55,6 +56,10 @@ class PromptsController < ApplicationController
       :title, :content, :stop, :temperature, :max_tokens, :top_p, :service,
       :frequency_penalty, :presence_penalty, :engine, :remote_model_id, :labels
     )
+  end
+
+  def authorize_prompt
+    authorize Prompt
   end
 
   def set_prompt_set

@@ -1,5 +1,6 @@
 class PromptSetsController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authenticate_user!
+  before_action :authorize_prompt_set
   before_action :set_prompt_set, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -54,6 +55,10 @@ class PromptSetsController < ApplicationController
   end
 
   private
+
+  def authorize_prompt_set
+    authorize PromptSet
+  end
 
   def set_prompt_set
     @prompt_set = PromptSet.find(params[:id])

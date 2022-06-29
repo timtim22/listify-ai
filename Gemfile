@@ -35,22 +35,19 @@ group :development, :test do
 end
 
 group :development do
+  gem 'brakeman', '~> 5.2'
+  gem 'bullet', '~> 7.0', '>= 7.0.2'
+  gem 'listen', '~> 3.7'
+  gem 'overcommit', '~> 0.59.1'
+  gem 'rack-mini-profiler', '~> 3.0'
+  gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
+  gem 'spring', '~> 4.0'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'
-  # Display performance information such as SQL time and flame graphs for each request in your browser.
-  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  gem 'rack-mini-profiler', '~> 2.0'
-  gem 'listen', '~> 3.7'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'brakeman', '~> 5.2'
-  gem 'bullet', '~> 6.1', '>= 6.1.5'
-  gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
-  gem 'overcommit', '~> 0.59.1'
 end
 
 group :test do
-  gem 'capybara', '~> 3.36'
+  gem 'capybara', '~> 3.37', '>= 3.37.1'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
   gem 'selenium-webdriver', '~> 4.1'

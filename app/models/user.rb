@@ -173,8 +173,8 @@ class User < ApplicationRecord
       Stripe::Customer.retrieve(stripe_id)
     else
       customer = Stripe::Customer.create(
-        email: email,
-        name: "#{first_name} #{last_name}"
+        email: email
+        #name: "#{first_name} #{last_name}"
       )
       update(stripe_id: customer.id)
       customer

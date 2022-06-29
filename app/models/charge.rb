@@ -16,10 +16,10 @@ class Charge < ApplicationRecord
 
   def receipt
     Receipts::Receipt.new(
-      id: id,
-      product: 'your Listify subscription',
+      details: [['Charge Id', id]],
+      recipient: user.email,
       company: {
-        name: 'Listify AI is a product of Venture Rocket Ltd',
+        name: 'People & Robots Ltd',
         address: '28 Rennie Court, 11 Upper Ground, London SE1 9LP',
         email: 'hello@listify.ai'
       },
@@ -31,7 +31,7 @@ class Charge < ApplicationRecord
     items = [
       ['Date', created_at.to_s],
       ['Account billed', "#{user.name} (#{user.email})"],
-      ['Product', 'Listify subscription (plus VAT, if applicable)'],
+      ['Product', 'Listify AI subscription (plus VAT, if applicable)'],
       ['Amount', ApplicationController.helpers.formatted_amount(amount)],
       ['Charged to', "#{card_brand} ending in #{card_last4}"]
     ]

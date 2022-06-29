@@ -1,0 +1,17 @@
+<% if @subscription.present? && @customer.present? %>
+  <div class="my-8 w-full h-px bg-gray-200"></div>
+  <h5 class="my-4 text-xl font-medium">Company details</h5>
+  <div class="mb-4">
+    <% if @customer.name.present? &&
+      @customer.line1.present? &&
+      @customer.postal_code.present?
+    %>
+      <div class="text-sm">
+        <p class="whitespace-pre-wrap"><%= [@customer.name, @customer.line1, @customer.line2, @customer.city, @customer.state, @customer.country, @customer.postal_code].compact.join("\n") %></p>
+      </div>
+    <% else %>
+      <p>Please update your company details. These will appear on your invoices.</p>
+    <% end %>
+  </div>
+  <%= link_to "Edit details", edit_customer_path, class: 'secondary-link' %>
+<% end %>

@@ -25,6 +25,8 @@ module RequestAssemblers
       def assemble_request_parameters(client_name, prompt, prompt_body, input_object)
         if client_name == Completion::Services::AI21
           RequestAssemblers::Ai21.parameters(prompt, prompt_body, input_object)
+        elsif client_name == Completion::Services::COHERE
+          RequestAssemblers::Cohere.parameters(prompt, prompt_body, input_object)
         elsif model_request?(prompt)
           RequestAssemblers::GptModel.parameters(prompt, prompt_body, input_object)
         else

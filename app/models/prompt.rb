@@ -8,8 +8,9 @@ class Prompt < ApplicationRecord
 
   GPT_ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-002 text-davinci-001 text-davinci-002].freeze
   AI21_ENGINES = %w[j1-large j1-grande j1-jumbo].freeze
+  COHERE_ENGINES = %w[large xlarge].freeze
   MOCK_ENGINES = %w[mock-engine].freeze
-  ENGINES = { gpt: GPT_ENGINES, ai21: AI21_ENGINES, mock: MOCK_ENGINES }.freeze
+  ENGINES = { gpt: GPT_ENGINES, ai21: AI21_ENGINES, cohere: COHERE_ENGINES, mock: MOCK_ENGINES }.freeze
 
   SERVICE_CONSTRAINTS = {
     gpt: {
@@ -20,6 +21,12 @@ class Prompt < ApplicationRecord
       engines: AI21_ENGINES,
       frequency_penalty: { max: 500.0 }
     },
+    cohere: {
+      engines: COHERE_ENGINES,
+      temperature: { max: 5.0 },
+      frequency_penalty: { max: 1.0 }
+    },
+
     mock: { engines: MOCK_ENGINES, scales: {} }
   }
 

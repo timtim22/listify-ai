@@ -60,7 +60,7 @@ module ApiClients
       {
         service: Completion::Services::COHERE,
         success: true,
-        result_text: response['generations'][0]['text'], # check this!
+        result_text: response['generations'][0]['text'],
         should_check_content: config[:check_content]
       }
     end

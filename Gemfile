@@ -60,7 +60,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'acts_as_list', '~> 1.0', '>= 1.0.4'
 gem 'country_select', '~> 3.1', '>= 3.1.1'
-gem 'devise', '~> 4.7', '>= 4.7.1'
+gem 'devise', '~> 4.8'
 gem 'devise_masquerade', '~> 1.3'
 gem 'devise-two-factor', '~> 4.0', '>= 4.0.2'
 gem 'font-awesome-sass', '~> 6.1'

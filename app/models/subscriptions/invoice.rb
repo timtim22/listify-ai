@@ -54,7 +54,7 @@ module Subscriptions
     def line_items
       items = [
         ['<b>Item</b>', '<b>Unit Cost</b>', '<b>Quantity</b>', '<b>Amount</b>'],
-        ['Listify AI subscription', display_amount(charge.invoice_amount_excluding_tax), 1, display_amount(charge.invoice_amount_excluding_tax)],
+        ['Listify AI subscription', display_amount(charge.amount_excluding_tax), 1, display_amount(charge.amount_excluding_tax)],
         tax_line_item,
         [nil, nil, '<b>Total</b>', display_amount(charge.amount)]
       ].compact

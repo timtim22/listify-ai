@@ -17,6 +17,11 @@ class Charge < ApplicationRecord
     )
   end
 
+  def amount_excluding_tax
+    retrieve_invoice_fields! if invoice_number.nil?
+    invoice_amount_excluding_tax || amount
+  end
+
   def send_payment_receipt!
     if user.charges.count > 1
       UserMailer.payment_received(user, self).deliver_later

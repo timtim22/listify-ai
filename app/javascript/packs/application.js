@@ -185,31 +185,32 @@ function clearLoading(form) {
 
 // VAT notice
 
-function setVatNotice(value) {
+function setVatNotice(country) {
   const vatNotices = document.querySelectorAll('span.vat_notice');
   const cardVatNotice = document.getElementById('card_vat_notice');
+  const planAmount = document.getElementById('plan-amount').value;
+  const planAmountGbp = toGbp(planAmount);
 
-  if (value === "GB") {
+  if (country === "GB") {
+    const withVatGbp = toGbp(withVatAddedTo(planAmount));
+
     vatNotices.forEach((notice) => {
-      notice.innerText = " (plus UK VAT at 20%) ";
+      notice.innerText = `${withVatGbp} (${planAmountGbp} plus UK VAT at 20%) `;
     });
-    cardVatNotice.innerText = " (plus UK VAT at 20%) ";
+    cardVatNotice.innerHTML = `You will be charged <span class="font-semibold">${withVatGbp}</span> (includes UK VAT at 20%)`;
   } else {
     vatNotices.forEach((notice) => {
-      notice.innerText = "";
+      notice.innerText = toGbp(planAmount);
     });
     cardVatNotice.innerText = "";
   }
 }
 
-//document.addEventListener("turbolinks:load", () => {
-  //const countrySelect = document.getElementById('user_country');
-  //if (countrySelect) {
-    //countrySelect.addEventListener('change', (event) => {
-      //setVatNotice(event.target.value);
-      //const cardElement = elements.getElement('card')
-      //cardElement.update({ hidePostalCode: false });
-    //});
-    //setVatNotice(countrySelect.value);
-  //}
-//});
+function withVatAddedTo(amount) {
+  return (amount / 100) * 120;
+}
+
+function toGbp(pence) {
+  let pounds = pence / 100;
+  return pounds.toLocaleString("en-GB", {style:"currency", currency:"GBP"});
+}

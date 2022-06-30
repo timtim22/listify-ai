@@ -28,7 +28,7 @@ class Charge < ApplicationRecord
     end
   end
 
-  def refund(amount: nil)
+  def refund(amount: nil) # refunds full amount by default
     Stripe::Refund.create(charge: stripe_id, amount: amount)
     update(amount_refunded: amount)
   end

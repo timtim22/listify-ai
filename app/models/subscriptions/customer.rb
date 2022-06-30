@@ -31,15 +31,6 @@ module Subscriptions
         postal_code: customer['address'] && customer['address']['postal_code'],
       )
 
-      #Subscriptions::Customer.new(
-        #name: 'test2',
-        #line1: 'line_1',
-        #line2: 'line_2',
-        ##city: 'line_1',
-        #state: 'state_1',
-        #country: 'UK',
-        #postal_code: '123 456'
-      #)
     end
 
     private
@@ -50,5 +41,17 @@ module Subscriptions
         address: customer_params.except(:name).to_h
       }
     end
+
+    #def test_params
+      #Subscriptions::Customer.new(
+        #name: 'test2',
+        #line1: 'line_1',
+        #line2: 'line_2',
+        ##city: 'line_1',
+        #state: 'state_1',
+        #country: 'UK',
+        #postal_code: '123 456'
+      #)
+    #end
   end
 end

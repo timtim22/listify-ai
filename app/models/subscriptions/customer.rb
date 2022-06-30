@@ -17,7 +17,7 @@ module Subscriptions
       Stripe::Customer.update(user.stripe_id, formatted_params)
     end
 
-    def self.editable_stripe_customer(user)
+    def self.fetch(user)
       return unless user.stripe_id
 
       customer = user.stripe_customer
@@ -31,15 +31,15 @@ module Subscriptions
         postal_code: customer['address'] && customer['address']['postal_code'],
       )
 
-      Subscriptions::Customer.new(
-        name: 'test2',
-        line1: 'line_1',
-        line2: 'line_2',
-        city: 'line_1',
-        state: 'line_1',
-        country: 'line_1',
-        postal_code: 'line_1'
-      )
+      #Subscriptions::Customer.new(
+        #name: 'test2',
+        #line1: 'line_1',
+        #line2: 'line_2',
+        ##city: 'line_1',
+        #state: 'state_1',
+        #country: 'UK',
+        #postal_code: '123 456'
+      #)
     end
 
     private

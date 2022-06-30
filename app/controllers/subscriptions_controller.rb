@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   def show
     @subscription = current_user.subscription
     @plan = @subscription && Plan.find_by(stripe_id: @subscription.stripe_plan)
-    @customer = Subscriptions::Customer.editable_stripe_customer(current_user)
+    @customer = Subscriptions::Customer.fetch(current_user)
   end
 
   def new

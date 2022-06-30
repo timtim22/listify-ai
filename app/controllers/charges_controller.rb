@@ -1,7 +1,7 @@
 class ChargesController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_charge
+  before_action :authorize_charge
 
   def show
     invoice = Subscriptions::Invoice.new(@charge)
@@ -23,4 +23,7 @@ class ChargesController < ApplicationController
     @charge = current_user.charges.find(params[:id])
   end
 
+  def authorize_charge
+    authorize @charge
+  end
 end

@@ -1,6 +1,6 @@
 <% if @subscription.present? && @customer.present? %>
   <div class="my-8 w-full h-px bg-gray-200"></div>
-  <h5 class="my-4 text-xl font-medium">Company information</h5>
+  <h5 class="my-4 text-xl font-medium">Address</h5>
   <div class="mb-4">
     <% if @customer.name.present? &&
       @customer.line1.present? &&
@@ -11,7 +11,7 @@
 
       </div>
     <% else %>
-      <p>Please update your company details. These will appear on your invoices.</p>
+      <p>Please update your address details. These will appear on your invoices.</p>
     <% end %>
   </div>
   <%= link_to "Edit details", edit_customer_path, class: 'secondary-link' %>

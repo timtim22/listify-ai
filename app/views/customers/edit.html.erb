@@ -2,7 +2,7 @@
   <div class="w-full px-8">
     <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
       <div class="mb-8">
-        <h2 class="log-in-header">Company Information</h2>
+        <h2 class="log-in-header">Address</h2>
         <div class="my-4 w-full h-px bg-gray-200"></div>
       </div>
 
@@ -10,7 +10,7 @@
         <%= form_for(:customer, url: customer_path, method: :put) do |f| %>
 
           <div class="field">
-            <%= f.label :name, "Company name", value: @customer.name, class: "form-label" %><br />
+            <%= f.label :name, "Name of company or individual", value: @customer.name, class: "form-label" %><br />
             <%= f.text_field(
               :name,
               class: "form-text-input"
@@ -65,6 +65,7 @@
 
           <div class="actions pt-2">
             <%= f.submit "Update", class: "primary-button" %>
+            <%= link_to "Back", subscription_path, class: "secondary-link text-sm ml-4" %>
           </div>
         <% end %>
       </div>

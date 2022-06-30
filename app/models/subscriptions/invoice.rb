@@ -90,7 +90,7 @@ module Subscriptions
     def vat_field
       return unless charge.invoice_amount_tax
 
-      ['UK VAT Number', '404 9631 03']
+      ['VAT Registration No.', '404 9631 03']
     end
   end
 end

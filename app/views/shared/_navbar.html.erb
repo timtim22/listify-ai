@@ -62,7 +62,7 @@
                 <%= render partial: 'shared/nav_link', locals: { name: "History", route: history_path } %>
               <% end %>
 
-              <% if current_user.subscribed? || current_user.member_of_team? %>
+              <% if current_user.subscribed? || (current_user.member_of_team? && current_user.id != "0e8f455d-d0e5-43d1-b109-c82bd36b63e4") %>
                 <%= link_to "Sign out", destroy_user_session_path, { method: :delete, class: "p-1 focus:outline-none text-gray-400" } %>
               <% else %>
                 <%= link_to "Subscribe", pricing_path, class: "primary-button" %>

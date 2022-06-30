@@ -30,7 +30,7 @@ module Subscriptions
           ['Charged to', "#{charge.card_brand} ending in #{charge.card_last4}"]
         ].compact,
         recipient: [
-          'Bill to:',
+          '<b>Bill to:</b>',
           customer.name,
           customer.line1,
           customer.line2,
@@ -39,7 +39,7 @@ module Subscriptions
           customer.country,
           customer.postal_code,
           user.email
-        ].compact,
+        ].compact_blank,
         company: {
           name: company_name,
           address: '28 Rennie Court, 11 Upper Ground, London SE1 9LP',

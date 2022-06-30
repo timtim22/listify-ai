@@ -12,7 +12,7 @@
           <% if current_user.card_last4? %>
             <%= form_with url: subscription_path, local: true, id: "existing-card", class: "w-full" do |form| %>
               <p class="font-semibold text-gray-900 mb-4">Your subscription will be charged to your existing card:</p>
-              <div class="my-4">
+              <div class="my-8">
                 <%= render partial: 'cards/preview' %>
                 <%= link_to "Use a new card", "#", id: "use-new-card", class: "secondary-link" %>
               </div>
@@ -21,7 +21,7 @@
               <%= form.hidden_field :plan_amount, value: @plan.amount, id: 'plan-amount' %>
 
               <%= render partial: 'cards/input_submit', locals: { form: form, submit_text: "Subscribe" } %>
-              <p class="mt-8 text-xs text-gray-500">
+              <p class="mt-8 mr-4 text-xs text-gray-500">
                 On clicking subscribe, your card will be charged
                 <span class="font-semibold text-gray-900"><span class="vat_notice"></span></span>
                now, and on the same date each month while your subscription is active. You can cancel at any time.

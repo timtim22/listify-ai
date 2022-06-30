@@ -6,7 +6,7 @@ export const bannerForUser = (user) => {
     return <NewSubscriptionBanner />;
   } else if (user.account_status === "active_trial") {
     return <TrialActiveBanner endDate={new Date(user.trial_end_date)} />;
-  } else if (user.account_status === "lapsed_trial") {
+  } else if (["lapsed_trial", "lapsed_subscription"].includes(user.account_status)) {
     return <TrialExpiredBanner />;
   } else {
     return <HelpBanner />;

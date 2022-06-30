@@ -9,10 +9,12 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
+    @customer = Subscriptions::Customer.fetch(current_user)
   end
 
   def create
     current_user.update_card(params[:payment_method_id]) if params[:payment_method_id]
+    Subscriptions::Customer.update(current_user, customer_params)
     current_user.subscribe(@plan.stripe_id, country_options)
     redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
@@ -41,6 +43,10 @@ class SubscriptionsController < ApplicationController
   end
 
   private
+
+  def customer_params
+    params.permit(:name, :line1, :line2, :city, :state, :postal_code).merge(country: params[:user]['country'])
+  end
 
   def country_options
     country_code = params.dig(:user, :country)

@@ -38,6 +38,8 @@
               <%= link_to "Cancel subscription", subscription_path, method: :delete, class: "text-sm text-red-800", data: { confirm: "Are you sure you want to cancel?" } %>
             <% end %>
 
+            <%= render partial: 'customers/preview' %>
+
             <div class="my-8 w-full h-px bg-gray-200"></div>
             <h5 class="my-4 text-xl font-medium">Card</h5>
             <% if current_user.card_last4? %>
@@ -60,7 +62,7 @@
                       <th class="py-3 px-6">Date</th>
                       <th class="py-3 px-6">Card</th>
                       <th class="py-3 px-6">Amount</th>
-                      <th class="py-3 px-6">Receipt</th>
+                      <th class="py-3 px-6">Invoice</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-200">

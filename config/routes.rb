@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:show]
   resource :history, only: [:show]
 
+  resource :customer, only: [:edit, :update]
   resource :card
   resource :pricing, controller: :pricing
   resource :subscription do

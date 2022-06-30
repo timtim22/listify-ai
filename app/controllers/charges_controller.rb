@@ -4,12 +4,13 @@ class ChargesController < ApplicationController
   before_action :set_charge
 
   def show
+    invoice = Subscriptions::Invoice.new(@charge)
     respond_to do |format|
       format.pdf {
         send_data(
-          @charge.receipt.render,
-          filename: @charge.filename,
-          type: "application/pdf",
+          invoice.invoice.render,
+          filename: invoice.filename,
+          type: 'application/pdf',
           disposition: :inline
         )
       }

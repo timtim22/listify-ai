@@ -66,6 +66,8 @@ const VacasaThree = ({ loading, setLoading, onResult, runsRemaining }) => {
             <ErrorNotice errors={errors} />
           </div>
           <div className="flex flex-col w-full max-w-2xl">
+            <h1 className="font-bold text-lg text-gray-400">3. Things to know</h1>
+            <div className="my-4 w-full h-px bg-gray-200"></div>
             {textArea('Things to know', 'things_to_know')}
 
             <div className="flex flex-col items-center justify-center py-8 w-full">

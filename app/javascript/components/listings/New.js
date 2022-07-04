@@ -7,7 +7,7 @@ import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import AdvertForm from '../adverts/Form';
-import OyoForm from '../custom_forms/Oyo';
+import VacasaForm from '../custom_forms/Vacasa';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
@@ -126,9 +126,9 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           showExample={showExample}
         />
       )
-    } else if (formType === 'custom_oyo') {
+    } else if (formType === 'custom_vacasa') {
       return (
-        <OyoForm
+        <VacasaForm
           loading={loading}
           setLoading={setLoading}
           runsRemaining={runsRemaining}
@@ -173,7 +173,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           />
         </>
       )
-    } else if (['custom_oyo'].includes(formType)) {
+    } else if (['custom_vacasa'].includes(formType)) {
       return (
         <>
           <ListingBuilderResultsPoll

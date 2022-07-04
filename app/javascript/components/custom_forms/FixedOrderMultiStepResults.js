@@ -162,11 +162,11 @@ const Results = ({ runsRemaining, results, onRerun, loading, setLoading, formTyp
 
   const resultsKeysInStepOrder = () => {
     const resultForStep = {
-      oyo_one: 'oyo_one',
-      oyo_two: 'oyo_two',
-      oyo_three: 'oyo_three',
+      vacasa_one: 'vacasa_one',
+      vacasa_two: 'vacasa_two',
+      vacasa_three: 'vacasa_three',
     }
-    return ['oyo_one', 'oyo_two', 'oyo_three'].map(step => resultForStep[step]);
+    return ['vacasa_one', 'vacasa_two', 'vacasa_three'].map(step => resultForStep[step]);
   }
 
   const selectVisibleResults = () => {

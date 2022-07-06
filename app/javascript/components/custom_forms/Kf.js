@@ -3,16 +3,21 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 import NumberField from '../common/NumberField';
+import { coerceWithinRange } from '../../helpers/utils';
 import Submit from '../inputs/Submit';
 
 const newInputFields = {
   request_type: 'kf',
   type: '',
   features: '',
-  bedrooms: 1,
+  key_highlights: '',
+  double_bedrooms: 1,
+  single_bedrooms: 0,
   bathrooms: 1,
+  ensuites: 0,
   receptions: 1,
-  area: '',
+  cloakrooms: 0,
+  area: 1000,
   building: '',
   available: '',
   furnishing: 'furnished',
@@ -34,13 +39,23 @@ const Kf = ({ loading, setLoading, onResult, runsRemaining }) => {
 
   const combinedInputFields = () => {
     const orderedFeatures = [
-      'building', 'type', 'bedrooms', 'bathrooms', 'receptions', 'area', 'available', 'furnishing', 'features'
+      'building', 'type', 'bedrooms', 'double_bedrooms', 'single_bedrooms', 'bathrooms', 'ensuites', 'receptions', 'cloakrooms', 'area', 'available', 'furnishing', 'features', 'key_highlights'
     ]
+    const presentFields = orderedFeatures.filter(f => inputFields[f] !== 0 && inputFields[f] !== '')
+    const combinedFields = presentFields.map((f) => {
+      if (f === 'bedrooms') {
+        return `bedrooms: ${inputFields.double_bedrooms + inputFields.single_bedrooms}`
+      } else {
+        return `${f}: ${inputFields[f]}`
+      }
+    })
+
     return {
       request_type: inputFields.request_type,
-      input_text: orderedFeatures.map(f => `${f}: ${inputFields[f]}`).join('\n')
+      input_text: combinedFields.join('\n')
     }
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,14 +80,14 @@ const Kf = ({ loading, setLoading, onResult, runsRemaining }) => {
 
   const textArea = (title, field) => {
     return (
-      <div key={field} className="flex items-start w-full">
+      <div key={field} className="flex items-start w-full mb-2">
         <label className="flex-shrink-0 mt-2 w-1/3">{title}</label>
         <textarea
           type="text"
           value={inputFields[field] || ''}
           onChange={(e) => {setField(field, e.target.value)}}
           required={true}
-          className="h-32 text-sm form-text-area mx-3"></textarea>
+          className="h-20 text-sm form-text-area mx-3"></textarea>
       </div>
     )
   };
@@ -123,24 +138,99 @@ const Kf = ({ loading, setLoading, onResult, runsRemaining }) => {
     )
   };
 
+  const bedroomRow = () => {
+    return (
+      <div className="w-full flex items-center mb-2">
+        <label className="w-1/3 text-sm text-gray-800">Rooms</label>
+        <div className="w-2/3 flex justify-start items-center">
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['double_bedrooms'], (v) => setField('double_bedrooms', v))}
+            <label className="text-sm text-gray-800">Doubles</label>
+          </div>
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['single_bedrooms'], (v) => setField('single_bedrooms', v))}
+            <label className="text-sm text-gray-800">Singles</label>
+          </div>
+        </div>
+      </div>
+    )
+  };
+
+  const bathroomRow = () => {
+    return (
+      <div className="w-full flex items-center mb-2">
+        <label className="w-1/3 text-sm text-gray-800"></label>
+        <div className="w-2/3 flex justify-start items-center">
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['bathrooms'], (v) => setField('bathrooms', v))}
+            <label className="text-sm text-gray-800">Bathrooms</label>
+          </div>
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['ensuites'], (v) => setField('ensuites', v))}
+            <label className="text-sm text-gray-800">Ensuites</label>
+          </div>
+        </div>
+      </div>
+    )
+  };
+
+  const receptionRow = () => {
+    return (
+      <div className="w-full flex items-center mb-2">
+        <label className="w-1/3 text-sm text-gray-800"></label>
+        <div className="w-2/3 flex justify-start items-center">
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['receptions'], (v) => setField('receptions', v))}
+            <label className="text-sm text-gray-800">Reception rooms</label>
+          </div>
+          <div className="w-1/2 flex items-center">
+            {numberInput(0, 10, inputFields['cloakrooms'], (v) => setField('cloakrooms', v))}
+            <label className="text-sm text-gray-800">Cloakrooms</label>
+          </div>
+        </div>
+      </div>
+    )
+  };
+
+  const numberInput = (minValue, maxValue, value, onChange) => {
+    return (
+      <div className="flex items-center">
+        <input
+          type="number"
+          min={minValue}
+          max={maxValue}
+          placeholder="1"
+          required={true}
+          value={value}
+          onChange={(e) => {onChange(coerceWithinRange(e.target.value, minValue, maxValue))}}
+          className="w-16 text-sm form-inline-field"
+        />
+      </div>
+    )
+  };
+
+  combinedInputFields()
+
   return (
     <div>
-      <div className="flex flex-col items-center w-full text-sm">
+      <div className="flex flex-col items-center w-full text-sm mt-4">
         <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
           <div className="self-center w-full text-sm">
             <ErrorNotice errors={errors} />
           </div>
           <div className="flex flex-col w-full max-w-2xl">
             {textRow('Property Type', 'type')}
-            <div className="mb-4"></div>
-            {numberField('Bedrooms', 'bedrooms', 0, 10)}
-            {numberField('Bathrooms', 'bathrooms', 0, 10)}
-            {numberField('Reception rooms', 'receptions', 0, 10)}
-            {textRow('Area (sq ft)', 'area')}
             {textRow('Building/Development Name', 'building')}
+            <div className="mb-12"></div>
+            {bedroomRow()}
+            {bathroomRow()}
+            {receptionRow()}
+            <div className="mb-10"></div>
+            {textRow('Area (sq ft)', 'area')}
             {textRow('Available from', 'available')}
             {selectField('Furnished', 'furnishing', ['furnished', 'unfurnished'])}
-            {textArea('Features', 'features')}
+            {textArea('Property Characteristics', 'features')}
+            {textArea('Key highlights', 'key_highlights')}
 
             <div className="flex flex-col items-center justify-center py-8 w-full">
               <Submit

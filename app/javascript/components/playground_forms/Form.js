@@ -9,7 +9,7 @@ import OyoOne from '../custom_forms/OyoOne';
 import OyoTwo from '../custom_forms/OyoTwo';
 import OyoThree from '../custom_forms/OyoThree';
 
-const availableForms = ['sykes_test', 'vacasa_one', 'vacasa_two', 'vacasa_three', 'oyo_one', 'oyo_two', 'oyo_three', 'kf'];
+const availableForms = ['kf', 'sykes_test', 'vacasa_one', 'vacasa_two', 'vacasa_three', 'oyo_one', 'oyo_two', 'oyo_three'];
 
 const Form = ({ onResult, loading, setLoading }) => {
   const [formType, setFormType] = useState(availableForms[0]);

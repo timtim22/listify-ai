@@ -71,7 +71,9 @@ const OyoTwo = ({ loading, setLoading, onResult, runsRemaining }) => {
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-full max-w-2xl">
-          <h1 className="font-bold text-lg text-gray-400">2. Things to do around</h1>
+          <h1 className="font-bold text-lg text-gray-400">1. Why stay here?</h1>
+          <div className="my-4 w-full h-px bg-gray-200"></div>
+          <h1 className="font-bold text-lg">2. Things to do around</h1>
           <div className="my-4 w-full h-px bg-gray-200"></div>
           {textRow('USP 1', 'usp_one', 'e.g. places of interest')}
           {textRow('USP 2', 'usp_two', 'e.g. nearby attractions')}

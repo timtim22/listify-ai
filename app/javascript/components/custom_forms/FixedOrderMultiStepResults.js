@@ -161,12 +161,8 @@ const Results = ({ runsRemaining, results, onRerun, loading, setLoading, formTyp
   }
 
   const resultsKeysInStepOrder = () => {
-    const resultForStep = {
-      vacasa_one: 'vacasa_one',
-      vacasa_two: 'vacasa_two',
-      vacasa_three: 'vacasa_three',
-    }
-    return ['vacasa_one', 'vacasa_two', 'vacasa_three'].map(step => resultForStep[step]);
+    const modelName = formType.replace('custom_', '');
+    return [`${modelName}_one`, `${modelName}_two`, `${modelName}_three`];
   }
 
   const selectVisibleResults = () => {

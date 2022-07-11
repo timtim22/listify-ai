@@ -32,7 +32,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
   }
 
   const optionsForUser = () => {
-    if (user.email.endsWith('@oyorooms.com')) {
+    if (user.email.endsWith('@belvilla.com') || user.email.endsWith('@belvilla.com')) {
       return (
         <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
           {navLink("Description (Oyo style)", "custom_oyo")}

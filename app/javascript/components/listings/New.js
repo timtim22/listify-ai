@@ -19,7 +19,7 @@ import ResultsPoll from '../inputs/ResultsPoll';
 export const UserContext = createContext();
 
 const firstScreenFor = (user) => {
-  if (user.email.endsWith('@belvilla.com') || user.email.endsWith('@belvilla.com')) {
+  if (user.email.endsWith('@oyorooms.com') || user.email.endsWith('@belvilla.com')) {
     return 'custom_oyo';
   } else if (aboutFirstUser(user)) {
     return 'about';

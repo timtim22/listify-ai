@@ -8,6 +8,7 @@ import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
 import AdvertForm from '../adverts/Form';
 import VacasaForm from '../custom_forms/Vacasa';
+import OyoForm from '../custom_forms/Oyo';
 import ListingBuilderForm from '../listings_builder/Form';
 import ListingBuilderResults from '../listings_builder/Results';
 import ListingBuilderResultsPoll from '../listings_builder/ResultsPoll';
@@ -17,6 +18,16 @@ import ResultsPoll from '../inputs/ResultsPoll';
 
 export const UserContext = createContext();
 
+const firstScreenFor = (user) => {
+  if (user.email.endsWith('@oyorooms.com')) {
+    return 'custom_oyo';
+  } else if (aboutFirstUser(user)) {
+    return 'about';
+  } else {
+    return 'listing_description';
+  }
+};
+
 const aboutFirstUser = (user) => {
   const ids = ["197d4687-e3a9-40bb-948b-ec0285c3485e", "d5a62173-ec2b-4cf0-aca5-5bb296eeb710"] //boostly & local test
   return ids.includes(user.id);
@@ -25,7 +36,7 @@ const aboutFirstUser = (user) => {
 const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const [user, setUser] = useState(currentUser);
   const [runsRemaining, setRunsRemaining] = useState(initialRunsRemaining);
-  const [formType, setFormType] = useState(aboutFirstUser(currentUser) ? 'about' : 'listing_description');
+  const [formType, setFormType] = useState(firstScreenFor(currentUser));
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [taskRun, setTaskRun] = useState(null);
@@ -139,6 +150,17 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           resetState={resetState}
         />
       )
+    } else if (formType === 'custom_oyo') {
+      return (
+        <OyoForm
+          loading={loading}
+          setLoading={setLoading}
+          runsRemaining={runsRemaining}
+          results={results}
+          onResult={handleTaskRun}
+          resetState={resetState}
+        />
+      )
     } else {
       return (
         <ListingForm
@@ -173,7 +195,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           />
         </>
       )
-    } else if (['custom_vacasa'].includes(formType)) {
+    } else if (['custom_vacasa', 'custom_oyo'].includes(formType)) {
       return (
         <>
           <ListingBuilderResultsPoll

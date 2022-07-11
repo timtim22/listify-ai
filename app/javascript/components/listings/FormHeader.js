@@ -31,22 +31,38 @@ const FormHeader = ({ user, formType, setFormType }) => {
     return user.admin || user.on_listify_team
   }
 
+  const optionsForUser = () => {
+    if (user.email.endsWith('@oyorooms.com')) {
+      return (
+        <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
+          {navLink("Description (Oyo style)", "custom_oyo")}
+          {navLink("Title", "listing_title")}
+          {navLink("Area", "neighbourhood")}
+        </div>
+      )
+    }
+    return (
+      <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
+        {navLink("Description", "listing_description")}
+        {navLink("Title", "listing_title")}
+        {navLink("Area", "neighbourhood")}
+        {navLink("Rooms", "room_description")}
+        {navLink("Listing builder", "listing_builder")}
+        {navLink("Ads", "advert", "beta")}
+        {canSeeAbout() && navLink("About", "about", "beta")}
+        {canSeeCustomForm() && navLink("Custom (Oy)", "custom_oyo", "*")}
+        {canSeeCustomForm() && navLink("Custom (Va)", "custom_vacasa", "*")}
+      </div>
+    )
+  };
+
   return (
     <div className="flex overflow-x-hidden flex-col items-center w-full">
       <div className="p-4 w-full tracking-wide text-center text-gray-800 bg-grey-50">
         {bannerForUser(user)}
       </div>
       <div className="w-full overflow-scroll flex justify-center">
-        <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
-          {navLink("Description", "listing_description")}
-          {navLink("Title", "listing_title")}
-          {navLink("Area", "neighbourhood")}
-          {navLink("Rooms", "room_description")}
-          {navLink("Listing builder", "listing_builder")}
-          {navLink("Ads", "advert", "beta")}
-          {canSeeAbout() && navLink("About", "about", "beta")}
-          {canSeeCustomForm() && navLink("Custom (Va)", "custom_vacasa", "*")}
-        </div>
+        {optionsForUser()}
       </div>
       <div className="mb-8 w-full h-px bg-gray-200"></div>
    </div>

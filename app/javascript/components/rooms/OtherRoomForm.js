@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import { randId } from '../../helpers/utils';
 
-const maxRooms = 4;
+const maxRooms = 6;
 const maxNameLength = 40;
 const maxDetailLength = 150;
 const charSoftWarningLength = 30;
 const charHardWarningLength = 10;
 
-const RoomForm = ({ rooms, showHeader, onChange }) => {
+const RoomForm = ({ rooms, onChange }) => {
 
   useEffect(() => {
     if (rooms.length === 0) { addRoom() }
@@ -38,25 +38,6 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
     value.length <= charLimit && updateRoom({ ...room, [key]: value });
   }
 
-  const header = () => {
-    if (showHeader) {
-      return (
-        <>
-          <div className="mb-4 w-full h-px bg-gray-200"></div>
-          <div className="flex items-start">
-            <div className="flex flex-col flex-grow mt-8 mb-4">
-              <h2 className="text-lg font-medium leading-6 text-gray-900">Other rooms and spaces</h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Add details of other rooms and spaces within the property.
-              </p>
-            </div>
-          </div>
-          <div className="mb-4 w-full h-px bg-gray-200"></div>
-        </>
-      )
-    }
-  }
-
   const roomList = () => {
     if (rooms.length > 0) {
       return (
@@ -67,9 +48,39 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
     }
   }
 
+  const roomPreselectButton = (room, name) => {
+    return (
+      <button
+        type="button"
+        className="rounded-full px-2 py-1 mr-2 mb-4 text-xs bg-gray-200"
+        onClick={() => updateRoom({ ...room, name: name.toLowerCase()})}
+      >
+        {name}
+      </button>
+    )
+
+  };
+
+  const roomPreselectButtons = (room) => {
+    return (
+      <div className="flex flex-wrap items-center w-2/3 pl-4 mb-2 mt-8 self-end">
+        {roomPreselectButton(room, 'Bathroom')}
+        {roomPreselectButton(room, 'Dining Room')}
+        {roomPreselectButton(room, 'Garden')}
+        {roomPreselectButton(room, 'Kitchen')}
+        {roomPreselectButton(room, 'Kitchen / Diner')}
+        {roomPreselectButton(room, 'Living Space')}
+        {roomPreselectButton(room, 'Living / Dining Room')}
+        {roomPreselectButton(room, 'Sitting Room')}
+        {roomPreselectButton(room, 'Utility Room')}
+      </div>
+    )
+  };
+
   const roomRow = (room) => {
     return (
       <div key={room.id} className="flex flex-col items-start">
+        {roomPreselectButtons(room)}
         {textInputRow("Name of space", room, "e.g. open plan kitchen")}
         {detailField("Details", room, null)}
         <div className="flex justify-end items-center px-3 w-full">
@@ -161,7 +172,6 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
   return (
     <div className="flex flex-col">
-      {header()}
       <div>
         {roomList()}
         {addRoomButton()}
@@ -172,8 +182,7 @@ const RoomForm = ({ rooms, showHeader, onChange }) => {
 
 RoomForm.propTypes = {
   rooms: PropTypes.object,
-  showHeader: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 }
 
 export default RoomForm;

@@ -2,23 +2,44 @@ class HistoriesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    start_date = Date.new(2022, 2, 18).beginning_of_day # to exclude results before upstream ids migration
-    recent_task_runs = current_user.task_runs
-      .where('created_at > ?', start_date)
-      .includes(:input_object, :task_results, task_results: [:content_filter_results, :translations])
-      .order(created_at: :desc)
-      .limit(30)
-
-    @task_runs = recent_task_runs.reject do |tr|
-      tr.all_results_failed? || upstream_task_run_missing?(tr, recent_task_runs)
-    end
-    @upstream_ids = recent_task_runs.map(&:upstream_task_run_id).compact
+    assign_objects
   end
 
   private
 
-  def upstream_task_run_missing?(task_run, recent_task_runs)
-    task_run.upstream_task_run_id &&
-      recent_task_runs.none? { |t| t.id == task_run.upstream_task_run_id }
+  def assign_objects
+    start_date = history_start_date
+    # structured as 3 requests as one request split breaks pagy / may not be memory efficient anyway
+    @upstream_ids = current_user.task_runs
+      .where('created_at > ?', start_date)
+      .pluck(:upstream_task_run_id)
+
+    @upstream_task_runs = current_user.task_runs
+      .where(id: @upstream_ids)
+      .includes(:input_object)
+
+    @displayable_task_runs = current_user.task_runs
+      .where('created_at > ?', start_date)
+      .where.not(id: @upstream_ids)
+      .includes(:input_object, :task_results, task_results: [:content_filter_results, :translations])
+      .order(created_at: :desc)
+
+    @pagy, @displayable_task_runs = pagy(@displayable_task_runs, items: 30)
+  end
+
+  def history_start_date
+    history_for_plan = Date.today - days_available_on_plan.days
+    start_of_history = Date.new(2022, 2, 18) # to exclude results before upstream ids migration
+    [start_of_history, history_for_plan].max.beginning_of_day
+  end
+
+  def days_available_on_plan
+    if current_user.member_of_team?
+      180
+    elsif current_user.subscribed?
+      60
+    else
+      30
+    end
   end
 end

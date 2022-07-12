@@ -12,6 +12,9 @@ module HistoriesHelper
     headline_fragment: 'Listing Builder (intro)', # deprecated full listing
     full_listing_room_step_2: 'Listing Builder (rooms)',
     area_description_fragment: 'Listing Builder (area)',
+    oyo_one: 'Oyo (why stay here)',
+    oyo_two: 'Oyo (things to do around)',
+    oyo_three: 'Oyo (things to know)',
     facebook_advert: 'Facebook Ad',
     google_advert: 'Google Ad',
     google_advert_title: 'Google Ad Title'
@@ -36,9 +39,9 @@ module HistoriesHelper
     end
   end
 
-  def history_input_object(task_run, task_runs)
+  def history_input_object(task_run, upstream_task_runs)
     if task_run.upstream_task_run_id
-      original = task_runs.find { |t| t.id == task_run.upstream_task_run_id }
+      original = upstream_task_runs.find { |t| t.id == task_run.upstream_task_run_id }
       original.input_object
     else
       task_run.input_object

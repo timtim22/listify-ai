@@ -2,9 +2,10 @@ class Admin::DataExportsController < ApplicationController
   before_action :authenticate_admin
 
   def index
-    #model_types = %w[Listing]
-    model_types = room_description_types
-    request_types = room_description_requests
+    model_types = %w[Listing Inputs::SummaryFragment]
+    request_types = listing_requests
+    #model_types = room_description_types
+    #request_types = room_description_requests
     admin_user_ids = User.where(admin: true).pluck(:id)
     task_runs =
       TaskRun
@@ -38,7 +39,7 @@ class Admin::DataExportsController < ApplicationController
   private
 
   def listing_requests
-    ['listing_description']
+    ['listing_description', 'summary_fragment']
   end
 
   def room_description_requests

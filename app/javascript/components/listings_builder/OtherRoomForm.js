@@ -11,7 +11,7 @@ const RoomForm = ({ inputFields, rooms, onChange, handleSubmit, stepButton }) =>
   const header = () => {
     return (
       <>
-        <div className="flex items-start mb-2">
+        <div className="flex items-start mb-6">
           <p className="mt-1 text-sm text-gray-700">
             Add details of other rooms and spaces within the property.
           </p>

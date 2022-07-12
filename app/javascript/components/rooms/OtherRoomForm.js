@@ -78,9 +78,9 @@ const RoomForm = ({ rooms, onChange }) => {
   };
 
   const roomRow = (room) => {
-    //{roomPreselectButtons(room)}
     return (
       <div key={room.id} className="flex flex-col items-start">
+        {roomPreselectButtons(room)}
         {textInputRow("Name of space", room, "e.g. open plan kitchen")}
         {detailField("Details", room, null)}
         <div className="flex justify-end items-center px-3 w-full">

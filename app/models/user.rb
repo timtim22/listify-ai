@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :charges, dependent: :destroy
 
+  has_many :text_shortcuts, class_name: 'Text::Shortcut', dependent: :destroy
+
   attr_accessor :terms_of_service
 
   validates :terms_of_service, acceptance: true, on: :create

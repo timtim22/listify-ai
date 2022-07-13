@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_30_060117) do
+ActiveRecord::Schema.define(version: 2022_07_13_134959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -464,6 +464,15 @@ ActiveRecord::Schema.define(version: 2022_06_30_060117) do
     t.index ["task_run_id"], name: "index_text_results_on_task_run_id"
   end
 
+  create_table "text_shortcuts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "field", null: false
+    t.string "controls", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_text_shortcuts_on_user_id"
+  end
+
   create_table "translation_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "from", default: "EN"
     t.string "to"
@@ -543,5 +552,6 @@ ActiveRecord::Schema.define(version: 2022_06_30_060117) do
   add_foreign_key "team_roles", "teams"
   add_foreign_key "team_roles", "users"
   add_foreign_key "text_results", "task_runs"
+  add_foreign_key "text_shortcuts", "users"
   add_foreign_key "translation_requests", "task_runs"
 end

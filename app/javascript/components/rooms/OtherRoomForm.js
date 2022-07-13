@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import ButtonPill from '../common/ButtonPill';
 import { randId } from '../../helpers/utils';
 
 const maxRooms = 6;
@@ -50,15 +51,11 @@ const RoomForm = ({ rooms, onChange }) => {
 
   const roomPreselectButton = (room, name) => {
     return (
-      <button
-        type="button"
-        className="rounded-full px-2 py-1 mr-2 mb-4 text-xs bg-gray-200"
+      <ButtonPill
+        name={name}
         onClick={() => updateRoom({ ...room, name: name.toLowerCase()})}
-      >
-        {name}
-      </button>
+      />
     )
-
   };
 
   const roomPreselectButtons = (room) => {
@@ -181,7 +178,7 @@ const RoomForm = ({ rooms, onChange }) => {
 }
 
 RoomForm.propTypes = {
-  rooms: PropTypes.object,
+  rooms: PropTypes.array,
   onChange: PropTypes.func
 }
 

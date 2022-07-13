@@ -69,7 +69,6 @@ const Form = ({
     return (
       <SplitInput
         showExample={showExample || exampleRequested}
-        inputValue={listing.input_text}
         onInputChange={setInputText}
         inputLanguage={inputLanguage}
       />

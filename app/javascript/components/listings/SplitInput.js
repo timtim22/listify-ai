@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { translateLabel, translationFor, translatedSummaryString } from '../../helpers/translations';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
+import TextSnippetControl from '../common/TextSnippetControl';
 
 const newInputFields = {
   propertyType: '',
@@ -24,8 +25,9 @@ const trueUserInputLength = (inputFields) => {
   return Object.values(inputFields).join("").length;
 }
 
-const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) => {
+const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
+  const [snippetField, setSnippetField] = useState(null);
 
   useEffect(() => {
     if (showExample) {
@@ -78,10 +80,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
         <label className="flex-shrink-0 w-1/3">{title}</label>
         <input
           type="text"
+          id={key}
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
+          onFocus={() => setSnippetField(key)}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -111,8 +115,10 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features', inputLanguage)}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
+              textAreaId={'keyFeatures'}
               value={inputFields.keyFeatures}
               onChange={(value) => setField('keyFeatures', value)}
+              onFocus={() => setSnippetField('keyFeatures')}
               customClasses={"text-sm"}
               placeholderContent={
               <>
@@ -124,12 +130,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           </div>
         </div>
       </div>
+      <TextSnippetControl setField={setField} currentField={snippetField} />
     </div>
   )
 }
 
 SplitInput.propTypes = {
-  inputValue: PropTypes.string,
   onInputChange: PropTypes.func,
   inputLanguage: PropTypes.string,
   showExample: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonPill from './ButtonPill';
-import { snippetsForField } from '../../helpers/textSnippets';
+import ButtonPill from '../common/ButtonPill';
+import { shortcutsForField } from '../../helpers/textShortcuts';
 
-  const customButton = (name, setField, targetField) => {
+  const shortcutButton = (name, setField, targetField) => {
 
     const updateField = () => {
       const element = document.getElementById(targetField.name);
@@ -54,8 +54,8 @@ import { snippetsForField } from '../../helpers/textSnippets';
     )
   };
 
-const TextSnippetControl = ({ setField, targetField }) => {
-  const snippets = snippetsForField(targetField.name);
+const ShortcutPanel = ({ setField, targetField }) => {
+  const shortcuts = shortcutsForField(targetField.name);
 
   if (targetField.name) {
     return (
@@ -64,11 +64,11 @@ const TextSnippetControl = ({ setField, targetField }) => {
           <div className="w-full flex items-center mb-4">
             <div className="w-1/4"></div>
             <div className="w-1/2">
-              <h3 className="uppercase font-base tracking-wide text-gray-900">Text snippets</h3>
+              <h3 className="uppercase font-base tracking-wide text-gray-900">Text shortcuts</h3>
             </div>
             <div className="w-1/4 flex justify-end items-center"><p className="text-xs secondary-link">Edit</p></div>
           </div>
-          {snippets.map(name => customButton(name, setField, targetField))}
+          {shortcuts.map(name => shortcutButton(name, setField, targetField))}
         </div>
       </div>
     )
@@ -77,9 +77,9 @@ const TextSnippetControl = ({ setField, targetField }) => {
   }
 };
 
-TextSnippetControl.propTypes = {
+ShortcutPanel.propTypes = {
   setField: PropTypes.func,
   targetField: PropTypes.object
 }
 
-export default TextSnippetControl;
+export default ShortcutPanel;

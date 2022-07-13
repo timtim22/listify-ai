@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NumberField from '../common/NumberField';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
-import TextSnippetControl from '../common/TextSnippetControl';
+import ShortcutPanel from '../text/ShortcutPanel';
 
 const generalFeaturesPlaceholder = () => {
   return (
@@ -25,7 +25,7 @@ const KeyFeaturesForm = ({
   stepButton
   }) => {
 
-  const [snippetField, setSnippetField] = useState({});
+  const [shortcutField, setShortcutField] = useState({});
 
   const setInputIfValid = (key, value, limit) => {
     if (value.length <= limit) {
@@ -63,7 +63,7 @@ const KeyFeaturesForm = ({
           required={required}
           value={inputFields[key]}
           onChange={(e) => setInputIfValid(key, e.target.value, singleInputCharLimit)}
-          onFocus={() => setSnippetField({ name: key, characterLimit: singleInputCharLimit })}
+          onFocus={() => setShortcutField({ name: key, characterLimit: singleInputCharLimit })}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -81,7 +81,7 @@ const KeyFeaturesForm = ({
               textAreaId={'key_features'}
               value={inputFields[fieldName]}
               onChange={(value) => setInputIfValid(fieldName, value, textAreaCharLimit)}
-              onFocus={() => setSnippetField({ name: 'key_features', characterLimit: textAreaCharLimit })}
+              onFocus={() => setShortcutField({ name: 'key_features', characterLimit: textAreaCharLimit })}
               heightClass={"h-32"}
               placeholderContent={placeholder()}
               customClasses={"text-sm"}
@@ -114,9 +114,9 @@ const KeyFeaturesForm = ({
         {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
         {stepButton()}
     </form>
-      <TextSnippetControl
+      <ShortcutPanel
         setField={setField}
-        targetField={snippetField}
+        targetField={shortcutField}
       />
     </>
   )

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { translateLabel, translationFor, translatedSummaryString } from '../../helpers/translations';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
-import TextSnippetControl from '../common/TextSnippetControl';
+import ShortcutPanel from '../text/ShortcutPanel';
 
 const newInputFields = {
   property_type: '',
@@ -27,7 +27,7 @@ const trueUserInputLength = (inputFields) => {
 
 const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
-  const [snippetField, setSnippetField] = useState({});
+  const [shortcutField, setShortcutField] = useState({});
 
   useEffect(() => {
     if (showExample) {
@@ -85,7 +85,7 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          onFocus={() => setSnippetField({ name: key })}
+          onFocus={() => setShortcutField({ name: key })}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -118,7 +118,7 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
               textAreaId={'key_features'}
               value={inputFields.key_features}
               onChange={(value) => setField('key_features', value)}
-              onFocus={() => setSnippetField({ name: 'key_features' })}
+              onFocus={() => setShortcutField({ name: 'key_features' })}
               customClasses={"text-sm"}
               placeholderContent={
               <>
@@ -130,7 +130,7 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
           </div>
         </div>
       </div>
-      <TextSnippetControl setField={setField} targetField={snippetField} />
+      <ShortcutPanel setField={setField} targetField={shortcutField} />
     </div>
   )
 }

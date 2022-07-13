@@ -6,19 +6,19 @@ import NumberField from '../common/NumberField';
 import TextSnippetControl from '../common/TextSnippetControl';
 
 const newInputFields = {
-  propertyType: '',
+  property_type: '',
   bedrooms: 1,
   location: '',
-  idealFor: '',
-  keyFeatures: ''
+  ideal_for: '',
+  key_features: ''
 }
 
 const exampleInputFields = {
-  propertyType: 'apartment',
+  property_type: 'apartment',
   bedrooms: 3,
   location: 'Malaga',
-  idealFor: 'families',
-  keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- open plan living space\n- 5 minutes walk to shops and restaurants\n- short drive to the airport',
+  ideal_for: 'families',
+  key_features: '- sea views\n- large balcony\n- heated swimming pool\n- open plan living space\n- 5 minutes walk to shops and restaurants\n- short drive to the airport',
 }
 
 const trueUserInputLength = (inputFields) => {
@@ -27,7 +27,7 @@ const trueUserInputLength = (inputFields) => {
 
 const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
-  const [snippetField, setSnippetField] = useState(null);
+  const [snippetField, setSnippetField] = useState({});
 
   useEffect(() => {
     if (showExample) {
@@ -42,10 +42,10 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   }, [inputLanguage]);
 
   useEffect(() => {
-    const { propertyType, bedrooms, location, idealFor, keyFeatures } = inputFields;
-    const lead = translatedSummaryString(inputLanguage, bedrooms, propertyType, location);
-    const ideal = idealStr(idealFor);
-    const features = featureStr(keyFeatures);
+    const { property_type, bedrooms, location, ideal_for, key_features } = inputFields;
+    const lead = translatedSummaryString(inputLanguage, bedrooms, property_type, location);
+    const ideal = idealStr(ideal_for);
+    const features = featureStr(key_features);
     const inputText = lead + ideal + features;
     const trueLength = trueUserInputLength(inputFields);
 
@@ -85,7 +85,7 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
-          onFocus={() => setSnippetField(key)}
+          onFocus={() => setSnippetField({ name: key })}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -107,18 +107,18 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   return (
     <div className="flex flex-col justify-start w-full">
       <div className="flex flex-col justify-start">
-        {textRow(translateLabel('Property type', inputLanguage), 'propertyType', 'e.g. apartment, house...', true)}
+        {textRow(translateLabel('Property type', inputLanguage), 'property_type', 'e.g. apartment, house...', true)}
         {bedroomsCountRow()}
         {textRow(translateLabel('Location', inputLanguage), 'location', '')}
-        {textRow(translateLabel('Ideal for', inputLanguage), 'idealFor', 'e.g. families, couples')}
+        {textRow(translateLabel('Ideal for', inputLanguage), 'ideal_for', 'e.g. families, couples')}
         <div className="flex items-start w-full">
           <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features', inputLanguage)}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
-              textAreaId={'keyFeatures'}
-              value={inputFields.keyFeatures}
-              onChange={(value) => setField('keyFeatures', value)}
-              onFocus={() => setSnippetField('keyFeatures')}
+              textAreaId={'key_features'}
+              value={inputFields.key_features}
+              onChange={(value) => setField('key_features', value)}
+              onFocus={() => setSnippetField({ name: 'key_features' })}
               customClasses={"text-sm"}
               placeholderContent={
               <>
@@ -130,7 +130,7 @@ const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
           </div>
         </div>
       </div>
-      <TextSnippetControl setField={setField} currentField={snippetField} />
+      <TextSnippetControl setField={setField} targetField={snippetField} />
     </div>
   )
 }

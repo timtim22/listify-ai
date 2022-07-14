@@ -114,15 +114,34 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     )
   };
 
-  const submitButton = () => {
-    const buttonStyle = (!edited || loading) ? 'disabled-primary-button' : 'primary-button';
+  const withinCharacterLimits = () => {
+    return shortcutInView.length < 250 &&
+      shortcutInView.split(',').every(s => s.length <= 50);
+  };
+
+  const characterWarning = () => {
     return (
-      <ProfanityWrapper textToCheck={shortcutInView}>
-        <div className="mt-4">
-          <button className={buttonStyle} type="submit">Save</button>
-        </div>
-      </ProfanityWrapper>
+      <div className="py-2 h-16 flex items-center">
+        <p className="text-sm font-semibold text-center text-red-800">
+          Oops! One of your shortcuts is too long, or you have too many. Contact us if you'd like the limit increased.
+        </p>
+      </div>
     )
+  };
+
+  const submitButton = () => {
+    if (withinCharacterLimits()) {
+      const buttonStyle = (!edited || loading) ? 'disabled-primary-button' : 'primary-button';
+      return (
+        <ProfanityWrapper textToCheck={shortcutInView}>
+          <div className="mt-4">
+            <button className={buttonStyle} type="submit">Save</button>
+          </div>
+        </ProfanityWrapper>
+      )
+    } else {
+      return characterWarning();
+    }
   };
 
   return (
@@ -140,7 +159,7 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
           {formSelect()}
           {fieldSelect()}
           {shortcutsList()}
-          {submitButton()}
+          {shortcutInView && submitButton()}
         </form>
       </div>
     </div>

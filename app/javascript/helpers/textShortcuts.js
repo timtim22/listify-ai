@@ -1,5 +1,5 @@
 
-const shortcuts = {
+export const presetShortcuts = {
   property_type:['apartment', 'B&B', 'cabin', 'cottage', 'condo', 'farmhouse', 'flat', 'house', 'loft', 'penthouse', 'studio apartment', 'villa'],
   ideal_for: ['couples', 'small families', 'families with children', 'families', 'friends', 'large groups', 'business travelers', 'solo travelers', 'romantic weekends', 'remote workers', 'sightseeing'],
   location: ['Amsterdam', 'Barcelona', 'Berlin', 'Dubai', 'Edinburgh', 'Florida', 'Lisbon', 'London', 'Malaga', 'New York', 'Paris', 'Sydney'],
@@ -7,5 +7,5 @@ const shortcuts = {
 }
 
 export const shortcutsForField = (field) => {
-  return shortcuts[field] || [];
+  return presetShortcuts[field] || [];
 };

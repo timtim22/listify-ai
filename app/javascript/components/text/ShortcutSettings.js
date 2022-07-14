@@ -49,7 +49,6 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     setLoading(true);
     setErrors(null);
     const persistedShortcut = findShortcut();
-    console.log(persistedShortcut)
     if (!persistedShortcut) {
       createRequest(
         `/text/shortcuts.json`,
@@ -123,7 +122,6 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     )
   };
 
-  console.log(shortcuts)
   return (
     <div className="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
       <div className="mb-8">

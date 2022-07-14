@@ -56,6 +56,10 @@ Rails.application.routes.draw do
   resources :teams, only: [:show]
   resource :history, only: [:show]
 
+  namespace :text do
+    resources :shortcuts, only: [:index, :create, :update, :destroy]
+  end
+
   resource :customer, only: [:edit, :update]
   resource :card
   resource :pricing, controller: :pricing

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ButtonPill from '../common/ButtonPill';
-import { shortcutsForField } from '../../helpers/textShortcuts';
+import { presetShortcuts } from '../../helpers/textShortcuts';
+import { getRequest } from '../../helpers/requests';
 
   const shortcutButton = (name, setField, targetField) => {
 
@@ -55,7 +56,32 @@ import { shortcutsForField } from '../../helpers/textShortcuts';
   };
 
 const ShortcutPanel = ({ setField, targetField }) => {
-  const shortcuts = shortcutsForField(targetField.name);
+  const [shortcuts, setShortcuts] = useState({});
+  const [errors, setErrors] = useState(null);
+
+  useEffect(() => {
+    fetchShortcuts();
+  }, []);
+
+  const setShortcutsInState = (persistedShortcuts) => {
+    let combinedShortcuts = {};
+    persistedShortcuts.forEach(ps => combinedShortcuts[ps.field] = ps.controls);
+    Object.keys(presetShortcuts).forEach(key => {
+      if (!combinedShortcuts[key]) {
+        combinedShortcuts[key] = presetShortcuts[key];
+      }
+    })
+    setShortcuts(combinedShortcuts);
+  }
+
+  const fetchShortcuts = () => {
+    getRequest(
+      `/text/shortcuts.json`,
+      (response) => setShortcutsInState(response.shortcuts),
+      (err) => setErrors(err)
+    )
+  };
+
 
   if (targetField.name) {
     return (
@@ -66,9 +92,9 @@ const ShortcutPanel = ({ setField, targetField }) => {
             <div className="w-1/2">
               <h3 className="uppercase font-base tracking-wide text-gray-900">Text shortcuts</h3>
             </div>
-            <div className="w-1/4 flex justify-end items-center"><p className="text-xs secondary-link">Edit</p></div>
+            <div className="w-1/4 flex justify-end items-center"><a href ="/text/shortcuts" className="text-xs secondary-link">Edit</a></div>
           </div>
-          {shortcuts.map(name => shortcutButton(name, setField, targetField))}
+          {shortcuts[targetField.name].map(name => shortcutButton(name, setField, targetField))}
         </div>
       </div>
     )

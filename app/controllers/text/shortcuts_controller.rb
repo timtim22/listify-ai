@@ -14,7 +14,7 @@ class Text::ShortcutsController < ApplicationController
     @shortcut = current_user.text_shortcuts.new(text_shortcut_params)
     respond_to do |format|
       if @shortcut.save
-        format.json { render :create, status: :created, notice: 'Saved!' }
+        format.json { render :create, status: :created }
       else
         format.json { render json: @shortcut.errors, status: :unprocessable_entity }
       end
@@ -24,7 +24,7 @@ class Text::ShortcutsController < ApplicationController
   def update
     respond_to do |format|
       if @shortcut.update(text_shortcut_params)
-        format.json { render :update, status: :ok, notice: 'Saved!' }
+        format.json { render :update, status: :ok }
       else
         format.json { render json: @shortcut.errors, status: :unprocessable_entity }
       end

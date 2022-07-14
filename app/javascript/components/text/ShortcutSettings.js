@@ -4,6 +4,7 @@ import { shortcutsForField } from '../../helpers/textShortcuts';
 import { createRequest, updateRequest, deleteRequest } from '../../helpers/requests';
 import ProfanityWrapper from '../common/ProfanityWrapper';
 import ErrorNotice from '../common/ErrorNotice';
+import Notice from '../common/Notice';
 
 const FORM_OPTIONS = ['Listing / Listing Builder']
 const FIELD_OPTIONS = [
@@ -16,6 +17,7 @@ const FIELD_OPTIONS = [
 const ShortcutSettings = ({ persistedShortcuts }) => {
   const [shortcuts, setShortcuts] = useState(persistedShortcuts);
   const [errors, setErrors] = useState(null);
+  const [notice,setNotice] = useState(null);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState(FORM_OPTIONS[0].value);
   const [field, setField] = useState(FIELD_OPTIONS[0].value);
@@ -37,40 +39,50 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
   const updateShortcut = (updated) => {
     let nextShortcuts = shortcuts.filter(s => s.id !== updated.id);
     setShortcuts([ ...nextShortcuts, updated]);
+    setChangeNotice();
   };
 
   const removeShortcutFromState = (id) => {
     setShortcuts(shortcuts.filter(s => s.id !== id))
     setShortcutInView(shortcutsForField(field).join(', '));
+    setChangeNotice();
+  }
+
+  const clearNotices = () => {
+    setLoading(true);
+    setNotice(null);
+    setErrors(null);
+  };
+
+  const setChangeNotice = () => {
+    setNotice('Shortcuts updated!');
     setLoading(false);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setErrors(null);
+    clearNotices();
     const persistedShortcut = findShortcut();
     const controls = shortcutsAsArray();
     if (!persistedShortcut) {
       createRequest(
         `/text/shortcuts.json`,
         { field, controls },
-        (response) => { setShortcuts([ ...shortcuts, response.data ]); setLoading(false)},
+        (response) => { setShortcuts([ ...shortcuts, response.data ]); setChangeNotice()},
         (e) => { setErrors(e); setLoading(false) }
       )
     } else {
       updateRequest(
         `/text/shortcuts/${persistedShortcut.id}.json`,
         { field, controls },
-        (response) => { console.log(response); updateShortcut(response.data); setLoading(false) },
+        (response) => updateShortcut(response.data),
         (e) => { setErrors(e); setLoading(false) }
       )
     }
   }
 
   const deleteShortcut = () => {
-    setLoading(true);
-    setErrors(null);
+    clearNotices();
     const persistedShortcut = findShortcut();
     deleteRequest(
       `/text/shortcuts/${persistedShortcut.id}.json`,
@@ -180,6 +192,7 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
 
   return (
     <div className="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
+      {notice && <Notice message={notice} />}
       <div className="mb-4">
         <h2 className="log-in-header">Shortcuts</h2>
         <div className="mt-4 mb-8 w-full h-px bg-gray-200"></div>

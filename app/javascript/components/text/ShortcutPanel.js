@@ -1,60 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserContext } from '../listings/New';
-import ButtonPill from '../common/ButtonPill';
 import { presetShortcuts } from '../../helpers/textShortcuts';
 import { getRequest } from '../../helpers/requests';
-
-  const shortcutButton = (name, setField, targetField) => {
-
-    const updateField = () => {
-      const element = document.getElementById(targetField.name);
-      if (element) {
-        const text = element.value;
-        let newText;
-        if (element.nodeName.toLowerCase() === 'textarea') {
-          newText = textForTextArea(text);
-        } else {
-          newText = textForInput(text);
-        }
-        if (!targetField.characterLimit || newText.length < targetField.characterLimit) {
-          setField(element.id, newText);
-        }
-        element.focus();
-      }
-    };
-
-    const textForInput = (text) => {
-      if (['property_type', 'location'].includes(targetField.name)) {
-        return name;
-      } else if (text !== '') {
-        const withoutName = textWithoutName(text, name);
-        return  withoutName === '' ? name : withoutName + ', ' + name;
-      } else {
-        return text + name;
-      }
-    };
-
-    const textWithoutName = (text, name) => {
-      return text.trim().split(', ').filter(v => v !== name).join(', ')
-    };
-
-    const textForTextArea = (originalText) => {
-      if (originalText === '') {
-        return `- ${name}`
-      } else {
-        return originalText + '\n- ' + name;
-      }
-    };
-
-    return (
-      <ButtonPill
-        key={name}
-        name={name}
-        onClick={() => updateField()}
-      />
-    )
-  };
+import ShortcutButton from './ShortcutButton';
 
 const ShortcutPanel = ({ setField, targetField }) => {
   const user = useContext(UserContext);
@@ -85,14 +34,27 @@ const ShortcutPanel = ({ setField, targetField }) => {
     getRequest(
       `/text/shortcuts.json`,
       (response) => setShortcutsInState(response.shortcuts),
-      (err) => setErrors(err)
+      (err) => { setErrors(err) }
     )
   };
 
   const displayShortcuts = () => {
-    if (shortcuts[targetField.name].length > 0) {
+    if (errors) {
+      return (
+        <p className="text-red-800">
+          Error fetching shortcuts. Please refresh the page or contact us if this keeps happening.
+        </p>
+      )
+    } else if (shortcuts[targetField.name].length > 0) {
       return shortcuts[targetField.name].map((name) => {
-        return shortcutButton(name, setField, targetField)
+        return (
+          <ShortcutButton
+            key={name}
+            name={name}
+            setField={setField}
+            targetField={targetField}
+          />
+        )
       })
     } else {
       return <p>No shortcuts configured for this field.</p>

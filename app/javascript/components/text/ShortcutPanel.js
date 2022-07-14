@@ -63,7 +63,7 @@ const ShortcutPanel = ({ setField, targetField }) => {
 
   if (hasShortcutsEnabled() && targetField.name) {
     return (
-      <div className="fixed left-4 bottom-16 hidden lg:flex w-full lg:w-1/2 h-32 items-center justify-center pr-8">
+      <div className="hidden sm:flex lg:w-full h-32 items-center justify-center pr-2">
         <div className="w-full max-w-2xl h-full p-4 border border-gray-300 text-center rounded-md bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg firefox-no-opacity overflow-scroll">
           <div className="w-full flex items-center mb-4">
             <div className="w-1/4"></div>

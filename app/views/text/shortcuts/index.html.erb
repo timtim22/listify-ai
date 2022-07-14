@@ -1,0 +1,9 @@
+<%= render layout: 'shared/account_layout', locals: { screen: "text_shortcuts" } do %>
+  <div class="w-full px-8">
+    <%= react_component "text/ShortcutSettings", {
+      persistedShortcuts: @shortcuts
+    } %>
+  </div>
+<% end %>
+
+

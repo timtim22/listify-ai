@@ -29,6 +29,16 @@
           <span class="ml-2">Usage</span>
         <% end %>
       <% end %>
+
+      <% if module_enabled?('shortcuts') %>
+        <%= link_to text_shortcuts_path, class: "#{screen == "text_shortcuts" ? "account-nav-active" : "account-nav-inactive"}" do %>
+          <svg width="14" height="14" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 1L16 8L9 15M1 1L8 8L1 15" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="ml-2">Shortcuts</span>
+        <% end %>
+      <% end %>
+
       <%= link_to destroy_user_session_path, method: :delete, class: "w-full mt-1 flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-400 rounded-md hover:text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
         <svg width="16" height="16" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 13L19 9M19 9L15 5M19 9H5M11 13V14C11 14.7956 10.6839 15.5587 10.1213 16.1213C9.55871 16.6839 8.79565 17 8 17H4C3.20435 17 2.44129 16.6839 1.87868 16.1213C1.31607 15.5587 1 14.7956 1 14V4C1 3.20435 1.31607 2.44129 1.87868 1.87868C2.44129 1.31607 3.20435 1 4 1H8C8.79565 1 9.55871 1.31607 10.1213 1.87868C10.6839 2.44129 11 3.20435 11 4V5" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

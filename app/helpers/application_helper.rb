@@ -21,6 +21,10 @@ module ApplicationHelper
     number_to_currency(amount.to_i / 100.0, options)
   end
 
+  def module_enabled?(module_name)
+    current_user.enabled_modules.include? module_name
+  end
+
   TAGLINES = {
     starter: 'Perfect for property managers just getting started',
     standard: 'Perfect for small teams with a growing portfolio',

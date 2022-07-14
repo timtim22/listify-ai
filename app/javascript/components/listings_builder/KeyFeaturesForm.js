@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NumberField from '../common/NumberField';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import ShortcutPanel from '../text/ShortcutPanel';
 
 const generalFeaturesPlaceholder = () => {
   return (
@@ -13,7 +14,7 @@ const generalFeaturesPlaceholder = () => {
   )
 }
 
-const singleInputCharLimit = 35;
+const singleInputCharLimit = 60;
 const textAreaCharLimit = 200;
 
 const KeyFeaturesForm = ({
@@ -23,6 +24,8 @@ const KeyFeaturesForm = ({
   handleSubmit,
   stepButton
   }) => {
+
+  const [shortcutField, setShortcutField] = useState({});
 
   const setInputIfValid = (key, value, limit) => {
     if (value.length <= limit) {
@@ -54,11 +57,13 @@ const KeyFeaturesForm = ({
       <div className="flex justify-start items-center mb-2 w-full">
         <label className="flex-shrink-0 w-1/3 text-sm text-gray-800">{title}</label>
         <input
+          id={key}
           type="text"
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => setInputIfValid(key, e.target.value, singleInputCharLimit)}
+          onFocus={() => setShortcutField({ name: key, characterLimit: singleInputCharLimit })}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -73,8 +78,10 @@ const KeyFeaturesForm = ({
           <label className="flex-shrink-0 mt-3 w-1/3 text-sm text-gray-700">{title}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
+              textAreaId={'key_features'}
               value={inputFields[fieldName]}
               onChange={(value) => setInputIfValid(fieldName, value, textAreaCharLimit)}
+              onFocus={() => setShortcutField({ name: 'key_features', characterLimit: textAreaCharLimit })}
               heightClass={"h-32"}
               placeholderContent={placeholder()}
               customClasses={"text-sm"}
@@ -97,15 +104,21 @@ const KeyFeaturesForm = ({
   };
 
   return (
-    <form className="pt-2" onSubmit={(e) => handleSubmit(e, assembleHeadline())}>
-      <p className="mb-6 mt-2">Build your listing step-by-step, choosing the next section as you go. Text will appear in the results panel as you complete each section.</p>
-      {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
-      {textInputRow('Location', 'location', '', true)}
-      {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
-      {bedroomsCountRow()}
-      {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
-      {stepButton()}
-   </form>
+    <>
+      <form className="pt-2" onSubmit={(e) => handleSubmit(e, assembleHeadline())}>
+        <p className="mb-6 mt-2">Build your listing step-by-step, choosing the next section as you go. Text will appear in the results panel as you complete each section.</p>
+        {textInputRow('Property type', 'property_type', 'e.g. apartment, house...', true)}
+        {textInputRow('Location', 'location', '', true)}
+        {textInputRow('Ideal for', 'ideal_for', 'e.g. families, couples', '', false)}
+        {bedroomsCountRow()}
+        {detailField('Key Features', 'key_features', generalFeaturesPlaceholder)}
+        {stepButton()}
+    </form>
+      <ShortcutPanel
+        setField={setField}
+        targetField={shortcutField}
+      />
+    </>
   )
 };
 

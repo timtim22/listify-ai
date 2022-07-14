@@ -3,29 +3,31 @@ import PropTypes from 'prop-types';
 import { translateLabel, translationFor, translatedSummaryString } from '../../helpers/translations';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import NumberField from '../common/NumberField';
+import ShortcutPanel from '../text/ShortcutPanel';
 
 const newInputFields = {
-  propertyType: '',
+  property_type: '',
   bedrooms: 1,
   location: '',
-  idealFor: '',
-  keyFeatures: ''
+  ideal_for: '',
+  key_features: ''
 }
 
 const exampleInputFields = {
-  propertyType: 'apartment',
+  property_type: 'apartment',
   bedrooms: 3,
   location: 'Malaga',
-  idealFor: 'families',
-  keyFeatures: '- sea views\n- large balcony\n- heated swimming pool\n- open plan living space\n- 5 minutes walk to shops and restaurants\n- short drive to the airport',
+  ideal_for: 'families',
+  key_features: '- sea views\n- large balcony\n- heated swimming pool\n- open plan living space\n- 5 minutes walk to shops and restaurants\n- short drive to the airport',
 }
 
 const trueUserInputLength = (inputFields) => {
   return Object.values(inputFields).join("").length;
 }
 
-const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) => {
+const SplitInput = ({ onInputChange, showExample, inputLanguage }) => {
   const [inputFields, setInputFields] = useState(newInputFields);
+  const [shortcutField, setShortcutField] = useState({});
 
   useEffect(() => {
     if (showExample) {
@@ -40,10 +42,10 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
   }, [inputLanguage]);
 
   useEffect(() => {
-    const { propertyType, bedrooms, location, idealFor, keyFeatures } = inputFields;
-    const lead = translatedSummaryString(inputLanguage, bedrooms, propertyType, location);
-    const ideal = idealStr(idealFor);
-    const features = featureStr(keyFeatures);
+    const { property_type, bedrooms, location, ideal_for, key_features } = inputFields;
+    const lead = translatedSummaryString(inputLanguage, bedrooms, property_type, location);
+    const ideal = idealStr(ideal_for);
+    const features = featureStr(key_features);
     const inputText = lead + ideal + features;
     const trueLength = trueUserInputLength(inputFields);
 
@@ -78,10 +80,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
         <label className="flex-shrink-0 w-1/3">{title}</label>
         <input
           type="text"
+          id={key}
           placeholder={placeholder}
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
+          onFocus={() => setShortcutField({ name: key })}
           className="w-full text-sm form-inline-field"
         />
       </div>
@@ -103,16 +107,18 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
   return (
     <div className="flex flex-col justify-start w-full">
       <div className="flex flex-col justify-start">
-        {textRow(translateLabel('Property type', inputLanguage), 'propertyType', 'e.g. apartment, house...', true)}
+        {textRow(translateLabel('Property type', inputLanguage), 'property_type', 'e.g. apartment, house...', true)}
         {bedroomsCountRow()}
         {textRow(translateLabel('Location', inputLanguage), 'location', '')}
-        {textRow(translateLabel('Ideal for', inputLanguage), 'idealFor', 'e.g. families, couples')}
+        {textRow(translateLabel('Ideal for', inputLanguage), 'ideal_for', 'e.g. families, couples')}
         <div className="flex items-start w-full">
           <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features', inputLanguage)}</label>
           <div className="px-3 w-full">
             <TextareaWithPlaceholder
-              value={inputFields.keyFeatures}
-              onChange={(value) => setField('keyFeatures', value)}
+              textAreaId={'key_features'}
+              value={inputFields.key_features}
+              onChange={(value) => setField('key_features', value)}
+              onFocus={() => setShortcutField({ name: 'key_features' })}
               customClasses={"text-sm"}
               placeholderContent={
               <>
@@ -124,12 +130,12 @@ const SplitInput = ({ inputValue, onInputChange, showExample, inputLanguage }) =
           </div>
         </div>
       </div>
+      <ShortcutPanel setField={setField} targetField={shortcutField} />
     </div>
   )
 }
 
 SplitInput.propTypes = {
-  inputValue: PropTypes.string,
   onInputChange: PropTypes.func,
   inputLanguage: PropTypes.string,
   showExample: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])

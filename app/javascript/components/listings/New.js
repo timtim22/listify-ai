@@ -235,19 +235,19 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
 
   return (
     <UserContext.Provider value={user}>
-    <div className="flex flex-col w-full h-full lg:flex-row lg:items-stretch">
-      <div className="flex flex-col w-full h-full lg:w-1/2 lg:min-h-screen">
-        <FormHeader
-          user={user}
-          formType={formType}
-          setFormType={resetFormType}
-        />
-        {displayForm()}
+      <div className="flex flex-col w-full h-full lg:flex-row lg:items-stretch">
+        <div className="flex flex-col w-full h-full lg:w-1/2 lg:min-h-screen">
+          <FormHeader
+            user={user}
+            formType={formType}
+            setFormType={resetFormType}
+          />
+          {displayForm()}
+        </div>
+        <div id="results-container" className="w-full border-l-2 lg:w-1/2">
+          {resultsSection()}
+        </div>
       </div>
-      <div id="results-container" className="w-full border-l-2 lg:w-1/2">
-        {resultsSection()}
-      </div>
-    </div>
     </UserContext.Provider>
   )
 }

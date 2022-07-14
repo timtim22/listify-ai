@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { shortcutsForField } from '../../helpers/textShortcuts';
 import { createRequest, updateRequest, deleteRequest } from '../../helpers/requests';
 import ProfanityWrapper from '../common/ProfanityWrapper';
+import ErrorNotice from '../common/ErrorNotice';
 
 const FORM_OPTIONS = ['Listing / Listing Builder']
 const FIELD_OPTIONS = [
@@ -49,17 +50,18 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     setLoading(true);
     setErrors(null);
     const persistedShortcut = findShortcut();
+    const controls = shortcutsAsArray();
     if (!persistedShortcut) {
       createRequest(
         `/text/shortcuts.json`,
-        { field, controls: shortcutInView.split(',').map(s => s.trim()) },
+        { field, controls },
         (response) => { setShortcuts([ ...shortcuts, response.data ]); setLoading(false)},
         (e) => { setErrors(e); setLoading(false) }
       )
     } else {
       updateRequest(
         `/text/shortcuts/${persistedShortcut.id}.json`,
-        { field, controls: shortcutInView.split(',').map(s => s.trim())},
+        { field, controls },
         (response) => { console.log(response); updateShortcut(response.data); setLoading(false) },
         (e) => { setErrors(e); setLoading(false) }
       )
@@ -75,6 +77,10 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
       (res) => removeShortcutFromState(res.data.id),
       (e) => { setErrors(e); setLoading(false) }
     )
+  };
+
+  const shortcutsAsArray = () => {
+    return shortcutInView.split(',').filter(s => s !== '').map(s => s.trim());
   };
 
   const formSelect = () => {
@@ -148,25 +154,27 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
           className="secondary-link text-sm mt-8"
           onClick={deleteShortcut}
         >
-          Reset to Listify defaults
+          Reset field to Listify defaults
         </button>
       )
     }
   };
 
   const submitButton = () => {
-    if (withinCharacterLimits()) {
-      const buttonStyle = (loading) ? 'disabled-primary-button' : 'primary-button';
-      return (
-        <ProfanityWrapper textToCheck={shortcutInView}>
-          <div className="mt-4">
-            <button className={buttonStyle} type="submit">Save</button>
-          </div>
-          {resetButton()}
-        </ProfanityWrapper>
-      )
-    } else {
-      return characterWarning();
+    if (shortcutInView !== null) {
+      if (withinCharacterLimits()) {
+        const buttonStyle = (loading) ? 'disabled-primary-button' : 'primary-button';
+        return (
+          <ProfanityWrapper textToCheck={shortcutInView}>
+            <div className="mt-4">
+              <button className={buttonStyle} type="submit">Save</button>
+            </div>
+            {resetButton()}
+          </ProfanityWrapper>
+        )
+      } else {
+        return characterWarning();
+      }
     }
   };
 
@@ -182,10 +190,13 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
         </p>
 
         <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
+          <div className="text-sm">
+            <ErrorNotice errors={errors} />
+          </div>
           {formSelect()}
           {fieldSelect()}
           {shortcutsList()}
-          {shortcutInView && submitButton()}
+          {submitButton()}
         </form>
       </div>
     </div>

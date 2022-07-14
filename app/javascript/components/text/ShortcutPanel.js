@@ -82,6 +82,15 @@ const ShortcutPanel = ({ setField, targetField }) => {
     )
   };
 
+  const displayShortcuts = () => {
+    if (shortcuts[targetField.name].length > 0) {
+      return shortcuts[targetField.name].map((name) => {
+        return shortcutButton(name, setField, targetField)
+      })
+    } else {
+      return <p>No shortcuts configured for this field.</p>
+    }
+  };
 
   if (targetField.name) {
     return (
@@ -94,7 +103,7 @@ const ShortcutPanel = ({ setField, targetField }) => {
             </div>
             <div className="w-1/4 flex justify-end items-center"><a href ="/text/shortcuts" className="text-xs secondary-link">Edit</a></div>
           </div>
-          {shortcuts[targetField.name].map(name => shortcutButton(name, setField, targetField))}
+          {displayShortcuts()}
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shortcutsForField } from '../../helpers/textShortcuts';
-import { createRequest, updateRequest } from '../../helpers/requests';
+import { createRequest, updateRequest, deleteRequest } from '../../helpers/requests';
 import ProfanityWrapper from '../common/ProfanityWrapper';
 
 const FORM_OPTIONS = ['Listing / Listing Builder']
@@ -19,7 +19,6 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
   const [form, setForm] = useState(FORM_OPTIONS[0].value);
   const [field, setField] = useState(FIELD_OPTIONS[0].value);
   const [shortcutInView, setShortcutInView] = useState(null);
-  const [edited, setEdited] = useState(false);
 
   useEffect(() => {
     const persistedShortcut = findShortcut();
@@ -28,7 +27,6 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     } else {
       setShortcutInView(shortcutsForField(field).join(', '));
     }
-    setEdited(false);
   }, [field]);
 
   const findShortcut = () => {
@@ -40,10 +38,11 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     setShortcuts([ ...nextShortcuts, updated]);
   };
 
-  const updateShortcutInView = (newValue) => {
-    setShortcutInView(newValue);
-    if (!edited) { setEdited(true) }
-  };
+  const removeShortcutFromState = (id) => {
+    setShortcuts(shortcuts.filter(s => s.id !== id))
+    setShortcutInView(shortcutsForField(field).join(', '));
+    setLoading(false);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,18 +53,29 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
       createRequest(
         `/text/shortcuts.json`,
         { field, controls: shortcutInView.split(',').map(s => s.trim()) },
-        (response) => setShortcuts([ ...shortcuts, response.data ]),
+        (response) => { setShortcuts([ ...shortcuts, response.data ]); setLoading(false)},
         (e) => { setErrors(e); setLoading(false) }
       )
     } else {
       updateRequest(
         `/text/shortcuts/${persistedShortcut.id}.json`,
         { field, controls: shortcutInView.split(',').map(s => s.trim())},
-        (response) => updateShortcut(response.data),
+        (response) => { console.log(response); updateShortcut(response.data); setLoading(false) },
         (e) => { setErrors(e); setLoading(false) }
       )
     }
   }
+
+  const deleteShortcut = () => {
+    setLoading(true);
+    setErrors(null);
+    const persistedShortcut = findShortcut();
+    deleteRequest(
+      `/text/shortcuts/${persistedShortcut.id}.json`,
+      (res) => removeShortcutFromState(res.data.id),
+      (e) => { setErrors(e); setLoading(false) }
+    )
+  };
 
   const formSelect = () => {
     return (
@@ -108,7 +118,7 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
         <input
           type="text"
           value={(shortcutInView && shortcutInView) || ''}
-          onChange={(e) => updateShortcutInView(e.target.value) }
+          onChange={(e) => setShortcutInView(e.target.value) }
           className="w-full form-text-input"></input>
       </div>
     )
@@ -129,14 +139,30 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     )
   };
 
+  const resetButton = () => {
+    const persistedShortcut = findShortcut();
+    if (persistedShortcut && persistedShortcut.controls !== shortcutsForField(field)) {
+      return (
+        <button
+          type="button"
+          className="secondary-link text-sm mt-8"
+          onClick={deleteShortcut}
+        >
+          Reset to Listify defaults
+        </button>
+      )
+    }
+  };
+
   const submitButton = () => {
     if (withinCharacterLimits()) {
-      const buttonStyle = (!edited || loading) ? 'disabled-primary-button' : 'primary-button';
+      const buttonStyle = (loading) ? 'disabled-primary-button' : 'primary-button';
       return (
         <ProfanityWrapper textToCheck={shortcutInView}>
           <div className="mt-4">
             <button className={buttonStyle} type="submit">Save</button>
           </div>
+          {resetButton()}
         </ProfanityWrapper>
       )
     } else {
@@ -146,7 +172,7 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
 
   return (
     <div className="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
-      <div className="mb-8">
+      <div className="mb-4">
         <h2 className="log-in-header">Shortcuts</h2>
         <div className="mt-4 mb-8 w-full h-px bg-gray-200"></div>
         <p className="mb-8">

@@ -1,5 +1,6 @@
 class Text::ShortcutsController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_shortcut, only: [:update, :destroy]
 
   def index
     @shortcuts = current_user.text_shortcuts
@@ -21,7 +22,6 @@ class Text::ShortcutsController < ApplicationController
   end
 
   def update
-    @shortcut = current_user.text_shortcuts.find(params[:id])
     respond_to do |format|
       if @shortcut.update(text_shortcut_params)
         format.json { render :update, status: :ok, notice: 'Saved!' }
@@ -31,9 +31,21 @@ class Text::ShortcutsController < ApplicationController
     end
   end
 
+  def destroy
+    if @shortcut.destroy
+      respond_to do |format|
+        format.json { render :destroy, status: :ok }
+      end
+    end
+  end
+
   private
 
   def text_shortcut_params
     params.require(:shortcut).permit(:field, controls: [])
+  end
+
+  def find_shortcut
+    @shortcut = current_user.text_shortcuts.find(params[:id])
   end
 end

@@ -40,6 +40,16 @@ export const updateRequest = (url, params, onSuccess, onFailure) => {
   })
 }
 
+export const deleteRequest = (url, onSuccess, onFailure) => {
+  axios.delete(url, { headers })
+  .then(response => {
+    onSuccess(response);
+  })
+  .catch(error => {
+    onFailure(errorContent(error));
+  })
+}
+
 export const redirectOnSuccess = (response) => {
   window.location.href = response.headers.location;
 }

@@ -42,4 +42,9 @@ const Notice = ({ message, timeoutAfter = 5000 }) => {
   )
 };
 
+Notice.propTypes = {
+  message: PropTypes.object,
+  timeoutAfter: PropTypes.number
+}
+
 export default Notice;

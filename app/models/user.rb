@@ -42,6 +42,14 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def enabled_modules # placeholder for future feature
+    if admin?
+      ['shortcuts']
+    else
+      []
+    end
+  end
+
   def admin_or_listify_team?
     admin? || on_listify_team?
   end

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { UserContext } from '../listings/New';
 import ButtonPill from '../common/ButtonPill';
 import { presetShortcuts } from '../../helpers/textShortcuts';
 import { getRequest } from '../../helpers/requests';
@@ -56,11 +57,17 @@ import { getRequest } from '../../helpers/requests';
   };
 
 const ShortcutPanel = ({ setField, targetField }) => {
+  const user = useContext(UserContext);
+
   const [shortcuts, setShortcuts] = useState({});
   const [errors, setErrors] = useState(null);
 
+  const hasShortcutsEnabled = () => {
+    return user.enabled_modules.includes('shortcuts');
+  };
+
   useEffect(() => {
-    fetchShortcuts();
+    if (hasShortcutsEnabled()) { fetchShortcuts() }
   }, []);
 
   const setShortcutsInState = (persistedShortcuts) => {
@@ -92,7 +99,7 @@ const ShortcutPanel = ({ setField, targetField }) => {
     }
   };
 
-  if (targetField.name) {
+  if (hasShortcutsEnabled() && targetField.name) {
     return (
       <div className="fixed left-4 bottom-16 hidden lg:flex w-full lg:w-1/2 h-32 items-center justify-center pr-8">
         <div className="w-full max-w-2xl h-full p-4 border border-gray-300 text-center rounded-md bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg firefox-no-opacity overflow-scroll">

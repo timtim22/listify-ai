@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shortcutsForField } from '../../helpers/textShortcuts';
 import { createRequest, updateRequest } from '../../helpers/requests';
+import ProfanityWrapper from '../common/ProfanityWrapper';
 
 const FORM_OPTIONS = ['Listing / Listing Builder']
 const FIELD_OPTIONS = [
@@ -116,9 +117,11 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
   const submitButton = () => {
     const buttonStyle = (!edited || loading) ? 'disabled-primary-button' : 'primary-button';
     return (
-      <div className="mt-4">
-        <button className={buttonStyle} type="submit">Save</button>
-      </div>
+      <ProfanityWrapper textToCheck={shortcutInView}>
+        <div className="mt-4">
+          <button className={buttonStyle} type="submit">Save</button>
+        </div>
+      </ProfanityWrapper>
     )
   };
 
@@ -126,8 +129,12 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
     <div className="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
       <div className="mb-8">
         <h2 className="log-in-header">Shortcuts</h2>
-        <div className="my-4 w-full h-px bg-gray-200"></div>
-        <p className="mt-4 mb-8">Select the field for your shortcuts to apply to. Shortcuts should be separated by commas and not more than 50 characters. Changes will not be saved until you tap the save button.</p>
+        <div className="mt-4 mb-8 w-full h-px bg-gray-200"></div>
+        <p className="mb-8">
+          Configure your shortcut buttons to save time typing.
+          <span className="text-red-800 font-medium"> Shortcuts should be separated by commas </span>
+          and not more than 50 characters each. Changes will not be saved until you tap the save button.
+        </p>
 
         <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
           {formSelect()}

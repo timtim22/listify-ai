@@ -28,6 +28,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
   };
 
   const canSeeCustomForm = () => {
+    return false;
     return user.admin || user.on_listify_team
   }
 

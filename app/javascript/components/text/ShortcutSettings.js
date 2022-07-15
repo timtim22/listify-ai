@@ -199,7 +199,15 @@ const ShortcutSettings = ({ persistedShortcuts }) => {
         <p className="mb-8">
           Configure your shortcut buttons to save time typing.
           <span className="text-red-800 font-medium"> Shortcuts should be separated by commas </span>
-          and not more than 50 characters each. Changes will not be saved until you tap the save button.
+          and not more than 50 characters each. Changes will not be saved until you tap the save button.{` `}
+          <a
+            href="https://www.loom.com/share/65fdb17c1ddb42f39e7c7aac4cd081cb"
+            target="_blank"
+            rel="noreferrer"
+            className="secondary-link underline"
+          >
+             Watch the demo video to see how this works.
+          </a>
         </p>
 
         <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>

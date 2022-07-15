@@ -1,0 +1,35 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Custom shortcuts</h1>
+  </div>
+
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          <th class="py-3 px-6">User</th>
+          <th class="py-3 px-6">Field</th>
+          <th class="py-3 px-6">Controls</th>
+          <th class="py-3 px-6">Created at</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @shortcuts.each do |shortcut| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= shortcut.user.email %></td>
+            <td class="py-3 px-6"><%= shortcut.field %> </td>
+            <td class="py-3 px-6"><%= shortcut.controls.join(', ') %></td>
+            <td class="py-3 px-6"><%= format_table_date(shortcut.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <div class="px-4 flex justify-between items-center text-sm">
+    <%== pagy_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
+  </div>
+</div>
+

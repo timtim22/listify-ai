@@ -84,6 +84,8 @@ Rails.application.routes.draw do
     namespace :taggers do
       resources :rules
     end
+
+    resources :shortcuts, only: [:index]
     resources :teams, only: [:index]
     resources :trials, only: [:index]
     resources :user_locks, only: [:create, :destroy]

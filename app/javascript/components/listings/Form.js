@@ -33,10 +33,9 @@ const Form = ({
   const [inputFields, setInputFields] = useState(newInputFields);
   const [shortcutField, setShortcutField] = useState({});
 
-
   useEffect(() => {
     if (listing.request_type !== formType) {
-      setField('request_type', formType)
+      setListingField('request_type', formType)
     }
   }, [formType])
 
@@ -139,7 +138,7 @@ const Form = ({
     )
   }
 
-   return (
+  return (
     <>
      <form className="flex flex-col items-center w-full text-sm" onSubmit={handleSubmit}>
         <div className="w-4/5">

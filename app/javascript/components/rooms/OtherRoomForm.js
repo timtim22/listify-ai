@@ -160,8 +160,8 @@ const RoomForm = ({ rooms, onChange }) => {
         <button
           type="button"
           onClick={addRoom}
-          className="self-center text-xs text-gray-700 underline focus:outline-none">
-          Add a room
+          className="self-center text-purple-700 underline focus:outline-none">
+          Add another room
         </button>
       )
     }

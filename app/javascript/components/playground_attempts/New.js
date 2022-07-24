@@ -45,6 +45,7 @@ const New = ({ promptSets }) => {
         loading={loading}
         setLoading={(state) => setLoading(state)}
         runsRemaining={runsRemaining}
+        playgroundMode={true}
       />
     </>
   )

@@ -39,6 +39,11 @@
             <td class="py-3 px-6"><%= format_trial_end_date(user.trial_end_date) %></td>
             <td class="py-3 px-6">
               <%= render partial: 'admin/shared/user_actions', locals: { user: user } %>
+              <%= link_to(
+                'Extend trial',
+                edit_user_custom_trial_end_dates_path(user),
+                class: 'py-2 px-4 rounded-lg bg-green-800 text-white text-sm hover:bg-green-700'
+              ) %>
             </td>
           </tr>
         <% end %>

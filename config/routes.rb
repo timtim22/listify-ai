@@ -14,6 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: [] do
+    scope module: :users do
+      resource :custom_trial_end_dates, only: [:edit, :update]
+    end
+  end
+
   resource :two_factor, only: [:create, :destroy]
 
   root to: 'listings#new'

@@ -15,11 +15,17 @@ module ApiClients
     private
 
     def request_for(request_params, config)
-      if config[:model].present?
+      if config[:engine] == 'j1-grande-instruct'
+        experimental_request(request_params, config[:engine])
+      elsif config[:model].present?
         request_with_model(request_params, config[:engine], config[:model])
       else
         request_without_model(request_params, config[:engine])
       end
+    end
+
+    def experimental_request(body, engine)
+      request('post', experimental_url(engine), headers, body)
     end
 
     def request_with_model(body, engine, model)
@@ -36,6 +42,10 @@ module ApiClients
 
     def untrained_url(engine)
       "https://api.ai21.com/studio/v1/#{engine}/complete"
+    end
+
+    def experimental_url(engine)
+      "https://api.ai21.com/studio/v1/experimental/#{engine}/complete"
     end
 
     def headers

@@ -47,7 +47,7 @@ class Admin::RecordedCompletionsController < ApplicationController
   def users_in_view
     if current_user.admin? && params[:user]
       User.where(email: params[:user])
-    elsif (current_user.on_listify_team? && !current_user.admin?) || params[:admin]
+    elsif params[:admin]
       User.where(admin: true).or(User.where.not(authorization_scopes: []))
     else
       User.where.not(admin: true)

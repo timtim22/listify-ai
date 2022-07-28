@@ -13,15 +13,15 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins, last_24_hr_sta
     return (
       <div className="flex justify-between items-center my-4 w-full">
         <h1 className="text-xl font-medium text-gray-900">Completions</h1>
-        {currentUser.admin && <div className="flex items-center">
-          {searchForm()}
+        <div className="flex items-center">
+          {currentUser.admin && searchForm()}
           <a
             href={`/admin/recorded_completions${adminsInView ? '' : '?admin=true'}`}
             className="text-xs"
           >
             Toggle admins
           </a>
-        </div>}
+        </div>
       </div>
     )
   };
@@ -65,7 +65,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins, last_24_hr_sta
     return (
       <tr key={group.task_run_timestamp} className="text-xs">
         <td className="py-3 px-6">
-          <p><strong>{group.user_email}</strong></p>
+          <p><strong>{currentUser.admin ? group.user_email : group.user_id}</strong></p>
           <br />
           <p>{group.request_type}</p>
           <br />
@@ -111,10 +111,10 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins, last_24_hr_sta
             <span className="font-medium">Request types:</span>
             {Object.keys(request_counts).map(k => countFor(k, request_counts))}
           </div>
-          <div>
+          {currentUser.admin && <div>
             <span className="font-medium">Users:</span>
             {Object.keys(user_counts).map(k => countFor(k, user_counts))}
-          </div>
+          </div>}
         </div>
       </div>
     )

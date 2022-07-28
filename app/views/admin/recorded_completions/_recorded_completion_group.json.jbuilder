@@ -4,6 +4,7 @@ json.grouped_completions(@completions_by_task_run) do |group|
   json.task_run_id first_record.task_run_id
   json.request_type first_record.request_type
   json.user_email first_record.user.email
+  json.user_id first_record.user.id
   json.user_input first_record.input_text_snapshot
   json.untranslated_input first_record.untranslated_input_text
   json.input_language_code first_record.input_language_code

@@ -5,7 +5,11 @@
 
         <h2 class="log-in-header">Completion</h2>
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
-        <p>user: <%= @recorded_completion.user.email %></p>
+        <% if current_user.admin? %>
+          <p>user: <%= "#{@recorded_completion.user.email} (#{@recorded_completion.user.id})" %> </p>
+        <% else %>
+          <p>user: <%= "#{@recorded_completion.user.id}" %> </p>
+        <% end %>
         <p>task_run_created_at: <%= format_table_date(@recorded_completion.task_run_created_at) %></p>
         <p>input_object_type: <%= @recorded_completion.input_object_type %></p>
         <br/>

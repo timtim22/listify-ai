@@ -28,7 +28,6 @@ const FormHeader = ({ user, formType, setFormType }) => {
   };
 
   const canSeeCustomForm = () => {
-    return false;
     return user.admin || user.on_listify_team
   }
 
@@ -42,6 +41,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
         </div>
       )
     }
+    //{canSeeCustomForm() && navLink("Custom (Va)", "custom_vacasa", "*")}
     return (
       <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
         {navLink("Description", "listing_description")}
@@ -52,7 +52,6 @@ const FormHeader = ({ user, formType, setFormType }) => {
         {navLink("Ads", "advert", "beta")}
         {canSeeAbout() && navLink("About", "about", "beta")}
         {canSeeCustomForm() && navLink("Custom (Oy)", "custom_oyo", "*")}
-        {canSeeCustomForm() && navLink("Custom (Va)", "custom_vacasa", "*")}
       </div>
     )
   };

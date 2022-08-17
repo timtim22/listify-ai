@@ -45,6 +45,8 @@ class User < ApplicationRecord
   def enabled_modules # placeholder for future feature
     if admin? || ['Sykes Cottages', 'Smiling House'].include?(team&.name)
       ['shortcuts']
+    elsif ['2fb075ee-4c71-4321-b232-206a66aec936'].include?(id) # "2fb075ee-4c71-4321-b232-206a66aec936"
+      ['eastern_languages']
     else
       []
     end

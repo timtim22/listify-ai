@@ -1,6 +1,12 @@
 class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
+  CLIENTS = [ApiClients::DeepL, ApiClients::GoogleCloudTranslate].freeze
+
+  def self.client_for(output_language_code)
+    CLIENTS.find { |c| c.supports_output_language?(output_language_code) }
+  end
+
   def self.fetch_multiple!(output_language, translatable_objects)
     translatable_objects.map do |object|
       fetch_new!(output_language, object)
@@ -8,7 +14,7 @@ class Translation < ApplicationRecord
   end
 
   def self.fetch_new!(output_language, translatable_object)
-    response = ApiClients::DeepL.new.translate('EN', output_language, translatable_object.result_text)
+    response = client_for(output_language).new.translate('EN', output_language, translatable_object.result_text)
     translation = create_for!(translatable_object, response)
     trigger_completion_update(translation)
     translation

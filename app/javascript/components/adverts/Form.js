@@ -167,7 +167,11 @@ const Form = ({
           <ErrorNotice errors={errors} />
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />
+          <LanguageSelect
+            onSelect={setInputLanguage}
+            label={"Input language"}
+            isInput={true}
+          />
           {adTypeSwitch()}
           <div className="flex flex-col justify-start">
             {textRow(translateLabel('Property type', inputLanguage), 'property_type', 'e.g. apartment, house...', true)}
@@ -193,7 +197,11 @@ const Form = ({
               </div>
             </div>
           </div>
-          <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
+          <LanguageSelect
+            onSelect={setOutputLanguage}
+            label={"Output language"}
+            isInput={false}
+          />
           <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
               inputText={advert.input_text}

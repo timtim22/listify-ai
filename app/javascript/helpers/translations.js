@@ -1,6 +1,16 @@
 import { capitaliseFirstLetter } from './utils';
 
-export const supportedLanguages = [
+export const inputLanguages = () => standardLanguages;
+
+export const outputLanguagesForUser = (user) => {
+  if (user.enabled_modules.includes('eastern_languages')) {
+    return easternLanguages;
+  } else {
+    return standardLanguages;
+  }
+}
+
+const standardLanguages = [
   { name: "English", value: "EN" },
   { name: "Danish", value: "DA" },
   { name: "Dutch", value: "NL" },
@@ -8,6 +18,16 @@ export const supportedLanguages = [
   { name: "German", value: "DE" },
   { name: "Italian", value: "IT" },
   { name: "Spanish", value: "ES" },
+]
+
+const easternLanguages = [
+  { name: "English", value: "EN" },
+  { name: "German", value: "DE" },
+  { name: "Romanian", value: "RO" },
+  { name: "Russian", value: "RU" },
+  { name: "Chinese", value: "ZH" },
+  { name: "Serbian (Latin)", value: "SR-LATN" },
+  { name: "Serbian (Cyrillic)", value: "SR" },
 ]
 
 export const translateLabel = (string, inputLanguage) => {

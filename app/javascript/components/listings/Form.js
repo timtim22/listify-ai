@@ -22,7 +22,7 @@ const Form = ({
   setLoading,
   runsRemaining,
   onResult
-  }) => {
+}) => {
 
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
   const [inputLanguage, setInputLanguage] = useState('EN');
@@ -146,7 +146,11 @@ const Form = ({
         </div>
         <div className="flex flex-col w-4/5 max-w-2xl">
           <div className="flex flex-col justify-start w-full">
-            <LanguageSelect onSelect={setInputLanguage} label={"Input language"} />
+            <LanguageSelect
+              onSelect={setInputLanguage}
+              label={"Input language"}
+              isInput={true}
+            />
             <div className="flex flex-col justify-start">
               {textRow(translateLabel('Property type', inputLanguage), 'property_type', 'e.g. apartment, house...', true)}
               {bedroomsCountRow()}
@@ -171,7 +175,11 @@ const Form = ({
                 </div>
               </div>
             </div>
-            <LanguageSelect onSelect={setOutputLanguage} label={"Output language"} />
+            <LanguageSelect
+              onSelect={setOutputLanguage}
+              label={"Output language"}
+              isInput={false}
+            />
           </div>
 
           <div className="flex flex-col items-center justify-center py-8 w-full">

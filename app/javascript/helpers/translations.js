@@ -26,6 +26,8 @@ const easternLanguages = [
   { name: "Romanian", value: "RO" },
   { name: "Russian", value: "RU" },
   { name: "Chinese", value: "ZH" },
+  { name: "Serbian (Latin)", value: "SR-LATN" },
+  { name: "Serbian (Cyrillic)", value: "SR" },
 ]
 
 export const translateLabel = (string, inputLanguage) => {

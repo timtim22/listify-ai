@@ -2,6 +2,11 @@ module ApiClients
   class DeepL
 
     AUTH_KEY = Rails.application.credentials.dig(:deep_l, :api_key)
+    OUTPUT_LANGUAGE_CODES = %w[EN DA DE ES FR IT NL RO RU ZH].freeze
+
+    def self.supports_output_language?(code)
+      OUTPUT_LANGUAGE_CODES.include?(code)
+    end
 
     def translate(from, to, text)
       url  = 'https://api-free.deepl.com/v2/translate'
@@ -37,7 +42,8 @@ module ApiClients
       }])
 
       puts 'DEEPL RESPONSE'
-      puts response
+      #binding.pry
+      #puts response
       puts '------'
 
       if response.code == 200

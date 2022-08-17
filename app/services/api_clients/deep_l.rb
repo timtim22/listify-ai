@@ -9,7 +9,7 @@ module ApiClients
     end
 
     def translate(from, to, text)
-      url  = 'https://api-free.deepl.com/v2/translate'
+      url  = 'https://api.deepl.com/v2/translate'
       body = translate_request_body(from, to, text)
       res  = request('post', url, {}, body)
       translation_result(res, from, to)

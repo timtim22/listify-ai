@@ -3,7 +3,7 @@ import { capitaliseFirstLetter } from './utils';
 export const inputLanguages = () => standardLanguages;
 
 export const outputLanguagesForUser = (user) => {
-  if (user.enabled_modules.includes('eastern_languages')) {
+  if (user && user.enabled_modules.includes('eastern_languages')) {
     return easternLanguages;
   } else {
     return standardLanguages;

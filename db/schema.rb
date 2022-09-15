@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_134959) do
+ActiveRecord::Schema.define(version: 2022_09_13_140930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -224,6 +224,13 @@ ActiveRecord::Schema.define(version: 2022_07_13_134959) do
     t.string "inputable_type", null: false
     t.uuid "inputable_id", null: false
     t.index ["user_id"], name: "index_inputs_on_user_id"
+  end
+
+  create_table "jwt_denylists", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "expired_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -14,6 +14,18 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    namespace :v1 do
+      namespace :users do
+        devise_scope :user do
+          post 'login', to: 'sessions#create', as: 'login'
+          get 'logout', to: 'sessions#destroy', as: 'logout'
+          post 'signup', to: 'registrations#create', as: 'signup'
+        end
+      end
+    end
+  end
+
   resources :users, only: [] do
     scope module: :users do
       resource :custom_trial_end_dates, only: [:edit, :update]
@@ -97,3 +109,4 @@ Rails.application.routes.draw do
     resources :user_locks, only: [:create, :destroy]
   end
 end
+ 

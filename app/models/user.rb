@@ -4,8 +4,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :registerable, :recoverable, :rememberable, :validatable, :masqueradable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+  devise :registerable, :recoverable, :rememberable, :validatable, :masqueradable
 
   has_one :team_role, required: false, dependent: :destroy
   has_one :team, through: :team_role
@@ -33,6 +32,8 @@ class User < ApplicationRecord
   scope :ever_subscribed, -> { joins(:subscriptions).merge(Subscription.with_created_states) }
   scope :non_trial_states, -> { where(id: [with_team.ids, ever_subscribed.ids, admin_or_listify_team.ids].flatten) }
   scope :trial_states, -> { where.not(id: non_trial_states.ids) } # includes private beta for now
+
+  alias :devise_valid_password? :valid_password?
 
   TRIAL_CODES = %w[rentalscaleup friendoflistify].freeze
   STANDARD_TRIAL_LENGTH = 14
@@ -198,5 +199,16 @@ class User < ApplicationRecord
     label = email
     qrcode = RQRCode::QRCode.new(otp_provisioning_uri(label, issuer: issuer))
     qrcode.as_svg(module_size: 4)
+  end
+
+  def valid_password?(password)
+    begin
+      devise_valid_password?(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Digest::SHA1.hexdigest(password) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating attribute."
+      self.password = password
+      true
+    end
   end
 end

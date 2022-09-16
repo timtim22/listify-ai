@@ -3,10 +3,11 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions'
-  }
+  devise_for :users,
+             controllers: {
+                 sessions: 'users/sessions',
+                 registrations: 'users/registrations'
+             }
 
   devise_scope :user do
     scope :users, as: :users do
@@ -17,11 +18,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :users do
-        devise_scope :user do
-          post 'login', to: 'sessions#create', as: 'login'
-          get 'logout', to: 'sessions#destroy', as: 'logout'
-          post 'signup', to: 'registrations#create', as: 'signup'
-        end
+        post '/sign_in', to: 'authentication#login'
+        post '/get-user', to: 'users#get_user'
       end
     end
   end

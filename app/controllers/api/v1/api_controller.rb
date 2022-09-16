@@ -1,8 +1,37 @@
 class Api::V1::ApiController < ActionController::Base
+  before_action :authorize_request
+  before_action :header_check
   protect_from_forgery with: :null_session
 
-  def current_token
-    request.env['warden-jwt_auth.token']
+  def authorize_request
+    header = get_header
+    begin
+      @decoded = JsonWebToken.decode(header)
+      @current_user = User.find(@decoded[:user_id])
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { errors: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => e
+      render json: { errors: e.message }, status: :unauthorized
+    end
+  end
+
+  def current_user
+    header = get_header
+    decoded = JWT.decode(header, Rails.application.credentials.dig(:jwt_auth, :auth_key))[0]
+    User.find(decoded['user_id'])
+  end
+
+  def get_header
+    header = request.headers['Authorization']
+    header&.split(' ').last if header
+  end
+
+  def header_check
+    if request.env['HTTP_ACCEPT'].blank? || request.env['HTTP_ACCEPT'] != 'application/json'
+      json_not_acceptable
+    elsif %w[POST PUT PATCH].include?(request.env["REQUEST_METHOD"]) && (request.env['CONTENT_TYPE'].blank? || (['application/json','application/json; charset=utf-8'].exclude? request.env['CONTENT_TYPE']))
+      json_unsupported_media_type
+    end
   end
 
   def json_success(message = nil, data = nil)

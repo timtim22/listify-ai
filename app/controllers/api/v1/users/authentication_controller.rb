@@ -21,6 +21,6 @@ class Api::V1::Users::AuthenticationController < Api::V1::ApiController
   end
 
   def required_params
-    json_bad_request('Email and Password are required field.') if params[:email].empty? || params[:password].empty?
+    json_bad_request('Email and Password are required field.') if params[:email].blank? || params[:password].blank?
   end
 end

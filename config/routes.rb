@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :users do
         post '/sign_in', to: 'authentication#login'
-        post '/get-user', to: 'users#get_user'
       end
     end
   end

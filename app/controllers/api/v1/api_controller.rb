@@ -1,6 +1,5 @@
 class Api::V1::ApiController < ActionController::Base
   before_action :authorize_request
-  before_action :header_check
   protect_from_forgery with: :null_session
 
   def authorize_request
@@ -24,14 +23,6 @@ class Api::V1::ApiController < ActionController::Base
   def get_header
     header = request.headers['Authorization']
     header&.split(' ').last if header
-  end
-
-  def header_check
-    if request.env['HTTP_ACCEPT'].blank? || request.env['HTTP_ACCEPT'] != 'application/json'
-      json_not_acceptable
-    elsif %w[POST PUT PATCH].include?(request.env["REQUEST_METHOD"]) && (request.env['CONTENT_TYPE'].blank? || (['application/json','application/json; charset=utf-8'].exclude? request.env['CONTENT_TYPE']))
-      json_unsupported_media_type
-    end
   end
 
   def json_success(message = nil, data = nil)

@@ -3,14 +3,23 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/webhooks/stripe'
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions'
-  }
+  devise_for :users,
+             controllers: {
+                 sessions: 'users/sessions',
+                 registrations: 'users/registrations'
+             }
 
   devise_scope :user do
     scope :users, as: :users do
       post 'pre_otp', to: 'users/sessions#pre_otp'
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      namespace :users do
+        post '/sign_in', to: 'authentication#login'
+      end
     end
   end
 
@@ -97,3 +106,4 @@ Rails.application.routes.draw do
     resources :user_locks, only: [:create, :destroy]
   end
 end
+ 

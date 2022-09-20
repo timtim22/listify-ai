@@ -460,6 +460,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list (~> 1.0, >= 1.0.4)
+  bcrypt (~> 3.1.7)
   bootsnap (~> 1.12)
   brakeman (~> 5.2)
   bullet (~> 7.0, >= 7.0.2)
@@ -475,6 +476,7 @@ DEPENDENCIES
   honeybadger (~> 4.9)
   httparty (~> 0.18.1)
   jbuilder (~> 2.11)
+  jwt
   listen (~> 3.7)
   overcommit (~> 0.59.1)
   pagy (~> 4.11)

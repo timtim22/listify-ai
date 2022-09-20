@@ -1,0 +1,77 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/users/sign_in":
+    post:
+      summary: Sign In
+      tags:
+      - Sign In
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Logged In.
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: authentication token
+                        example: eyJ1c2VyX2lkIjoiMDE5YTc3ZGMtOWYyOS00ODNjLThhZTAtMzBlNTU1MDVlODNiIiwiZXhwIjoxNjYzNzgwMDgzfQ
+                      expire_at:
+                        type: string
+                        description: expire date and time
+                        example: 01-01-2022 17:08
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Missing Parameter
+                    example: Email and Password are required field.
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Incorrect Email
+                    example: Incorrect Email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: User email
+                  example: test@test.com
+                password:
+                  type: string
+                  description: User password
+                  example: '12345678'
+              required:
+              - email
+              - password
+        description: User login parameter
+servers:
+- url: https://app.listify.com
+  variables:
+    defaultHost:
+      default: app.listify.com

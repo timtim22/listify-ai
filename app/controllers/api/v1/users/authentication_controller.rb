@@ -7,7 +7,7 @@ class Api::V1::Users::AuthenticationController < Api::V1::ApiController
     @user = User.find_by(email: params[:email])
     if @user.valid_password?(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
-      time = Time.now + 24.hours.to_i
+      time = Time.current + 24.hours.to_i
       json_success('Successfully Logged In.', token: token, expire_at: time.strftime('%m-%d-%Y %H:%M'))
     else
       json_not_found('Incorrect Password')

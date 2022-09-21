@@ -71,7 +71,7 @@ paths:
               - password
         description: User login parameter
 servers:
-- url: https://app.listify.com
+- url: https://app.listify.ai
   variables:
     defaultHost:
-      default: app.listify.com
+      default: app.listify.ai

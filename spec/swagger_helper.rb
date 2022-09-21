@@ -24,10 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://app.listify.com',
+          url: 'https://app.listify.ai',
           variables: {
             defaultHost: {
-              default: 'app.listify.com'
+              default: 'app.listify.ai'
             }
           }
         }

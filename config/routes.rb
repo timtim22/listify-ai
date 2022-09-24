@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       namespace :users do
         post '/sign_in', to: 'authentication#login'
       end
+      resources :listings, only: [:create]
     end
   end
 

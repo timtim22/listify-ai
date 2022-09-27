@@ -5,7 +5,8 @@ import ListingForm from './Form';
 import { initialStepArray } from '../../helpers/listingBuilder';
 import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
-import AreaForm from './AreaForm';
+//import AreaForm from './AreaForm';
+import MultiSearchAreaForm from '../area/MultiSearchForm';
 import AdvertForm from '../adverts/Form';
 import VacasaForm from '../custom_forms/Vacasa';
 import OyoForm from '../custom_forms/Oyo';
@@ -24,7 +25,7 @@ const firstScreenFor = (user) => {
   } else if (aboutFirstUser(user)) {
     return 'about';
   } else {
-    return 'listing_description';
+    return 'neighbourhood';
   }
 };
 
@@ -81,7 +82,8 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const displayForm = () => {
     if (formType === 'neighbourhood') {
       return (
-        <AreaForm
+        //<AreaForm
+        <MultiSearchAreaForm
           loading={loading}
           setLoading={toggleLoading}
           results={results}

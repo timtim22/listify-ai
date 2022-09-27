@@ -71,17 +71,19 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
   }
 
   return (
-    <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
-      <div className="flex flex-col w-4/5 max-w-2xl">
-        <div className="w-full flex items-center">
-          <h2>Search</h2>
+    <div className="bg-gray-50 self-center border border-gray-100 rounded-lg w-4/5">
+      <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
+        <div className="flex flex-col w-4/5 max-w-2xl">
+          <div className="w-full flex justify-center items-center py-4">
+            <h2 className="text-lg font-medium">Search</h2>
+          </div>
+          {textRow('Search Area','search_text','e.g. Waterloo, London', true)}
+          <div className="flex justify-center py-8 w-full">
+            {submitButton()}
+          </div>
         </div>
-        {textRow('Search Area','search_text','e.g. Waterloo, London', true)}
-        <div className="flex justify-center py-8 w-full">
-          {submitButton()}
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 };
 

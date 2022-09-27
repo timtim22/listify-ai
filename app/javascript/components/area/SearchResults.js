@@ -24,11 +24,11 @@ const SearchResults = ({
 
   const attractionForm = (topAttractions, stations, restaurants) => {
     return (
-      <div className="w-full text-sm mt-2">
-        <div className="w-full flex text-base items-center">
-          <h2>Search Results</h2>
+      <div className="w-full text-sm">
+        <div className="flex justify-center w-full py-4">
+          <h2 className="text-lg font-medium">Search</h2>
         </div>
-        <p>Here is what we found nearby.
+        <p>Here is what we found nearby. Looking for more?
           <button type='button' onClick={resetForm} className="secondary-link ml-2">Edit your search.</button>
         </p>
         <br />
@@ -64,10 +64,12 @@ const SearchResults = ({
   const attractionsFound = attractions.length + restaurants.length + stations.length > 0;
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="flex justify-center w-4/5">
-        {!attractionsFound && noResultsMessage()}
-        {attractionsFound && attractionForm(topAttractions, stations, restaurants)}
+    <div className="bg-gray-50 self-center border border-gray-100 rounded-lg w-4/5">
+      <div className="w-full flex justify-center">
+        <div className="flex justify-center w-4/5">
+          {!attractionsFound && noResultsMessage()}
+          {attractionsFound && attractionForm(topAttractions, stations, restaurants)}
+        </div>
       </div>
     </div>
   )

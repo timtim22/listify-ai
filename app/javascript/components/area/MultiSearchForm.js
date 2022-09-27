@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { UserContext } from '../listings/New';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
+import ButtonPillWithClose from '../common/ButtonPillWithClose';
+import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
-import { UserContext } from '../listings/New';
-import ButtonPillWithClose from '../common/ButtonPillWithClose';
 
 const newDescriptionParams = { user_provided_area_name: '', selected_ids: [], detail_text: '' };
 const newResults = { attractions: [], stations: [], restaurants: []};
@@ -74,11 +75,9 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
     }
   }
 
-
-
   const attractionRow = () => {
     return (
-      <div className="flex justify-start items-center my-2 w-full">
+      <div className="flex justify-start items-center my-2 w-full min-h-[48px]">
         <label className="flex-shrink-0 w-1/3 text-sm">Selected attractions</label>
         {selectedAttractionList()}
       </div>
@@ -87,9 +86,7 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
 
   const selectedAttractionList = () => {
     const categories = Object.keys(selectedResults);
-    if (inputFields.user_provided_area_name.length < 3) {
-      return <span className="text-sm mx-4">-</span>;
-    } else if (formState === 'base_form') {
+    if (formState === 'base_form') {
       return (
         <span
           onClick={() => setFormState('search_form')}
@@ -101,12 +98,12 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
       return (
         <span
           className="italic text-xs mx-4">
-          -
+          Nothing selected yet.
         </span>
       )
     } else {
       return (
-        <div>
+        <div className="flex flex-wrap pl-2">
           {categories.map((category) => {
             return selectedResults[category].map(place => attractionPill(place, category))
           })}
@@ -117,12 +114,12 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
 
   const attractionPill = (place, placeType) => {
     return (
-      <span key={place.place_id} className="m-1">
+      <div key={place.place_id} className="mt-1 mx-1">
         <ButtonPillWithClose
           name={place.name}
           onClick={() => toggleSelected(place.place_id, placeType)}
         />
-      </span>
+      </div>
     )
   };
 
@@ -172,6 +169,27 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
     }
   };
 
+  const detailsField = () => {
+    return (
+      <div className="flex items-start w-full mt-2 text-sm">
+        <label className="flex-shrink-0 mt-2 w-1/3">Additional details or keywords</label>
+        <div className="px-3 w-full">
+          <TextareaWithPlaceholder
+            value={inputFields.detail_text}
+            onChange={(value) => setField('detail_text', value)}
+            customClasses={"text-sm"}
+            heightClass={"h-16"}
+            placeholderContent={
+            <>
+              <p>- e.g. trendy neighbourhood</p>
+              <p>- Great location for exploring the city</p>
+            </>
+          } />
+        </div>
+      </div>
+    )
+  }
+
   const submitButton = () => {
     const disabled = loading || tooFewAttractionsSelected();
       return (
@@ -184,7 +202,7 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
   const tooFewAttractionsSelected = () => {
     const keys = Object.keys(selectedResults);
     const count = keys.reduce((acc, k) => acc + selectedResults[k].length, 0)
-    return count < 3;
+    return count < 2;
   };
 
   return (
@@ -195,20 +213,23 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
 
       <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
         <div className="flex flex-col w-4/5 max-w-2xl">
-          {textRow('Location name (this will be used in results)','user_provided_area_name','e.g. Waterloo, London', true)}
+          <p className="mb-4 text-sm">Fill in details for the area you wish to write about. You can search and select attractions from multiple areas.</p>
+          {textRow('Name of area','user_provided_area_name','e.g. Waterloo, London', true)}
           {attractionRow()}
-          <div className="flex justify-center py-8 w-full">
+          {detailsField()}
+          <div className="flex justify-center pt-8 pb-4 w-full">
             {submitButton()}
           </div>
           <div className="my-4 w-full h-px bg-gray-200"></div>
         </div>
       </form>
-      {searchForm()}
-      {searchResults()}
+      <div className="w-full flex justify-center mt-4 mb-8">
+        {searchForm()}
+        {searchResults()}
+      </div>
     </div>
   )
 };
-
 
 MultiSearchForm.propTypes = {
   loading: PropTypes.bool,

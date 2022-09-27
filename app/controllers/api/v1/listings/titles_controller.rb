@@ -1,4 +1,5 @@
-class Api::V1::ListingsController < Api::V1::ApiController
+class Api::V1::Listings::TitlesController < Api::V1::ApiController
+  before_action :params_validation
   include ApiInputTextConcern
 
   def create
@@ -16,18 +17,23 @@ class Api::V1::ListingsController < Api::V1::ApiController
 
   private
 
+  def params_validation
+    listing_validation = ApiListingValidation.new(params, current_user).call
+    return json_bad_request(listing_validation[:errors]) if listing_validation
+  end
+
   def params_in_english
     translator = Translations::Runner.new
     translation_params = translator.request_in_english(
-      listing_params[:input_language],
-      listing_params[:input_text]
+      'EN',
+      input_text
     )
     listing_params.merge(translation_params)
   end
 
   def listing_params
     {
-      request_type: 'listing_description',
+      request_type: 'listing_title',
       input_text: input_text,
       input_language: 'EN'
     }
@@ -35,11 +41,11 @@ class Api::V1::ListingsController < Api::V1::ApiController
 
   def input_text
     params_input_text(
-      params[:no_of_bedrooms],
-      params[:location],
-      params[:property_type],
-      params[:ideal_for],
-      params[:features]
+      params[:text][:number_of_bedrooms],
+      params[:text][:location],
+      params[:text][:property_type],
+      params[:text][:ideal_for],
+      params[:text][:features]
     )
   end
 

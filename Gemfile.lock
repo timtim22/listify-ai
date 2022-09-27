@@ -436,7 +436,7 @@ GEM
     unicode-display_width (2.1.0)
     unicode_utils (1.4.0)
     uniform_notifier (1.16.0)
-    vcr (6.0.0)
+    vcr (6.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -511,7 +511,7 @@ DEPENDENCIES
   stripe_event (~> 2.4)
   turbolinks (~> 5)
   tzinfo-data
-  vcr (~> 6.0)
+  vcr (~> 6.1)
   web-console (>= 4.1.0)
   webmock (~> 3.14)
   webpacker (~> 5.4)

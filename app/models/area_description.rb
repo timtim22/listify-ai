@@ -12,6 +12,7 @@ class AreaDescription < ApplicationRecord
     AreaDescription.new(
       request_type: 'area_description',
       search_location: SearchLocation.find(params[:search_location_id]),
+      user_provided_area_name: params[:user_provided_area_name],
       detail_text: params[:detail_text],
       input_data: {
         search_results: params[:search_results],
@@ -20,12 +21,8 @@ class AreaDescription < ApplicationRecord
     )
   end
 
-  def search_location_text
-    search_location.search_text
-  end
-
   def displayable_input_text
-    "- search area: #{search_location.search_text.titleize}\n" + input_text
+    "- search area: #{location.titleize}\n" + input_text
   end
 
   def input_text
@@ -39,6 +36,6 @@ class AreaDescription < ApplicationRecord
   end
 
   def location
-    search_location.search_text # used by call_generator
+    user_provided_area_name || search_location.search_text # used by call_generator
   end
 end

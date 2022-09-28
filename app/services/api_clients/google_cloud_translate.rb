@@ -1,41 +1,26 @@
-require "google/cloud/translate/v2"
-
 module ApiClients
   class GoogleCloudTranslate
 
     CREDENTIALS = Rails.application.credentials.dig(:google, :cloud_translate)
-    URL = 'https://translation.googleapis.com/language/translate/v2'.freeze
+    API_KEY = Rails.application.credentials.dig(:google, :translate_api_key)
+    BASE_URL = 'https://translation.googleapis.com/language/translate/v2'.freeze
     OUTPUT_LANGUAGE_CODES = %w[SR SR-LATN].freeze
-
-    def initialize
-      @translation_service = Google::Cloud::Translate::V2.new(
-        credentials: CREDENTIALS
-      )
-    end
 
     def self.supports_output_language?(code)
       OUTPUT_LANGUAGE_CODES.include?(code)
     end
 
     def translate(from, to, text)
-      res = @translation_service.translate(text, from: from, to: to)
+      req_url = "#{BASE_URL}?target=#{to}&source=#{from}&q=#{text}&key=#{API_KEY}"
+      res = request('post', req_url, {}, {})
       translation_result(res, from, to)
-    end
-
-    def translate_request_body(from, to, text)
-      {
-        source: from.downcase,
-        target: to.downcase,
-        q: text,
-        format: 'text'
-      }
     end
 
     def translation_result(response, from, to)
       {
         from: from,
         to: to,
-        text: response.text,
+        text: response['data']['translations'][0]['translatedText'],
         success: true # not clear from documentation / source if response has any error handling...
       }
     end

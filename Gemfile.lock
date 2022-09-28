@@ -355,10 +355,6 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    rswag (2.6.0)
-      rswag-api (= 2.6.0)
-      rswag-specs (= 2.6.0)
-      rswag-ui (= 2.6.0)
     rswag-api (2.6.0)
       railties (>= 3.1, < 7.1)
     rswag-specs (2.6.0)
@@ -500,8 +496,9 @@ DEPENDENCIES
   redis (~> 4.4)
   rqrcode (~> 2.1, >= 2.1.1)
   rspec-rails (~> 5.0, >= 5.0.2)
-  rswag
-  rswag-specs
+  rswag-api (~> 2.6)
+  rswag-specs (~> 2.6)
+  rswag-ui (~> 2.6)
   rubocop-rails (~> 2.13, >= 2.13.2)
   sass-rails (>= 6)
   selenium-webdriver (~> 4.1)

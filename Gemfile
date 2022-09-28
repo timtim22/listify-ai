@@ -32,7 +32,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry', '~> 0.14.1'
-  gem 'rswag-specs'
+  gem 'rswag-specs', '~> 2.6'
 end
 
 group :development do
@@ -78,7 +78,8 @@ gem 'react-rails', '~> 2.6', '>= 2.6.1'
 gem 'receipts', '~> 2.0'
 gem 'redis', '~> 4.4'
 gem 'rqrcode', '~> 2.1', '>= 2.1.1'
-gem "rswag"
+gem 'rswag-api', '~> 2.6'
+gem 'rswag-ui', '~> 2.6'
 gem 'sidekiq', '~> 6.5'
 gem 'stripe', '~> 5.55'
 gem 'stripe_event', '~> 2.4'

@@ -5,7 +5,7 @@ import ListingForm from './Form';
 import { initialStepArray } from '../../helpers/listingBuilder';
 import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
-//import AreaForm from './AreaForm';
+import AreaForm from './AreaForm';
 import MultiSearchAreaForm from '../area/MultiSearchForm';
 import AdvertForm from '../adverts/Form';
 import VacasaForm from '../custom_forms/Vacasa';
@@ -25,7 +25,7 @@ const firstScreenFor = (user) => {
   } else if (aboutFirstUser(user)) {
     return 'about';
   } else {
-    return 'neighbourhood';
+    return 'area';
   }
 };
 
@@ -82,8 +82,7 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
   const displayForm = () => {
     if (formType === 'neighbourhood') {
       return (
-        //<AreaForm
-        <MultiSearchAreaForm
+        <AreaForm
           loading={loading}
           setLoading={toggleLoading}
           results={results}
@@ -93,6 +92,18 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           shouldGenerateFragment={false}
         />
       );
+    } else if (formType === 'area') {
+      return (
+        <MultiSearchAreaForm
+          loading={loading}
+          setLoading={toggleLoading}
+          results={results}
+          setResults={setResults}
+          handleTaskRun={handleTaskRun}
+          runsRemaining={runsRemaining}
+          setFormType={resetFormType}
+        />
+      )
     } else if (formType === 'room_description') {
       return (
         <RoomForm

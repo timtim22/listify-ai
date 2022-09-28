@@ -10,7 +10,7 @@ import DescriptionForm from './DescriptionForm';
 const newDescriptionParams = { user_provided_area_name: '', selected_ids: [], detail_text: '' };
 const newResults = { attractions: [], stations: [], restaurants: []};
 
-const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) => {
+const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, setFormType }) => {
   const [errors, setErrors] = useState(null);
   const [inputFields, setInputFields] = useState(newDescriptionParams);
   const [currentSearchResult, setCurrentSearchResult] = useState(newResults);
@@ -119,8 +119,23 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining }) 
     )
   };
 
+  const bannerText = () => {
+    return (
+      <span>
+        We are still developing this feature; please give us feedback. You can switch to the old version
+        <span className='cursor-pointer font-semibold' onClick={() => setFormType('neighbourhood')}> here</span>.
+      </span>
+    )
+  };
+
   return (
     <div className="flex flex-col w-full justify-center">
+      <div className="flex w-4/5 self-center max-w-2xl justify-center mb-4">
+        <Banner
+          title="Welcome to the new area search"
+          text={bannerText()}
+          />
+      </div>
       <div className="self-center w-4/5 text-sm">
         <ErrorNotice errors={errors} />
       </div>
@@ -138,6 +153,27 @@ MultiSearchForm.propTypes = {
   setLoading: PropTypes.func,
   runsRemaining: PropTypes.number,
   handleTaskRun: PropTypes.func
+}
+
+const Banner = ({ title, text }) => {
+  const borderColor = 'border-teal-500';
+  const iconColor   = 'text-teal-500';
+
+  return (
+    <div className={`w-full bg-[#f0fdfa] py-3 px-4 text-left rounded-b border-l-4 ${borderColor} shadow border-t-1`} role="alert">
+      <div className="flex items-center">
+        <div className={`py-1 ${iconColor}`}>
+          <svg className="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
+          </svg>
+        </div>
+        <div className="text-teal-800">
+          <p className="font-bold">{title}</p>
+          <p className="text-sm">{text}</p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default MultiSearchForm;

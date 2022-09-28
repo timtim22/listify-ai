@@ -50,7 +50,7 @@ end
 group :test do
   gem 'capybara', '~> 3.37', '>= 3.37.1'
   gem 'factory_bot_rails', '~> 6.2'
-  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'rspec-rails', '~> 5.1'
   gem 'selenium-webdriver', '~> 4.1'
   gem 'vcr', '~> 6.1'
   gem 'webmock', '~> 3.14'

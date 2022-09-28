@@ -1,7 +1,6 @@
 module ApiClients
   class GoogleCloudTranslate
 
-    CREDENTIALS = Rails.application.credentials.dig(:google, :cloud_translate)
     API_KEY = Rails.application.credentials.dig(:google, :translate_api_key)
     BASE_URL = 'https://translation.googleapis.com/language/translate/v2'.freeze
     OUTPUT_LANGUAGE_CODES = %w[SR SR-LATN].freeze

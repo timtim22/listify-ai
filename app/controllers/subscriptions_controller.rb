@@ -4,6 +4,7 @@ class SubscriptionsController < ApplicationController
 
   def show
     @subscription = current_user.subscription
+    @team_admin_but_not_purchaser = team_admin_but_not_purchaser?
     @plan = @subscription && Plan.find_by(stripe_id: @subscription.stripe_plan)
     @customer = Subscriptions::Customer.fetch(current_user)
   end
@@ -43,6 +44,10 @@ class SubscriptionsController < ApplicationController
   end
 
   private
+
+  def team_admin_but_not_purchaser?
+    current_user.team_admin? && !current_user.subscription
+  end
 
   def customer_params
     params.permit(:name, :line1, :line2, :city, :state, :postal_code).merge(country: params[:user]['country'])

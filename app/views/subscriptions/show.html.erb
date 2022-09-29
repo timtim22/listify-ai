@@ -6,7 +6,9 @@
         <h2 class="log-in-header">Billing</h2>
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
 
-        <% if current_user.member_of_team? && @subscription.nil? %>
+        <% if @team_admin_but_not_purchaser %>
+          <p class="mb-8">You are an admin of the <span class="font-semibold"><%= current_user.team.name %></span> team. Currently payment and billing can only be managed by the user who purchased your subscription. We hope to change this soon - contact us if you need help with this.</p>
+        <% elsif current_user.member_of_team? && @subscription.nil? %>
           <p class="mb-8">You are using Listify as part of the <span class="font-semibold"><%= current_user.team.name %></span> team - contact your team admin (or us, if that's you!) to talk about your subscription.</p>
         <% else %>
           <h5 class="mb-4 text-xl font-medium">Subscription</h5>
@@ -51,35 +53,7 @@
             <% end %>
 
             <div class="my-8 w-full h-px bg-gray-200"></div>
-            <h5 class="my-4 text-xl font-medium">Payment history</h5>
-
-            <% if current_user.charges.any? %>
-            <p class="text-gray-500 mb-4">Thank you for being a Listify subscriber.</p>
-              <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
-                <table class="w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-100">
-                    <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                      <th class="py-3 px-6">Date</th>
-                      <th class="py-3 px-6">Card</th>
-                      <th class="py-3 px-6">Amount</th>
-                      <th class="py-3 px-6">Invoice</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-gray-200">
-                    <% current_user.charges.order(created_at: :desc).each do |charge| %>
-                      <tr class="text-xs">
-                        <td class="py-3 px-6"><%= charge.created_at.to_date.to_s(:long) %></td>
-                        <td class="py-3 px-6"><%= charge.card_brand %> ending in <%= charge.card_last4 %></td>
-                        <td class="py-3 px-6"><%= formatted_amount(charge.amount) %></td>
-                        <td class="py-3 px-6"><%= link_to "Download", charge_path(charge, format: :pdf), class: "secondary-link", target: :_blank %></td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              </div>
-            <% else %>
-              No invoices to display.
-            <% end %>
+              <%= render partial: 'subscriptions/payment_history', locals: { billed_user: current_user } %>
           <% end %>
         <% end %>
       </div>

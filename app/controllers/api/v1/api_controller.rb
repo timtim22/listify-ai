@@ -16,7 +16,7 @@ class Api::V1::ApiController < ActionController::Base
 
   def current_user
     header = get_header
-    decoded = JWT.decode(header, Rails.application.credentials.dig(:jwt_auth, :auth_key))[0]
+    decoded = JWT.decode(header, Rails.application.secret_key_base)[0]
     User.find(decoded['user_id'])
   end
 

@@ -2,7 +2,6 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  mode: 'jit',
   purge: [
    './app/**/*.html.erb',
     './app/helpers/**/*.rb',
@@ -21,6 +20,9 @@ module.exports = {
       },
       zIndex: {
        '-10': '-10',
+      },
+      minHeight: {
+        'w-12': '48px'
       }
     },
   },

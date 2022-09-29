@@ -19,7 +19,7 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
   def params_validation
     listing_validation = ApiListingValidation.new(params, current_user).call
-    return json_bad_request(listing_validation[:errors]) if listing_validation
+    return json_bad_request(listing_validation) if listing_validation.present?
   end
 
   def params_in_english

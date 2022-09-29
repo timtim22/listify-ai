@@ -17,23 +17,17 @@ class ApiListingValidation
   end
 
   def call
-    if missing_params
-      { success: false, errors: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues' }
-    elsif !supported_language_check
-      { success: false, errors: "Language not supported. Only following output languages are supported: #{@supported_languages}" }
-    elsif property_type_character_count_check
-      { success: false, errors: "property_type characters count should be less than #{TEXT_CHARS_COUNT}" }
-    elsif ideal_for_character_count_check
-      { success: false, errors: "ideal_for characters count should be less than #{TEXT_CHARS_COUNT}" }
-    elsif location_character_count_check
-      { success: false, errors: "location characters count should be less than #{TEXT_CHARS_COUNT}" }
-    elsif !number_of_bedrooms_count_check
-      { success: false, errors: "number_of_bedrooms should be between 0 and #{MAX_NUMBER_OF_BEDROOM}" }
-    elsif features_count_check
-      { success: false, errors: "features_count character count should be less than #{FEATURES_ARRAY_COUNT}" }
-    elsif spin_check
-      { success: false, errors: 'No Spin remaning.' }
-    end
+    error_message = []
+    error_message << { message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues' } if missing_params
+    error_message << { message: "Language not supported. Only following output languages are supported: #{@supported_languages}" } unless supported_language_check
+    error_message << { message: "property_type characters count should be less than #{TEXT_CHARS_COUNT}" } if property_type_character_count_check
+    error_message << { message: "ideal_for characters count should be less than #{TEXT_CHARS_COUNT}" } if ideal_for_character_count_check
+    error_message << { message: "location characters count should be less than #{TEXT_CHARS_COUNT}" } if location_character_count_check
+    error_message << { message: "number_of_bedrooms should be between 0 and #{MAX_NUMBER_OF_BEDROOM}" } unless number_of_bedrooms_count_check
+    error_message << { message: "features_count characters count should be less than #{FEATURES_ARRAY_COUNT}" } if features_count_check
+    error_message << { message: 'No Spin remaning.' } if spin_check
+
+    error_message
   end
 
   def missing_params
@@ -45,23 +39,23 @@ class ApiListingValidation
   end
 
   def property_type_character_count_check
-    @property_type.chars.count > TEXT_CHARS_COUNT
+    @property_type.chars.count > TEXT_CHARS_COUNT if @property_type
   end
 
   def ideal_for_character_count_check
-    @ideal_for.chars.count > TEXT_CHARS_COUNT
+    @ideal_for.chars.count > TEXT_CHARS_COUNT if @ideal_for
   end
 
   def location_character_count_check
-    @location.chars.count > TEXT_CHARS_COUNT
+    @location.chars.count > TEXT_CHARS_COUNT if @location
   end
 
   def number_of_bedrooms_count_check
-    @number_of_bedrooms.to_i >= 0 && @number_of_bedrooms.to_i <= MAX_NUMBER_OF_BEDROOM
+    @number_of_bedrooms.to_i >= 0 && @number_of_bedrooms.to_i <= MAX_NUMBER_OF_BEDROOM if @number_of_bedrooms
   end
 
   def features_count_check
-    @features.join.chars.count > FEATURES_ARRAY_COUNT
+    @features.join.chars.count > FEATURES_ARRAY_COUNT if @features
   end
 
   def spin_check

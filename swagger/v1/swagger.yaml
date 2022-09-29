@@ -113,6 +113,7 @@ paths:
                   - message: location characters count should be less than 70
                   - message: property_type characters count should be less than 70
                   - message: ideal_for characters count should be less than 70
+                  - message: feature characters count should be less than 360
                   - message: number_of_bedrooms should be between 0 and 100
                   - message: No Spin Remaining
       requestBody:
@@ -140,6 +141,11 @@ paths:
                       type: string
                       description: Ideal For
                       example: couple
+                    features:
+                      type: array
+                      items: 
+                        type: string
+                        example: cat
                     number_of_bedrooms:
                       type: string
                       description: Number Of Bedrooms
@@ -193,6 +199,7 @@ paths:
                   - message: location characters count should be less than 70
                   - message: property_type characters count should be less than 70
                   - message: ideal_for characters count should be less than 70
+                  - message: feature characters count should be less than 360
                   - message: number_of_bedrooms should be between 0 and 100
                   - message: No Spin Remaining
       requestBody:
@@ -220,6 +227,11 @@ paths:
                       type: string
                       description: Ideal For
                       example: couple
+                    features:
+                      type: array
+                      items: 
+                        type: string
+                        example: cat
                     number_of_bedrooms:
                       type: string
                       description: Number Of Bedrooms

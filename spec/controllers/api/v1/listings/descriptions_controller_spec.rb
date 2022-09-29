@@ -24,7 +24,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues'
+        expect(eval(response.body)[:message]).to eq [{ message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues' }]
       end
 
       it 'to should fail for character count exceeding limit for location ' do
@@ -42,7 +42,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'location characters count should be less than 70'
+        expect(eval(response.body)[:message]).to eq [{ message: 'location characters count should be less than 70' }]
       end
 
       it 'to should fail for character count exceeding limit for property_type ' do
@@ -60,7 +60,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'property_type characters count should be less than 70'
+        expect(eval(response.body)[:message]).to eq [{ message: 'property_type characters count should be less than 70' }]
       end
 
       it 'to should fail for character count exceeding limit for ideal_for ' do
@@ -78,7 +78,38 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'ideal_for characters count should be less than 70'
+        expect(eval(response.body)[:message]).to eq [{ message: 'ideal_for characters count should be less than 70' }]
+      end
+
+      it 'to should fail for unsupported output features ' do
+        payload = {
+          output_language: "EN",
+          text: {
+            location: 'london',
+            property_type: 'house',
+            number_of_bedrooms: 1,
+            ideal_for: 'couple',
+            features: ['parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking', 'parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+              'parking','parking','parking','parking','parking','parking','parking','parking','parking','parking',
+            ]
+          }
+        }
+
+        jwt_token = auth_token(@user)
+        post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
+        expect(response).to have_http_status 400
+        expect(eval(response.body)[:message]).to eq [{ message: 'features_count characters count should be less than 360' }]
       end
 
       it 'to should fail for exceeding limit for number of bedrooms ' do
@@ -96,7 +127,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'number_of_bedrooms should be between 0 and 100'
+        expect(eval(response.body)[:message]).to eq [{ message: 'number_of_bedrooms should be between 0 and 100' }]
       end
 
       it 'to should fail for negative number_of_bedrooms ' do
@@ -114,7 +145,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'number_of_bedrooms should be between 0 and 100'
+        expect(eval(response.body)[:message]).to eq [{ message: 'number_of_bedrooms should be between 0 and 100' }]
       end
 
       it 'to should fail for unsupported output language ' do
@@ -132,7 +163,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Language not supported. Only following output languages are supported: ["EN", "DA", "DE", "ES", "FR", "IT", "NL", "EN"]'
+        expect(eval(response.body)[:message]).to eq [{ message: 'Language not supported. Only following output languages are supported: ["EN", "DA", "DE", "ES", "FR", "IT", "NL", "EN"]' }]
       end
     end
   end

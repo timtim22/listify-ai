@@ -24,9 +24,18 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, se
     setInputFields({ ...inputFields, [field]: value });
   }
 
+    const cleanDetailText = (text) => {
+    let cleanText = text.trim().replace(/\n-$/, "");
+    if (cleanText.length > 0 && cleanText[cleanText.length-1] !== ".") {
+      cleanText = cleanText + ".";
+    }
+    return cleanText;
+  }
+
   const descriptionParams = () => {
         return {
       ...inputFields,
+      detail_text: cleanDetailText(inputFields.detail_text),
       search_results: selectedResults,
       selected_ids: selectedIds(),
       request_type: 'area_description'

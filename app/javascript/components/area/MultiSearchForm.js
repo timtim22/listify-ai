@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { UserContext } from '../listings/New';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
-import SearchForm from './SearchForm';
-import SearchResults from './SearchResults';
 import DescriptionForm from './DescriptionForm';
 
 const newDescriptionParams = { user_provided_area_name: '', selected_ids: [], detail_text: '' };
@@ -95,39 +93,14 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, se
         toggleSelected={toggleSelected}
         runsRemaining={runsRemaining}
         submitForm={handleSubmit}
+        setErrors={setErrors}
+        setLoading={setLoading}
+        currentSearchResult={currentSearchResult}
+        handleSearchResult={handleSearchResult}
       />
     )
   };
 
-  const searchForm = () => {
-    if (formState === 'search_form') {
-      return (
-        <SearchForm
-          loading={loading}
-          setLoading={setLoading}
-          setErrors={setErrors}
-          initialSearchTerm={inputFields.user_provided_area_name}
-          setSearchResult={handleSearchResult}
-        />
-      )
-    }
-  };
-
-  const searchResults = () => {
-    if (formState === 'result_form') {
-      return (
-        <SearchResults
-          loading={loading}
-          setLoading={setLoading}
-          setErrors={setErrors}
-          searchResult={currentSearchResult}
-          selectedResults={selectedResults}
-          toggleSelected={toggleSelected}
-          resetForm={() => setFormState('search_form')}
-        />
-      )
-    }
-  };
 
   const bannerText = () => {
     return (
@@ -151,8 +124,6 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, se
       </div>
       {descriptionForm()}
       <div className="w-full flex justify-center mt-4 mb-8">
-        {searchForm()}
-        {searchResults()}
       </div>
     </div>
   )
@@ -191,7 +162,7 @@ const Banner = ({ title, text }) => {
 
 Banner.propTypes = {
   title: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.object,
 }
 
 export default MultiSearchForm;

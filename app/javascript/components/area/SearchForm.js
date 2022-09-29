@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
 import ErrorNotice from '../common/ErrorNotice';
 
-const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult }) => {
+const SearchForm = ({ canCloseSearch, loading, setLoading, initialSearchTerm, setSearchOpen, setSearchResult }) => {
   const [errors, setErrors] = useState(null);
   const [inputFields, setInputFields] = useState({ search_text: initialSearchTerm, attraction_radius: 5000 });
 
@@ -82,13 +82,41 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
     } else if (!isAscii(inputFields.search_text)) {
       return <p className="text-sm text-red-700">{asciiWarning()}</p>
     }
-    const disabled = loading || ["lapsed_trial", "lapsed_subscription"].includes(user.account_status)
     return (
-      <button disabled={disabled} className={disabled ? "disabled-primary-button" : "primary-button"}>
-        Search
-      </button>
+      <div className="flex flex-col items-center">
+        <button
+          disabled={cannotSearch()}
+          type="button"
+          onClick={handleSubmit}
+          className={cannotSearch() ? "disabled-primary-button" : "primary-button"}
+        >
+          Search
+        </button>
+        {closeSearchLink()}
+      </div>
     )
   }
+
+  const cannotSearch = () => {
+    return (
+      loading ||
+      ["lapsed_trial", "lapsed_subscription"].includes(user.account_status) ||
+      inputFields.search_text.length <3
+    )
+  };
+
+  const closeSearchLink = () => {
+    if (canCloseSearch) {
+      return (
+        <span
+          onClick={() => setSearchOpen(false)}
+          className="cursor-pointer text-xs text-purple-700 mt-4 font-medium"
+        >
+          Close search
+        </span>
+      )
+    }
+  };
 
   const radiusCheckbox = (value, title) => {
     return (
@@ -119,8 +147,8 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
   };
 
   return (
-    <div className="bg-gray-50 self-center border border-gray-200 rounded-lg w-4/5">
-      <form className="flex flex-col items-center w-full" onSubmit={handleSubmit}>
+    <div className="bg-gray-50 w-full self-center border border-gray-200 rounded-lg">
+      <div className="flex flex-col items-center w-full">
         <div className="flex flex-col w-4/5 max-w-2xl">
           <div className="w-full flex justify-center items-center py-4">
             <h2 className="text-lg font-medium">Search</h2>
@@ -131,17 +159,19 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
             {submitButton()}
           </div>
         </div>
-      </form>
+      </div>
     </div>
   )
 };
 
 SearchForm.propTypes = {
-  setSearchResult: PropTypes.func,
+  canCloseSearch: PropTypes.bool,
+  initialSearchTerm: PropTypes.string,
   loading: PropTypes.bool,
-  setLoading: PropTypes.func,
   setErrors: PropTypes.func,
-  initialSearchTerm: PropTypes.string
+  setLoading: PropTypes.func,
+  setSearchOpen: PropTypes.func,
+  setSearchResult: PropTypes.func
 }
 
 export default SearchForm;

@@ -6,7 +6,8 @@ const SearchResults = ({
   searchResult,
   selectedResults,
   toggleSelected,
-  resetForm
+  resetForm,
+  setSearchOpen
 }) => {
 
   const noResultsMessage = () => {
@@ -64,12 +65,18 @@ const SearchResults = ({
   const attractionsFound = attractions.length + restaurants.length + stations.length > 0;
 
   return (
-    <div className="bg-gray-50 self-center border border-gray-200 rounded-lg w-4/5">
-      <div className="w-full flex justify-center">
+    <div className="bg-gray-50 self-center border border-gray-200 rounded-lg w-full">
+      <div className="w-full flex flex-col items-center">
         <div className="flex justify-center w-4/5">
           {!attractionsFound && noResultsMessage()}
           {attractionsFound && attractionForm(topAttractions, stations, restaurants)}
         </div>
+        <button
+          type='button'
+          onClick={() => setSearchOpen(false)}
+          className="primary-button-purple mb-4"
+        >
+        Close search</button>
       </div>
     </div>
   )
@@ -79,7 +86,8 @@ SearchResults.propTypes = {
   searchResult: PropTypes.object,
   selectedResults: PropTypes.object,
   toggleSelected: PropTypes.func,
-  resetForm: PropTypes.func
+  resetForm: PropTypes.func,
+  setSearchOpen: PropTypes.func
 }
 
 export default SearchResults;

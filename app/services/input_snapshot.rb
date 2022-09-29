@@ -12,7 +12,7 @@ class InputSnapshot
     end
 
     def area_inputs(input_object)
-      search_area = input_object.search_location_text.titleize
+      search_area = input_object.location.titleize
       "- search area: #{search_area}\n" + input_object.input_text
     end
 

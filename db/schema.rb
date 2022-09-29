@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_134959) do
+ActiveRecord::Schema.define(version: 2022_09_27_130411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_134959) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "detail_text"
+    t.string "user_provided_area_name"
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
   end
 

@@ -7,9 +7,12 @@ class SearchLocationsController < ApplicationController
     record_search_by_user
 
     if @search_location.latitude.nil?
-      render json: { no_results: ["Sorry, we didn't find any results for this area. Please try another search."] }, status: :unprocessable_entity
+      render json: { no_results: ["Sorry, our search provider couldn't identify that place. You could try a different search term, e.g, 'Waterloo, London' instead of 'Waterloo'."] }, status: :unprocessable_entity
     else
-      @attractions = AreaSearch::AttractionFinder.new(@search_location).find!
+      @attractions = AreaSearch::AttractionFinder.new(
+        @search_location,
+        search_location_params[:attraction_radius]
+      ).find!
 
       respond_to do |format|
         if @search_location.save
@@ -24,7 +27,7 @@ class SearchLocationsController < ApplicationController
   private
 
   def search_location_params
-    params.require(:search_location).permit(:search_text)
+    params.require(:search_location).permit(:search_text, :attraction_radius)
   end
 
   def record_search_by_user

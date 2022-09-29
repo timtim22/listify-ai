@@ -46,7 +46,7 @@ const FormHeader = ({ user, formType, setFormType }) => {
       <div className="flex flex-col justify-start items-center py-2 px-12 md:flex-row md:py-2 md:px-0">
         {navLink("Description", "listing_description")}
         {navLink("Title", "listing_title")}
-        {navLink("Area", "neighbourhood")}
+        {navLink("Area", user.admin ? "area" : "neighbourhood")}
         {navLink("Rooms", "room_description")}
         {navLink("Listing builder", "listing_builder")}
         {navLink("Ads", "advert", "beta")}

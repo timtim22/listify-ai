@@ -2,12 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonPillWithClose from '../common/ButtonPillWithClose';
 import TextareaWithPlaceholder from '../common/TextareaWithPlaceholder';
+import Submit from '../inputs/Submit';
 
-const DescriptionForm = ({ loading, formState, setFormState, selectedResults, toggleSelected, inputFields, setField, submitForm }) => {
+const pillColors = { attractions: 'purple', stations: 'gray', restaurants: 'yellow' };
+const maxInput = 250;
+
+const DescriptionForm = ({
+  formState,
+  inputFields,
+  loading,
+  runsRemaining,
+  selectedResults,
+  setField,
+  setFormState,
+  submitForm,
+  toggleSelected
+}) => {
 
   const attractionRow = () => {
     return (
-      <div className="flex justify-start items-center my-2 w-full min-h-12">
+      <div className="flex justify-start items-center my-4 w-full min-h-12">
         <label className="flex-shrink-0 w-1/3 text-sm">Selected attractions</label>
         {selectedAttractionList()}
       </div>
@@ -20,7 +34,7 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
       return (
         <span
           onClick={() => setFormState('search_form')}
-          className="cursor-pointer italic text-xs mx-4 secondary-link">
+          className="cursor-pointer italic text-xs mx-4 secondary-link font-semibold">
           Tap here to open search.
         </span>
       )
@@ -47,13 +61,12 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
       <div key={place.place_id} className="mt-1 mx-1">
         <ButtonPillWithClose
           name={place.name}
+          baseColor={pillColors[placeType]}
           onClick={() => toggleSelected(place.place_id, placeType)}
         />
       </div>
     )
   };
-
-
 
   const textRow = (title, key, placeholder, required) => {
     return (
@@ -94,10 +107,27 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
 
   const submitButton = () => {
     const disabled = loading || tooFewAttractionsSelected();
+    const { user_provided_area_name, detail_text } = inputFields;
+
+    if (disabled) {
       return (
-      <button disabled={disabled} className={`primary-button ${disabled ? "cursor-not-allowed opacity-50" : ""}`}>
-        Generate
-      </button>
+        <div className="flex justify-center pt-8 pb-4 w-full">
+          <button disabled={disabled} className={disabled ? "disabled-primary-button" : "primary-button"}>
+            Generate
+          </button>
+        </div>
+      )
+    }
+    return (
+      <div className="flex justify-center pt-8 pb-4 w-full">
+        <Submit
+          inputText={user_provided_area_name}
+          userInputLength={user_provided_area_name.length + detail_text.length}
+          maxUserInput={maxInput}
+          loading={loading}
+          runsRemaining={runsRemaining}
+        />
+      </div>
     )
   }
 
@@ -110,13 +140,11 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
   return (
     <form className="flex flex-col items-center w-full" onSubmit={submitForm}>
       <div className="flex flex-col w-4/5 max-w-2xl">
-        <p className="mb-4 text-sm">Fill in details for the area you wish to write about. You can search and select attractions from multiple areas.</p>
-        {textRow('Name of area','user_provided_area_name','e.g. Waterloo, London', true)}
+        <p className="my-4 text-sm">Fill in details for the area you wish to write about. You can search and select attractions from multiple areas.</p>
+        {textRow('Name of area','user_provided_area_name','e.g. Waterloo', true)}
         {attractionRow()}
         {detailsField()}
-        <div className="flex justify-center pt-8 pb-4 w-full">
-          {submitButton()}
-        </div>
+        {submitButton()}
         <div className="my-4 w-full h-px bg-gray-200"></div>
       </div>
     </form>
@@ -124,12 +152,13 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
 };
 
 DescriptionForm.propTypes = {
-  loading: PropTypes.bool,
   formState: PropTypes.string,
-  setFormState: PropTypes.func,
   inputFields: PropTypes.object,
-  setField: PropTypes.func,
+  loading: PropTypes.bool,
+  runsRemaining: PropTypes.number,
   selectedResults: PropTypes.object,
+  setField: PropTypes.func,
+  setFormState: PropTypes.func,
   submitForm: PropTypes.func,
   toggleSelected: PropTypes.func
 }

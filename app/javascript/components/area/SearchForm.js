@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../listings/New';
 import PropTypes from 'prop-types';
 import { createRequest } from '../../helpers/requests';
+import ErrorNotice from '../common/ErrorNotice';
 
 const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult }) => {
   const [errors, setErrors] = useState(null);
@@ -10,6 +11,7 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
   const user = useContext(UserContext);
 
   const setField = (field, value) => {
+    setErrors(null);
     setInputFields({ ...inputFields, [field]: value });
   }
 
@@ -51,9 +53,7 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
 
   const asciiWarning = () => {
     return (
-      <p className="mt-4 text-sm text-red-700">
-        Sorry, your text contains a language character we cannot process. Try typing the location if you have copied and pasted from another site.
-      </p>
+      "Sorry - our search provider cannot handle certain language characters. Try typing the location if you have copied and pasted from another site."
     )
   }
 
@@ -61,10 +61,30 @@ const SearchForm = ({ loading, setLoading, initialSearchTerm, setSearchResult })
     return /^[\x00-\x7F]*$/.test(str);
   }
 
+  const couldNotFindPlace = () => {
+    return errors.data && errors.data.no_results;
+  };
+
+  const handleServerSideError = () => {
+    if (couldNotFindPlace()) {
+      return <p className="text-sm text-red-700">{errors.data.no_results[0]}</p>
+    }
+    return (
+      <div className="self-center w-full text-sm">
+        <ErrorNotice errors={errors} />
+      </div>
+    )
+  };
+
   const submitButton = () => {
+    if (errors) {
+      return handleServerSideError();
+    } else if (!isAscii(inputFields.search_text)) {
+      return <p className="text-sm text-red-700">{asciiWarning()}</p>
+    }
     const disabled = loading || ["lapsed_trial", "lapsed_subscription"].includes(user.account_status)
     return (
-      <button disabled={disabled} className={`${disabled ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
+      <button disabled={disabled} className={disabled ? "disabled-primary-button" : "primary-button"}>
         Search
       </button>
     )

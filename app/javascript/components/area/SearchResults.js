@@ -11,7 +11,7 @@ const SearchResults = ({
 
   const noResultsMessage = () => {
     return (
-      <div className="text-center">
+      <div className="text-center mt-4 text-sm">
         {"Sorry, we couldn't find anything for this search. You could try a different search term; generally the names of towns, cities or smaller local areas work better than countries or specific addresses. If changing the search term doesn't help, please let us know."}
         <div className="flex justify-center py-8 w-full">
           <button type='button' onClick={resetForm} className="primary-button">
@@ -29,7 +29,7 @@ const SearchResults = ({
           <h2 className="text-lg font-medium">Search</h2>
         </div>
         <p>Here is what we found nearby. Looking for more?
-          <button type='button' onClick={resetForm} className="secondary-link ml-2">Edit your search.</button>
+          <button type='button' onClick={resetForm} className="secondary-link ml-2">Try another search.</button>
         </p>
         <br />
         <AreaAttractionList

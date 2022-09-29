@@ -74,6 +74,22 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, se
     }
   }
 
+  const descriptionForm = () => {
+    return (
+      <DescriptionForm
+        loading={loading}
+        formState={formState}
+        setFormState={setFormState}
+        inputFields={inputFields}
+        setField={setField}
+        selectedResults={selectedResults}
+        toggleSelected={toggleSelected}
+        runsRemaining={runsRemaining}
+        submitForm={handleSubmit}
+      />
+    )
+  };
+
   const searchForm = () => {
     if (formState === 'search_form') {
       return (
@@ -102,21 +118,6 @@ const MultiSearchForm = ({ loading, setLoading, handleTaskRun, runsRemaining, se
         />
       )
     }
-  };
-
-  const descriptionForm = () => {
-    return (
-      <DescriptionForm
-        loading={loading}
-        formState={formState}
-        setFormState={setFormState}
-        inputFields={inputFields}
-        setField={setField}
-        selectedResults={selectedResults}
-        toggleSelected={toggleSelected}
-        submitForm={handleSubmit}
-      />
-    )
   };
 
   const bannerText = () => {
@@ -155,6 +156,8 @@ MultiSearchForm.propTypes = {
   handleTaskRun: PropTypes.func
 }
 
+// Temporary banner
+
 const Banner = ({ title, text }) => {
   const borderColor = 'border-teal-500';
   const iconColor   = 'text-teal-500';
@@ -174,6 +177,11 @@ const Banner = ({ title, text }) => {
       </div>
     </div>
   )
+}
+
+Banner.propTypes = {
+  title: PropTypes.string,
+  text: PropTypes.string,
 }
 
 export default MultiSearchForm;

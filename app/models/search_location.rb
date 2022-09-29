@@ -3,6 +3,8 @@ class SearchLocation < ApplicationRecord
   has_many :area_descriptions, dependent: :destroy
   has_many :area_description_fragments, class_name: 'Inputs::AreaDescriptionFragment', dependent: :destroy
 
+  attr_accessor :attraction_radius
+
   validates :search_text, length: { minimum: 3 }
 
   def self.find_or_create_with(search_text)

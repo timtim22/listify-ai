@@ -64,7 +64,7 @@ const SearchResults = ({
   const attractionsFound = attractions.length + restaurants.length + stations.length > 0;
 
   return (
-    <div className="bg-gray-50 self-center border border-gray-100 rounded-lg w-4/5">
+    <div className="bg-gray-50 self-center border border-gray-200 rounded-lg w-4/5">
       <div className="w-full flex justify-center">
         <div className="flex justify-center w-4/5">
           {!attractionsFound && noResultsMessage()}

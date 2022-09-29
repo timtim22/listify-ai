@@ -160,7 +160,7 @@ const Banner = ({ title, text }) => {
   const iconColor   = 'text-teal-500';
 
   return (
-    <div className={`w-full bg-[#f0fdfa] py-3 px-4 text-left rounded-b border-l-4 ${borderColor} shadow border-t-1`} role="alert">
+    <div style={{ backgroundColor: '#f0fdfa' }} className={`w-full py-3 px-4 text-left rounded-b border-l-4 ${borderColor} shadow border-t-1`} role="alert">
       <div className="flex items-center">
         <div className={`py-1 ${iconColor}`}>
           <svg className="mr-4 w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

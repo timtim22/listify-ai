@@ -7,7 +7,7 @@ const DescriptionForm = ({ loading, formState, setFormState, selectedResults, to
 
   const attractionRow = () => {
     return (
-      <div className="flex justify-start items-center my-2 w-full min-h-[48px]">
+      <div className="flex justify-start items-center my-2 w-full min-h-12">
         <label className="flex-shrink-0 w-1/3 text-sm">Selected attractions</label>
         {selectedAttractionList()}
       </div>

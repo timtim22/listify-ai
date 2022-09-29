@@ -25,7 +25,7 @@ const firstScreenFor = (user) => {
   } else if (aboutFirstUser(user)) {
     return 'about';
   } else {
-    return 'area';
+    return 'listing_description';
   }
 };
 

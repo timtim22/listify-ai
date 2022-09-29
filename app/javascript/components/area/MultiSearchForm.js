@@ -153,7 +153,8 @@ MultiSearchForm.propTypes = {
   loading: PropTypes.bool,
   setLoading: PropTypes.func,
   runsRemaining: PropTypes.number,
-  handleTaskRun: PropTypes.func
+  handleTaskRun: PropTypes.func,
+  setFormType: PropTypes.func
 }
 
 // Temporary banner

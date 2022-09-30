@@ -42,4 +42,11 @@ class AdminMailer < ApplicationMailer
       subject: 'User account locked!'
     )
   end
+
+  def unexpected_search_volume
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Unexpected recorded search volume!'
+    )
+  end
 end

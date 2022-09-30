@@ -1,4 +1,4 @@
-AUTH_ROUTES = ['/users', '/users/sign_in']
+AUTH_ROUTES = ['/users', '/users/sign_in', '/api/v1/users/sign_in']
 REQUEST_ROUTES = [
   '/adverts.json',
   '/area_descriptions.json',

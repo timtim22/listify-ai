@@ -26,3 +26,14 @@ task :create_missing_completions, [:number] => [:environment] do |t, args|
     end
   end
 end
+
+desc 'Send alert for teams with 80% usage of monthly spins'
+task send_80_percent_consumed_spins_notifications: [:environment] do
+  Team.all.each do |team|
+    team_user = team.users.first
+    spins_used = SpinCounter.new(team_user).team_spins_used
+    next unless spins_used >= team.monthly_spins * 0.80
+
+    AdminMailer.spins_80_percent_consumed(team, spins_used).deliver_now
+  end
+end

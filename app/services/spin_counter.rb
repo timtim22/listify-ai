@@ -50,6 +50,10 @@ class SpinCounter
     end
   end
 
+  def team_spins_used
+    team_spins_since(start_of_month, user.team)
+  end
+
   def spin_stats
     OpenStruct.new(spins: spins_used_in_current_period, quota: spin_quota)
   end

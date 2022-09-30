@@ -34,6 +34,6 @@ task send_80_percent_consumed_spins_notifications: [:environment] do
     spins_used = SpinCounter.new(team_user).team_spins_used
     next unless spins_used >= team.monthly_spins * 0.80
 
-    AdminMailer.spins_80_percent_consumed(team, spins_used).deliver_now
+    AdminMailer.spins_80_percent_consumed(team, spins_used).deliver_later
   end
 end

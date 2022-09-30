@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.11'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '~> 1.12', require: false
+gem 'bootsnap', '~> 1.13', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

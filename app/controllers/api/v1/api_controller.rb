@@ -40,6 +40,11 @@ class Api::V1::ApiController < ActionController::Base
     render json: response, status: 403
   end
 
+  def json_unauthorized(message = "Unauthorized")
+    response = generate_response(message: message)
+    render json: response, status: 401
+  end
+
   def json_not_found(message = "Not Found")
     response = generate_response(message: message)
     render json: response, status: 404

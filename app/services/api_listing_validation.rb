@@ -3,11 +3,11 @@ class ApiListingValidation
   FEATURES_ARRAY_COUNT  = 360
   MAX_NUMBER_OF_BEDROOM = 100
 
-  def initialize(params, current_user)
+  def initialize(params, current_user, output_language)
     @params               = params
     @current_user         = current_user
     @supported_languages  = %w[EN DA DE ES FR IT NL EN]
-    @output_language      = @params['output_language']
+    @output_language      = output_language
     @listing_field        = @params['listing_field']
     @property_type        = @params['text']['property_type']
     @ideal_for            = @params['text']['ideal_for']

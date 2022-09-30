@@ -1,4 +1,6 @@
 class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
+  before_action :admin_user
+  before_action :output_language
   before_action :params_validation
   include ApiInputTextConcern
 
@@ -8,7 +10,7 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
     return json_unprocessable_entity unless save.success
 
     @listing = save.input_object
-    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, params[:output_language])
+    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language)
     sleep 10
     @task_results = @task_run.task_results.map(&:result_text)
 
@@ -17,8 +19,16 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
 
   private
 
+  def admin_user
+    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
+  end
+
+  def output_language
+    params[:output_language].presence || 'EN'
+  end
+
   def params_validation
-    listing_validation = ApiListingValidation.new(params, current_user).call
+    listing_validation = ApiListingValidation.new(params, current_user, output_language).call
     return json_bad_request(listing_validation) if listing_validation.present?
   end
 

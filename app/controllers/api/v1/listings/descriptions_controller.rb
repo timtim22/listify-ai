@@ -11,7 +11,6 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
 
     @listing = save.input_object
     @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language)
-    sleep 10
     @task_results = @task_run.task_results.map(&:result_text)
 
     task_results_response(@task_results)

@@ -32,8 +32,11 @@ class SearchLocationsController < ApplicationController
 
   def record_search_by_user
     @search_location.recorded_searches.create!(user: current_user)
-    if RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count > 200
-      raise "Unexpected search volume recorded!"
-    end
+    recorded_search_volume = RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count
+    raise 'Unexpected search volume recorded!' if recorded_search_volume > 200
+
+    return unless recorded_search_volume == 150
+
+    AdminMailer.unexpected_search_volume.deliver_later
   end
 end

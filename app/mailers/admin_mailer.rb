@@ -43,6 +43,12 @@ class AdminMailer < ApplicationMailer
     )
   end
 
+  def unexpected_search_volume
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Unexpected recorded search volume!'
+  end
+
   def spins_80_percent_consumed(team, spins_used)
     @team_name = team.name
     @monthly_spins = team.monthly_spins

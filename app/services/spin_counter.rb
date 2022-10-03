@@ -108,14 +108,14 @@ class SpinCounter
     TaskRun
       .where(user_id: team_user_ids)
       .where.not(input_object_type: IGNORED_TASK_TYPES)
-      .where('created_at > ? AND created_at < ?', start_datetime, end_datetime)
+      .where('created_at > ? AND created_at <= ?', start_datetime, end_datetime)
       .count
   end
 
   def team_builder_listings_within(team_user_ids, start_datetime, end_datetime)
     builder_runs = TaskRun.where(user_id: team_user_ids)
       .where(input_object_type: BUILDER_TASK_TYPES)
-      .where('created_at > ? AND created_at < ?', start_datetime, end_datetime)
+      .where('created_at > ? AND created_at <= ?', start_datetime, end_datetime)
       .count
     builder_runs / 3 # rounds down %
   end

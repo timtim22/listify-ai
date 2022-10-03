@@ -99,7 +99,7 @@ class SpinCounter
     builder_runs / 3 #rounds down %
   end
 
-  def team_spins_within(start_datetime, team, end_datetime = Time.zone.now)
+  def team_spins_within(team, start_datetime, end_datetime = Time.zone.now)
     user_ids = team.users.pluck(:id)
     team_runs_within(user_ids, start_datetime, end_datetime) + team_builder_listings_within(user_ids, start_datetime, end_datetime)
   end

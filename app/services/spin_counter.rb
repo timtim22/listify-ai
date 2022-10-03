@@ -1,5 +1,4 @@
 class SpinCounter
-
   DERIVATIVE_TASK_TYPES = ['DerivedInputObject'].freeze
   BUILDER_TASK_TYPES = [
     'Inputs::SummaryFragment',
@@ -12,7 +11,7 @@ class SpinCounter
 
   attr_reader :user
 
-  def initialize(user)
+  def initialize(user = nil)
     @user = user
   end
 
@@ -62,7 +61,28 @@ class SpinCounter
     OpenStruct.new(spins: spins_used_in_current_period, quota: spin_quota)
   end
 
+  def team_spin_stats(team)
+    end_of_week = Time.zone.now
+    start_of_previous_month = (start_of_month - 1.day).beginning_of_month.beginning_of_day
+    end_of_previous_month = start_of_previous_month.end_of_month.end_of_day
+    spin_usage_this_month = team_spins_within(team, start_of_month)
+    spin_usage_previous_month = team_spins_within(team, start_of_previous_month, end_of_previous_month)
+    OpenStruct.new(
+      name: team.name,
+      spin_usage_7_days: team_spins_within(team, end_of_week - 7.days, end_of_week),
+      spin_usage_this_month: spin_usage_this_month,
+      spin_usage_previous_month: spin_usage_previous_month,
+      spin_usage_increase: team_spin_usage_increase(spin_usage_this_month, spin_usage_previous_month)
+    )
+  end
+
   private
+
+  def team_spin_usage_increase(spin_usage_this_month, spin_usage_previous_month)
+    return 0.0 if spin_usage_previous_month.zero?
+
+    (spin_usage_this_month / spin_usage_previous_month.to_f) * 100
+  end
 
   def team_spins_quota
     user.team.monthly_spins
@@ -121,6 +141,6 @@ class SpinCounter
   end
 
   def start_of_month
-    Time.zone.today.beginning_of_month.beginning_of_day
+    @start_of_month ||= Time.zone.today.beginning_of_month.beginning_of_day
   end
 end

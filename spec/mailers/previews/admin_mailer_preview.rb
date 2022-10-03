@@ -26,4 +26,12 @@ class AdminMailerPreview < ActionMailer::Preview
   def spins_80_percent_consumed
     AdminMailer.spins_80_percent_consumed(Team.first, 20)
   end
+
+  def monthly_spin_usage
+    teams_data = Team.all.map do |team|
+      spin_counter = SpinCounter.new
+      spin_counter.team_spin_stats(team)
+    end
+    AdminMailer.monthly_spin_usage(teams_data)
+  end
 end

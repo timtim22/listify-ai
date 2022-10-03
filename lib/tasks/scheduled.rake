@@ -40,3 +40,12 @@ task send_80_percent_consumed_spins_notifications: [:environment] do
     AdminMailer.spins_80_percent_consumed(team, spins_used).deliver_later
   end
 end
+
+desc 'Send weekly email for admins on usage'
+task send_weekly_email_for_usage: [:environment] do
+  teams_data = Team.all.map do |team|
+    spin_counter = SpinCounter.new
+    spin_counter.team_spin_stats(team)
+  end
+  AdminMailer.monthly_spin_usage(teams_data).deliver_later
+end

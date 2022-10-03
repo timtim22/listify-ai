@@ -47,6 +47,7 @@ class AdminMailer < ApplicationMailer
     mail(
       to: ADMIN_EMAILS,
       subject: 'Unexpected recorded search volume!'
+    )
   end
 
   def spins_80_percent_consumed(team, spins_used)

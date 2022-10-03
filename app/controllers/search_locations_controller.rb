@@ -7,9 +7,12 @@ class SearchLocationsController < ApplicationController
     record_search_by_user
 
     if @search_location.latitude.nil?
-      render json: { no_results: ["Sorry, we didn't find any results for this area. Please try another search."] }, status: :unprocessable_entity
+      render json: { no_results: ["Sorry, our search provider couldn't identify that place. You could try a different search term, e.g, 'Waterloo, London' instead of 'Waterloo'."] }, status: :unprocessable_entity
     else
-      @attractions = AreaSearch::AttractionFinder.new(@search_location).find!
+      @attractions = AreaSearch::AttractionFinder.new(
+        @search_location,
+        search_location_params[:attraction_radius]
+      ).find!
 
       respond_to do |format|
         if @search_location.save
@@ -24,13 +27,16 @@ class SearchLocationsController < ApplicationController
   private
 
   def search_location_params
-    params.require(:search_location).permit(:search_text)
+    params.require(:search_location).permit(:search_text, :attraction_radius)
   end
 
   def record_search_by_user
     @search_location.recorded_searches.create!(user: current_user)
-    if RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count > 200
-      raise "Unexpected search volume recorded!"
-    end
+    recorded_search_volume = RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count
+    raise 'Unexpected search volume recorded!' if recorded_search_volume > 200
+
+    return unless recorded_search_volume == 150
+
+    AdminMailer.unexpected_search_volume.deliver_later
   end
 end

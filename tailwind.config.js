@@ -20,6 +20,9 @@ module.exports = {
       },
       zIndex: {
        '-10': '-10',
+      },
+      minHeight: {
+        'w-12': '48px'
       }
     },
   },

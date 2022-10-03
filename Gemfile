@@ -26,13 +26,13 @@ gem 'jbuilder', '~> 2.11'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '~> 1.12', require: false
+gem 'bootsnap', '~> 1.13', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry', '~> 0.14.1'
-  gem 'rswag-specs'
+  gem 'rswag-specs', '~> 2.6'
 end
 
 group :development do
@@ -51,9 +51,9 @@ end
 group :test do
   gem 'capybara', '~> 3.37', '>= 3.37.1'
   gem 'factory_bot_rails', '~> 6.2'
-  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'rspec-rails', '~> 5.1'
   gem 'selenium-webdriver', '~> 4.1'
-  gem 'vcr', '~> 6.0'
+  gem 'vcr', '~> 6.1'
   gem 'webmock', '~> 3.14'
 end
 
@@ -67,7 +67,6 @@ gem 'devise', '~> 4.8'
 gem 'devise_masquerade', '~> 1.3'
 gem 'devise-two-factor', '~> 4.0', '>= 4.0.2'
 gem 'font-awesome-sass', '~> 6.1'
-gem 'google-cloud-translate', '~> 3.3'
 gem 'honeybadger', '~> 4.9'
 gem 'httparty', '~> 0.18.1'
 gem 'jwt'
@@ -75,11 +74,12 @@ gem 'pagy', '~> 4.11'
 gem 'pundit', '~> 2.2'
 gem 'rack-attack', '~> 6.5'
 gem 'ransack', '~> 3.2', '>= 3.2.1'
-gem 'react-rails', '~> 2.6', '>= 2.6.1'
+gem 'react-rails', '~> 2.6'
 gem 'receipts', '~> 2.0'
 gem 'redis', '~> 4.4'
 gem 'rqrcode', '~> 2.1', '>= 2.1.1'
-gem "rswag"
+gem 'rswag-api', '~> 2.6'
+gem 'rswag-ui', '~> 2.6'
 gem 'sidekiq', '~> 6.5'
 gem 'stripe', '~> 5.55'
 gem 'stripe_event', '~> 2.4'

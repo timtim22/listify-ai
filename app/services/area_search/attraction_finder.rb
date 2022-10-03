@@ -3,8 +3,9 @@ module AreaSearch
     attr_reader :search_location, :client
     attr_accessor :found
 
-    def initialize(search_location, client = ApiClients::GoogleMaps.new)
+    def initialize(search_location, attraction_radius, client = ApiClients::GoogleMaps.new)
       @search_location = search_location
+      @attraction_radius = attraction_radius || 5000
       @client = client
       @found = { attractions: [], stations: [], restaurants: [] }
     end
@@ -21,7 +22,7 @@ module AreaSearch
     end
 
     def find_attractions
-      results = nearby_request('tourist_attraction', 5000)
+      results = nearby_request('tourist_attraction', @attraction_radius)
       found[:attractions] = filter_by_ratings(results) if results.any?
     end
 
@@ -33,12 +34,12 @@ module AreaSearch
     end
 
     def get_train_stations(station_type, record_count = 3)
-      results = nearby_request(station_type, 5000)
+      results = nearby_request(station_type, @attraction_radius)
       results_with_distance(results, record_count)
     end
 
     def get_subway_stations(station_type, record_count = 3)
-      results = nearby_distance_request(station_type, 5000)
+      results = nearby_distance_request(station_type, @attraction_radius)
       results_with_distance(results, record_count)
     end
 

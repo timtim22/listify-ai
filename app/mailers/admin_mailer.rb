@@ -42,4 +42,21 @@ class AdminMailer < ApplicationMailer
       subject: 'User account locked!'
     )
   end
+
+  def unexpected_search_volume
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Unexpected recorded search volume!'
+    )
+  end
+
+  def spins_80_percent_consumed(team, spins_used)
+    @team_name = team.name
+    @monthly_spins = team.monthly_spins
+    @spins_used = spins_used
+    mail(
+      to: ADMIN_EMAILS,
+      subject: "#{@team_name} has used up 80% of their monthly spins!"
+    )
+  end
 end

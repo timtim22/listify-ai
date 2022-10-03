@@ -6,6 +6,7 @@ import { initialStepArray } from '../../helpers/listingBuilder';
 import AboutForm from '../about/Form';
 import RoomForm from '../rooms/Form';
 import AreaForm from './AreaForm';
+import MultiSearchAreaForm from '../area/MultiSearchForm';
 import AdvertForm from '../adverts/Form';
 import VacasaForm from '../custom_forms/Vacasa';
 import OyoForm from '../custom_forms/Oyo';
@@ -91,6 +92,18 @@ const New = ({ showExample, initialRunsRemaining, currentUser }) => {
           shouldGenerateFragment={false}
         />
       );
+    } else if (formType === 'area') {
+      return (
+        <MultiSearchAreaForm
+          loading={loading}
+          setLoading={toggleLoading}
+          results={results}
+          setResults={setResults}
+          handleTaskRun={handleTaskRun}
+          runsRemaining={runsRemaining}
+          setFormType={resetFormType}
+        />
+      )
     } else if (formType === 'room_description') {
       return (
         <RoomForm

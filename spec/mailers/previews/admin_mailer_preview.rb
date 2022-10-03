@@ -18,4 +18,12 @@ class AdminMailerPreview < ActionMailer::Preview
   def user_account_locked
     AdminMailer.user_account_locked(User.first)
   end
+
+  def unexpected_search_volume
+    AdminMailer.unexpected_search_volume
+  end
+
+  def spins_80_percent_consumed
+    AdminMailer.spins_80_percent_consumed(Team.first, 20)
+  end
 end

@@ -44,10 +44,18 @@ class SpinCounter
     if user.admin_or_listify_team?
       TRIAL_SPINS
     elsif user.member_of_team?
-      spin_quota - team_spins_since(start_of_month, user.team)
+      spin_quota - team_spins_within(user.team, start_of_month)
     else
       spin_quota - spins_used_in_current_period
     end
+  end
+
+  def team_spins_used
+    team_spins_within(user.team, start_of_month)
+  end
+
+  def team_spins_used_yesterday
+    team_spins_within(user.team, start_of_month, Time.zone.now - 1.day)
   end
 
   def spin_stats
@@ -91,23 +99,23 @@ class SpinCounter
     builder_runs / 3 #rounds down %
   end
 
-  def team_spins_since(datetime, team)
+  def team_spins_within(team, start_datetime, end_datetime = Time.zone.now)
     user_ids = team.users.pluck(:id)
-    team_runs_since(datetime, user_ids) + team_builder_listings_since(datetime, user_ids)
+    team_runs_within(user_ids, start_datetime, end_datetime) + team_builder_listings_within(user_ids, start_datetime, end_datetime)
   end
 
-  def team_runs_since(datetime, team_user_ids)
+  def team_runs_within(team_user_ids, start_datetime, end_datetime)
     TaskRun
       .where(user_id: team_user_ids)
       .where.not(input_object_type: IGNORED_TASK_TYPES)
-      .where('created_at > ?', datetime)
+      .where('created_at > ? AND created_at <= ?', start_datetime, end_datetime)
       .count
   end
 
-  def team_builder_listings_since(datetime, team_user_ids)
+  def team_builder_listings_within(team_user_ids, start_datetime, end_datetime)
     builder_runs = TaskRun.where(user_id: team_user_ids)
       .where(input_object_type: BUILDER_TASK_TYPES)
-      .where('created_at > ?', datetime)
+      .where('created_at > ? AND created_at <= ?', start_datetime, end_datetime)
       .count
     builder_runs / 3 # rounds down %
   end

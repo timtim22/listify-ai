@@ -22,4 +22,8 @@ class AdminMailerPreview < ActionMailer::Preview
   def unexpected_search_volume
     AdminMailer.unexpected_search_volume
   end
+
+  def spins_80_percent_consumed
+    AdminMailer.spins_80_percent_consumed(Team.first, 20)
+  end
 end

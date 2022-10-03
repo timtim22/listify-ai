@@ -18,7 +18,7 @@ class ApiListingValidation
 
   def call
     error_message = []
-    error_message << { message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues' } if missing_params
+    error_message << { message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, features' } if missing_params
     error_message << { message: "Language not supported. Only following output languages are supported: #{@supported_languages}" } unless supported_language_check
     error_message << { message: "property_type characters count should be less than #{TEXT_CHARS_COUNT}" } if property_type_character_count_check
     error_message << { message: "ideal_for characters count should be less than #{TEXT_CHARS_COUNT}" } if ideal_for_character_count_check

@@ -9,7 +9,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
 
   describe 'descriptions controller' do
     context 'with invalid parameter' do
-      it 'to should fail for missing parameter ' do
+      it 'fails for missing parameter ' do
         payload = {
           output_language: "EN",
           text: {
@@ -24,10 +24,10 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/listings/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq [{ message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, featues' }]
+        expect(eval(response.body)[:message]).to eq [{ message: 'Required fields are as follows: property_type, ideal_for, location, number_of_bedrooms, features' }]
       end
 
-      it 'to should fail for character count exceeding limit for location ' do
+      it 'fails for character count exceeding limit for location' do
         payload = {
           output_language: "EN",
           text: {
@@ -45,7 +45,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'location characters count should be less than 70' }]
       end
 
-      it 'to should fail for character count exceeding limit for property_type ' do
+      it 'fails for character count exceeding limit for property_type' do
         payload = {
           output_language: "EN",
           text: {
@@ -63,7 +63,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'property_type characters count should be less than 70' }]
       end
 
-      it 'to should fail for character count exceeding limit for ideal_for ' do
+      it 'fails for character count exceeding limit for ideal_for' do
         payload = {
           output_language: "EN",
           text: {
@@ -81,7 +81,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'ideal_for characters count should be less than 70' }]
       end
 
-      it 'to should fail for unsupported output features ' do
+      it 'fails for unsupported output features' do
         payload = {
           output_language: "EN",
           text: {
@@ -112,7 +112,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'features_count characters count should be less than 360' }]
       end
 
-      it 'to should fail for exceeding limit for number of bedrooms ' do
+      it 'fails for exceeding limit for number of bedrooms ' do
         payload = {
           output_language: "EN",
           text: {
@@ -130,7 +130,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'number_of_bedrooms should be between 0 and 100' }]
       end
 
-      it 'to should fail for negative number_of_bedrooms ' do
+      it 'fails for negative number_of_bedrooms' do
         payload = {
           output_language: "EN",
           text: {
@@ -148,7 +148,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
         expect(eval(response.body)[:message]).to eq [{ message: 'number_of_bedrooms should be between 0 and 100' }]
       end
 
-      it 'to should fail for unsupported output language ' do
+      it 'fails for unsupported output language' do
         payload = {
           output_language: "PK",
           text: {

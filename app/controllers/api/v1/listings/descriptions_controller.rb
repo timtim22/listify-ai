@@ -61,7 +61,7 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
 
   def task_results_response(task_results)
     if task_results.present?
-      json_success('Successfully Generated Discriptions', task_results)
+      json_success('Successfully Generated Descriptions', task_results)
     else
       json_not_found('Something Went Wrong! Please Try Again.')
     end

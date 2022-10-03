@@ -3,7 +3,7 @@ class RecordedCompletion < ApplicationRecord
   belongs_to :task_result, optional: true
   belongs_to :user, optional: true
 
-  def self.create_for(task_run, task_result, request, config)
+  def self.create_for(task_run, task_result, request, config, api_request)
     input_object = task_run.input_object
     parsed_request = JSON.parse(request).symbolize_keys
     RecordedCompletion.create(
@@ -26,7 +26,8 @@ class RecordedCompletion < ApplicationRecord
       failed_filter: task_result.failed_any_filter?,
       input_language_code: input_object.respond_to?(:input_language) ? input_object.input_language : 'EN',
       untranslated_input_text: input_object.respond_to?(:untranslated_input_text) ? input_object.untranslated_input_text : nil,
-      completion_translation_codes: task_result.translations.pluck(:to)
+      completion_translation_codes: task_result.translations.pluck(:to),
+      api_request: api_request
     )
   end
 

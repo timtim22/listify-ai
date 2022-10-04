@@ -5,6 +5,7 @@ RSpec.describe 'Api::V1::Listings::DescriptionsController', type: :request do
 
   before(:each) do
     @user = create(:user)
+    @user.update(admin: true)
   end
 
   describe 'descriptions controller' do

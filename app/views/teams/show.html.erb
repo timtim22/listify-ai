@@ -16,6 +16,9 @@
                 <th class="py-3 px-6">User</th>
                 <th class="py-3 px-6">Role</th>
                 <th class="py-3 px-6">Spins this month</th>
+                <th class="py-3 px-3">
+                  <span class="sr-only">Edit</span>
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -24,6 +27,16 @@
                   <td class="py-3 px-6"><%= user.email %></td>
                   <td class="py-3 px-6"><%= user.team_role.name %> </td>
                   <td class="py-3 px-6">Coming soon</td>
+                  <% unless user.team_admin? %>
+                    <td class="py-3 px-3 text-red-600">
+                      <%= link_to team_role_path(user.team_role), method: :delete,
+                        data: { confirm: "Are you sure you want to remove #{user.email} from the team?" } do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      <% end %>
+                    </td>
+                  <% end %>
                 </tr>
               <% end %>
             </tbody>

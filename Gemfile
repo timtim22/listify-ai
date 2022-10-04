@@ -36,7 +36,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'brakeman', '~> 5.2'
+  gem 'brakeman', '~> 5.3'
   gem 'bullet', '~> 7.0', '>= 7.0.2'
   gem 'listen', '~> 3.7'
   gem 'overcommit', '~> 0.59.1'
@@ -69,7 +69,7 @@ gem 'font-awesome-sass', '~> 6.1'
 gem 'honeybadger', '~> 4.9'
 gem 'httparty', '~> 0.18.1'
 gem 'jwt'
-gem 'pagy', '~> 4.11'
+gem 'pagy', '~> 5.10'
 gem 'pundit', '~> 2.2'
 gem 'rack-attack', '~> 6.5'
 gem 'ransack', '~> 3.2', '>= 3.2.1'
@@ -81,4 +81,4 @@ gem 'rswag-api', '~> 2.6'
 gem 'rswag-ui', '~> 2.6'
 gem 'sidekiq', '~> 6.5'
 gem 'stripe', '~> 5.55'
-gem 'stripe_event', '~> 2.4'
+gem 'stripe_event', '~> 2.6'

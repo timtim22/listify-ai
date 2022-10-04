@@ -11,47 +11,12 @@ paths:
       - Sign In
       parameters: []
       responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Successfull Message
-                    example: Successfully Logged In.
-                  data:
-                    type: object
-                    properties:
-                      token:
-                        type: string
-                        description: authentication token
-                        example: eyJ1c2VyX2lkIjoiMDE5YTc3ZGMtOWYyOS00ODNjLThhZTAtMzBlNTU1MDVlODNiIiwiZXhwIjoxNjYzNzgwMDgzfQ
-                      expire_at:
-                        type: string
-                        description: expire date and time
-                        example: 01-01-2022 17:08
+        '200':
+          description: Successfully logged In
         '400':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Missing Parameter
-                    example: Email and Password are required field.
+          description: Email and Password are required field.
         '404':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Incorrect Email
-                    example: Incorrect Email
+          description: Incorrect Email
       requestBody:
         content:
           application/json:

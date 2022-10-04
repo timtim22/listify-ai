@@ -1,6 +1,6 @@
 require "swagger_helper"
 
-describe 'api/v1/authentication_controller' do
+xdescribe 'api/v1/authentication_controller' do
   path '/api/v1/users/sign_in' do
     post 'Sign In' do
       tags 'Sign In'

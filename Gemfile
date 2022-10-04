@@ -40,6 +40,7 @@ group :development do
   gem 'bullet', '~> 7.0', '>= 7.0.2'
   gem 'listen', '~> 3.7'
   gem 'overcommit', '~> 0.59.1'
+  gem 'pry-byebug', '~> 3.4'
   gem 'rack-mini-profiler', '~> 3.0'
   gem 'rubocop-rails', '~> 2.13', '>= 2.13.2', require: false
   gem 'spring', '~> 4.0'

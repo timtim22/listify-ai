@@ -16,7 +16,7 @@ class Api::V1::ApiController < ActionController::Base
 
   def current_user
     header = get_header
-    decoded = JWT.decode(header, Rails.application.credentials.dig(:jwt_auth, :auth_key))[0]
+    decoded = JWT.decode(header, Rails.application.secret_key_base)[0]
     User.find(decoded['user_id'])
   end
 
@@ -38,6 +38,11 @@ class Api::V1::ApiController < ActionController::Base
   def json_forbidden(message = "Forbidden")
     response = generate_response(message: message)
     render json: response, status: 403
+  end
+
+  def json_unauthorized(message = "Unauthorized")
+    response = generate_response(message: message)
+    render json: response, status: 401
   end
 
   def json_not_found(message = "Not Found")

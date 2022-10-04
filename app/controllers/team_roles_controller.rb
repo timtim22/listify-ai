@@ -1,6 +1,6 @@
 class TeamRolesController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_team_admin
+  before_action :authorize_team_role
 
   def destroy
     @team_role = TeamRole.find(params[:id])
@@ -20,8 +20,7 @@ class TeamRolesController < ApplicationController
 
   private
 
-  def authenticate_team_admin
-    authorised = current_user.team_admin? || current_user.admin?
-    redirect_to '/', alert: 'Not authorized.' unless authorised
+  def authorize_team_role
+    authorize TeamRole
   end
 end

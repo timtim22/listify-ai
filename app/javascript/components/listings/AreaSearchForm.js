@@ -9,7 +9,7 @@ const AreaSearchForm = ({
   setSearchResult,
   setErrors,
   shouldGenerateFragment
-  }) => {
+}) => {
 
   const [inputFields, setInputFields] = useState({ search_text: '' });
   const user = useContext(UserContext);
@@ -40,6 +40,14 @@ const AreaSearchForm = ({
     )
   }
 
+  const onEnterPress = (e) => {
+    if (e.key !== 'Enter') { return }
+    if (!isAscii(inputFields.search_text)) {
+      e.preventDefault();
+    }
+  };
+
+
   const textRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center my-2 w-full">
@@ -50,6 +58,7 @@ const AreaSearchForm = ({
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
+          onKeyPress={(e) => onEnterPress(e)}
           className="w-full text-sm form-inline-field"
         />
       </div>

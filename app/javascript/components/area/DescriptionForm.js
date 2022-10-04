@@ -77,6 +77,15 @@ const DescriptionForm = ({
     )
   };
 
+  const onEnterPress = (e) => {
+    if (e.key !== 'Enter') { return }
+    e.preventDefault();
+    if (!searchOpen && !currentSearchResult.search_location_id) {
+      setFormState('search_form');
+      setSearchOpen(true);
+    }
+  };
+
   const textRow = (title, key, placeholder, required) => {
     return (
       <div className="flex justify-start items-center my-2 w-full">
@@ -87,6 +96,7 @@ const DescriptionForm = ({
           required={required}
           value={inputFields[key]}
           onChange={(e) => {setField(key, e.target.value)}}
+          onKeyPress={(e) => onEnterPress(e)}
           className="w-full text-sm form-inline-field"
         />
       </div>

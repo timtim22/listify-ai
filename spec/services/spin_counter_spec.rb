@@ -1,5 +1,4 @@
 RSpec.describe SpinCounter do
-
   describe 'spins_remaining' do
     it 'counts regular spins correctly' do
       user = create(:user)
@@ -22,7 +21,6 @@ RSpec.describe SpinCounter do
       expected = SpinCounter::TRIAL_SPINS - 2
       expect(SpinCounter.new(user).spins_remaining).to eq expected
     end
-
 
     context 'team user' do
       it 'returns team spins remaining' do
@@ -105,6 +103,32 @@ RSpec.describe SpinCounter do
         expected = SpinCounter::TRIAL_SPINS
         expect(SpinCounter.new(user).spins_remaining).to eq expected
       end
+    end
+  end
+
+  describe 'team_spin_stas' do
+    let(:team) { create(:team) }
+    let(:users) do
+      2.times.map do
+        user = create(:user)
+        team.add_user(user.email)
+        user
+      end
+    end
+
+    it 'returns team spin stats correctly' do
+      start_of_month = Time.zone.today.beginning_of_month.beginning_of_day
+      user_one, user_two = users
+      8.times { create(:task_run, :for_listing, user: user_one, created_at: Time.zone.now) }
+      13.times { create(:task_run, :for_listing, user: user_two, created_at: Time.zone.now) }
+      10.times { create(:task_run, :for_listing, user: user_one, created_at: start_of_month - 10.days) }
+
+      team_spin_stats = SpinCounter.new.team_spin_stats(team)
+      expect(team_spin_stats.name).to eql(team.name)
+      expect(team_spin_stats.spin_usage_7_days).to eql(21)
+      expect(team_spin_stats.spin_usage_this_month).to eql(21)
+      expect(team_spin_stats.spin_usage_previous_month).to eql(10)
+      expect(team_spin_stats.spin_usage_increase).to eql(21 / 10.to_f * 100)
     end
   end
 end

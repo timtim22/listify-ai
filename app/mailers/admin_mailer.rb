@@ -59,4 +59,12 @@ class AdminMailer < ApplicationMailer
       subject: "#{@team_name} has used up 80% of their monthly spins!"
     )
   end
+
+  def monthly_spin_usage(teams_data)
+    @teams_data = teams_data
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Monthly Spin Usage'
+    )
+  end
 end

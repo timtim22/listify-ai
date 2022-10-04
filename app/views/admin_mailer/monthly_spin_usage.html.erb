@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style='font-family: arial; margin: 0px;'>
+    <div style='line-height: 1.6; padding-bottom: 0.5rem; text-align: center;'>
+      <p class="center">Spin Usage of All Teams</p>
+    </div>
+
+    <table style='margin-left: auto; margin-right: auto; border-collapse: collapse;'>
+      <tr style='background-color: #888888; color: white;'>
+        <th style='padding: 8px; padding-top: 12px; padding-bottom: 12px; border: 1px solid #ddd;'>Team Name</th>
+        <th style='padding: 8px; padding-top: 12px; padding-bottom: 12px; border: 1px solid #ddd;'>Spin Usage in the Last 7 Days</th>
+        <th style='padding: 8px; padding-top: 12px; padding-bottom: 12px; border: 1px solid #ddd;'>Spin Usage this Month</th>
+        <th style='padding: 8px; padding-top: 12px; padding-bottom: 12px; border: 1px solid #ddd;'>Spin Usage Previous Month</th>
+        <th style='padding: 8px; padding-top: 12px; padding-bottom: 12px; border: 1px solid #ddd;'>Spin Usage Increase (%)</th>
+      </tr>
+      <% @teams_data.each do |team_data| %>
+        <tr>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.name %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_7_days %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_this_month %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_previous_month %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_increase %></td>
+        </tr>
+      <% end %>
+    </table>
+  </body>
+</html>

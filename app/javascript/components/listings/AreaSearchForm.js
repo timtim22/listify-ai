@@ -34,7 +34,7 @@ const AreaSearchForm = ({
     setSearchResult(null);
     createRequest(
       "/search_locations.json",
-      { search_location: { search_text: encodeURI(inputFields.search_text) } },
+      {search_location: inputFields },
       (response) => { handleRequestSuccess(response) },
       (e) => { setErrors(e); setLoading(false); }
     )

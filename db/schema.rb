@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_27_130411) do
+ActiveRecord::Schema.define(version: 2022_10_03_134137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(version: 2022_09_27_130411) do
     t.text "untranslated_input_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "api_request", default: false
     t.index ["task_result_id"], name: "index_recorded_completions_on_task_result_id"
     t.index ["task_run_id"], name: "index_recorded_completions_on_task_run_id"
     t.index ["user_id"], name: "index_recorded_completions_on_user_id"
@@ -433,6 +434,7 @@ ActiveRecord::Schema.define(version: 2022_09_27_130411) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "expected_results"
     t.string "upstream_task_run_id"
+    t.boolean "api_request", default: false
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
     t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"

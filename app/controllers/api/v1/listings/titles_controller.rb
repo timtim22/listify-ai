@@ -10,7 +10,8 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
     return json_unprocessable_entity unless save.success
 
     @listing = save.input_object
-    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language)
+    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true)
+    sleep(10)
     @task_results = @task_run.task_results.map(&:result_text)
 
     task_results_response(@task_results)

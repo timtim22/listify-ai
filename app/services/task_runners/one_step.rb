@@ -4,13 +4,13 @@ class TaskRunners::OneStep
     prompt_set = prompt_set_for(input_object.request_type)
     task_run   = create_task_run(user, prompt_set, input_object, output_language, api_request)
 
-    generate_gpt_results(task_run, prompt_set, api_request)
+    generate_gpt_results(task_run, prompt_set)
     task_run
   end
 
-  def generate_gpt_results(task_run, prompt_set, api_request)
+  def generate_gpt_results(task_run, prompt_set)
     prompt_set.prompts.map do |prompt|
-      Completions::OneStepRequestWorker.perform_async(task_run.id, prompt.id, api_request)
+      Completions::OneStepRequestWorker.perform_async(task_run.id, prompt.id)
     end
   end
 

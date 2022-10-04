@@ -5,12 +5,12 @@ class CompletionResponseHandler
     @response_formatter  = ResponseFormatters::Runner.new
   end
 
-  def run(task_run, response, prompt, request, config, api_request)
+  def run(task_run, response, prompt, request, config)
     task_result = create_task_result(task_run, response, prompt)
     @content_filters.run(response, task_result, task_run)
     @translations.run(task_run, task_result)
     @response_formatter.run(task_result, task_run.input_object_type)
-    RecordedCompletion.create_for(task_run, task_result, request, config, api_request)
+    RecordedCompletion.create_for(task_run, task_result, request, config)
     task_result.reload
   end
 

@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   resource :account, only: [:edit, :update]
   resources :teams, only: [:show]
   resource :history, only: [:show]
+  resources :team_roles, only: [:destroy]
 
   namespace :text do
     resources :shortcuts, only: [:index, :create, :update, :destroy]

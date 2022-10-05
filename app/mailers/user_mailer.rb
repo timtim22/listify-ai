@@ -82,4 +82,12 @@ class UserMailer < ApplicationMailer
       subject: "#{team_name} has invited you to sign up on Listify!"
     )
   end
+
+  def member_added_on_team(email, role, team_name)
+    @role = role
+    mail(
+      to: email,
+      subject: "#{team_name} has added you to their team on Listify!"
+    )
+  end
 end

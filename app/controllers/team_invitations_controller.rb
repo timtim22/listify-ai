@@ -18,6 +18,8 @@ class TeamInvitationsController < ApplicationController
     respond_to do |format|
       if @team_invitation.save
         if @team.send("add_#{@team_invitation.role}", @team_invitation.email)
+          UserMailer.member_added_on_team(@team_invitation.email, @team_invitation.role, @team.name).deliver_later
+          @team_invitation.accepted!
           format.html { redirect_to team_path(@team.id), notice: 'User was added to the team successfully.' }
         else
           UserMailer.team_invitation(@team_invitation.email, @team_invitation.role, @team.name).deliver_later

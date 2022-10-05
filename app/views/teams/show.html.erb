@@ -43,6 +43,8 @@
           </table>
         </div>
 
+        <%= render partial: "team_invitations/index", locals: { team: @team, team_invitations: @team_invitations } %>
+
         <div class="mt-8 mb-8 w-full h-px bg-gray-200"></div>
         <p class="mt-8 text-sm">Need to talk to someone? Contact us — we'd love to help.</p>
       </div>

@@ -1,5 +1,4 @@
 class UserMailer < ApplicationMailer
-
   def welcome(user)
     @user = user
     mail(
@@ -73,6 +72,14 @@ class UserMailer < ApplicationMailer
     mail(
       to: @user.email,
       subject: 'Payment confirmation required'
+    )
+  end
+
+  def team_invitation(email, role, team_name)
+    @role = role
+    mail(
+      to: email,
+      subject: "#{team_name} has invited you to sign up on Listify!"
     )
   end
 end

@@ -7,7 +7,7 @@ class TeamRolesController < ApplicationController
     team_id = @team_role.team_id
     respond_to do |format|
       if @team_role.admin_privileges?
-        format.html { rredirect_to team_path(team_id), alert: 'Removal of admin is not allowed.' }
+        format.html { redirect_to team_path(team_id), alert: 'Removal of admin is not allowed.' }
       else
         if @team_role.destroy
           format.html { redirect_to team_path(team_id), notice: 'User removed from the team successfully.' }

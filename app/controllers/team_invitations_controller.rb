@@ -2,7 +2,7 @@ class TeamInvitationsController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_team_invitation
   before_action :set_team
-  before_action :set_team_invitation, only: %i[destroy edit resend]
+  before_action :set_team_invitation, only: %i[destroy resend]
 
   def new
     @team_invitation = @team.team_invitations.new
@@ -18,8 +18,8 @@ class TeamInvitationsController < ApplicationController
     respond_to do |format|
       if @team_invitation.save
         if @team.send("add_#{@team_invitation.role}", @team_invitation.email)
-          UserMailer.member_added_on_team(@team_invitation.email, @team_invitation.role, @team.name).deliver_later
           @team_invitation.accepted!
+          UserMailer.member_added_on_team(@team_invitation.email, @team_invitation.role, @team.name).deliver_later
           format.html { redirect_to team_path(@team.id), notice: 'User was added to the team successfully.' }
         else
           UserMailer.team_invitation(@team_invitation.email, @team_invitation.role, @team.name).deliver_later
@@ -61,10 +61,6 @@ class TeamInvitationsController < ApplicationController
 
   def team_invitation_params
     params.require(:team_invitation).permit(:email, :role)
-  end
-
-  def edit_team_invitation_params
-    params.require(:team_invitation).permit(:role)
   end
 
   def set_team_invitation

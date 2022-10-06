@@ -154,7 +154,7 @@ const Form = ({
             <div className="flex flex-col justify-start">
               {textRow(translateLabel('Property type', inputLanguage), 'property_type', 'e.g. apartment, house...', true)}
               {bedroomsCountRow()}
-              {textRow(translateLabel('Location', inputLanguage), 'location', '')}
+              {textRow(translateLabel('Location', inputLanguage), 'location', '', true)}
               {textRow(translateLabel('Ideal for', inputLanguage), 'ideal_for', 'e.g. families, couples')}
               <div className="flex items-start w-full">
                 <label className="flex-shrink-0 mt-2 w-1/3">{translateLabel('Key features', inputLanguage)}</label>

@@ -5,7 +5,7 @@ class TeamRole < ApplicationRecord
   USER_ROLE = 'user'.freeze
   ADMIN_ROLE = 'admin'.freeze
   PURCHASER_ROLE = 'purchaser'.freeze
-  VALID_ROLES = [USER_ROLE, ADMIN_ROLE, PURCHASER_ROLE].freeze
+  VALID_ROLES = [USER_ROLE, ADMIN_ROLE].freeze
 
   def self.create_user_role(team, user)
     create(team: team, user: user, name: USER_ROLE)

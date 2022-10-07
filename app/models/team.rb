@@ -17,13 +17,6 @@ class Team < ApplicationRecord
     false
   end
 
-  def add_purchaser(email)
-    user = User.find_by(email: email)
-    return team_roles.create_purchaser_role(self, user) if user
-
-    false
-  end
-
   def monthly_spins
     custom_spin_count
   end

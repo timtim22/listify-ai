@@ -76,6 +76,7 @@ class UserMailer < ApplicationMailer
   end
 
   def team_invitation(email, role, team_name)
+    @team_name = team_name
     @role = role
     mail(
       to: email,
@@ -84,6 +85,7 @@ class UserMailer < ApplicationMailer
   end
 
   def member_added_on_team(email, role, team_name)
+    @team_name = team_name
     @role = role
     mail(
       to: email,

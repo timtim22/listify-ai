@@ -22,4 +22,11 @@ class SearchLocation < ApplicationRecord
   def set_coordinates
     AreaSearch::Geocoder.set_coordinates(self)
   end
+
+  def create_area_description(request_type, attractions)
+    area_descriptions.create!(
+      request_type: request_type,
+      input_data: attractions
+    )
+  end
 end

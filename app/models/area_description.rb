@@ -4,21 +4,24 @@ class AreaDescription < ApplicationRecord
   belongs_to :search_location
   has_many :task_runs, as: :input_object, dependent: :destroy
 
-  validates :request_type, presence: true
-  validates :detail_text, length: { minimum: 0, maximum: 300 }
-  validate :selected_ids, on: :create
+  def update_form(selected_ids, detail_text, user_provided_area_name=nil)
+    search_results = get_input_data
+    input_data = {
+      search_results: search_results,
+      selected_ids: selected_ids
+    }.to_json
 
-  def self.new_from(params)
-    AreaDescription.new(
-      request_type: 'area_description',
-      search_location: SearchLocation.find(params[:search_location_id]),
-      user_provided_area_name: params[:user_provided_area_name],
-      detail_text: params[:detail_text],
-      input_data: {
-        search_results: params[:search_results],
-        selected_ids: params[:selected_ids]
-      }.to_json
+    self.update(
+      user_provided_area_name: user_provided_area_name,
+      detail_text: detail_text,
+      input_data: input_data
     )
+  end
+
+  def get_input_data
+    JSON.parse(self.input_data)['search_results']
+  rescue
+    self.input_data
   end
 
   def displayable_input_text

@@ -14,4 +14,12 @@ module ApiInputTextConcern
       bedrooms + " bedroom" + property_type + " in " + location + "- ideal for " + ideal_for + join_feature_array + "."
     end
   end
+
+  def generate_detail_text(detail_text)
+    detail_text_string = ''
+    detail_text.each do |arr|
+      detail_text_string << "- " + arr + "\n"
+    end
+    detail_text_string
+  end
 end

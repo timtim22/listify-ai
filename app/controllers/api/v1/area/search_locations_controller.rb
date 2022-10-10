@@ -1,5 +1,7 @@
-class Api::V1::Area::SearchesController < Api::V1::ApiController
-  before_action :valid_params
+class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
+  SEARCH_TEXT_COUNT = 100
+  before_action :admin_user
+  before_action :validate_params
 
   def create
     search_text = params[:search_text].downcase
@@ -14,18 +16,20 @@ class Api::V1::Area::SearchesController < Api::V1::ApiController
         @search_location,
         radius
       ).find!
-
-      json_success(@attractions)
+      @search_location.create_area_description('area_description', @attractions)
+      json_success('Successfully Generated Results', { search_location_id: @search_location.id, search_results: @attractions })
     end
   end
 
   private
 
-  def valid_params
-    if params[:search_text].nil? || params[:attraction_radius].nil?
-      json_bad_request('search_text and attraction_radius are required fields')
-    elsif !params[:attraction_radius].integer?
-      json_bad_request('attraction_radius kilometer should be a number i.e 1, 5, 10')
+  def admin_user
+    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
+  end
+
+  def validate_params
+    if params[:search_text].blank? || params[:search_text].chars.count > SEARCH_TEXT_COUNT
+      json_bad_request("search_text is required field and should be less than #{SEARCH_TEXT_COUNT} characters")
     end
   end
 

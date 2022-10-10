@@ -13,6 +13,7 @@ class SearchLocationsController < ApplicationController
         @search_location,
         search_location_params[:attraction_radius]
       ).find!
+      @search_location.create_area_description('area_description', @attractions)
 
       respond_to do |format|
         if @search_location.save

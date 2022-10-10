@@ -28,7 +28,8 @@ Rails.application.routes.draw do
       end
       resource :task_runs, only: [:show]
       namespace :area do
-        resource :searches, only: [:create]
+        resource :search_locations, only: [:create]
+        resource :descriptions, only: [:create]
       end
     end
   end

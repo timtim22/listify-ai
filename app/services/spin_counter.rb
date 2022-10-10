@@ -67,13 +67,13 @@ class SpinCounter
     end_of_previous_month = start_of_previous_month.end_of_month.end_of_day
     spin_usage_this_month = team_spins_within(team, start_of_month)
     spin_usage_previous_month = team_spins_within(team, start_of_previous_month, end_of_previous_month)
-    OpenStruct.new(
+    {
       name: team.name,
       spin_usage_7_days: team_spins_within(team, end_of_week - 7.days, end_of_week),
       spin_usage_this_month: spin_usage_this_month,
       spin_usage_previous_month: spin_usage_previous_month,
       spin_usage_increase: team_spin_usage_increase(spin_usage_this_month, spin_usage_previous_month)
-    )
+    }
   end
 
   private

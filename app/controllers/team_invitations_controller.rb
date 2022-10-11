@@ -14,7 +14,6 @@ class TeamInvitationsController < ApplicationController
         status: 'pending', expired_at: Time.zone.now + 7.days, invited_by: current_user.email
       )
     )
-
     respond_to do |format|
       if @team_invitation.save
         if @team.send("add_#{@team_invitation.role}", @team_invitation.email)
@@ -34,14 +33,14 @@ class TeamInvitationsController < ApplicationController
   def destroy
     respond_to do |format|
       if @team_invitation.accepted?
-        format.html { redirect_to team_path(@team.id), alert: 'Deletion of accepted team invitation is not allowed.' }
+        flash[:alert] = 'Deletion of accepted team invitation is not allowed.'
+      elsif @team_invitation.destroy
+        flash[:notice] = 'Team invitation was deleted successfully.'
       else
-        if @team_invitation.destroy
-          format.html { redirect_to team_path(@team.id), notice: 'Team invitation was deleted successfully.' }
-        else
-          format.html { rredirect_to team_path(@team.id), alert: 'An error occurred while deleting the team invitation.' }
-        end
+        flash[:alert] = 'An error occurred while deleting the team invitation.'
       end
+
+      format.html { redirect_to team_path(@team.id) }
     end
   end
 

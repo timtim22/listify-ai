@@ -22,7 +22,7 @@ class TeamInvitationsController < ApplicationController
           format.html { redirect_to team_path(@team.id), notice: 'User was added to the team successfully.' }
         else
           UserMailer.team_invitation(@team_invitation.email, @team_invitation.role, @team.name).deliver_later
-          format.html { redirect_to team_path(@team.id), notice: 'Team invitation was sent to the user successfully.' }
+          format.html { redirect_to team_path(@team.id), notice: 'Team invitation was sent successfully.' }
         end
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -29,7 +29,7 @@ RSpec.describe 'TeamInvitations', type: :request do
 
         follow_redirect!
         expect(response).to have_http_status(200)
-        expect(response.body).to include('Team invitation was sent to the user successfully.')
+        expect(response.body).to include('Team invitation was sent successfully.')
       end
     end
 

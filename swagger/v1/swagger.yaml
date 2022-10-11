@@ -11,12 +11,47 @@ paths:
       - Sign In
       parameters: []
       responses:
-        '200':
-          description: Successfully logged In
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Logged In.
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: authentication token
+                        example: eyJ1c2VyX2lkIjoiMDE5YTc3ZGMtOWYyOS00ODNjLThhZTAtMzBlNTU1MDVlODNiIiwiZXhwIjoxNjYzNzgwMDgzfQ
+                      expire_at:
+                        type: string
+                        description: expire date and time
+                        example: 01-01-2022 17:08
         '400':
-          description: Email and Password are required field.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Missing Parameter
+                    example: Email and Password are required field.
         '404':
-          description: Incorrect Email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Incorrect Email
+                    example: Incorrect Email
       requestBody:
         content:
           application/json:
@@ -35,6 +70,343 @@ paths:
               - email
               - password
         description: User login parameter
+  "/api/v1/listings/descriptions":
+    post:
+      summary: Listing Description
+      tags:
+      - Listing
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Generated Discriptions
+                  data:
+                    type: array
+                    items: 
+                      type: string
+                      example: 1 bedroom house available in london for couples
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    description: Unauthtorized
+                    example: Nil JSON web token
+        '400':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: message
+                example:
+                  - message: Required fields are as follows property_type, ideal_for, location, number_of_bedrooms, featues
+                  - message: location characters count should be less than 70
+                  - message: property_type characters count should be less than 70
+                  - message: ideal_for characters count should be less than 70
+                  - message: feature characters count should be less than 360
+                  - message: number_of_bedrooms should be between 0 and 100
+                  - message: No Spin Remaining
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                output_language:
+                  type: string
+                  description: Output Language
+                  example: EN
+                text:
+                  type: object
+                  properties:
+                    location:
+                      type: string
+                      description: Location
+                      example: london
+                    property_type:
+                      type: string
+                      description: Property Type
+                      example: house
+                    ideal_for:
+                      type: string
+                      description: Ideal For
+                      example: couple
+                    features:
+                      type: array
+                      items: 
+                        type: string
+                        example: cat
+                    number_of_bedrooms:
+                      type: string
+                      description: Number Of Bedrooms
+                      example: 2
+              required:
+              - location
+              - property_type
+              - ideal_for
+              - number_of_bedrooms
+        description: Listing Descriptions
+  "/api/v1/listings/titles":
+    post:
+      summary: Listing Titles
+      tags:
+      - Listing
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Generated Titles
+                  data:
+                    type: array
+                    items: 
+                      type: string
+                      example: 1 bedroom house in london
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    description: Unauthtorized
+                    example: Nil JSON web token
+        '400':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: message
+                example:
+                  - message: Required fields are as follows property_type, ideal_for, location, number_of_bedrooms, featues
+                  - message: location characters count should be less than 70
+                  - message: property_type characters count should be less than 70
+                  - message: ideal_for characters count should be less than 70
+                  - message: feature characters count should be less than 360
+                  - message: number_of_bedrooms should be between 0 and 100
+                  - message: No Spin Remaining
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                output_language:
+                  type: string
+                  description: Output Language
+                  example: EN
+                text:
+                  type: object
+                  properties:
+                    location:
+                      type: string
+                      description: Location
+                      example: london
+                    property_type:
+                      type: string
+                      description: Property Type
+                      example: house
+                    ideal_for:
+                      type: string
+                      description: Ideal For
+                      example: couple
+                    features:
+                      type: array
+                      items: 
+                        type: string
+                        example: cat
+                    number_of_bedrooms:
+                      type: string
+                      description: Number Of Bedrooms
+                      example: 2
+              required:
+              - location
+              - property_type
+              - ideal_for
+              - number_of_bedrooms
+        description: Listing Titles
+  "/api/v1/area/search_locations":
+    post:
+      summary: Search Locations
+      tags:
+      - Area Description
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Generated Results
+                  data:
+                    type: object
+                    properties:
+                      search_location_id:
+                        type: string
+                        description: Search Location ID
+                        example: 73b59600-e130-484b-a156-045a42215a52
+                      search_results:
+                        type: object
+                        properties:
+                          attractions:
+                            type: array
+                            items: 
+                              type: object
+                              properties:       # <----------
+                                name:
+                                  type: string
+                                  example: London Eye
+                                categories:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: tourist_attraction
+                                total_ratings:
+                                  type: integer
+                                  example: 12122
+                                location:
+                                  type: object
+                                  properties:
+                                    lat:
+                                      type: integer
+                                      exampple: 51.5032973
+                                    lng:
+                                      type: integer
+                                      example: -0.1195537
+                                palce_id:
+                                  type: string
+                                  example: ChIJc2nSALkEdkgRkuoJJBfzkAI
+                                distance:
+                                  type: integer
+                                  example: nil
+
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    description: Unauthtorized
+                    example: Nil JSON web token
+        '400':
+          content:
+            application/json:
+              schema:
+                type: string
+                items: message
+                example:
+                  - message: search_text is required field and should be less than 100 characters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_text:
+                  type: string
+                  description: Search Location
+                  example: London
+                attraction_radius:
+                  type: integer
+                  description: Radius in KM
+                  example: 5
+              required:
+              - search_text
+        description: Search Location
+  "/api/v1/area/descriptions":
+    post:
+      summary: Area Descriptions
+      tags:
+      - Area Description
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfull Message
+                    example: Successfully Generated Area Descriptions
+                  data:
+                    type: object
+                    properties:
+                      area_description:
+                        type: array
+                        items: 
+                        type: string
+                        example: If you're looking for a neighbourhood that's brimming with history and culture, then look no further than London! Home to some of the world's most iconic landmarks including Big Ben, The National Gallery and Westminster Abbey, there's something for everyone to enjoy in this vibrant city. And when the sun goes down, the fun doesn't stop – London comes alive at night, so be sure to check out the city's many bars and restaurants for a truly unforgettable evening.
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    description: Unauthtorized
+                    example: Nil JSON web token
+        '400':
+          content:
+            application/json:
+              schema:
+                type: string
+                items: message
+                example:
+                  - message: Search Location does not exist
+                  - message: Selected IDs cant be nil. Please insert atleast 3 place_ids for the best description
+                  - message: Invalid detail_text format. Kindly use the following format, ['famous for nightlight', 'Great location for exploring the city']
+                  - message: detail_text cannot be blank
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_location_id:
+                  type: string
+                  description: Search Location ID
+                  example: 73b59600-e130-484b-a156-045a42215a12
+                selected_ids:
+                  type: array
+                  items: 
+                    type: string
+                    example: ChIJa4bODTG-3zgREyhIEMZJPdo
+                detail_text:
+                  type: array
+                  items: 
+                  type: string
+                  example: Famous for night
+              required:
+              - search_location_id
+              - selected_ids
+              - detail_text
+        description: Area Description
 servers:
 - url: https://app.listify.ai
   variables:

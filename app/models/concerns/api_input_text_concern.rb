@@ -20,6 +20,7 @@ module ApiInputTextConcern
     detail_text.each do |arr|
       detail_text_string << "- " + arr + "\n"
     end
-    detail_text_string
+    result = detail_text_string[0..-2] #to remove \n from the end of the line
+    result + "."
   end
 end

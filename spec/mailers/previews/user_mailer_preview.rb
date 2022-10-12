@@ -32,4 +32,16 @@ class UserMailerPreview < ActionMailer::Preview
 
     UserMailer.payment_action_required(User.first, payment_intent, Subscription.first)
   end
+
+  def team_invitation
+    team_invitation = TeamInvitation.first
+    team_name = team_invitation.team.name
+    UserMailer.team_invitation(team_invitation.email, team_invitation.role, team_name)
+  end
+
+  def member_added_on_team
+    team_invitation = TeamInvitation.first
+    team_name = team_invitation.team.name
+    UserMailer.member_added_on_team(team_invitation.email, team_invitation.role, team_name)
+  end
 end

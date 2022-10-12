@@ -4,47 +4,54 @@
       <div class="w-full">
         <h2 class="log-in-header">Team</h2>
         <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
-        <p class="mb-8 text-sm">You are an admin of the <span class="font-semibold"><%= @team.name %></span> team.</p>
-        <div class="my-8 w-full h-px bg-gray-200"></div>
-        <h5 class="mb-4 text-xl font-medium">Seats</h5>
+        <% if current_user.admin? || current_user.team_admin? %>
+          <p class="mb-8 text-sm">You are an admin of the <span class="font-semibold"><%= @team.name %></span> team.</p>
+          <div class="my-8 w-full h-px bg-gray-200"></div>
+          <h5 class="mb-4 text-xl font-medium">Seats</h5>
 
-        <p class="text-gray-500 text-sm mb-8">You are using <span class="font-semibold"><%= @team_users.count %></span> of the <%= @team.seat_count %> seats on your plan. Contact us if you need to make changes.</p>
-        <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
-          <table class="w-full divide-y divide-gray-200">
-            <thead class="bg-gray-100">
-              <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                <th class="py-3 px-6">User</th>
-                <th class="py-3 px-6">Role</th>
-                <th class="py-3 px-6">Spins this month</th>
-                <th class="py-3 px-3">
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-              <% @team_users.map do |user| %>
-                <tr class="text-xs">
-                  <td class="py-3 px-6"><%= user.email %></td>
-                  <td class="py-3 px-6"><%= user.team_role.name %> </td>
-                  <td class="py-3 px-6">Coming soon</td>
-                  <% unless user.team_admin? %>
-                    <td class="py-3 px-3 text-red-600">
-                      <%= link_to team_role_path(user.team_role), method: :delete,
-                        data: { confirm: "Are you sure you want to remove #{user.email} from the team?" } do %>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      <% end %>
-                    </td>
-                  <% end %>
+          <p class="text-gray-500 text-sm mb-8">You are using <span class="font-semibold"><%= @team_users.count %></span> of the <%= @team.seat_count %> seats on your plan. Contact us if you need to make changes.</p>
+          <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+            <table class="w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
+                <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  <th class="py-3 px-6">User</th>
+                  <th class="py-3 px-6">Role</th>
+                  <th class="py-3 px-6">Spins this month</th>
+                  <th class="py-3 px-3">
+                    <span class="sr-only">Edit</span>
+                  </th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <% @team_users.map do |user| %>
+                  <tr class="text-xs">
+                    <td class="py-3 px-6"><%= user.email %></td>
+                    <td class="py-3 px-6"><%= user.team_role.name %> </td>
+                    <td class="py-3 px-6">Coming soon</td>
+                    <% unless user.team_admin? %>
+                      <td class="py-3 px-3 text-red-600">
+                        <%= link_to team_role_path(user.team_role), method: :delete,
+                          data: { confirm: "Are you sure you want to remove #{user.email} from the team?" } do %>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        <% end %>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
 
-        <div class="mt-8 mb-8 w-full h-px bg-gray-200"></div>
-        <p class="mt-8 text-sm">Need to talk to someone? Contact us — we'd love to help.</p>
+          <%= render partial: "team_invitations/index", locals: { team: @team, team_invitations: @team_invitations } %>
+
+          <div class="mt-8 mb-8 w-full h-px bg-gray-200"></div>
+          <p class="mt-8 text-sm">Need to talk to someone? Contact us — we'd love to help.</p>
+        <% else %>
+          <p class="mb-8 text-sm">You are using Listify as a member of <span class="font-semibold"><%= @team.name %></span>. Contact your team admin if you need any help.</p>
+          <div class="my-8 w-full h-px bg-gray-200"></div>
+        <% end %>
       </div>
     </div>
   </div>

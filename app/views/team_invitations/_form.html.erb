@@ -1,0 +1,32 @@
+<div class="w-full md:w-2/3">
+  <%= form_with(model: [team, team_invitation]) do |f| %>
+    <div class="mb-4 text-red-800">
+      <%= render "devise/shared/error_messages", resource: team_invitation %>
+    </div>
+
+    <div class="w-full items-center">
+      <div class="w-full field">
+        <%= f.label :email, class: "form-label" %><br />
+        <%= f.text_field(
+          :email,
+          class: "form-text-input"
+        ) %>
+      </div>
+
+      <div class="w-full field">
+        <%= f.label :role, class: "form-label" %><br />
+        <%= f.select :role, TeamRole::VALID_ROLES, { include_blank: false }, { class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-md rounded-md" } %>
+      </div>
+    </div>
+
+    <div class="flex actions pt-2">
+      <%= f.submit "Send Team Invitation", class: "primary-button" %>
+      <%= link_to(
+                "Cancel",
+                team_path(@team),
+                class: "ml-3 bg-white py-2 px-4 border border-gray-300 rounded shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              ) %>
+    </div>
+  <% end %>
+</div>
+

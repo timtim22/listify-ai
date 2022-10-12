@@ -74,7 +74,13 @@ Rails.application.routes.draw do
 
   resource :usage, only: [:show]
   resource :account, only: [:edit, :update]
-  resources :teams, only: [:show]
+  resources :teams, only: [:show] do
+    resources :team_invitations, only: [:new, :create, :destroy] do
+      member do
+        post 'resend'
+      end
+    end
+  end
   resource :history, only: [:show]
   resources :team_roles, only: [:destroy]
 

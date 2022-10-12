@@ -1,0 +1,58 @@
+<div class="my-8 w-full h-px bg-gray-200"></div>
+<div class="flex justify-between">
+  <h5 class="mb-4 text-xl font-medium">Team Invitations</h5>
+  <% if team.invitation_seat_available? %>
+    <div>
+      <%= link_to "Add New", new_team_team_invitation_path(team), class: "primary-button" %>
+    </div>
+  <% end %>
+</div>
+<div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+  <table class="w-full divide-y divide-gray-200">
+    <thead class="bg-gray-100">
+      <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+        <th class="py-3 px-6">Email</th>
+        <th class="py-3 px-6">Role</th>
+        <th class="py-3 px-6">Status</th>
+        <th class="py-3 px-6">Invited By</th>
+        <th class="py-3 px-6">Expiration</th>
+        <th class="py-3 px-6">Actions</th>
+        <th class="py-3 px-3">
+          <span class="sr-only">Edit</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% if team_invitations.present? %>
+        <% team_invitations.map do |team_invitation| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= team_invitation.email %></td>
+            <td class="py-3 px-6"><%= team_invitation.role %></td>
+            <td class="py-3 px-6"><%= team_invitation.status %></td>
+            <td class="py-3 px-6"><%= team_invitation.invited_by %></td>
+            <td class="py-3 px-6"><%= team_invitation.expired_at %></td>
+            <td class="py-3 px-3 flex">
+              <% if team_invitation.pending? %>
+                <%= link_to "Resend Invitation", resend_team_team_invitation_path(team, team_invitation), method: :post, data: { confirm: "Are you sure you want to resend invitation for #{team_invitation.email}?" }, class: "secondary-link px-2" %>
+              <% end %>
+            </td>
+            <td class="py-3 px-3 text-red-600">
+              <% if team_invitation.pending? %>
+                <%= link_to team_team_invitation_path(team, team_invitation), method: :delete,
+                  data: { confirm: "Are you sure you want to cancel invitation for #{team_invitation.email}?" } do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr class="text-xs">
+          <td class="py-3 px-6" colspan="5">No team invitations.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

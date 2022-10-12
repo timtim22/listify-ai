@@ -1,0 +1,12 @@
+<%= render layout: 'shared/account_layout', locals: { screen: "team" } do %>
+  <div class="w-full px-8">
+    <div class="p-8 bg-white w-full max-w-6xl rounded-lg border border-gray-300 shadow-sm">
+      <div class="mb-8">
+        <h2 class="log-in-header">New Team Invitation</h2>
+        <div class="my-4 w-full h-px bg-gray-200"></div>
+      </div>
+      <%= render partial: "team_invitations/form", locals: { team: @team, team_invitation: @team_invitation } %>
+      </div>
+    </div>
+  </div>
+<% end %>

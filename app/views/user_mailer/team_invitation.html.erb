@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: arial; margin: 0px;">
+    <div style="padding: 1rem;">
+     <div style="line-height: 1.6; padding-bottom: 0.5rem;">
+       <p>Hi there,</p>
+
+       <p>You have been added as a <%= @role %> of the <%= @team_name %> team on Listify!</p>
+
+       <p>You can get started by clicking <%= link_to "here", "https://app.listify.ai/users/sign_up", target: "_blank" %>.</p>
+
+       <p>If you need any help, please reply to this email.</p>
+
+       <p style="margin-top: 2rem;">Have a great day,</p>
+     </div>
+      <div style="">
+        <%= image_tag "listify-logo.png", height: 50, alt: "Listify logo" %>
+      </div>
+
+      <div style="font-size: 0.75rem; line-height: 1rem; color: #9CA3AF">
+        <p>
+          Need help with Listify, wish to unsubscribe, or something else? Hit reply to this email to let us know.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

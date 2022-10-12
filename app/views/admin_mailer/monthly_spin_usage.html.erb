@@ -18,11 +18,11 @@
       </tr>
       <% @teams_data.each do |team_data| %>
         <tr>
-          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.name %></td>
-          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_7_days %></td>
-          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_this_month %></td>
-          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_previous_month %></td>
-          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data.spin_usage_increase %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data[:name] %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data[:spin_usage_7_days] %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data[:spin_usage_this_month] %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data[:spin_usage_previous_month] %></td>
+          <td style='padding: 8px; border: 1px solid #ddd;'><%= team_data[:spin_usage_increase] %></td>
         </tr>
       <% end %>
     </table>

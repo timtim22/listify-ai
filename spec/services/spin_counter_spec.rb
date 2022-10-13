@@ -124,11 +124,11 @@ RSpec.describe SpinCounter do
       10.times { create(:task_run, :for_listing, user: user_one, created_at: start_of_month - 10.days) }
 
       team_spin_stats = SpinCounter.new.team_spin_stats(team)
-      expect(team_spin_stats.name).to eql(team.name)
-      expect(team_spin_stats.spin_usage_7_days).to eql(21)
-      expect(team_spin_stats.spin_usage_this_month).to eql(21)
-      expect(team_spin_stats.spin_usage_previous_month).to eql(10)
-      expect(team_spin_stats.spin_usage_increase).to eql(21 / 10.to_f * 100)
+      expect(team_spin_stats[:name]).to eql(team.name)
+      expect(team_spin_stats[:spin_usage_7_days]).to eql(21)
+      expect(team_spin_stats[:spin_usage_this_month]).to eql(21)
+      expect(team_spin_stats[:spin_usage_previous_month]).to eql(10)
+      expect(team_spin_stats[:spin_usage_increase]).to eql(21 / 10.to_f * 100)
     end
   end
 end

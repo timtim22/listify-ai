@@ -1,7 +1,7 @@
 class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
-  CLIENTS = [ApiClients::DeepL, ApiClients::GoogleCloudTranslate].freeze
+  CLIENTS = [ApiClients::DeepL, ApiClients::AzureTranslate].freeze
 
   def self.client_for(output_language_code)
     CLIENTS.find { |c| c.supports_output_language?(output_language_code) }

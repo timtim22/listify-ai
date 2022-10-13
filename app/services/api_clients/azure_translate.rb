@@ -21,11 +21,13 @@ module ApiClients
     end
 
     def translate(from, to, text)
-      to = OUTPUT_LANGUAGE_CODES[to]
-      req_url = "#{BASE_URL}&from=#{from}&to=#{to}"
+      azure_to = OUTPUT_LANGUAGE_CODES[to]
+      req_url = "#{BASE_URL}&from=#{from}&to=#{azure_to}"
       res = request('post', req_url, headers, [{ "Text": text }])
       translation_result(res, from, to)
     end
+
+    private
 
     def translation_result(response, from, to)
       {

@@ -26,11 +26,22 @@ class ListingsController < ApplicationController
 
   private
 
+  def input_text
+    input_text_array = listing_params[:input_text].split.first(5)
+    if input_text_array.include? 'studio'
+      input_text_array -= [input_text_array[1], input_text_array[2]]
+
+      input_text_array.join(' ')
+    else
+      listing_params[:input_text]
+    end
+  end
+
   def params_in_english
     translator = Translations::Runner.new
     translation_params = translator.request_in_english(
       listing_params[:input_language],
-      listing_params[:input_text]
+      input_text
     )
     listing_params.merge(translation_params)
   end

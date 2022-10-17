@@ -27,11 +27,10 @@ class ListingsController < ApplicationController
   private
 
   def input_text
-    input_text_array = listing_params[:input_text].split.first(5)
-    if input_text_array.include? 'studio'
-      input_text_array -= [input_text_array[1], input_text_array[2]]
-
-      input_text_array.join(' ')
+    lines = listing_params[:input_text].split("\n")
+    if lines.first.include? 'studio'
+      lines.first.sub!(/\d+ bedroom /, '')
+      lines.join("\n")
     else
       listing_params[:input_text]
     end

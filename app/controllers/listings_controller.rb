@@ -42,7 +42,7 @@ class ListingsController < ApplicationController
       listing_params[:input_language],
       input_text
     )
-    listing_params.merge(translation_params)
+    listing_params.merge(input_text: input_text).merge(translation_params)
   end
 
   def listing_params

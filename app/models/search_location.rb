@@ -2,6 +2,7 @@ class SearchLocation < ApplicationRecord
   has_many :recorded_searches, dependent: :destroy
   has_many :area_descriptions, dependent: :destroy
   has_many :area_description_fragments, class_name: 'Inputs::AreaDescriptionFragment', dependent: :destroy
+  has_many :search_results, dependent: :destroy
 
   attr_accessor :attraction_radius
 
@@ -21,12 +22,5 @@ class SearchLocation < ApplicationRecord
 
   def set_coordinates
     AreaSearch::Geocoder.set_coordinates(self)
-  end
-
-  def create_area_description(request_type, attractions)
-    area_descriptions.create!(
-      request_type: request_type,
-      input_data: attractions
-    )
   end
 end

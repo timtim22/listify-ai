@@ -38,7 +38,7 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
         jwt_token = auth_token(@user)
         post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Search Location does not exist'
+        expect(eval(response.body)[:message]).to eq [{ message: 'search_location does not exist' }]
       end
 
       it 'fails for missing selected_ids ' do

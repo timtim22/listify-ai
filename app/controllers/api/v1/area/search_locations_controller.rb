@@ -16,7 +16,8 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
         @search_location,
         radius
       ).find!
-      @search_location.create_area_description('area_description', @attractions)
+
+      @search_location.search_results.create(results: @attractions)
       json_success('Successfully Generated Results', { search_location_id: @search_location.id, search_results: @attractions })
     end
   end

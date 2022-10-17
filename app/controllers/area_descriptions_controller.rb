@@ -3,14 +3,7 @@ class AreaDescriptionsController < ApplicationController
 
   def create
     @runs_remaining = SpinCheck.runs_remaining(current_user)
-    search_location = SearchLocation.find_by(id: params[:area_description][:search_location_id])
-    description = search_location.area_descriptions.order(:created_at).last
-    description.update_form(
-      params[:area_description][:selected_ids],
-      params[:area_description][:detail_text],
-      params[:area_description][:user_provided_area_name]
-    )
-
+    description = AreaDescription.new_from(area_description_params)
     save = Input.create_with(description, current_user)
     if save.success
       @area_description = save.input_object
@@ -25,5 +18,13 @@ class AreaDescriptionsController < ApplicationController
         format.json { render json: save.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  private
+
+  def area_description_params
+    params
+      .require(:area_description)
+      .permit(:search_location_id, :detail_text, :user_provided_area_name, selected_ids: [], search_results: {})
   end
 end

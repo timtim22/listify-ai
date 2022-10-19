@@ -18,7 +18,7 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
       ).find!
 
       @search_location.search_results.create(results: @attractions)
-      json_success('Successfully Generated Results', { search_location_id: @search_location.id, search_results: @attractions })
+      json_success('Successfully Generated Results', { search_location_id: @search_location.id, search_results: @attractions, task_run_id: @task_run_id })
     end
   end
 

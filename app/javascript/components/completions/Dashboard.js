@@ -81,6 +81,7 @@ const Dashboard = ({ currentUser, groupedCompletions, showAdmins, last_24_hr_sta
                   <div className="py-3 px-6 mb-4 col-span-1">
                     <p>api: {c.api_client}</p>
                     <p>filter: {c.ran_content_filter.toString()}</p>
+                    <p>api_request: {c.api_request.toString()}</p>
                     <p>lang_in: {group.input_language_code}</p>
                     <p>lang_out: {c.completion_translation_codes.join(', ')}</p>
                     <a href={`/admin/recorded_completions/${c.id}`} className="secondary-link">Debug</a>

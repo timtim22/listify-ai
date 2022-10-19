@@ -14,7 +14,7 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
     sleep(10)
     @task_results = @task_run.task_results.map(&:result_text)
 
-    task_results_response(@task_results)
+    task_results_response(@task_results, @task_run.id)
   end
 
   private
@@ -59,9 +59,9 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
     )
   end
 
-  def task_results_response(task_results)
+  def task_results_response(task_results, task_run_id)
     if task_results.present?
-      json_success('Successfully Generated Titles', task_results)
+      json_success('Successfully Generated Titles', result: task_results, task_run_id: task_run_id)
     else
       json_not_found('Something Went Wrong! Please Try Again.')
     end

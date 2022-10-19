@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         resource :descriptions, only: [:create]
         resource :titles, only: [:create]
       end
+      resource :task_runs, only: [:show]
     end
   end
 

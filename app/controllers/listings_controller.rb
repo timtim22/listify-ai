@@ -31,6 +31,10 @@ class ListingsController < ApplicationController
     if lines.first.include? 'studio'
       lines.first.sub!(/\d+ bedroom /, '')
       lines.join("\n")
+    elsif lines.last.count("a-zA-Z").zero?
+      listing_params[:input_text].sub!(lines.last, '')
+      new_line = listing_params[:input_text].strip + "."
+      new_line
     else
       listing_params[:input_text]
     end

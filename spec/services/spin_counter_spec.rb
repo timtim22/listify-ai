@@ -128,7 +128,7 @@ RSpec.describe SpinCounter do
       expect(team_spin_stats[:spin_usage_7_days]).to eql(21)
       expect(team_spin_stats[:spin_usage_this_month]).to eql(21)
       expect(team_spin_stats[:spin_usage_previous_month]).to eql(10)
-      expect(team_spin_stats[:spin_usage_increase]).to eql(21 / 10.to_f * 100)
+      expect(team_spin_stats[:spin_usage_increase]).to eql(110.0)
     end
   end
 end

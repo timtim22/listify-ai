@@ -81,7 +81,7 @@ class SpinCounter
   def team_spin_usage_increase(spin_usage_this_month, spin_usage_previous_month)
     return 0.0 if spin_usage_previous_month.zero?
 
-    (spin_usage_this_month / spin_usage_previous_month.to_f) * 100
+    ((spin_usage_this_month - spin_usage_previous_month) / spin_usage_previous_month.to_f * 100).round(2)
   end
 
   def team_spins_quota

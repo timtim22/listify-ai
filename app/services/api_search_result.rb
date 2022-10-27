@@ -1,52 +1,45 @@
 class ApiSearchResult
+  attr_reader :search_location, :selected_ids, :user_provided_area_name, :detail_text
 
   def initialize(params, detail_text)
-    @search_location_id       = params[:search_location_id]
+    @search_location          = SearchLocation.find(params[:search_location_id])
     @selected_ids             = params[:selected_ids]
     @user_provided_area_name  = params[:user_provided_area_name]
     @detail_text              = detail_text
   end
 
   def call
-    return { error: true, data: invalid_place_ids } if invalid_place_ids.present?
-
-    search_location = SearchLocation.find_by(id: @search_location_id)
-    search_result = search_location.search_results.order(created_at: :asc).last.results
-    input_data = {
-      search_results: search_result,
-      selected_ids: @selected_ids
-    }.to_json
-    create_area_description(search_location, @user_provided_area_name, @detail_text, input_data)
+    if invalid_place_ids.empty?
+      create_area_description
+    else
+      { error: true, data: invalid_place_ids }
+    end
   end
 
   private
 
-  def create_area_description(search_location, user_provided_area_name, detail_text, input_data)
+  def create_area_description
     AreaDescription.new(
       request_type: 'area_description',
       search_location: search_location,
       user_provided_area_name: user_provided_area_name,
       detail_text: detail_text,
-      input_data: input_data
+      input_data: {
+        search_results: search_result_data,
+        selected_ids: selected_ids
+      }.to_json
     )
   end
 
   def invalid_place_ids
-    if @selected_ids.present?
-      place_ids = []
-      invalid_selected_ids = []
-      input_data = SearchLocation.find_by(id: @search_location_id).search_results.order(created_at: :asc).last.results
-      input_data.map do |key, results|
-        results.map do |result|
-          place_ids << result['place_id']
-        end
-      end
+    @invalid_place_ids ||= selected_ids - all_place_ids
+  end
 
-      @selected_ids.each do |selected_id|
-        invalid_selected_ids << selected_id unless place_ids.include? selected_id
-      end
+  def search_result_data
+    @search_result_data ||= search_location.search_results.order(created_at: :asc).last.results
+  end
 
-      invalid_selected_ids
-    end
+  def all_place_ids
+    search_result_data.values.flatten.map { |result| result['place_id'] }
   end
 end

@@ -19,5 +19,6 @@ json.grouped_completions(@completions_by_task_run) do |group|
     json.failed_filter completion.failed_filter
     json.completion_copied completion.completion_copied
     json.completion_translation_codes completion.completion_translation_codes
+    json.api_request completion.api_request
   end
 end

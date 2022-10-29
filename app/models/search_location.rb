@@ -2,6 +2,7 @@ class SearchLocation < ApplicationRecord
   has_many :recorded_searches, dependent: :destroy
   has_many :area_descriptions, dependent: :destroy
   has_many :area_description_fragments, class_name: 'Inputs::AreaDescriptionFragment', dependent: :destroy
+  has_many :search_results, dependent: :destroy
 
   attr_accessor :attraction_radius
 

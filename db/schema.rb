@@ -381,6 +381,14 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "search_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "search_location_id", null: false
+    t.jsonb "results"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["search_location_id"], name: "index_search_results_on_search_location_id"
+  end
+
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "stripe_id"
@@ -560,6 +568,7 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
   add_foreign_key "recorded_completions", "users"
   add_foreign_key "recorded_searches", "search_locations"
   add_foreign_key "recorded_searches", "users"
+  add_foreign_key "search_results", "search_locations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"

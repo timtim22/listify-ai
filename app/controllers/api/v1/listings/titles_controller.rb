@@ -21,17 +21,6 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
   private
 
-  def handle_expected_result
-    last_tick = Time.now
-    loop do
-      sleep 0.1
-      if Time.now - last_tick >= 2
-        last_tick += 2
-        yield
-      end
-    end
-  end
-
   def admin_user
     json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
   end

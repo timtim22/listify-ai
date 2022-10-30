@@ -67,4 +67,17 @@ class Api::V1::ApiController < ActionController::Base
     response[:refresh_token] = refresh_token if refresh_token.present?
     response
   end
+
+  def handle_expected_result
+    Timeout::timeout(15){
+      last_tick = Time.now
+      loop do
+        sleep 0.1
+        if Time.now - last_tick >= 1
+          last_tick += 1
+          yield
+        end
+      end
+    }
+  end
 end

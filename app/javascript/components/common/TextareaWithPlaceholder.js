@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeholderContent, customClasses, heightClass = "h-32" }) => {
+const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeholderContent, onKeyPress, customClasses, heightClass = "h-32" }) => {
   const [showPlaceholder, setShowPlaceholder] = useState(true);
 
     useEffect(() => {
@@ -17,6 +17,7 @@ const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeho
       <textarea
         id={textAreaId}
         value={value}
+        onKeyPress={(e) => { onKeyPress(e) }}
         onChange={(e) => { onChange(e.target.value) }}
         onFocus={onFocus}
         className={`${customClasses || ""} ${heightClass} form-text-area z-20 ${showPlaceholder ? "bg-transparent" : "bg-white" }`}>
@@ -35,7 +36,8 @@ TextareaWithPlaceholder.propTypes = {
   onFocus: PropTypes.func,
   placeholderContent: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   customClasses: PropTypes.string,
-  heightClass: PropTypes.string
+  heightClass: PropTypes.string,
+  handleMessageBox:PropTypes.string
 };
 
 

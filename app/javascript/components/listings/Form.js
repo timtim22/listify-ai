@@ -27,6 +27,7 @@ const Form = ({
   const [listing, setListing] = useState({ ...newListing, request_type: formType });
   const [inputLanguage, setInputLanguage] = useState('EN');
   const [outputLanguage, setOutputLanguage] = useState('EN');
+  const [count, setCount] = useState(0);
   const [errors, setErrors] = useState(null);
   const [userInputLength, setUserInputLength] = useState(0);
   const [exampleRequested, setExampleRequested] = useState(false);
@@ -64,6 +65,15 @@ const Form = ({
 
   const setField = (field, value) => {
     setInputFields({ ...inputFields, [field]: value });
+  }
+
+  const handleMessageBox = (event, val) => {
+    if (event.charCode === 13) {
+      setCount((count) => count + 1)
+      count > 0 ? event.preventDefault() : "";
+    } else {
+      setCount(0)
+    }
   }
 
   const setListingField = (field, value) => {
@@ -162,6 +172,7 @@ const Form = ({
                   <TextareaWithPlaceholder
                     textAreaId={'key_features'}
                     value={inputFields.key_features}
+                    onKeyPress={(e) => handleMessageBox(e)}
                     onChange={(value) => setField('key_features', value)}
                     onFocus={() => setShortcutField({ name: 'key_features' })}
                     customClasses={"text-sm"}

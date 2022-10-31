@@ -73,11 +73,12 @@ class Api::V1::ApiController < ActionController::Base
       last_tick = Time.now
       loop do
         sleep 0.1
-        if Time.now - last_tick >= 1
-          last_tick += 1
+        if Time.now - last_tick >= 2
+          last_tick += 2
           yield
         end
       end
     }
+    rescue
   end
 end

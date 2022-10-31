@@ -26,17 +26,8 @@ class ListingsController < ApplicationController
 
   private
 
-  def input_text
-    lines = listing_params[:input_text].split("\n")
-    if lines.first.include? 'studio'
-      lines.first.sub!(/\d+ bedroom /, '')
-      lines.join("\n")
-    else
-      listing_params[:input_text]
-    end
-  end
-
   def params_in_english
+    input_text = InputTextService.new(listing_params[:input_text]).call
     translator = Translations::Runner.new
     translation_params = translator.request_in_english(
       listing_params[:input_language],
@@ -49,4 +40,3 @@ class ListingsController < ApplicationController
     params.require(:listing).permit(:request_type, :input_text, :input_language)
   end
 end
-

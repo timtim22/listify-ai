@@ -11,7 +11,9 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
     @listing = save.input_object
     @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true)
-    sleep(10)
+    handle_expected_result do
+      break if @task_run.has_all_results?
+    end
     @task_results = @task_run.task_results.map(&:result_text)
 
     task_results_response(@task_results, @task_run.id)

@@ -21,7 +21,7 @@ Rack::Attack.throttle('limit logins per ip', limit: 6, period: 60) do |req|
 end
 
 Rack::Attack.throttle('limit requests to apis', limit: 10, period: 60) do |req|
-  if REQUEST_ROUTES.include?(req.path) && req.post?
+  if (req.path.include?('/api/') || REQUEST_ROUTES.include?(req.path)) && req.post?
     req.ip
   end
 end

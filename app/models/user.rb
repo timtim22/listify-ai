@@ -128,11 +128,11 @@ class User < ApplicationRecord
     subscriptions.order(:created_at).last
   end
 
-  def subscribe(plan, options={})
+  def subscribe(stripe_plan, options={}, company_name)
     stripe_customer if !stripe_id
     args = {
       customer: stripe_id,
-      items: [{ price: plan }],
+      items: [{ price: stripe_plan }],
       expand: ['latest_invoice.payment_intent'],
       off_session: true
     }.merge(options)
@@ -140,7 +140,7 @@ class User < ApplicationRecord
     sub = Stripe::Subscription.create(args)
     subscription = subscriptions.create(
       stripe_id: sub.id,
-      stripe_plan: plan,
+      stripe_plan: stripe_plan,
       status: sub.status,
       trial_ends_at: (sub.trial_end ? Time.at(sub.trial_end) : nil),
       ends_at: nil
@@ -150,7 +150,9 @@ class User < ApplicationRecord
       raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), 'Subscription requires authentication'
     end
 
-    subscription.send_activation_email
+    plan = subscription.plan
+    subscription.send_confirmation_email
+    subscription.create_team(company_name, plan) if %w[standard premium].include? plan.name
     subscription
   end
 

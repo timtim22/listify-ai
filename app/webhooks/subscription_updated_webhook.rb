@@ -23,7 +23,7 @@ class SubscriptionUpdatedWebhook
     subscription.save
 
     if prev_subscription_status == "incomplete" && subscription.status == "active"
-      subscription.send_activation_email
+      subscription.send_confirmation_email
     end
   end
 end

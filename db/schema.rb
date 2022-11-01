@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_05_063524) do
+ActiveRecord::Schema.define(version: 2022_11_01_181504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -185,6 +185,15 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "enabled_modules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "listify_module_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["listify_module_id"], name: "index_enabled_modules_on_listify_module_id"
+    t.index ["user_id"], name: "index_enabled_modules_on_user_id"
+  end
+
   create_table "examples", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "input_structure"
     t.jsonb "input_data"
@@ -255,6 +264,12 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
     t.uuid "legacy_prompt_id"
     t.index ["legacy_prompt_id"], name: "index_legacy_task_runs_on_legacy_prompt_id"
     t.index ["user_id"], name: "index_legacy_task_runs_on_user_id"
+  end
+
+  create_table "listify_modules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "listing_fragments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -455,8 +470,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "role"
-    t.string "invited_by"
     t.datetime "expired_at"
+    t.string "invited_by"
     t.index ["email", "team_id"], name: "index_team_invitations_on_email_and_team_id", unique: true
     t.index ["team_id"], name: "index_team_invitations_on_team_id"
   end
@@ -556,6 +571,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_063524) do
   add_foreign_key "area_descriptions", "search_locations"
   add_foreign_key "charges", "users"
   add_foreign_key "content_filter_results", "task_results"
+  add_foreign_key "enabled_modules", "listify_modules"
+  add_foreign_key "enabled_modules", "users"
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "full_listings", "users"
   add_foreign_key "inputs", "users"

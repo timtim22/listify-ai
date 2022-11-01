@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :charges, dependent: :destroy
 
   has_many :text_shortcuts, class_name: 'Text::Shortcut', dependent: :destroy
+  has_many :enabled_modules, dependent: :destroy
 
   attr_accessor :terms_of_service
 
@@ -44,14 +45,8 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def enabled_modules # placeholder for future feature
-    if admin? || ['Sykes Cottages', 'Smiling House'].include?(team&.name)
-      ['shortcuts', 'new_area_form']
-    elsif ['2fb075ee-4c71-4321-b232-206a66aec936', '62293087-7b9e-413a-9da0-2c67174ad4ca', '8f783ee8-e124-4db5-ac13-7b07bd070cec'].include?(id)
-      ['eastern_languages']
-    else
-      []
-    end
+  def enabled_module_names
+    enabled_modules.map(&:name)
   end
 
   def admin_or_listify_team?

@@ -3,6 +3,6 @@ class ListifyModule < ApplicationRecord
   has_many :users, through: :enabled_modules
 
   def enable_for(user)
-    enabled_modules.create(user: user)
+    enabled_modules.create!(user: user) unless users.include?(user)
   end
 end

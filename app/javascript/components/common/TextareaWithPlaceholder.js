@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeholderContent, onKeyPress, customClasses, heightClass = "h-32" }) => {
+const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeholderContent, customClasses, heightClass = "h-32" }) => {
   const [showPlaceholder, setShowPlaceholder] = useState(true);
+  const [newlineCount, setNewlineCount] = useState(0);
 
     useEffect(() => {
     if (showPlaceholder && value && value.length > 0) {
@@ -12,12 +13,21 @@ const TextareaWithPlaceholder = ({ value, textAreaId, onChange, onFocus, placeho
     }
   }, [value]);
 
+  const handleMessageBox = (event, val) => {
+    if (event.charCode === 13) {
+      setNewlineCount((newlineCount) => newlineCount + 1)
+      newlineCount > 0 ? event.preventDefault() : "";
+    } else {
+      setNewlineCount(0)
+    }
+  }
+
   return (
     <div className="relative z-10 w-full">
       <textarea
         id={textAreaId}
         value={value}
-        onKeyPress={(e) => { onKeyPress(e) }}
+        onKeyPress={(e) => { handleMessageBox(e) }}
         onChange={(e) => { onChange(e.target.value) }}
         onFocus={onFocus}
         className={`${customClasses || ""} ${heightClass} form-text-area z-20 ${showPlaceholder ? "bg-transparent" : "bg-white" }`}>

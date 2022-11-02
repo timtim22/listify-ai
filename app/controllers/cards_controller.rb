@@ -7,7 +7,7 @@ class CardsController < ApplicationController
 
   def update
     current_user.update_card(params[:payment_method_id])
-    redirect_to edit_card_path, notice: "Your card was successfully updated."
+    redirect_to subscription_path, notice: "Your card was successfully updated."
   rescue Stripe::StripeError => e
     #make this an alert
     redirect_to edit_card_path, notice: "Our payment processor returned the following error: #{e.message}"

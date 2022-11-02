@@ -82,7 +82,7 @@ const Form = ({
     e.preventDefault();
     setLoading(true);
     createRequest(
-      "/adverts.json",
+      "/social_listings.json",
       {
         advert: cleanObjectInputText({ ...advert, input_language: inputLanguage }),
         output_language: outputLanguage

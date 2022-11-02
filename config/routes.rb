@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   get '/privacy', to: 'home#privacy'
 
   get '/listing_builder_task_results', to: 'listing_fragments#task_results'
+  post '/social_listings', to: 'adverts#create'
 
   resources :task_runs, only: [:index] do
     resources :task_results, only: [:index]

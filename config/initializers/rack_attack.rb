@@ -1,6 +1,7 @@
 AUTH_ROUTES = ['/users', '/users/sign_in', '/api/v1/users/sign_in']
 REQUEST_ROUTES = [
   '/adverts.json',
+  '/social_listings.json',
   '/area_descriptions.json',
   '/listings.json',
   '/playground_attempts.json',

@@ -23,7 +23,9 @@ class SubscriptionUpdatedWebhook
     subscription.save
 
     if prev_subscription_status == "incomplete" && subscription.status == "active"
-      subscription.send_confirmation_email
+      user_stripe_id = object.customer
+      user = Stripe::Customer.retrieve(user_stripe_id)
+      subscription.send_confirmation_call(user.name, subscription.plan)
     end
   end
 end

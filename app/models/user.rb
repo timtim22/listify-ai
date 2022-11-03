@@ -151,8 +151,7 @@ class User < ApplicationRecord
     end
 
     plan = subscription.plan
-    subscription.send_confirmation_email
-    subscription.create_team(company_name, plan) if %w[standard premium].include? plan.name
+    subscription.send_confirmation_call(company_email, plan)
     subscription
   end
 

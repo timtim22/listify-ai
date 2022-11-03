@@ -63,7 +63,7 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
   def task_results_response(task_results, task_run_id)
     if task_results.present?
-      json_success('Successfully Generated Titles', result: task_results, task_run_id: task_run_id)
+      json_success('Successfully generated titles', result: task_results, task_run_id: task_run_id)
     else
       json_not_found('Something Went Wrong! Please Try Again.')
     end

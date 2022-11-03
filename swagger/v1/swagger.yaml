@@ -3,12 +3,17 @@ openapi: 3.0.1
 info:
   title: API V1
   version: v1
+components:
+  securitySchemes:
+    Bearer:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
 paths:
   "/api/v1/users/sign_in":
     post:
       summary: Sign In
       tags:
-      - Sign In
+      - Authentication
       parameters: []
       responses:
         200:
@@ -19,8 +24,8 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Successfull Message
-                    example: Successfully Logged In.
+                    description: Success message
+                    example: Signed in successfully.
                   data:
                     type: object
                     properties:
@@ -28,9 +33,9 @@ paths:
                         type: string
                         description: authentication token
                         example: eyJ1c2VyX2lkIjoiMDE5YTc3ZGMtOWYyOS00ODNjLThhZTAtMzBlNTU1MDVlODNiIiwiZXhwIjoxNjYzNzgwMDgzfQ
-                      expire_at:
+                      expires_at:
                         type: string
-                        description: expire date and time
+                        description: expiry date and time
                         example: 01-01-2022 17:08
         '400':
           content:
@@ -41,7 +46,7 @@ paths:
                   message:
                     type: string
                     description: Missing Parameter
-                    example: Email and Password are required field.
+                    example: Email and password are required fields.
         '404':
           content:
             application/json:
@@ -50,8 +55,8 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Incorrect Email
-                    example: Incorrect Email
+                    description: Incorrect credentials
+                    example: Could not authenticate. Please check your credentials and try again.
       requestBody:
         content:
           application/json:
@@ -69,12 +74,14 @@ paths:
               required:
               - email
               - password
-        description: User login parameter
-  "/api/v1/listings/descriptions":
+        description: Sign in with your user credentials to receive an authentication token. This Bearer token must be included in the authorization header for requests to all other endpoints.
+  "/api/v1/listings/titles":
     post:
-      summary: Listing Description
+      summary: Listing Titles
       tags:
-      - Listing
+      - Listings
+      security:
+        - bearerAuth: []
       parameters: []
       responses:
         200:
@@ -85,13 +92,18 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Successfull Message
-                    example: Successfully Generated Discriptions
+                    description: Success message
+                    example: Successfully generated titles
                   data:
-                    type: array
-                    items: 
-                      type: string
-                      example: 1 bedroom house available in london for couples
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        example:
+                          - 2 bedroom apartment with sea views and heated pool in Malaga
+                          - Luxurious 2 Bedroom Apartment with Stunning Sea Views and Heated Pool
+                          - Perfect for couples - sea views - heated swimming pool
+                          - 2 bedroom apartment with sea views close to shops and restaurants
         '401':
           content:
             application/json:
@@ -109,13 +121,12 @@ paths:
                 type: array
                 items: message
                 example:
-                  - message: Required fields are as follows property_type, ideal_for, location, number_of_bedrooms, featues
-                  - message: location characters count should be less than 70
-                  - message: property_type characters count should be less than 70
-                  - message: ideal_for characters count should be less than 70
-                  - message: feature characters count should be less than 360
+                  - message: Field(s) missing. Required fields are property_type, ideal_for, location, number_of_bedrooms, features
+                  - message: property_type should be less than 70 characters
+                  - message: location should be less than 70 characters
+                  - message: ideal_for should be less than 70 characters
+                  - message: feature should be less than 360 characters in total
                   - message: number_of_bedrooms should be between 0 and 100
-                  - message: No Spin Remaining
       requestBody:
         content:
           application/json:
@@ -132,121 +143,134 @@ paths:
                     location:
                       type: string
                       description: Location
-                      example: london
+                      example: Malaga
                     property_type:
                       type: string
                       description: Property Type
-                      example: house
-                    ideal_for:
-                      type: string
-                      description: Ideal For
-                      example: couple
-                    features:
-                      type: array
-                      items: 
-                        type: string
-                        example: cat
+                      example: apartment
                     number_of_bedrooms:
                       type: string
                       description: Number Of Bedrooms
                       example: 2
+                    ideal_for:
+                      type: string
+                      description: Ideal For
+                      example: couples or small families
+                    features:
+                      type: array
+                      example:
+                        - sea views
+                        - heated swimming pool
+                        - close to shops and restaurants
+              required:
+              - location
+              - property_type
+              - ideal_for
+              - number_of_bedrooms
+        description: Generate listing titles.
+  "/api/v1/listings/descriptions":
+    post:
+      summary: Listing Descriptions
+      tags:
+      - Listings
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: Successfully generated descriptions
+                  data:
+                    properties:
+                      result:
+                        type: array
+                        example:
+                          - The perfect spot for a romantic getaway, this 2 bedroom apartment in Malaga offers couples stunning sea views from the large balcony and all the amenities they need for a comfortable stay, including a heated swimming pool. The open plan living space is perfect for socialising, and the apartment is close to shops and restaurants, making it easy to get around. What's more, it's just a short drive from the airport.
+                          - This two bedroom apartment in Malaga is the perfect place for couples to enjoy a relaxing holiday. The apartment has a heated swimming pool, and a large balcony with sea views. The property is close to shops and restaurants, and a short drive to the airport.
+                          - This two bedroom apartment in Malaga is ideal for couples and has sea views from the balcony. The apartment has an open plan living space and a heated swimming pool, perfect for lazy days. It's also close to shops and restaurants, and is just a short drive to the airport.
+                          - This is an ideal apartment for couples looking for a romantic vacation in Malaga. The apartment enjoys stunning sea views, is beautifully furnished and is close to shops and restaurants. It also has a large balcony and a heated swimming pool.
+                          - Enjoy a romantic break in Malaga from this two-bedroom apartment with sea views! The apartment has a large balcony and an open plan living space, with a heated swimming pool for you to enjoy together. It is ideal for couples and is just a short drive to the airport.
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    description: Unauthtorized
+                    example: Nil JSON web token
+        '400':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: message
+                example:
+                  - message: Field(s) missing. Required fields are property_type, ideal_for, location, number_of_bedrooms, features
+                  - message: property_type should be less than 70 characters
+                  - message: location should be less than 70 characters
+                  - message: ideal_for should be less than 70 characters
+                  - message: feature should be less than 360 characters in total
+                  - message: number_of_bedrooms should be between 0 and 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                output_language:
+                  type: string
+                  description: Output Language
+                  example: EN
+                text:
+                  type: object
+                  properties:
+                    location:
+                      type: string
+                      description: Location
+                      example: Malaga
+                    property_type:
+                      type: string
+                      description: Property Type
+                      example: apartment
+                    number_of_bedrooms:
+                      type: string
+                      description: Number Of Bedrooms
+                      example: 2
+                    ideal_for:
+                      type: string
+                      description: Ideal For
+                      example: couples
+                    features:
+                      type: array
+                      example:
+                        - sea views
+                        - large balcony
+                        - heated swimming pool
+                        - open plan living space
+                        - close to shops and restaurants
+                        - short drive to the airport
               required:
               - location
               - property_type
               - ideal_for
               - number_of_bedrooms
         description: Listing Descriptions
-  "/api/v1/listings/titles":
-    post:
-      summary: Listing Titles
-      tags:
-      - Listing
-      parameters: []
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Successfull Message
-                    example: Successfully Generated Titles
-                  data:
-                    type: array
-                    items: 
-                      type: string
-                      example: 1 bedroom house in london
-        '401':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: string
-                    description: Unauthtorized
-                    example: Nil JSON web token
-        '400':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: message
-                example:
-                  - message: Required fields are as follows property_type, ideal_for, location, number_of_bedrooms, featues
-                  - message: location characters count should be less than 70
-                  - message: property_type characters count should be less than 70
-                  - message: ideal_for characters count should be less than 70
-                  - message: feature characters count should be less than 360
-                  - message: number_of_bedrooms should be between 0 and 100
-                  - message: No Spin Remaining
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                output_language:
-                  type: string
-                  description: Output Language
-                  example: EN
-                text:
-                  type: object
-                  properties:
-                    location:
-                      type: string
-                      description: Location
-                      example: london
-                    property_type:
-                      type: string
-                      description: Property Type
-                      example: house
-                    ideal_for:
-                      type: string
-                      description: Ideal For
-                      example: couple
-                    features:
-                      type: array
-                      items: 
-                        type: string
-                        example: cat
-                    number_of_bedrooms:
-                      type: string
-                      description: Number Of Bedrooms
-                      example: 2
-              required:
-              - location
-              - property_type
-              - ideal_for
-              - number_of_bedrooms
-        description: Listing Titles
   "/api/v1/area/search_locations":
     post:
       summary: Search Locations
       tags:
-      - Area Description
+      - Area Descriptions
+      security:
+        - bearerAuth: []
       parameters: []
       responses:
         200:
@@ -257,7 +281,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Successfull Message
+                    description: Success message
                     example: Successfully Generated Results
                   data:
                     type: object
@@ -273,7 +297,7 @@ paths:
                             type: array
                             items: 
                               type: object
-                              properties:       # <----------
+                              properties:
                                 name:
                                   type: string
                                   example: London Eye
@@ -340,7 +364,9 @@ paths:
     post:
       summary: Area Descriptions
       tags:
-      - Area Description
+      - Area Descriptions
+      security:
+        - bearerAuth: []
       parameters: []
       responses:
         200:
@@ -351,7 +377,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Successfull Message
+                    description: Success message
                     example: Successfully Generated Area Descriptions
                   data:
                     type: object

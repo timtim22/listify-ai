@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 200
-        expect(eval(response.body)[:message]).to eq 'Successfully Logged In.'
+        expect(eval(response.body)[:message]).to eq 'Signed in successfully.'
       end
     end
 
@@ -26,16 +26,16 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Email and Password are required field.'
+        expect(eval(response.body)[:message]).to eq 'Email and password are required fields.'
       end
 
-      it 'to give an error when not passting or nil parameter' do
+      it 'to give an error when not passing or nil parameter' do
         login_params = {
           password: @user.password
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Email and Password are required field.'
+        expect(eval(response.body)[:message]).to eq 'Email and password are required fields.'
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 404
-        expect(eval(response.body)[:message]).to eq 'Incorrect Email'
+        expect(eval(response.body)[:message]).to eq 'Could not authenticate. Please check your credentials and try again.'
       end
 
     end

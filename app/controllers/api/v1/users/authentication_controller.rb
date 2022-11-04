@@ -1,5 +1,6 @@
 class Api::V1::Users::AuthenticationController < Api::V1::ApiController
   skip_before_action :authorize_request, only: :login
+  skip_before_action :admin_user, only: :login
   before_action :required_params
   before_action :check_user_exist
 
@@ -18,7 +19,6 @@ class Api::V1::Users::AuthenticationController < Api::V1::ApiController
 
   def check_user_exist
     failed_auth_response unless User.find_by(email: params[:email])
-
   end
 
   def failed_auth_response

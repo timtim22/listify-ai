@@ -1,5 +1,4 @@
 class Api::V1::Area::DescriptionsController < Api::V1::ApiController
-  before_action :admin_user
   before_action :params_validation
   before_action :set_area_description
   include ApiInputTextConcern
@@ -21,18 +20,14 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
 
   private
 
-  def admin_user
-    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
-  end
-
   def set_area_description
     @description = ApiSearchResult.new(params, detail_text).call
     return json_bad_request("#{@description[:data]} does not exist") if @description[:error] == true
   end
 
   def params_validation
-    area_description_validation = ApiAreaDescriptionValidation.new(params).call
-    return json_bad_request(area_description_validation) if area_description_validation.present?
+    errors = ApiValidators::Listing.new(params, current_user, output_language).call
+    return json_bad_request(errors) if errors.present?
   end
 
   def detail_text

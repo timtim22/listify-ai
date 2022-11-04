@@ -1,5 +1,6 @@
 class Api::V1::ApiController < ActionController::Base
   before_action :authorize_request
+  before_action :admin_user
   protect_from_forgery with: :null_session
 
   def authorize_request
@@ -23,6 +24,10 @@ class Api::V1::ApiController < ActionController::Base
   def get_header
     header = request.headers['Authorization']
     header&.split(' ').last if header
+  end
+
+  def admin_user
+    json_unauthorized('You are not authorized to access this endpoint. Only admins can access this endpoint.') unless current_user.admin
   end
 
   def json_success(message = nil, data = nil)

@@ -1,5 +1,4 @@
 class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
-  before_action :admin_user
   before_action :validate_params
 
   def create
@@ -19,10 +18,6 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
   end
 
   private
-
-  def admin_user
-    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
-  end
 
   def validate_params
     errors = ApiValidators::SearchLocation.new(params).call

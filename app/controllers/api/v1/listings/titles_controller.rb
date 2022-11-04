@@ -1,5 +1,4 @@
 class Api::V1::Listings::TitlesController < Api::V1::ApiController
-  before_action :admin_user
   before_action :output_language
   before_action :params_validation
   include ApiInputTextConcern
@@ -21,17 +20,13 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
   private
 
-  def admin_user
-    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
-  end
-
   def output_language
     params[:output_language].presence || 'EN'
   end
 
   def params_validation
-    listing_validation = ApiListingValidation.new(params, current_user, output_language).call
-    return json_bad_request(listing_validation) if listing_validation.present?
+    errors = ApiValidators::Listing.new(params, current_user, output_language).call
+    return json_bad_request(errors) if errors.present?
   end
 
   def params_in_english

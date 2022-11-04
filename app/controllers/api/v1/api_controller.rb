@@ -30,8 +30,8 @@ class Api::V1::ApiController < ActionController::Base
     render json: response, status: 200
   end
 
-  def json_bad_request(message = "Bad Request", errors = nil)
-    response = generate_response(message: message, errors: errors)
+  def json_bad_request(errors = nil)
+    response = generate_response(message: 'Bad Request', errors: errors)
     render json: response, status: 400
   end
 
@@ -59,7 +59,7 @@ class Api::V1::ApiController < ActionController::Base
     render json: {message: "Please use 'Accept: application/json' in your request header"}, status: 406
   end
 
-  def generate_response(message: nil, data: nil, errors: nil, refresh_token: nil)
+  def generate_response(message:, data: nil, errors: nil, refresh_token: nil)
     response = {}
     response[:message] = message if message.present?
     response[:data] = data if data.present?

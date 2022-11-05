@@ -23,7 +23,7 @@ class Api::V1::ApiController < ActionController::Base
 
   def get_header
     header = request.headers['Authorization']
-    header&.split(' ').last if header
+    header&.split(' ')&.last if header
   end
 
   def admin_user
@@ -61,7 +61,7 @@ class Api::V1::ApiController < ActionController::Base
   end
 
   def json_not_acceptable
-    render json: {message: "Please use 'Accept: application/json' in your request header"}, status: 406
+    render json: { message: "Please use 'Accept: application/json' in your request header" }, status: 406
   end
 
   def generate_response(message:, data: nil, errors: nil, refresh_token: nil)

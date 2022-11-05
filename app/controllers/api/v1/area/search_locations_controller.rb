@@ -10,7 +10,7 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
 
     @attractions = AreaSearch::AttractionFinder.new(
       @search_location,
-      params[:search_radius] * 1000
+      params[:search_radius].to_i * 1000
     ).find!
 
     @search_location.search_results.create(results: @attractions)

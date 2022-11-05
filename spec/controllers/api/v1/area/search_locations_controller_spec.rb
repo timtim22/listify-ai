@@ -8,16 +8,20 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
     @user.update(admin: true)
   end
 
+  def make_request(payload)
+    jwt_token = auth_token(@user)
+    post '/api/v1/area/search_locations', params: payload, headers: { Authorization: jwt_token }
+  end
+
   describe 'SearchLocations controller' do
     context 'with valid parameter' do
       it 'successfully generate search locations ' do
         payload = {
           search_text: 'London',
-          attraction_radius: 500
+          search_radius: 5
         }
 
-        jwt_token = auth_token(@user)
-        post '/api/v1/area/search_locations', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 200
         expect(JSON.parse(response.body)['message']).to eq 'Successfully Generated Results'
       end
@@ -26,15 +30,16 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
     context 'with non admin user' do
       it 'fails for non admin user ' do
         payload = {
-          # search_text: 'London',
-          attraction_radius: 500
+          search_text: 'London',
+          search_radius: 5
         }
 
         jwt_token = auth_token(@user)
         @user.update(admin: false)
         post '/api/v1/area/search_locations', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 401
-        expect(eval(response.body)[:message]).to eq 'You are not authorized to access this endpoint. Only admin can access this endpoint.'
+        message = JSON.parse(response.body)['message']
+        expect(message).to eq 'You are not authorized to access this endpoint. Only admins can access this endpoint.'
       end
     end
 
@@ -42,13 +47,14 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
       it 'fails for missing parameter ' do
         payload = {
           # search_text: 'London',
-          attraction_radius: 500
+          search_radius: 5
         }
 
         jwt_token = auth_token(@user)
         post '/api/v1/area/search_locations', params: payload, headers: { Authorization: jwt_token }
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'search_text is required field and should be less than 100 characters'
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'search_text is required field and should be less than 100 characters' }]
       end
     end
   end

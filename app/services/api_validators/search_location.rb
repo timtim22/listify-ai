@@ -24,7 +24,7 @@ module ApiValidators
     end
 
     def validate_search_radius
-      return if search_radius.is_a?(Integer) && RADIUS_VALUES.include?(search_radius)
+      return if RADIUS_VALUES.include?(search_radius.to_i)
       errors << { message: "search_radius must be provided as an integer. Acceptable values are #{RADIUS_VALUES.to_sentence}." }
     end
   end

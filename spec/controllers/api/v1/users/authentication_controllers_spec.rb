@@ -5,6 +5,10 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
     @user = create(:user)
   end
 
+  def make_request(login_params)
+    post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
+  end
+
   describe 'authentication controller' do
     context 'with valid parameter' do
       it 'to successfully login ' do
@@ -12,9 +16,9 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
           email: @user.email,
           password: @user.password
         }
-        post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
+        make_request(login_params)
         expect(response).to have_http_status 200
-        expect(eval(response.body)[:message]).to eq 'Signed in successfully.'
+        expect(JSON.parse(response.body)['message']).to eq 'Signed in successfully.'
       end
     end
 
@@ -26,7 +30,7 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Email and password are required fields.'
+        expect(JSON.parse(response.body)['errors']).to eq 'Email and password are required fields.'
       end
 
       it 'to give an error when not passing or nil parameter' do
@@ -35,7 +39,7 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq 'Email and password are required fields.'
+        expect(JSON.parse(response.body)['errors']).to eq 'Email and password are required fields.'
       end
     end
 
@@ -47,9 +51,8 @@ RSpec.describe 'Api::V1::Users::AuthenticationController', type: :request do
         }
         post '/api/v1/users/sign_in', params: login_params.merge(format: :json)
         expect(response).to have_http_status 404
-        expect(eval(response.body)[:message]).to eq 'Could not authenticate. Please check your credentials and try again.'
+        expect(JSON.parse(response.body)['message']).to eq 'Could not authenticate. Please check your credentials and try again.'
       end
-
     end
   end
 end

@@ -1,5 +1,4 @@
 class Api::V1::Area::DescriptionsController < Api::V1::ApiController
-  before_action :admin_user
   before_action :params_validation
   before_action :set_area_description
   include ApiInputTextConcern
@@ -13,17 +12,15 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
       @runs_remaining -= 1
     end
 
-    sleep 10
+    handle_expected_result do
+      break if @task_run.has_all_results?
+    end
     @task_results = @task_run.task_results.map(&:result_text)
 
-    json_success('Successfully Generated Area Descriptions', area_description: @task_results, task_run_id: @task_run.id)
+    json_success('Successfully Generated Area Descriptions', result: @task_results, task_run_id: @task_run.id)
   end
 
   private
-
-  def admin_user
-    json_unauthorized('You are not authorized to access this endpoint. Only admin can access this endpoint.') unless current_user.admin
-  end
 
   def set_area_description
     @description = ApiSearchResult.new(params, detail_text).call
@@ -31,8 +28,8 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
   end
 
   def params_validation
-    area_description_validation = ApiAreaDescriptionValidation.new(params).call
-    return json_bad_request(area_description_validation) if area_description_validation.present?
+    errors = ApiValidators::AreaDescription.new(params).call
+    return json_bad_request(errors) if errors.present?
   end
 
   def detail_text

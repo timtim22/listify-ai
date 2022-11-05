@@ -10,6 +10,11 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
     @area_description = create(:area_description, search_location_id: @search_location.id)
   end
 
+  def make_request(payload)
+    jwt_token = auth_token(@user)
+    post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+  end
+
   describe 'descriptions controller' do
     context 'with non admin user' do
       it 'fails for non admin user ' do
@@ -19,65 +24,65 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
           detail_text: ['cat', 'dog']
         }
 
-        jwt_token = auth_token(@user)
         @user.update(admin: false)
-        post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 401
-        expect(eval(response.body)[:message]).to eq 'You are not authorized to access this endpoint. Only admin can access this endpoint.'
+        expect(JSON.parse(response.body)['message']).to eq 'You are not authorized to access this endpoint. Only admins can access this endpoint.'
       end
     end
 
     context 'with invalid parameters' do
-      it 'fails for missing invalid search location ' do
+      it 'fails for missing invalid search location' do
         payload = {
           search_location_id: "asdasd",
           selected_ids: ['ChIJa4bODTG-3zgREyhIEMZJPdo', 'ChIJa4bODTG-3zgREyhIEMZJPdo'],
           detail_text: ['cat', 'dog']
         }
 
-        jwt_token = auth_token(@user)
-        post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq [{ message: 'search_location does not exist' }]
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'search_location does not exist' }]
       end
 
-      it 'fails for missing selected_ids ' do
+      it 'fails for missing selected_ids' do
         payload = {
           search_location_id: @search_location.id,
           # selected_ids: ['ChIJa4bODTG-3zgREyhIEMZJPdo', 'ChIJa4bODTG-3zgREyhIEMZJPdo'],
           detail_text: ['cat', 'dog']
         }
 
-        jwt_token = auth_token(@user)
-        post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq [{ message: 'Selected IDs cant be nil. Please insert atleast 3 place_ids for the best description' }]
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'Selected IDs cannot be nil. Please select at least 3 place_ids for the best description' }]
       end
 
-      it 'fails for invalid detail_text ' do
+      it 'fails for invalid detail_text' do
         payload = {
           search_location_id: @search_location.id,
           selected_ids: ['ChIJa4bODTG-3zgREyhIEMZJPdo', 'ChIJa4bODTG-3zgREyhIEMZJPdo'],
           detail_text: 'cat'
         }
 
-        jwt_token = auth_token(@user)
-        post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq [{ message: "Invalid detail_text format. Kindly use the following format: ['famous for nightlight', 'Great location for exploring the city']" }]
+
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => "Invalid detail_text format. Kindly use the following format: ['famous for nightlife', 'Great location for exploring the city']" }]
       end
 
-      it 'fails for missing detail_text ' do
+      it 'fails for missing detail_text' do
         payload = {
           search_location_id: @search_location.id,
           selected_ids: ['ChIJa4bODTG-3zgREyhIEMZJPdo', 'ChIJa4bODTG-3zgREyhIEMZJPdo'],
           # detail_text: 'cat'
         }
 
-        jwt_token = auth_token(@user)
-        post '/api/v1/area/descriptions', params: payload, headers: { Authorization: jwt_token }
+        make_request(payload)
         expect(response).to have_http_status 400
-        expect(eval(response.body)[:message]).to eq [{ message: 'detail_text cannot be blank' }]
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'detail_text cannot be blank' }]
       end
     end
   end

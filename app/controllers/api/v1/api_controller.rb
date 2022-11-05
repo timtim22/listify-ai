@@ -1,5 +1,6 @@
 class Api::V1::ApiController < ActionController::Base
   before_action :authorize_request
+  before_action :admin_user
   protect_from_forgery with: :null_session
 
   def authorize_request
@@ -22,7 +23,11 @@ class Api::V1::ApiController < ActionController::Base
 
   def get_header
     header = request.headers['Authorization']
-    header&.split(' ').last if header
+    header&.split(' ')&.last if header
+  end
+
+  def admin_user
+    json_unauthorized('You are not authorized to access this endpoint. Only admins can access this endpoint.') unless current_user.admin
   end
 
   def json_success(message = nil, data = nil)
@@ -56,7 +61,7 @@ class Api::V1::ApiController < ActionController::Base
   end
 
   def json_not_acceptable
-    render json: {message: "Please use 'Accept: application/json' in your request header"}, status: 406
+    render json: { message: "Please use 'Accept: application/json' in your request header" }, status: 406
   end
 
   def generate_response(message:, data: nil, errors: nil, refresh_token: nil)
@@ -69,16 +74,17 @@ class Api::V1::ApiController < ActionController::Base
   end
 
   def handle_expected_result
-    Timeout::timeout(15){
-      last_tick = Time.now
+    Timeout.timeout(15) {
+      last_tick = Time.zone.now
       loop do
         sleep 0.1
-        if Time.now - last_tick >= 2
+        if Time.zone.now - last_tick >= 2
           last_tick += 2
           yield
         end
       end
     }
-    rescue
+  rescue Timeout::Error
+    # do nothing
   end
 end

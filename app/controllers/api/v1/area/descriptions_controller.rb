@@ -28,7 +28,7 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
   end
 
   def params_validation
-    errors = ApiValidators::AreaDescription.new(params).call
+    errors = ApiValidators::AreaDescription.new(params, current_user).call
     return json_bad_request(errors) if errors.present?
   end
 

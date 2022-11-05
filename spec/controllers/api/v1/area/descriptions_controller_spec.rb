@@ -84,6 +84,22 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
         errors = JSON.parse(response.body)['errors']
         expect(errors).to eq [{ 'message' => 'detail_text cannot be blank' }]
       end
+
+      it 'fails if no spins remaining' do
+        allow_any_instance_of(SpinCounter).to receive(:spins_remaining).and_return(0)
+        payload = {
+          search_location_id: @search_location.id,
+          selected_ids: ['ChIJa4bODTG-3zgREyhIEMZJPdo', 'ChIJa4bODTG-3zgREyhIEMZJPdo'],
+          detail_text: ['famous for nightlife']
+        }
+
+        make_request(payload)
+        expect(response).to have_http_status 400
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'No Spins remaining on your account. Please upgrade or contact us for assistance.' }]
+      end
+
+
     end
   end
 end

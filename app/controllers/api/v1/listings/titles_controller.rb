@@ -4,7 +4,6 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
   include ApiInputTextConcern
 
   def create
-    @runs_remaining = SpinCheck.runs_remaining(current_user)
     save = Input.create_with(Listing.new(params_in_english), current_user)
     return json_unprocessable_entity unless save.success
 

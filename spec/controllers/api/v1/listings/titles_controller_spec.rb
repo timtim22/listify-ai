@@ -141,6 +141,25 @@ RSpec.describe 'Api::V1::Listings::TitlesController', type: :request do
         expect(errors).to eq [{ 'message' => 'number_of_bedrooms should be between 0 and 100' }]
       end
 
+      it 'fails if no spins remaining' do
+        allow_any_instance_of(SpinCounter).to receive(:spins_remaining).and_return(0)
+        payload = {
+          output_language: "EN",
+          text: {
+            location: 'london',
+            property_type: 'house',
+            number_of_bedrooms: 2,
+            ideal_for: 'couple',
+            features: ['parking']
+          }
+        }
+
+        make_request(payload)
+        expect(response).to have_http_status 400
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'No Spins remaining on your account. Please upgrade or contact us for assistance.' }]
+      end
+
       it 'fails for unsupported output language' do
         payload = {
           output_language: "PK",

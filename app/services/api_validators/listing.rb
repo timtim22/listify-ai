@@ -26,7 +26,7 @@ module ApiValidators
       error_message << { message: "ideal_for should be less than #{TEXT_CHARS_COUNT} characters" } if ideal_for_character_count_check
       error_message << { message: "number_of_bedrooms should be between 0 and #{MAX_NUMBER_OF_BEDROOM}" } unless number_of_bedrooms_count_check
       error_message << { message: "features should be less than #{FEATURES_ARRAY_COUNT} characters in total" } if features_count_check
-      error_message << { message: 'No Spin remaning.' } if spin_check
+      error_message << { message: 'No Spins remaining on your account. Please upgrade or contact us for assistance.' } if fails_spin_check?
 
       error_message
     end
@@ -59,7 +59,7 @@ module ApiValidators
       @features.join.chars.count > FEATURES_ARRAY_COUNT if @features
     end
 
-    def spin_check
+    def fails_spin_check?
       @current_user.runs_remaining_today <= 0
     end
   end

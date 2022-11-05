@@ -15,7 +15,7 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
 
   describe 'SearchLocations controller' do
     context 'with valid parameter' do
-      it 'successfully generate search locations ' do
+      it 'successfully generate search locations' do
         payload = {
           search_text: 'London',
           search_radius: 5
@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
     end
 
     context 'with non admin user' do
-      it 'fails for non admin user ' do
+      it 'fails for non admin user' do
         payload = {
           search_text: 'London',
           search_radius: 5
@@ -42,6 +42,19 @@ RSpec.describe 'Api::V1::Area::SearchLocationsController', type: :request do
         expect(message).to eq 'You are not authorized to access this endpoint. Only admins can access this endpoint.'
       end
     end
+
+      it 'fails if no spins remaining' do
+        allow_any_instance_of(SpinCounter).to receive(:spins_remaining).and_return(0)
+        payload = {
+          search_text: 'London',
+          search_radius: 5
+        }
+
+        make_request(payload)
+        expect(response).to have_http_status 400
+        errors = JSON.parse(response.body)['errors']
+        expect(errors).to eq [{ 'message' => 'No Spins remaining on your account. Please upgrade or contact us for assistance.' }]
+      end
 
     context 'with invalid parameters' do
       it 'fails for missing parameter ' do

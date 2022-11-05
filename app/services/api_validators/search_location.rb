@@ -3,10 +3,10 @@ module ApiValidators
     SEARCH_TEXT_LENGTH = 100
     RADIUS_VALUES = [2, 5, 25].freeze
 
-    attr_reader :search_text, :search_radius, :errors
+    attr_reader :current_user, :search_text, :search_radius, :errors
 
-    def initialize(params)
-      @params        = params
+    def initialize(params, current_user)
+      @current_user  = current_user
       @search_text   = params[:search_text]
       @search_radius = params[:search_radius]
       @errors        = []
@@ -15,6 +15,7 @@ module ApiValidators
     def call
       validate_search_text
       validate_search_radius
+      validate_spins_remaining
       errors
     end
 
@@ -26,6 +27,11 @@ module ApiValidators
     def validate_search_radius
       return if RADIUS_VALUES.include?(search_radius.to_i)
       errors << { message: "search_radius must be provided as an integer. Acceptable values are #{RADIUS_VALUES.to_sentence}." }
+    end
+
+    def validate_spins_remaining
+      return unless current_user.runs_remaining_today <= 0
+      errors << { message: 'No Spins remaining on your account. Please upgrade or contact us for assistance.' }
     end
   end
 end

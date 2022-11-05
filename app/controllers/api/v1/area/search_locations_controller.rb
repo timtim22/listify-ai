@@ -20,7 +20,7 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
   private
 
   def validate_params
-    errors = ApiValidators::SearchLocation.new(params).call
+    errors = ApiValidators::SearchLocation.new(params, current_user).call
     json_bad_request(errors) if errors.any?
   end
 

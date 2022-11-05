@@ -119,7 +119,6 @@ paths:
             application/json:
               schema:
                 type: array
-                items: message
                 example:
                   - message: Field(s) missing. Required fields are property_type, ideal_for, location, number_of_bedrooms, features
                   - message: property_type should be less than 70 characters

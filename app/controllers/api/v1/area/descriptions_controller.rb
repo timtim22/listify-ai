@@ -15,7 +15,7 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
     sleep 10
     @task_results = @task_run.task_results.map(&:result_text)
 
-    json_success('Successfully Generated Area Descriptions', area_description: @task_results, task_run_id: @task_run.id)
+    json_success('Successfully Generated Area Descriptions', result: @task_results, task_run_id: @task_run.id)
   end
 
   private

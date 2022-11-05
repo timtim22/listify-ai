@@ -27,7 +27,7 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
         @user.update(admin: false)
         make_request(payload)
         expect(response).to have_http_status 401
-        expect(eval(response.body)[:message]).to eq 'You are not authorized to access this endpoint. Only admins can access this endpoint.'
+        expect(JSON.parse(response.body)['message']).to eq 'You are not authorized to access this endpoint. Only admins can access this endpoint.'
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
         make_request(payload)
         expect(response).to have_http_status 400
         errors = JSON.parse(response.body)['errors']
-        expect(errors).to eq [{ 'message' => 'Selected IDs cant be nil. Please insert atleast 3 place_ids for the best description' }]
+        expect(errors).to eq [{ 'message' => 'Selected IDs cannot be nil. Please select at least 3 place_ids for the best description' }]
       end
 
       it 'fails for invalid detail_text' do

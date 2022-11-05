@@ -11,7 +11,7 @@ module ApiValidators
 
     def call
       error_message = []
-      error_message << { message: 'Selected IDs cant be nil. Please insert atleast 3 place_ids for the best description' } if @selected_ids.blank?
+      error_message << { message: 'Selected IDs cannot be nil. Please select at least 3 place_ids for the best description' } if @selected_ids.blank?
       error_message << { message: 'search_location does not exist' } if @search_location_id.blank? || ::SearchLocation.find_by(id: @search_location_id).nil?
 
       if @detail_text.blank?

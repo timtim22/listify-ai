@@ -409,7 +409,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      area_description:
+                      result:
                         type: array
                         items: 
                         type: string
@@ -432,8 +432,8 @@ paths:
                 items: message
                 example:
                   - message: Search Location does not exist
-                  - message: Selected IDs cant be nil. Please insert atleast 3 place_ids for the best description
-                  - message: Invalid detail_text format. Kindly use the following format, ['famous for nightlight', 'Great location for exploring the city']
+                  - message: Selected IDs cant be nil. Please insert at least 3 place_ids for the best description
+                  - message: Invalid detail_text format. Kindly use the following format, ['famous for nightlife', 'Great location for exploring the city']
                   - message: detail_text cannot be blank
       requestBody:
         content:
@@ -447,19 +447,20 @@ paths:
                   example: 73b59600-e130-484b-a156-045a42215a12
                 selected_ids:
                   type: array
-                  items: 
-                    type: string
-                    example: ChIJa4bODTG-3zgREyhIEMZJPdo
+                  example:
+                    - 0d2b9014-a189-43ad-9b6a-0da0f322b328
+                    - 03be2ca8-b894-49c3-a672-fab522133df9
+                    - 09f96c35-18dd-4dc5-b557-0278a3d1f851
                 detail_text:
                   type: array
-                  items: 
+                  items:
                   type: string
-                  example: Famous for night
+                  example: Famous for nightlife
               required:
               - search_location_id
               - selected_ids
               - detail_text
-        description: Area Description
+        description: Generates area descriptions from attraction ids and additional points of detail. Attraction ids are returned by the search_location endpoint. For best results, at least 3 attraction ids should be selected.
 servers:
 - url: https://app.listify.ai
   variables:

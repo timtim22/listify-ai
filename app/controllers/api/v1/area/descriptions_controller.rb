@@ -12,7 +12,9 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
       @runs_remaining -= 1
     end
 
-    sleep 10
+    handle_expected_result do
+      break if @task_run.has_all_results?
+    end
     @task_results = @task_run.task_results.map(&:result_text)
 
     json_success('Successfully Generated Area Descriptions', result: @task_results, task_run_id: @task_run.id)

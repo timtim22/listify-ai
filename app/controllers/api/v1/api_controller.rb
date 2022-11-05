@@ -74,16 +74,17 @@ class Api::V1::ApiController < ActionController::Base
   end
 
   def handle_expected_result
-    Timeout::timeout(15){
-      last_tick = Time.now
+    Timeout.timeout(15) {
+      last_tick = Time.zone.now
       loop do
         sleep 0.1
-        if Time.now - last_tick >= 2
+        if Time.zone.now - last_tick >= 2
           last_tick += 2
           yield
         end
       end
     }
-    rescue
+  rescue Timeout::Error
+    # do nothing
   end
 end

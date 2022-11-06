@@ -4,7 +4,7 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
   include ApiInputTextConcern
 
   def create
-    save = Input.create_with(Listing.new(params_in_english), current_user)
+    save = Input.create_with(Listing.new(listing_params), current_user)
     return json_unprocessable_entity unless save.success
 
     @listing = save.input_object
@@ -12,9 +12,8 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
     handle_expected_result do
       break if @task_run.has_all_results?
     end
-    @task_results = @task_run.task_results.map(&:result_text)
 
-    task_results_response(@task_results, @task_run.id)
+    task_results_response(@task_run.task_results, @task_run.id)
   end
 
   private
@@ -26,15 +25,6 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
   def params_validation
     errors = ApiValidators::Listing.new(params, current_user, output_language).call
     return json_bad_request(errors) if errors.present?
-  end
-
-  def params_in_english
-    translator = Translations::Runner.new
-    translation_params = translator.request_in_english(
-      'EN',
-      input_text
-    )
-    listing_params.merge(translation_params)
   end
 
   def listing_params
@@ -57,9 +47,21 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
   def task_results_response(task_results, task_run_id)
     if task_results.present?
-      json_success('Successfully generated titles', result: task_results, task_run_id: task_run_id)
+      json_success(
+        'Successfully generated titles',
+        result: translated_results(task_results),
+        task_run_id: task_run_id
+      )
     else
       json_not_found('Something Went Wrong! Please Try Again.')
     end
   end
+
+  def translated_results(task_results)
+    task_results.map do |tr|
+      final_result = tr.translations.any? ? tr.translations.first : tr
+      final_result.result_text
+    end
+  end
+
 end

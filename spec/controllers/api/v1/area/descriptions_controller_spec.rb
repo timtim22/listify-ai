@@ -98,8 +98,6 @@ RSpec.describe 'Api::V1::Area::DescriptionsController', type: :request do
         errors = JSON.parse(response.body)['errors']
         expect(errors).to eq [{ 'message' => 'No Spins remaining on your account. Please upgrade or contact us for assistance.' }]
       end
-
-
     end
   end
 end

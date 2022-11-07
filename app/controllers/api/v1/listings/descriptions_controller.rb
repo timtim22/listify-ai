@@ -60,7 +60,7 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
   def translated_results(task_results)
     task_results.map do |tr|
       final_result = tr.translations.any? ? tr.translations.first : tr
-      final_result.result_text
+      final_result.result_text&.strip
     end
   end
 end

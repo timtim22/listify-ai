@@ -2,6 +2,7 @@ RSpec.describe Subscription, type: :model do
   before(:each) do
     @user = create(:user)
     @user.update_card("pm_card_visa")
+    create(:plan, stripe_id: STARTER_PLAN)
     @subscription = @user.subscribe(STARTER_PLAN)
   end
 

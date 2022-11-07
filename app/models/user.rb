@@ -131,21 +131,8 @@ class User < ApplicationRecord
     Subscriptions::CardUpdater.new(self, payment_method_id).call
   end
 
-  def create_setup_intent
-    stripe_customer if !stripe_id
-    Stripe::SetupIntent.create(customer: stripe_id)
-  end
-
   def stripe_customer
-    if stripe_id
-      Stripe::Customer.retrieve(stripe_id)
-    else
-      customer = Stripe::Customer.create(
-        email: email
-      )
-      update(stripe_id: customer.id)
-      customer
-    end
+    Subscriptions::StripeCustomer.fetch_or_create(self)
   end
 
   def otp_qr_code

@@ -2,7 +2,7 @@ class CardsController < ApplicationController
   before_action :authenticate_user!
 
   def edit
-    @setup_intent = current_user.create_setup_intent
+    @setup_intent = Subscriptions::SetupIntent.create(current_user)
   end
 
   def update

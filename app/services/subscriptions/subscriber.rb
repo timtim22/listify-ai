@@ -13,10 +13,10 @@ module Subscriptions
       create_stripe_customer_for_user
       remote_sub = create_remote_subscription
       local_sub  = create_local_subscription(remote_sub)
+
       raise_error_if_payment_needs_authentication(remote_sub)
 
-      #local_sub.send_confirmation_call(company_name, subscription.plan)
-      local_sub.send_confirmation_email
+      local_sub.subscribed_successfully_steps
       local_sub
     end
 

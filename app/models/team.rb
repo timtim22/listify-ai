@@ -3,7 +3,7 @@ class Team < ApplicationRecord
   has_many :users, through: :team_roles
   has_many :team_invitations, dependent: :destroy
 
-  def self.create_for!(company_name, plan)
+  def self.create_with_plan!(company_name, plan)
     create!(
       name: company_name,
       seat_count: plan.default_seat_count,

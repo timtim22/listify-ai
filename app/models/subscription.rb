@@ -79,30 +79,13 @@ class Subscription < ApplicationRecord
     Stripe::Subscription.retrieve(stripe_id)
   end
 
-  def send_confirmation_call(company_name, plan)
+  def subscribed_successfully_steps
     send_confirmation_email
-    create_team(company_name, plan)
+    Subscriptions::TeamSetup.call(self, user)
   end
 
   def send_confirmation_email
     UserMailer.subscription_activated(user).deliver_later
-  end
-
-  def create_team(company_name, plan)
-    case plan.name
-    when 'standard'
-      seat_count = 3
-      custom_spin_count = 250
-    when 'premium'
-      seat_count = 5
-      custom_spin_count = 1200
-    else
-      seat_count = 0
-      custom_spin_count = 0
-    end
-
-    team = Team.create(name: company_name, seat_count: seat_count, custom_spin_count: custom_spin_count)
-    user.create_team_role(team: team, name: 'admin')
   end
 
   def send_cancellation_email

@@ -16,7 +16,7 @@ class SubscriptionsController < ApplicationController
   def create
     current_user.update_card(params[:payment_method_id]) if params[:payment_method_id]
     Subscriptions::Customer.update(current_user, customer_params)
-    current_user.subscribe(@plan.stripe_id, country_options, params[:name])
+    current_user.subscribe(@plan.stripe_id, country_options)
     redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
     redirect_to payment_path(e.payment_intent.id)

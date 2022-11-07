@@ -7,8 +7,8 @@ RSpec.describe Subscription, type: :model do
 
   describe "subscription changes" do
     it "swaps plans", :vcr do
-      @subscription.swap(PRO_PLAN)
-      expect(PRO_PLAN).to eq @subscription.stripe_plan
+      @subscription.swap(STANDARD_PLAN)
+      expect(STANDARD_PLAN).to eq @subscription.stripe_plan
     end
 
     it "cancel subscription", :vcr do

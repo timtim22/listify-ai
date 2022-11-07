@@ -1,4 +1,3 @@
-
 # stripe test plans
-STARTER_PLAN = "price_1K5FN2AAShUZq81IpSbu8SjG"
-PRO_PLAN     = "price_1K5FPWAAShUZq81ILS6ZCY4x"
+STARTER_PLAN  = 'price_1KNyZlAAShUZq81Ish4G8Lpl'.freeze
+STANDARD_PLAN = 'price_1KahZgAAShUZq81ISGGNuSrp'.freeze

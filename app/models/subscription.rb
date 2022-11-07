@@ -75,6 +75,10 @@ class Subscription < ApplicationRecord
     send_swap_plan_email
   end
 
+  def recently_activated?
+    active? && created_at > Time.zone.now - 2.days
+  end
+
   def stripe_subscription
     Stripe::Subscription.retrieve(stripe_id)
   end

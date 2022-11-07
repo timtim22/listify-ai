@@ -39,6 +39,26 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'recently_subscribed' do
+    it 'true' do
+      user = create(:user)
+      create(:subscription, status: 'active', user: user)
+      expect(user.recently_subscribed?).to eq true
+    end
+
+    it 'when status is incomplete' do
+      user = create(:user)
+      create(:subscription, status: 'incomplete', user: user)
+      expect(user.recently_subscribed?).to eq false
+    end
+
+    it 'when not recent' do
+      user = create(:user)
+      create(:subscription, created_at: 3.days.ago, status: 'active', user: user)
+      expect(user.recently_subscribed?).to eq false
+    end
+  end
+
   describe 'update_card' do
     it 'updates card', :vcr do
       @user.update_card("pm_card_visa")

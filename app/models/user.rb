@@ -116,12 +116,7 @@ class User < ApplicationRecord
   end
 
   def recently_subscribed?
-    if subscription
-      subscription.active? &&
-        subscription.created_at > Time.zone.now - 2.days
-    else
-      false
-    end
+    subscription&.recently_activated?
   end
 
   def subscription

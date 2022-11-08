@@ -19,6 +19,8 @@ class SubscriptionsController < ApplicationController
     redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
     redirect_to payment_path(e.payment_intent.id)
+  rescue Stripe::CardError => e
+    redirect_to new_subscription_path(plan_id: @plan.id), alert: "Sorry, there was an error with your card: #{e.message} Please try again or contact us for help."
   end
 
   def edit

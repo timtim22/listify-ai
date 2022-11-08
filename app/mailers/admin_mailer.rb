@@ -35,6 +35,14 @@ class AdminMailer < ApplicationMailer
     )
   end
 
+  def payment_failed(user)
+    @user = user
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'User payment failed'
+    )
+  end
+
   def user_account_locked(user)
     @user = user
     mail(

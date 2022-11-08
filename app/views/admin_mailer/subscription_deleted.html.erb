@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body style="font-family: arial; margin: 0px;">
+    <div style="line-height: 1.6; padding-bottom: 0.5rem;">
+      <p>
+        A webhook notification was received that <%= @user.email %>'s subscription was deleted.
+        This is a slightly different event to a user cancelling in the app.
+        It might be expected and require no action, or it might need investigation.
+      </p>
+    </div>
+  </body>
+</html>
+

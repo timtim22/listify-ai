@@ -26,6 +26,14 @@ class AdminMailer < ApplicationMailer
     )
   end
 
+  def subscription_deleted(user)
+    @user = user
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Deleted Listify subscription'
+    )
+  end
+
   def subscription_swapped(user, plan_name)
     @user = user
     @plan_name = plan_name

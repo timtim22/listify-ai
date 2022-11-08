@@ -116,77 +116,23 @@ class User < ApplicationRecord
   end
 
   def recently_subscribed?
-    if subscription
-      subscription.active? &&
-        subscription.created_at > Time.zone.now - 2.days
-    else
-      false
-    end
+    subscription&.recently_activated?
   end
 
   def subscription
     subscriptions.order(:created_at).last
   end
 
-  def subscribe(plan, options={})
-    stripe_customer if !stripe_id
-    args = {
-      customer: stripe_id,
-      items: [{ price: plan }],
-      expand: ['latest_invoice.payment_intent'],
-      off_session: true
-    }.merge(options)
-
-    sub = Stripe::Subscription.create(args)
-    subscription = subscriptions.create(
-      stripe_id: sub.id,
-      stripe_plan: plan,
-      status: sub.status,
-      trial_ends_at: (sub.trial_end ? Time.at(sub.trial_end) : nil),
-      ends_at: nil
-    )
-
-    if sub.status == 'incomplete' && ['requires_action', 'requires_payment_method'].include?(sub.latest_invoice.payment_intent.status)
-      raise PaymentIncomplete.new(sub.latest_invoice.payment_intent), 'Subscription requires authentication'
-    end
-
-    subscription.send_activation_email
-    subscription
-  end
-
-  def create_setup_intent
-    stripe_customer if !stripe_id
-    Stripe::SetupIntent.create(customer: stripe_id)
+  def subscribe(stripe_plan, options = {})
+    Subscriptions::Subscriber.new(self, stripe_plan, options).call
   end
 
   def update_card(payment_method_id)
-    stripe_customer if !stripe_id
-    payment_method = Stripe::PaymentMethod.attach(
-      payment_method_id,
-      { customer: stripe_id }
-    )
-    Stripe::Customer.update(
-      stripe_id,
-      invoice_settings: { default_payment_method: payment_method.id }
-    )
-    update(
-      card_brand: payment_method.card.brand.titleize,
-      card_last4: payment_method.card.last4,
-      card_exp_month: payment_method.card.exp_month,
-      card_exp_year: payment_method.card.exp_year
-    )
+    Subscriptions::CardUpdater.new(self, payment_method_id).call
   end
 
   def stripe_customer
-    if stripe_id
-      Stripe::Customer.retrieve(stripe_id)
-    else
-      customer = Stripe::Customer.create(
-        email: email
-      )
-      update(stripe_id: customer.id)
-      customer
-    end
+    Subscriptions::StripeCustomer.fetch_or_create(self)
   end
 
   def otp_qr_code

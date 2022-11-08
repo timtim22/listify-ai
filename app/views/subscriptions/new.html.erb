@@ -36,24 +36,26 @@
               <%= form.hidden_field :plan_id, value: @plan.id %>
               <%= form.hidden_field :plan_amount, value: @plan.amount, id: 'plan-amount' %>
 
-              <label class="form-label">Country</label>
+              <label class="form-label">Country*</label>
               <%= country_select("user", "country", { priority_countries: ["GB"], selected: "GB" }, { class: 'payment-field text-sm mb-4' }) %>
 
               <h3 class="text-lg mt-4">Address</h3>
               <div class="mt-4 mb-8 w-full h-px bg-gray-200"></div>
 
               <div class="field">
-                <%= form.label :name, "Company name", value: @customer.try(:name), class: "form-label" %><br />
+                <%= form.label :name, "Company name*", value: @customer.try(:name), class: "form-label" %><br />
                 <%= form.text_field(
                   :name,
+                  required: true,
                   class: "form-text-input text-sm"
                 ) %>
               </div>
 
               <div class="field">
-                <%= form.label :line1, 'Line one', value: @customer.try(:line1), class: "form-label" %><br />
+                <%= form.label :line1, 'Line one*', value: @customer.try(:line1), class: "form-label" %><br />
                 <%= form.text_field(
                   :line1,
+                  required: true,
                   class: "form-text-input"
                 ) %>
               </div>
@@ -67,9 +69,10 @@
               </div>
 
               <div class="field">
-                <%= form.label :city, 'City', value: @customer.try(:city), class: "form-label" %><br />
+                <%= form.label :city, 'City*', value: @customer.try(:city), class: "form-label" %><br />
                 <%= form.text_field(
                   :city,
+                  required: true,
                   class: "form-text-input"
                 ) %>
               </div>
@@ -82,9 +85,10 @@
               </div>
 
               <div class="field">
-                <%= form.label :postal_code, 'Postal / ZIP Code', value: @customer.try(:postal_code), class: "form-label" %><br />
+                <%= form.label :postal_code, 'Postal / ZIP Code*', value: @customer.try(:postal_code), class: "form-label" %><br />
                 <%= form.text_field(
                   :postal_code,
+                  required: true,
                   class: "form-text-input"
                 ) %>
               </div>

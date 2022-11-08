@@ -14,12 +14,13 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    current_user.update_card(params[:payment_method_id]) if params[:payment_method_id]
-    Subscriptions::Customer.update(current_user, customer_params)
+    update_billing_from_params
     current_user.subscribe(@plan.stripe_id, country_options)
     redirect_to root_path, notice: "Thanks for subscribing!"
   rescue PaymentIncomplete => e
     redirect_to payment_path(e.payment_intent.id)
+  rescue Stripe::CardError => e
+    redirect_to new_subscription_path(plan_id: @plan.id), alert: "Sorry, there was an error with your card: #{e.message} Please try again or contact us for help."
   end
 
   def edit
@@ -45,17 +46,25 @@ class SubscriptionsController < ApplicationController
 
   private
 
+  def update_billing_from_params
+    Subscriptions::UpdateBilling.call(
+      user: current_user,
+      payment_method_id: params[:payment_method_id],
+      customer_attrs: customer_params,
+      country: params.dig(:user, :country)
+    )
+  end
+
   def team_admin_but_not_purchaser?
     current_user.team_admin? && !current_user.subscription
   end
 
   def customer_params
-    params.permit(:name, :line1, :line2, :city, :state, :postal_code).merge(country: params[:user]['country'])
+    params.permit(:name, :line1, :line2, :city, :state, :postal_code)
   end
 
   def country_options
     country_code = params.dig(:user, :country)
-    current_user.update!(country_code: country_code) if country_code.present?
     if country_code == 'GB' || (country_code.nil? && current_user.country_code == 'GB')
       { automatic_tax: { enabled: true } }
     else

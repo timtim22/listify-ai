@@ -8,7 +8,7 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
     save = Input.create_with(@description, current_user)
     if save.success
       @area_description = save.input_object
-      @task_run = TaskRunners::OneStep.new.run_for!(@area_description, current_user)
+      @task_run = TaskRunners::OneStep.new.run_for!(@area_description, current_user, output_language, true, params[:mock_request])
       @runs_remaining -= 1
     end
 
@@ -21,6 +21,10 @@ class Api::V1::Area::DescriptionsController < Api::V1::ApiController
   end
 
   private
+
+  def output_language
+    params[:output_language].presence || 'EN'
+  end
 
   def set_area_description
     @description = ApiSearchResult.new(params, detail_text).call

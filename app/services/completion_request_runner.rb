@@ -12,7 +12,7 @@ class CompletionRequestRunner
   private
 
   def assemble_request(task_run, prompt)
-    RequestAssemblers::Coordinate.for(prompt, task_run.input_object)
+    RequestAssemblers::Coordinate.for(prompt, task_run.input_object, task_run.mock_request)
   end
 
   def execute_request!(request, config)

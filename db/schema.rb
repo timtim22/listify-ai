@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "detail_text"
     t.string "user_provided_area_name"
-    t.boolean "multiple_search", default: false
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
   end
 
@@ -374,7 +373,6 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "api_request", default: false
-    t.integer "attraction_radius"
     t.index ["task_result_id"], name: "index_recorded_completions_on_task_result_id"
     t.index ["task_run_id"], name: "index_recorded_completions_on_task_run_id"
     t.index ["user_id"], name: "index_recorded_completions_on_user_id"
@@ -389,15 +387,15 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
   end
 
-  create_table "register_steps", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "registered_steps", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "position"
     t.uuid "procedure_id", null: false
     t.string "step_type", null: false
     t.uuid "step_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["procedure_id"], name: "index_register_steps_on_procedure_id"
-    t.index ["step_type", "step_id"], name: "index_register_steps_on_step"
+    t.index ["procedure_id"], name: "index_registered_steps_on_procedure_id"
+    t.index ["step_type", "step_id"], name: "index_registered_steps_on_step"
   end
 
   create_table "room_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -496,7 +494,6 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.integer "expected_results"
     t.string "upstream_task_run_id"
     t.boolean "api_request", default: false
-    t.boolean "mock_request", default: false
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
     t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"
@@ -531,7 +528,6 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "seat_count"
-    t.string "subscription_id"
   end
 
   create_table "text_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -625,7 +621,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
   add_foreign_key "recorded_completions", "users"
   add_foreign_key "recorded_searches", "search_locations"
   add_foreign_key "recorded_searches", "users"
-  add_foreign_key "register_steps", "procedures"
+  add_foreign_key "registered_steps", "procedures"
   add_foreign_key "search_results", "search_locations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"

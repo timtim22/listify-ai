@@ -1,4 +1,4 @@
-class RegisterStep < ApplicationRecord
+class RegisteredStep < ApplicationRecord
   belongs_to :procedure
 
   delegated_type :step, types: ["Step::Prompt"]

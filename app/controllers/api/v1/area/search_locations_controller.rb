@@ -35,7 +35,7 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
   end
 
   def record_search_by_user
-    @search_location.recorded_searches.create!(user: current_user)
+    @search_location.recorded_searches.create!(user: current_user, attraction_radius: params[:attraction_radius] * 1000)
     recorded_search_volume = RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count
     raise 'Unexpected search volume recorded!' if recorded_search_volume > 200
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_01_181504) do
+ActiveRecord::Schema.define(version: 2022_11_10_160055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(version: 2022_11_01_181504) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["search_location_id"], name: "index_recorded_searches_on_search_location_id"
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
+    t.integer "attraction_radius"
   end
 
   create_table "room_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

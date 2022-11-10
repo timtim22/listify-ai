@@ -11,7 +11,7 @@ class ListingsController < ApplicationController
     save = Input.create_with(Listing.new(params_in_english), current_user)
     if save.success
       @listing  = save.input_object
-      @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, params[:output_language])
+      @task_run = TaskRunners::Multistep.new.run_for!(@listing, current_user, false)
       @runs_remaining -= 1
     end
 

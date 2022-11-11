@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_09_142610) do
+ActiveRecord::Schema.define(version: 2022_11_11_143121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -486,6 +486,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_142610) do
 
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
+    t.uuid "prompt_set_id"
     t.string "input_object_type"
     t.uuid "input_object_id"
     t.datetime "created_at", precision: 6, null: false
@@ -493,8 +494,8 @@ ActiveRecord::Schema.define(version: 2022_11_09_142610) do
     t.integer "expected_results"
     t.string "upstream_task_run_id"
     t.boolean "api_request", default: false
-    t.integer "prompt_set_id"
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
+    t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"
   end
 
@@ -625,6 +626,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_142610) do
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
+  add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
   add_foreign_key "team_invitations", "teams"
   add_foreign_key "team_roles", "teams"

@@ -28,7 +28,7 @@ module ApiClients
     end
 
     def listing_title
-      ["2 bedroom apartment with sea views and heated pool in Malaga", "Luxurious 2 Bedroom Apartment with Stunning Sea Views and Heated Pool", "Perfect for couples - sea views - heated swimming pool", "2 bedroom apartment with sea views close to shops and restaurants"].join('." ')
+      ["2 bedroom apartment with sea views and heated pool in Malaga", "Luxurious 2 Bedroom Apartment with Stunning Sea Views and Heated Pool", "Perfect for couples - sea views - heated swimming pool", "2 bedroom apartment with sea views close to shops and restaurants"].sample
     end
 
     def listing_description
@@ -38,7 +38,7 @@ module ApiClients
         "This two bedroom apartment in Malaga is ideal for couples and has sea views from the balcony. The apartment has an open plan living space and a heated swimming pool, perfect for lazy days. It's also close to shops and restaurants, and is just a short drive to the airport.",
         "This is an ideal apartment for couples looking for a romantic vacation in Malaga. The apartment enjoys stunning sea views, is beautifully furnished and is close to shops and restaurants. It also has a large balcony and a heated swimming pool.",
         "Enjoy a romantic break in Malaga from this two-bedroom apartment with sea views! The apartment has a large balcony and an open plan living space, with a heated swimming pool for you to enjoy together. It is ideal for couples and is just a short drive to the airport."
-      ].join('." ')
+      ].sample
     end
 
     def area_description

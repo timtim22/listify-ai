@@ -1,21 +1,21 @@
 module ApiClients
   class Mock
 
-    def run_request!(task_run)
-      successful_response(task_run)
+    def run_request!(request, config)
+      successful_response(config)
     end
 
-    def successful_response(task_run)
+    def successful_response(config)
       {
         service: Completion::Services::MOCK,
         success: true,
-        result_text: result_text(task_run),
+        result_text: result_text(config[:request_type]),
         should_check_content: false
       }
     end
 
-    def result_text(task_run)
-      case task_run.input_object.request_type
+    def result_text(request_type)
+      case request_type
       when 'listing_title'
         listing_title
       when 'listing_description'
@@ -43,6 +43,14 @@ module ApiClients
 
     def area_description
       "If you're looking for a neighbourhood that's brimming with history and culture, then look no further than London! Home to some of the world's most iconic landmarks including Big Ben, The National Gallery and Westminster Abbey, there's something for everyone to enjoy in this vibrant city. And when the sun goes down, the fun doesn't stop – London comes alive at night, so be sure to check out the city's many bars and restaurants for a truly unforgettable evening."
+    end
+
+    def error_response # keep this for testing
+      {
+        service: Completion::Services::MOCK,
+        success: false,
+        error: "{\n  \"error\": {\n    \"message\": \"Mock Error: The server is currently overloaded with other requests. Generated from ApiClients::Mock.\",\n    \"type\": \"server_error\",\n    \"param\": null,\n    \"code\": null\n  }\n}\n"
+      }
     end
   end
 end

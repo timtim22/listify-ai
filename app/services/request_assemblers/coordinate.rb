@@ -5,7 +5,7 @@ module RequestAssemblers
         client_name = client_name(input_object, prompt, mock_request)
         prompt_body = assemble_prompt_body(prompt.content, input_object)
         request = assemble_request_parameters(client_name, prompt, prompt_body, input_object)
-        config = assemble_config(client_name, prompt)
+        config = assemble_config(client_name, prompt, input_object.request_type)
         [request, config]
       end
 
@@ -34,12 +34,13 @@ module RequestAssemblers
         end
       end
 
-      def assemble_config(client_name, prompt)
+      def assemble_config(client_name, prompt, request_type)
         {
           client_name: client_name,
           engine: prompt.engine,
           model: prompt.remote_model_id,
           prompt_title: prompt.title,
+          request_type: request_type,
           check_content: should_check_content?(client_name)
         }
       end

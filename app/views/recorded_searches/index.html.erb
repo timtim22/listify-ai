@@ -26,6 +26,7 @@
           <th class="py-3 px-6">Id</th>
           <th class="py-3 px-6">Search</th>
           <th class="py-3 px-6">User</th>
+          <th class="py-3 px-6">Search Radius</th>
           <th class="py-3 px-6">Created at</th>
         </tr>
       </thead>
@@ -36,6 +37,7 @@
             <td class="py-3 px-6"><%= recorded_search.id %></td>
             <td class="py-3 px-6"><%= recorded_search.search_location.search_text %></td>
             <td class="py-3 px-6"><%= recorded_search.user.email %></td>
+            <td class="py-3 px-6"><%= recorded_search.search_radius %></td>
             <td class="py-3 px-6"><%= format_table_date(recorded_search.created_at) %></td>
           </tr>
         <% end %>

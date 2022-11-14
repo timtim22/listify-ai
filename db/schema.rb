@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_09_063206) do
+ActiveRecord::Schema.define(version: 2022_11_14_111552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_063206) do
     t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "search_radius"
     t.index ["search_location_id"], name: "index_recorded_searches_on_search_location_id"
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
   end

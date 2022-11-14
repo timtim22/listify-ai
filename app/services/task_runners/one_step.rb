@@ -1,6 +1,6 @@
 class TaskRunners::OneStep
 
-  def run_for!(input_object, user, output_language = nil, api_request = false, mock_request = nil)
+  def run_for!(input_object, user, output_language = nil, api_request = false, mock_request = false)
     prompt_set = prompt_set_for(input_object.request_type)
     task_run   = create_task_run(user, prompt_set, input_object, output_language, api_request, mock_request)
     generate_gpt_results(task_run, prompt_set)

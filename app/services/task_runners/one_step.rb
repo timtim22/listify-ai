@@ -1,9 +1,8 @@
 class TaskRunners::OneStep
 
-  def run_for!(input_object, user, output_language = nil, api_request = false)
+  def run_for!(input_object, user, output_language = nil, api_request = false, mock_request = false)
     prompt_set = prompt_set_for(input_object.request_type)
-    task_run   = create_task_run(user, prompt_set, input_object, output_language, api_request)
-
+    task_run   = create_task_run(user, prompt_set, input_object, output_language, api_request, mock_request)
     generate_gpt_results(task_run, prompt_set)
     task_run
   end
@@ -20,13 +19,14 @@ class TaskRunners::OneStep
     prompt_set
   end
 
-  def create_task_run(user, prompt_set, input_object, output_language, api_request)
+  def create_task_run(user, prompt_set, input_object, output_language, api_request, mock_request)
     task_run = TaskRun.create!(
       user: user,
       prompt_set: prompt_set,
       input_object: input_object,
       expected_results: prompt_set.prompts.count,
-      api_request: api_request
+      api_request: api_request,
+      mock_request: mock_request
     )
     create_translation_request(task_run, output_language)
     task_run

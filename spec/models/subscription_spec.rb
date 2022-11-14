@@ -2,13 +2,14 @@ RSpec.describe Subscription, type: :model do
   before(:each) do
     @user = create(:user)
     @user.update_card("pm_card_visa")
+    create(:plan, stripe_id: STARTER_PLAN)
     @subscription = @user.subscribe(STARTER_PLAN)
   end
 
   describe "subscription changes" do
     it "swaps plans", :vcr do
-      @subscription.swap(PRO_PLAN)
-      expect(PRO_PLAN).to eq @subscription.stripe_plan
+      @subscription.swap(STANDARD_PLAN)
+      expect(STANDARD_PLAN).to eq @subscription.stripe_plan
     end
 
     it "cancel subscription", :vcr do

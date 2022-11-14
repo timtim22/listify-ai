@@ -5,14 +5,22 @@ class Plan < ApplicationRecord
       .order(:amount)
   end
 
-  def monthly_spin_cap
+  def default_spin_cap
     case name.downcase
-    when 'starter' then 75
-    when 'starter_dep' then 75
-    when 'starter (2021)' then 75
+    when 'starter', 'starter_dep', 'starter (2021)' then 75
     when 'standard' then 250
     when 'premium' then 1200
     else 0
+    end
+  end
+
+  def default_seat_count
+    case name.downcase
+    when 'starter', 'starter_dep', 'starter (2021)' then 1
+    when 'standard' then 3
+    when 'premium' then 5
+    else
+      0
     end
   end
 end

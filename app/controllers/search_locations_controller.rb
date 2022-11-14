@@ -31,8 +31,11 @@ class SearchLocationsController < ApplicationController
   end
 
   def record_search_by_user
-    @search_location.recorded_searches.create!(user: current_user, attraction_radius: search_location_params[:attraction_radius])
-    recorded_search_volume = RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count
+    @search_location.recorded_searches.create!(
+      user: current_user,
+      attraction_radius: search_location_params[:attraction_radius]
+    )
+    recorded_search_volume = RecordedSearch.where('created_at > ?', Time.zone.today.beginning_of_day).count
     raise 'Unexpected search volume recorded!' if recorded_search_volume > 200
 
     return unless recorded_search_volume == 150

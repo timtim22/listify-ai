@@ -26,12 +26,28 @@ class AdminMailer < ApplicationMailer
     )
   end
 
+  def subscription_deleted(user)
+    @user = user
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'Deleted Listify subscription'
+    )
+  end
+
   def subscription_swapped(user, plan_name)
     @user = user
     @plan_name = plan_name
     mail(
       to: ADMIN_EMAILS,
       subject: 'Changed Listify plan'
+    )
+  end
+
+  def payment_failed(user)
+    @user = user
+    mail(
+      to: ADMIN_EMAILS,
+      subject: 'User payment failed'
     )
   end
 

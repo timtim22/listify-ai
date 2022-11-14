@@ -21,7 +21,7 @@ class SpinCounter
     elsif user.custom_run_limit?
       user.custom_run_limit
     elsif user.subscribed?
-      user.subscription.plan.monthly_spin_cap
+      user.subscription.plan.default_spin_cap
     elsif user.on_trial? || user.private_beta_account? || user.admin_or_listify_team?
       TRIAL_SPINS
     else

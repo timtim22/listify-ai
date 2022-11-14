@@ -1,11 +1,11 @@
 module RequestAssemblers
   class Coordinate
     class << self
-      def for(prompt, input_object)
-        client_name = client_name(input_object, prompt)
+      def for(prompt, input_object, mock_request)
+        client_name = client_name(input_object, prompt, mock_request)
         prompt_body = assemble_prompt_body(prompt.content, input_object)
         request = assemble_request_parameters(client_name, prompt, prompt_body, input_object)
-        config = assemble_config(client_name, prompt)
+        config = assemble_config(client_name, prompt, input_object.request_type)
         [request, config]
       end
 
@@ -34,12 +34,13 @@ module RequestAssemblers
         end
       end
 
-      def assemble_config(client_name, prompt)
+      def assemble_config(client_name, prompt, request_type)
         {
           client_name: client_name,
           engine: prompt.engine,
           model: prompt.remote_model_id,
           prompt_title: prompt.title,
+          request_type: request_type,
           check_content: should_check_content?(client_name)
         }
       end
@@ -48,8 +49,8 @@ module RequestAssemblers
         Constants.live_requests? && client_name == Completion::Services::GPT
       end
 
-      def client_name(input_object, prompt)
-        if Constants.live_requests_disabled?
+      def client_name(input_object, prompt, mock_request)
+        if Constants.live_requests_disabled? || mock_request
           Completion::Services::MOCK
         elsif input_object.respond_to?(:client)
           input_object.client

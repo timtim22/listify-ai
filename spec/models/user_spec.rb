@@ -39,6 +39,26 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'recently_subscribed' do
+    it 'true' do
+      user = create(:user)
+      create(:subscription, status: 'active', user: user)
+      expect(user.recently_subscribed?).to eq true
+    end
+
+    it 'when status is incomplete' do
+      user = create(:user)
+      create(:subscription, status: 'incomplete', user: user)
+      expect(user.recently_subscribed?).to eq false
+    end
+
+    it 'when not recent' do
+      user = create(:user)
+      create(:subscription, created_at: 3.days.ago, status: 'active', user: user)
+      expect(user.recently_subscribed?).to eq false
+    end
+  end
+
   describe 'update_card' do
     it 'updates card', :vcr do
       @user.update_card("pm_card_visa")
@@ -50,6 +70,7 @@ RSpec.describe User, type: :model do
   describe 'subscribe' do
     it 'subscribes if no authentication needed', :vcr do
       @user.update_card("pm_card_visa")
+      create(:plan, stripe_id: STARTER_PLAN)
       @user.subscribe(STARTER_PLAN)
       expect(@user.subscription).not_to be_nil
       expect(@user.subscribed?).to be true
@@ -57,6 +78,7 @@ RSpec.describe User, type: :model do
 
     it 'does not subscribe if authentication needed', :vcr do
       @user.update_card("pm_card_authenticationRequired")
+      create(:plan, stripe_id: STARTER_PLAN)
       expect { @user.subscribe(STARTER_PLAN) }.to raise_error PaymentIncomplete
       expect(Subscription.order(:created_at).last.status).to eq "incomplete"
     end
@@ -64,6 +86,7 @@ RSpec.describe User, type: :model do
     it 'subscribes with trial', :vcr do
       travel_to(VCR.current_cassette.originally_recorded_at || Time.current) do
         @user.update_card("pm_card_visa")
+        create(:plan, stripe_id: STARTER_PLAN)
         @user.subscribe(STARTER_PLAN, trial_period_days: 5)
         expect(@user.subscribed?).to be true
         expect(@user.subscription.on_trial?).to be true

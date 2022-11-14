@@ -685,4 +685,93 @@ http_interactions:
           "trial_start": 1639676030
         }
   recorded_at: Thu, 16 Dec 2021 17:33:48 GMT
-recorded_with: VCR 6.0.0
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_Kmxl9WaDlvKi0b
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/5.55.0
+      Authorization:
+      - Bearer < PRIVATE KEY >
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_CLYNdsUj2AcEwi","request_duration_ms":0}}'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"5.55.0","lang":"ruby","lang_version":"3.0.4 p208 (2022-04-12)","platform":"arm64-darwin21","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Lukes-MBP-2.home 21.6.0 Darwin Kernel Version 21.6.0: Thu Sep 29 20:13:56
+        PDT 2022; root:xnu-8020.240.7~1/RELEASE_ARM64_T6000 arm64","hostname":"Lukes-MBP-2.home"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 07 Nov 2022 18:37:31 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '682'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_yuoMREnEoz0vDv
+      Stripe-Version:
+      - '2020-08-27'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_Kmxl9WaDlvKi0b",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1639676029,
+          "currency": "gbp",
+          "default_currency": "gbp",
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "test_suite_user12@example.com",
+          "invoice_prefix": "98FA8A18",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": "pm_1K7NpxAAShUZq81IJhqQYQsH",
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {},
+          "name": "John TestSuiteUser",
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Thu, 16 Dec 2021 17:33:48 GMT
+recorded_with: VCR 6.1.0

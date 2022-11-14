@@ -75,11 +75,20 @@ class Subscription < ApplicationRecord
     send_swap_plan_email
   end
 
+  def recently_activated?
+    active? && created_at > Time.zone.now - 2.days
+  end
+
   def stripe_subscription
     Stripe::Subscription.retrieve(stripe_id)
   end
 
-  def send_activation_email
+  def subscribed_successfully_steps
+    send_confirmation_email
+    Subscriptions::TeamSetup.call(self, user)
+  end
+
+  def send_confirmation_email
     UserMailer.subscription_activated(user).deliver_later
   end
 

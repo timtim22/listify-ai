@@ -5,17 +5,17 @@ class CompletionRequestRunner
     prompt   = Prompt.find(prompt_id)
 
     request, config = assemble_request(task_run, prompt)
-    response = execute_request!(request, config)
+    response = execute_request!(request, config, task_run)
     response_handler.run(task_run, response, prompt, request, config)
   end
 
   private
 
   def assemble_request(task_run, prompt)
-    RequestAssemblers::Coordinate.for(prompt, task_run.input_object)
+    RequestAssemblers::Coordinate.for(prompt, task_run.input_object, task_run.mock_request)
   end
 
-  def execute_request!(request, config)
+  def execute_request!(request, config, task_run)
     log_request(request)
     client = client_for(config)
     client.run_request!(request, config)

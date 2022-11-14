@@ -376,9 +376,9 @@ ActiveRecord::Schema.define(version: 2022_11_10_160055) do
     t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "attraction_radius"
     t.index ["search_location_id"], name: "index_recorded_searches_on_search_location_id"
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
-    t.integer "attraction_radius"
   end
 
   create_table "room_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -459,6 +459,7 @@ ActiveRecord::Schema.define(version: 2022_11_10_160055) do
     t.integer "expected_results"
     t.string "upstream_task_run_id"
     t.boolean "api_request", default: false
+    t.boolean "mock_request", default: false
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
     t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"

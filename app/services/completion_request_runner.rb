@@ -18,7 +18,7 @@ class CompletionRequestRunner
   def execute_request!(request, config, task_run)
     log_request(request)
     client = client_for(config)
-    client.run_request!(task_run)
+    client.run_request!(request, config)
   end
 
   def log_request(request)

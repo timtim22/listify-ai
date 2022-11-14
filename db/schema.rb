@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_01_181504) do
+ActiveRecord::Schema.define(version: 2022_11_09_063206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -458,6 +458,7 @@ ActiveRecord::Schema.define(version: 2022_11_01_181504) do
     t.integer "expected_results"
     t.string "upstream_task_run_id"
     t.boolean "api_request", default: false
+    t.boolean "mock_request", default: false
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
     t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"

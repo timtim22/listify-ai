@@ -8,7 +8,7 @@ class Api::V1::Listings::DescriptionsController < Api::V1::ApiController
     return json_unprocessable_entity unless save.success
 
     @listing = save.input_object
-    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true)
+    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true, params[:mock_request])
     handle_expected_result do
       break if @task_run.has_all_results?
     end

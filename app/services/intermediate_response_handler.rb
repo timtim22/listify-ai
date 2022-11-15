@@ -1,13 +1,16 @@
 class IntermediateResponseHandler
-  def initialize(task_run, prompt)
-    @task_run = task_run
-    @prompt = prompt
+
+  def run(task_run, response, prompt)
+    intermediate_result = create_intermediate_result(task_run, response, prompt)
+    intermediate_result.reload
   end
 
-  def run(task_run, prompt)
-    create_inetermediate_result
-  end
-
-  def create_inetermediate_result
+  def create_intermediate_result(task_run, response, prompt)
+    task_run.intermediate_results.create!(
+      error: response[:error],
+      input: prompt,
+      output: response[:result_text],
+      position: ''
+    )
   end
 end

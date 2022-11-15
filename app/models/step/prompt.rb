@@ -3,9 +3,9 @@ class Step::Prompt < ApplicationRecord
 
   def run(task_run_id, step_prompt_id, last_step)
     if last_step
-      Completions::OneStepRequestWorker.perform_async(task_run_id, step_prompt_id)
+      CompletionRequestRunner.new.for(task_run_id, step_prompt_id)
     else
-      IntermediateResponseHandler.new.for(task_run_id, prompt_id)
+      IntermediateRequestRunner.new.for(task_run_id, step_prompt_id)
     end
   end
 

@@ -211,7 +211,6 @@ paths:
             application/json:
               schema:
                 type: array
-                items: message
                 example:
                   - message: Field(s) missing. Required fields are property_type, ideal_for, location, number_of_bedrooms, features
                   - message: property_type should be less than 70 characters
@@ -365,8 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                items: message
+                type: array
                 example:
                   - message: search_text is required field and should be less than 100 characters
       requestBody:
@@ -427,8 +425,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                items: message
+                type: array
                 example:
                   - message: Search Location does not exist
                   - message: Selected IDs cant be nil. Please insert at least 3 place_ids for the best description
@@ -452,9 +449,9 @@ paths:
                     - 09f96c35-18dd-4dc5-b557-0278a3d1f851
                 detail_text:
                   type: array
-                  items:
-                  type: string
-                  example: Famous for nightlife
+                  example:
+                    - central location
+                    - close to bars, restaurants and nightlife
               required:
               - search_location_id
               - selected_ids

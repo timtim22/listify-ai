@@ -43,7 +43,7 @@ class Api::V1::Area::SearchLocationsController < Api::V1::ApiController
     necessary_keys = %i[name categories total_ratings place_id]
     attraction_object.transform_values do |attraction_array|
       attraction_array.map do |attraction|
-        attraction.select { |k, _v| necessary_keys.include? k }
+        attraction.attributes.select { |k, _v| necessary_keys.include? k }
       end
     end
   end

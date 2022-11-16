@@ -43,4 +43,11 @@ class Attraction
       duration: (distance_obj['duration']['value'] / 60.0).round
     }
   end
+
+  def attributes
+    instance_variables.each_with_object({}) do |k, h|
+      key = k.to_s.sub("@", "").to_sym
+      h[key] = instance_variable_get(k)
+    end
+  end
 end

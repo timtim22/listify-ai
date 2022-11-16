@@ -17,7 +17,11 @@ module AreaSearch
         find_restaurants
         found
       else
-        AreaSearch::MockData.new.london
+        AreaSearch::MockData.new.london.transform_values do |attraction_array|
+          attraction_array.map do |attraction_hash|
+            Attraction.from_hash(attraction_hash.stringify_keys)
+          end
+        end
       end
     end
 

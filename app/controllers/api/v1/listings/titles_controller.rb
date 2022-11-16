@@ -58,10 +58,9 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
   end
 
   def translated_results(task_results)
-    task_results.map do |tr|
+    task_results.reject { |tr| tr.result_text.blank? }.map do |tr|
       final_result = tr.translations.any? ? tr.translations.first : tr
       final_result.result_text&.strip
     end
   end
-
 end

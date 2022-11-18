@@ -131,6 +131,8 @@ module AreaSearch
     end
 
     def attractions_from(response, search_type)
+      return [] if response['results'].blank?
+
       response['results'].map do |result|
         result_with_search_type = result.merge({ 'search_type' => search_type })
         Attraction.from_remote_object(result_with_search_type)

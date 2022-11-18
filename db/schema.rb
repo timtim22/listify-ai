@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_09_130951) do
+ActiveRecord::Schema.define(version: 2022_11_15_111732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -234,6 +234,17 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
     t.string "inputable_type", null: false
     t.uuid "inputable_id", null: false
     t.index ["user_id"], name: "index_inputs_on_user_id"
+  end
+
+  create_table "intermediate_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
+    t.string "error"
+    t.jsonb "input"
+    t.jsonb "output"
+    t.uuid "task_run_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_run_id"], name: "index_intermediate_results_on_task_run_id"
   end
 
   create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -486,7 +497,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
 
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.uuid "prompt_set_id", null: false
+    t.uuid "prompt_set_id"
     t.string "input_object_type"
     t.uuid "input_object_id"
     t.datetime "created_at", precision: 6, null: false
@@ -612,6 +623,7 @@ ActiveRecord::Schema.define(version: 2022_11_09_130951) do
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "full_listings", "users"
   add_foreign_key "inputs", "users"
+  add_foreign_key "intermediate_results", "task_runs"
   add_foreign_key "legacy_task_runs", "legacy_prompts"
   add_foreign_key "legacy_task_runs", "users"
   add_foreign_key "listing_fragments", "full_listings"

@@ -10,7 +10,7 @@ class TaskRunners::OneStepSync
 
   def generate_gpt_results(task_run, prompt_set)
     prompt_set.prompts.map do |prompt|
-      CompletionRequestRunner.new.for(task_run.id, prompt.id)
+      CompletionRequestRunner.new.for(task_run.id, prompt.id, false)
     end
   end
 

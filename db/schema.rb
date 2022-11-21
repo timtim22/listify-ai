@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_15_111732) do
+ActiveRecord::Schema.define(version: 2022_11_18_152558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "detail_text"
     t.string "user_provided_area_name"
+    t.boolean "multiple_search", default: false
     t.index ["search_location_id"], name: "index_area_descriptions_on_search_location_id"
   end
 
@@ -384,6 +385,7 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "api_request", default: false
+    t.integer "attraction_radius"
     t.index ["task_result_id"], name: "index_recorded_completions_on_task_result_id"
     t.index ["task_run_id"], name: "index_recorded_completions_on_task_run_id"
     t.index ["user_id"], name: "index_recorded_completions_on_user_id"
@@ -394,6 +396,7 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "attraction_radius"
     t.index ["search_location_id"], name: "index_recorded_searches_on_search_location_id"
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
   end
@@ -491,13 +494,13 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.boolean "failed_custom_filter", default: false
     t.boolean "user_copied", default: false
     t.string "service"
+    t.string "step_prompt_id"
     t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end
 
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.uuid "prompt_set_id"
     t.string "input_object_type"
     t.uuid "input_object_id"
     t.datetime "created_at", precision: 6, null: false
@@ -505,8 +508,9 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.integer "expected_results"
     t.string "upstream_task_run_id"
     t.boolean "api_request", default: false
+    t.boolean "mock_request", default: false
+    t.uuid "prompt_set_id"
     t.index ["input_object_type", "input_object_id"], name: "index_task_runs_on_input_object"
-    t.index ["prompt_set_id"], name: "index_task_runs_on_prompt_set_id"
     t.index ["user_id"], name: "index_task_runs_on_user_id"
   end
 
@@ -539,6 +543,7 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "seat_count"
+    t.string "subscription_id"
   end
 
   create_table "text_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -638,7 +643,6 @@ ActiveRecord::Schema.define(version: 2022_11_15_111732) do
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"
   add_foreign_key "task_results", "task_runs"
-  add_foreign_key "task_runs", "prompt_sets"
   add_foreign_key "task_runs", "users"
   add_foreign_key "team_invitations", "teams"
   add_foreign_key "team_roles", "teams"

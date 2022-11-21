@@ -10,6 +10,16 @@ class TaskRun < ApplicationRecord
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
 
+  def self.create_for(user, input_object, api_request, procedure_count)
+    task_run = TaskRun.create!(
+      user: user,
+      input_object: input_object,
+      expected_results: procedure_count,
+      api_request: api_request
+    )
+    task_run
+  end
+
   def self.with_results(ids)
     where(id: ids).includes(:task_results)
   end

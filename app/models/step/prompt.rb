@@ -2,11 +2,12 @@ class Step::Prompt < ApplicationRecord
   has_many :task_results, dependent: :nullify
   self.table_name = "step_prompts"
 
-  def run(task_run_id, step_prompt_id, last_step)
+  def run(task_run_id, step_prompt_id, last_step, procedure, input)
     if last_step
-      CompletionRequestRunner.new.for(task_run_id, step_prompt_id, true)
+      CompletionRequestRunner.new.for(task_run_id, step_prompt_id, procedure)
+      input
     else
-      IntermediateRequestRunner.new.for(task_run_id, step_prompt_id)
+      IntermediateRequestRunner.new.for(task_run_id, step_prompt_id, input)
     end
   end
 

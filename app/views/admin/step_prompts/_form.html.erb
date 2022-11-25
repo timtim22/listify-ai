@@ -1,0 +1,115 @@
+    <%= form_with url: admin_procedure_steps_path, local: true, class: "w-96" do |form| %>
+
+        <div class="field">
+          <%= form.label :title, "Title", value: @step_prompt.try(:title), class: "form-label" %><br />
+          <%= form.text_field(
+            :title,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :content, "Content", value: @step_prompt.try(:content), class: "form-label" %><br />
+          <%= form.text_field(
+            :content,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :stop, "Stop", value: @step_prompt.try(:stop), class: "form-label" %><br />
+          <%= form.text_field(
+            :stop,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :temperature, "Temperature", value: @step_prompt.try(:temperature), class: "form-label" %><br />
+          <%= form.text_field(
+            :temperature,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :max_tokens, "Max Tokens", value: @step_prompt.try(:max_tokens), class: "form-label" %><br />
+          <%= form.text_field(
+            :max_tokens,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :top_p, "Stop_P", value: @step_prompt.try(:top_p), class: "form-label" %><br />
+          <%= form.text_field(
+            :top_p,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :frequency_penalty, "Frequency Penalty", value: @step_prompt.try(:frequency_penalty), class: "form-label" %><br />
+          <%= form.text_field(
+            :frequency_penalty,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :presence_penalty, "Presence Penalty", value: @step_prompt.try(:presence_penalty), class: "form-label" %><br />
+          <%= form.text_field(
+            :presence_penalty,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :engine, "Engine", value: @step_prompt.try(:engine), class: "form-label" %><br />
+          <%= form.text_field(
+            :engine,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :number_of_results, "Number of Results", value: @step_prompt.try(:number_of_results), class: "form-label" %><br />
+          <%= form.text_field(
+            :number_of_results,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :labels, "Labels", value: @step_prompt.try(:labels), class: "form-label" %><br />
+          <%= form.text_field(
+            :labels,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+        <div class="field">
+          <%= form.label :service, "Service", value: @step_prompt.try(:service), class: "form-label" %><br />
+          <%= form.text_field(
+            :service,
+            required: true,
+            class: "form-text-input text-sm"
+          ) %>
+        </div>
+
+          <div class="Action">
+          <%= form.submit :Create, class: 'add-button' %>
+      </div>
+    <% end %>
+    <%= link_to 'Back', admin_procedures_path, class: "text-xs py-8" %>

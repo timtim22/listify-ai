@@ -1,18 +1,18 @@
 class IntermediateRequestRunner
 
-  def for(task_run_id, step_prompt_id, intermediate_response_handler = IntermediateResponseHandler.new)
+  def for(task_run_id, step_prompt_id, input, intermediate_response_handler = IntermediateResponseHandler.new)
     task_run = TaskRun.find(task_run_id)
     prompt   = Step::Prompt.find(step_prompt_id)
 
-    request, config = assemble_request(task_run, prompt)
+    request, config = assemble_request(input, prompt)
     response = execute_request!(request, config)
     intermediate_response_handler.run(task_run, response, prompt)
   end
 
   private
 
-  def assemble_request(task_run, prompt)
-    RequestAssemblers::Coordinate.for(prompt, task_run.input_object)
+  def assemble_request(input, prompt)
+    RequestAssemblers::Coordinate.for(prompt, input)
   end
 
   def execute_request!(request, config)

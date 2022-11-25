@@ -1,7 +1,7 @@
 class TaskResult < ApplicationRecord
   belongs_to :task_run
   belongs_to :prompt, optional: true
-  belongs_to :step_prompt, optional: true, class_name: 'Step::Prompt'
+  belongs_to :procedure, optional: true
 
   has_one :recorded_completion, dependent: :nullify
   has_many :content_filter_results, dependent: :destroy
@@ -21,12 +21,12 @@ class TaskResult < ApplicationRecord
     end
   end
 
-  def self.create_for(task_run, response, prompt, multistep)
-    if multistep
+  def self.create_for(task_run, response, prompt, procedure)
+    if procedure
       task_run.task_results.create!(
         service: response[:service],
         success: response[:success],
-        step_prompt: prompt,
+        procedure: procedure,
         result_text: response[:result_text],
         error: response[:error]
       )

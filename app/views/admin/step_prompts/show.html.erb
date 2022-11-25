@@ -1,0 +1,43 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Step Prompt</h1>
+  </div>
+
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left uppercase">
+          <th class="py-3 px-6">Title</th>
+          <th class="py-3 px-6">Content</th>
+          <th class="py-3 px-6">Temperature</th>
+          <th class="py-3 px-6">Max Tokens</th>
+          <th class="py-3 px-6">Top_P</th>
+          <th class="py-3 px-6">Frequency Penalty</th>
+          <th class="py-3 px-6">Presence Penalty</th>
+          <th class="py-3 px-6">Engine</th>
+          <th class="py-3 px-6">Number of Results</th>
+          <th class="py-3 px-6">Labels</th>
+          <th class="py-3 px-6">Service</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <tr class="text-xs">
+          <td class="py-3 px-6"><%= @step_prompt.title %></td>
+          <td class="py-3 px-6"><%= @step_prompt.content %></td>
+          <td class="py-3 px-6"><%= @step_prompt.temperature %></td>
+          <td class="py-3 px-6"><%= @step_prompt.max_tokens %></td>
+          <td class="py-3 px-6"><%= @step_prompt.top_p %></td>
+          <td class="py-3 px-6"><%= @step_prompt.frequency_penalty %></td>
+          <td class="py-3 px-6"><%= @step_prompt.presence_penalty %></td>
+          <td class="py-3 px-6"><%= @step_prompt.engine %></td>
+          <td class="py-3 px-6"><%= @step_prompt.number_of_results %></td>
+          <td class="py-3 px-6"><%= @step_prompt.labels %></td>
+          <td class="py-3 px-6"><%= @step_prompt.service %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br />
+</div>
+

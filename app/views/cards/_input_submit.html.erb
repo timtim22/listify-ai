@@ -4,5 +4,9 @@
 </div>
 
 <div id="submit-container" class="w-full">
-  <%= form.submit submit_text, class: "primary-button" %>
+  <% if current_user.account_locked? %>
+    <p class="text-red-600">There is an issue with your account. Please contact us at hello@listify.ai before attempting to subscribe.</p>
+  <% else %>
+    <%= form.submit submit_text, class: "primary-button" %>
+  <% end %>
 </div>

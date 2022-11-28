@@ -2,6 +2,7 @@ class SearchLocationsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     search_text = search_location_params[:search_text].downcase
     @search_location = SearchLocation.find_or_create_with(search_text)
     record_search_by_user

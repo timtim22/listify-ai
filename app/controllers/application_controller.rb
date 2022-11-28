@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_error_response(error)
-    render json: { message: error.message }, status: error.http_status
+    render json: { message: [error.message] }, status: error.http_status
   end
 
   def after_sign_out_path_for(resource_or_scope)

@@ -6,3 +6,4 @@ json.recently_subscribed user.recently_subscribed?
 json.admin user.admin
 json.on_listify_team user.on_listify_team?
 json.enabled_modules user.enabled_module_names
+json.account_locked user.account_locked

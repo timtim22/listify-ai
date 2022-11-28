@@ -63,7 +63,6 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }
   return submitButton();
-
 }
 
 Submit.propTypes = {

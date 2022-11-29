@@ -131,7 +131,7 @@ const Form = ({
         {selectField('Service', 'service', serviceOptions)}
         <div className="w-full grid grid-cols-5 gap-2">
           {numberField('Temperature', 'temperature', 0.0, maxValue('temperature'), 0.05)}
-          {numberField('Max tokens', 'max_tokens', 0, 250)}
+          {numberField('Max tokens', 'max_tokens', 0, 350)}
           {numberField('Top p', 'top_p', 0.0, 1.0, 0.05)}
           {numberField('Frequency penalty', 'frequency_penalty', 0.0, maxValue('frequency_penalty'), 0.1)}
           {numberField('Presence penalty', 'presence_penalty', 0.0, 1.0, 0.1)}

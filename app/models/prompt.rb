@@ -6,7 +6,7 @@ class Prompt < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  GPT_ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-002 text-davinci-001 text-davinci-002].freeze
+  GPT_ENGINES = %w[ada babbage curie curie-instruct-beta davinci davinci-instruct-beta text-curie-002 text-davinci-001 text-davinci-002 text-davinci-003].freeze
   AI21_ENGINES = %w[j1-large j1-grande j1-jumbo j1-grande-instruct].freeze
   COHERE_ENGINES = %w[large xlarge].freeze
   MOCK_ENGINES = %w[mock-engine].freeze

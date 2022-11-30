@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const bannerForUser = (user) => {
-  if (user.account_locked) {
+  if (user.enabled_modules.includes('payment_dispute')) {
     return <AccountLockedBanner />;
   } else if (user.recently_subscribed) {
     return <NewSubscriptionBanner />;

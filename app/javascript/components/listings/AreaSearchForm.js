@@ -77,8 +77,16 @@ const AreaSearchForm = ({
     return /^[\x00-\x7F]*$/.test(str);
   }
 
+  const areaSearchDisabled = () => {
+    return (
+      loading ||
+      user.account_locked ||
+      ["lapsed_trial", "lapsed_subscription"].includes(user.account_status)
+    )
+  };
+
   const submitButton = () => {
-    const disabled = loading || ["lapsed_trial", "lapsed_subscription"].includes(user.account_status)
+    const disabled = areaSearchDisabled();
     return (
       <button disabled={disabled} className={`${disabled ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
         Search

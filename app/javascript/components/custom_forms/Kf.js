@@ -234,6 +234,7 @@ const Kf = ({ loading, setLoading, onResult, runsRemaining }) => {
 
             <div className="flex flex-col items-center justify-center py-8 w-full">
               <Submit
+                checkUserAccount={false}
                 inputText={joinedInputs()}
                 userInputLength={trueUserInputLength()}
                 maxUserInput={maxInput}

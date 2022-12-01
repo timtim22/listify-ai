@@ -6,7 +6,7 @@ import Filter from 'bad-words';
 const profanityFilter = new Filter();
 profanityFilter.removeWords('spac');
 
-const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText, location }) => {
+const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText, location, checkUserAccount = true }) => {
   const [mockLoading, setMockLoading] = useState(false);
   const user = useContext(UserContext);
 
@@ -75,7 +75,7 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   if (runsRemaining < 1 || noSpinsForForm()) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }
-  if (user.account_locked) { return mockSubmitButton(); }
+  if (checkUserAccount && user.account_locked) { return mockSubmitButton(); }
   return submitButton();
 }
 

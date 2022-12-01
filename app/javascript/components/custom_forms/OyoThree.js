@@ -84,6 +84,7 @@ const OyoThree = ({ loading, setLoading, onResult, runsRemaining }) => {
           {textRow('USP 5', 'usp_five')}
          <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
+              checkUserAccount={false}
               inputText={joinedInputs()}
               userInputLength={trueUserInputLength()}
               maxUserInput={maxInput}

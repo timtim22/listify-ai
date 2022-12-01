@@ -84,6 +84,7 @@ const OyoOne = ({ loading, setLoading, onResult, runsRemaining }) => {
           {textRow('Third USP', 'usp_three', 'e.g. beautiful decor')}
           <div className="flex flex-col items-center justify-center py-8 w-full">
             <Submit
+              checkUserAccount={false}
               inputText={joinedInputs()}
               userInputLength={trueUserInputLength()}
               maxUserInput={maxInput}

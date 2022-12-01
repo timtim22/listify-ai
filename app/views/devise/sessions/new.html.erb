@@ -25,6 +25,14 @@
               placeholder: "you@example.com",
               class: "form-text-input")%>
           </div>
+          <div class="flex justify-between w-full text-xs">
+            <div class="text-gray-500">
+              Didn't receive confirmation email?
+            </div>
+            <div>
+              <%= link_to "Resend confirmation instructions.", new_confirmation_path(resource), class: "text-blue-600" %><br /><br />
+            </div>
+          </div>
           <div class="actions">
             <%= f.submit "Next", class: "log-in-button" %>
           </div>

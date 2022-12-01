@@ -452,7 +452,6 @@ ActiveRecord::Schema.define(version: 2022_11_25_183051) do
     t.string "service"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "output"
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

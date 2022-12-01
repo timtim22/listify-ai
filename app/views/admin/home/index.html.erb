@@ -16,6 +16,7 @@
       <li><%= link_to "Manage Example sets", admin_examples_path %></li>
       <li><%= link_to "Manage Tagger rules", admin_taggers_rules_path %></li>
       <li><%= link_to 'Export CSV (temp)', admin_data_exports_path(format: "csv") %></li>
+      <li><%= link_to 'View Procedures', admin_procedures_path %></li>
     </ol>
   <% elsif policy(:admin).index? %>
     <p>You are signed in as member of the Listify team. Links: </p>

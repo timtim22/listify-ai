@@ -152,4 +152,12 @@ class User < ApplicationRecord
       true
     end
   end
+
+  def after_confirmation
+    if email.ends_with? '@co-host.me.uk'
+      lock_account!
+    else
+      UserMailer.welcome(self).deliver_now
+    end
+  end
 end

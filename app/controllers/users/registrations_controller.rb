@@ -5,7 +5,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       return if resource.invalid?
 
       flash[:alert] = 'Your team invitation has expired - please ask your colleague to resend it.' unless add_to_team
-      UserMailer.welcome(resource).deliver_now
+      AdminMailer.welcome(resource).deliver_later
     else
       redirect_to new_user_registration_path, alert: 'Failed recaptcha - if this persists please contact hello@listify.ai for support'
     end

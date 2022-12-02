@@ -5,7 +5,6 @@ class UserMailer < ApplicationMailer
       to: @user.email,
       subject: 'Welcome to Listify AI!'
     )
-    AdminMailer.welcome(@user).deliver_later
   end
 
   def trial_expiring_soon(user)

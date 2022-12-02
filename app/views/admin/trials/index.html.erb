@@ -20,6 +20,7 @@
         <tr class="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
           <th class="py-3 px-6">Created at</th>
           <th class="py-3 px-6">Email</th>
+          <th class="py-3 px-6">Email verified</th>
           <th class="py-3 px-6">Spins during trial</th>
           <th class="py-3 px-6">Spin quota</th>
           <th class="py-3 px-6">Account status</th>
@@ -33,6 +34,7 @@
           <tr class="text-xs">
             <td class="py-3 px-6"><%= format_table_date(user.created_at) %></td>
             <td class="py-3 px-6"><%= user.email %></td>
+            <td class="py-3 px-6"><%= user.confirmed_at ? format_table_date(user.confirmed_at) : 'No' %></td>
             <td class="py-3 px-6"><%= user.spins_used_in_current_period %></td>
             <td class="py-3 px-6"><%= user.spin_quota %></td>
             <td class="py-3 px-6"><%= format_trial_status(user.account_status) %></td>

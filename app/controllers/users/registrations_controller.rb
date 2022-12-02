@@ -13,6 +13,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def after_inactive_sign_up_path_for(_resource)
+    new_confirmation_path(resource)
+  end
+
   def add_to_team
     team_invitation = TeamInvitation.find_by(email: resource.email)
     return true if team_invitation.blank?

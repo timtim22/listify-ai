@@ -28,7 +28,7 @@ RSpec.describe 'Users::Registrations', type: :request do
 
           follow_redirect!
           expect(response).to have_http_status(200)
-          expect(response.body).to include('You have signed up successfully.')
+          expect(response.body).to include('Almost there! Check your email to confirm your account')
         end
 
         it 'sends welcome email' do
@@ -56,7 +56,7 @@ RSpec.describe 'Users::Registrations', type: :request do
 
           follow_redirect!
           expect(response).to have_http_status(200)
-          expect(response.body).to include('You have signed up successfully.')
+          expect(response.body).to include('Almost there! Check your email to confirm your account')
           expect(flash[:alert]).to eq('Your team invitation has expired - please ask your colleague to resend it.')
         end
       end

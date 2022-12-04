@@ -154,7 +154,7 @@ class User < ApplicationRecord
   end
 
   def after_confirmation
-    if email.ends_with? '@co-host.me.uk'
+    if ['@co-host.me.uk', '@loadbuyplus.com'].any? { |domain| email.include? domain }
       lock_account!
     else
       UserMailer.welcome(self).deliver_now

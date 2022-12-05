@@ -36,7 +36,8 @@
               :email,
               autofocus: true,
               autocomplete: "email",
-              class: "form-text-input"
+              class: "form-text-input",
+              value: @user.unconfirmed_email || @user.email
             ) %>
           </div>
 

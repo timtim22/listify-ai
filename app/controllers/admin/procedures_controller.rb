@@ -1,6 +1,6 @@
 class Admin::ProceduresController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_procedure, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin
+  before_action :set_procedure, only: %i[show edit update destroy]
 
   def index
     @procedures = Procedure.all
@@ -36,7 +36,7 @@ class Admin::ProceduresController < ApplicationController
   end
 
   def update
-    @procedure.assign_attributes(procedure_params)
+    @procedure.update(procedure_params)
 
     respond_to do |format|
       if @procedure.save
@@ -64,6 +64,6 @@ class Admin::ProceduresController < ApplicationController
   end
 
   def procedure_params
-    params.permit(:title, :tag)
+    params.require(:procedure).permit(:title, :tag)
   end
 end

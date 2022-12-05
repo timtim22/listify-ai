@@ -1,4 +1,7 @@
-    <%= form_with model: @procedure, url: admin_procedures_path, local: true, class: "w-96" do |form| %>
+<div class="flex justify-center pt-8 mb-4 w-full h-full bg-gray-50">
+  <div class="flex flex-col items-center w-4/5 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md">
+    <h1 class="my-8 text-xl font-medium tracking-wider text-gray-700">Edit procedure</h1>
+        <%= form_with model: @procedure, url: admin_procedure_path, local: true, class: "w-96" do |form| %>
 
         <div class="field">
           <%= form.label :tag, "Tag", value: @procedure.try(:tag), class: "form-label" %><br />
@@ -23,3 +26,5 @@
       </div>
     <% end %>
     <%= link_to 'Back', admin_procedures_path, class: "text-xs py-8" %>
+  </div>
+</div>

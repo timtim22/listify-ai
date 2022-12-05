@@ -1,4 +1,5 @@
 class Prompt < ApplicationRecord
+  belongs_to :prompt_set
   has_many :task_results, dependent: :nullify
 
   acts_as_list scope: :prompt_set

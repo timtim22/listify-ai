@@ -6,11 +6,10 @@ RSpec.describe Procedures::MultistepRequestWorker do
       create(:user)
       task_run = create(:task_run, input_object: input_object)
       create('Step::Prompt')
-      procedure = create(:procedure, title: 'Title Listing', tag: "Listing")
-      expect(Procedures::MultistepRequestWorker).to receive(:perform_async).exactly(1).times
+      procedure = create(:procedure, title: 'Title Listing', tag: 'Listing')
       worker = Procedures::MultistepRequestWorker.new
       worker.perform(procedure.id, task_run.id)
-
+      expect(TaskRun.last.input_object_type).to eq 'Listing'
     end
   end
 end

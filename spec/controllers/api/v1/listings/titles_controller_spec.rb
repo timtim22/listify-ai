@@ -13,6 +13,29 @@ RSpec.describe 'Api::V1::Listings::TitlesController', type: :request do
     post '/api/v1/listings/titles', params: payload, headers: { Authorization: jwt_token }
   end
 
+  describe 'titles controller' do
+    it 'should return sucessfully response ' do
+      procedure = create(:procedure, title: 'Listing', tag: 'listing_title')
+      step_prompt = create('Step::Prompt')
+      create(:registered_step, procedure_id: procedure.id, step: step_prompt)
+      payload = {
+        output_language: "EN",
+        text: {
+          location: 'london',
+          property_type: 'house',
+          number_of_bedrooms: 2,
+          ideal_for: 'couple',
+          features: ['parking']
+        }
+      }
+
+      make_request(payload)
+      binding.pry
+      expect(Input.first.inputable_type).to eq 'Listing'
+      expect(TaskRun.first.input_object_type).to eq 'Listing'
+    end
+  end
+
   describe 'descriptions controller' do
     context 'with invalid parameter' do
       it 'fails for missing parameter ' do

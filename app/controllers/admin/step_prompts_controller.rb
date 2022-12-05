@@ -17,7 +17,7 @@ class Admin::StepPromptsController < ApplicationController
     respond_to do |format|
       if @step_prompt.save
         format.html { redirect_to admin_procedures_path(params[:procedure_id]), notice: 'Step Prompt created.' }
-        format.json { redirect_to admin_procedures_path(@procedure), status: :created, notice: 'Step Prompt created.' }
+        format.json { redirect_to admin_procedure_path(@procedure), status: :created, notice: 'Step Prompt created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @step_prompt.errors, status: :unprocessable_entity }
@@ -32,7 +32,7 @@ class Admin::StepPromptsController < ApplicationController
     respond_to do |format|
       if @step_prompt.save
         format.html { redirect_to admin_procedure_steps_path(params[:procedure_id]), notice: 'Step Prompt updated.' }
-        format.json { redirect_to admin_procedures_path(@procedure), status: :created, notice: 'Step Prompt updated.' }
+        format.json { redirect_to admin_procedure_path(@procedure), status: :created, notice: 'Step Prompt updated.' }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @step_prompt.errors, status: :unprocessable_entity }
@@ -41,10 +41,11 @@ class Admin::StepPromptsController < ApplicationController
   end
 
   def destroy
+    RegisteredStep.find_by(step_id: @step_prompt.id).destroy
     @step_prompt.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_procedure_steps_path(params[:procedure_id]), notice: 'Step Prompt successfully destroyed.' }
+      format.html { redirect_to admin_procedure_path(@procedure), notice: 'Step Prompt successfully destroyed.' }
     end
   end
 
@@ -55,7 +56,11 @@ class Admin::StepPromptsController < ApplicationController
   end
 
   def set_procedure
-    @procedure = params['action'] == 'edit' ? RegisteredStep.find(params[:procedure_id]).procedure : Procedure.find(params[:procedure_id])
+    if ['edit', 'destroy'].include? params['action'] 
+      @procedure = RegisteredStep.find(params[:procedure_id]).procedure 
+    else
+      @procedure = Procedure.find(params[:procedure_id])
+    end
   end
 
   def set_step_prompt

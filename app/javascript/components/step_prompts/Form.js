@@ -7,7 +7,7 @@ import ErrorNotice from '../common/ErrorNotice';
 const Form = ({
   actionType,
   promptProps,
-  promptSet,
+  procedure,
   serviceOptions,
   serviceConstraints,
   engines
@@ -31,14 +31,14 @@ const Form = ({
     setErrors(null);
     if (actionType === 'new') {
       createRequest(
-        `/admin/procedures/${promptSet.id}/steps.json`,
+        `/admin/procedures/${procedure.id}/steps.json`,
         { step_prompt },
         redirectOnSuccess,
         (e) => { setErrors(e); setLoading(false) }
       )
     } else {
       updateRequest(
-        `/admin/procedures/${promptSet.id}/steps/${step_prompt.id}.json`,
+        `/admin/procedures/${procedure.id}/steps/${step_prompt.id}.json`,
         { step_prompt },
         redirectOnSuccess,
         (e) => { setErrors(e); setLoading(false) }
@@ -152,7 +152,7 @@ const Form = ({
 Form.propTypes = {
   actionType: PropTypes.string,
   promptProps: PropTypes.object,
-  promptSet: PropTypes.object,
+  procedure: PropTypes.object,
   serviceOptions: PropTypes.array,
   serviceConstraints: PropTypes.object,
   engines: PropTypes.object

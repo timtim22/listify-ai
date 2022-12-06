@@ -5,8 +5,8 @@ class CompletionResponseHandler
     @response_formatter  = ResponseFormatters::Runner.new
   end
 
-  def run(task_run, response, prompt, request, config, multistep)
-    task_result = TaskResult.create_for(task_run, response, prompt, multistep)
+  def run(task_run, response, prompt, request, config, procedure)
+    task_result = TaskResult.create_for(task_run, response, prompt, procedure)
     @content_filters.run(response, task_result, task_run)
     @translations.run(task_run, task_result)
     @response_formatter.run(task_result, task_run.input_object_type)

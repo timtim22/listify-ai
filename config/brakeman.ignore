@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "9bd1f41ba3b8c741b397d715801a5f4407ec0eb270625fc3ee49c6798cf08474",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/team_invitations_controller.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:team_invitation).permit(:email, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TeamInvitationsController",
+        "method": "team_invitation_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": "Add role mass assignment warning"
+    }
+  ],
+  "updated": "2022-12-06 11:00:04 +0800",
+  "brakeman_version": "5.2.3"
+}

@@ -38,3 +38,5 @@ yarn-debug.log*
 .yarn-integrity
 /installs/*
 /resources/*
+
+output-brakeman.json

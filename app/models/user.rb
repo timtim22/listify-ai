@@ -30,6 +30,7 @@ class User < ApplicationRecord
   scope :on_listify_team, -> { where("'listify_team' = ANY (authorization_scopes)") }
   scope :admin_or_listify_team, -> { where(admin: true).or(on_listify_team)}
   scope :with_team, -> { joins(:team) }
+  scope :with_enabled_modules, -> { joins(:enabled_modules) }
   scope :ever_subscribed, -> { joins(:subscriptions).merge(Subscription.with_created_states) }
   scope :non_trial_states, -> { where(id: [with_team.ids, ever_subscribed.ids, admin_or_listify_team.ids].flatten) }
   scope :trial_states, -> { where.not(id: non_trial_states.ids) } # includes private beta for now

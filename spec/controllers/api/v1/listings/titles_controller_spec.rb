@@ -30,7 +30,6 @@ RSpec.describe 'Api::V1::Listings::TitlesController', type: :request do
       }
 
       make_request(payload)
-      binding.pry
       expect(Input.first.inputable_type).to eq 'Listing'
       expect(TaskRun.first.input_object_type).to eq 'Listing'
     end

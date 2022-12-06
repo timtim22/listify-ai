@@ -33,8 +33,8 @@ RSpec.describe 'Users::Registrations', type: :request do
 
         it 'sends welcome email' do
           mailer = double
-          expect(UserMailer).to receive(:welcome).and_return(mailer)
-          expect(mailer).to receive(:deliver_now)
+          expect(AdminMailer).to receive(:welcome).and_return(mailer)
+          expect(mailer).to receive(:deliver_later)
           post '/users', params: login_params
         end
       end

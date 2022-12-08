@@ -56,7 +56,7 @@ class Admin::StepPromptsController < ApplicationController
   end
 
   def set_procedure
-    if ['edit', 'destroy'].include? params['action'] 
+    if ['edit', 'destroy', 'show'].include? params['action'] 
       @procedure = RegisteredStep.find(params[:procedure_id]).procedure 
     else
       @procedure = Procedure.find(params[:procedure_id])

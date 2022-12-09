@@ -1,16 +1,7 @@
 class Admin::StepPromptsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_step_prompt, only: %i[show edit update destroy]
-  before_action :set_service_options, only: %i[new edit]
+  before_action :set_step_prompt, only: %i[update destroy]
   before_action :set_procedure
-
-  def new
-    @step_prompt = Step::Prompt.new_from_defaults
-  end
-
-  def edit; end
-
-  def show; end
 
   def create
     @step_prompt = Step::Prompt.new(step_prompt_params)
@@ -56,11 +47,11 @@ class Admin::StepPromptsController < ApplicationController
   end
 
   def set_procedure
-    if ['edit', 'destroy', 'show'].include? params['action'] 
-      @procedure = RegisteredStep.find(params[:procedure_id]).procedure 
-    else
-      @procedure = Procedure.find(params[:procedure_id])
-    end
+    @procedure = if params[:action] == 'destroy'
+                   RegisteredStep.find(params[:procedure_id]).procedure
+                 else
+                   Procedure.find(params[:procedure_id])
+                 end
   end
 
   def set_step_prompt

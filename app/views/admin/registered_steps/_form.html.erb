@@ -1,0 +1,13 @@
+<div class="w-full">
+  <%= react_component(
+    'registered_steps/Form',
+    {
+      actionType: locals[:action_type],
+      promptProps: @step,
+      procedure: @procedure,
+      serviceOptions: @service_options,
+      serviceConstraints: Prompt::SERVICE_CONSTRAINTS,
+      engines: Prompt::ENGINES
+    }
+  ) %>
+</div>

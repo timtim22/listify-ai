@@ -111,8 +111,8 @@ Rails.application.routes.draw do
     resources :data_exports, only: [:index]
     resources :examples
     resources :procedures do
-      resources :registered_steps, only: [:index, :show]
-      resources :steps, :controller => "step_prompts"
+      resources :registered_steps
+      resources :steps, controller: 'step_prompts'
     end
     resources :playground_forms, only: [:new]
     resources :recorded_completions, only: [:index, :show] do

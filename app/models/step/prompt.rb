@@ -1,6 +1,7 @@
 class Step::Prompt < ApplicationRecord
-  has_many :task_results, dependent: :nullify
   self.table_name = 'step_prompts'
+
+  has_many :task_results, dependent: :nullify
 
   validates :title, :content, presence: true
 

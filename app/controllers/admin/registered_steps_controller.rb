@@ -1,4 +1,5 @@
 class Admin::RegisteredStepsController < ApplicationController
+  before_action :authenticate_admin
   before_action :set_service_options, only: %i[new edit]
   before_action :set_step, only: %i[show edit]
   before_action :set_procedure

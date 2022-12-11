@@ -1,5 +1,5 @@
 class Admin::StepPromptsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_admin
   before_action :set_step_prompt, only: %i[update destroy]
   before_action :set_procedure
 

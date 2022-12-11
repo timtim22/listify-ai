@@ -9,6 +9,7 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
 
     @listing = save.input_object
     @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true, params[:mock_request])
+    #@task_run = TaskRunners::Multistep.new.run_for!(@listing, current_user, true)
 
     handle_expected_result do
       break if @task_run.has_all_results?

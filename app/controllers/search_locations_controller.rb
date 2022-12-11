@@ -2,6 +2,7 @@ class SearchLocationsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    @runs_remaining = SpinCheck.runs_remaining(current_user)
     search_text = search_location_params[:search_text].downcase
     @search_location = SearchLocation.find_or_create_with(search_text)
     record_search_by_user
@@ -31,8 +32,11 @@ class SearchLocationsController < ApplicationController
   end
 
   def record_search_by_user
-    @search_location.recorded_searches.create!(user: current_user)
-    recorded_search_volume = RecordedSearch.where('created_at > ?', Date.today.beginning_of_day).count
+    @search_location.recorded_searches.create!(
+      user: current_user,
+      search_radius: search_location_params[:attraction_radius]
+    )
+    recorded_search_volume = RecordedSearch.where('created_at > ?', Time.zone.today.beginning_of_day).count
     raise 'Unexpected search volume recorded!' if recorded_search_volume > 200
 
     return unless recorded_search_volume == 150

@@ -8,7 +8,8 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
     return json_unprocessable_entity unless save.success
 
     @listing = save.input_object
-    @task_run = TaskRunners::Multistep.new.run_for!(@listing, current_user, true)
+    @task_run = TaskRunners::OneStep.new.run_for!(@listing, current_user, output_language, true, params[:mock_request])
+
     handle_expected_result do
       break if @task_run.has_all_results?
     end
@@ -58,10 +59,9 @@ class Api::V1::Listings::TitlesController < Api::V1::ApiController
   end
 
   def translated_results(task_results)
-    task_results.map do |tr|
+    task_results.reject { |tr| tr.result_text.blank? }.map do |tr|
       final_result = tr.translations.any? ? tr.translations.first : tr
       final_result.result_text&.strip
     end
   end
-
 end

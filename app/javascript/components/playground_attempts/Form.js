@@ -111,6 +111,7 @@ const Form = ({ onResult, loading, setLoading, promptSets }) => {
           </label>
           <div className="flex justify-center py-8 w-full">
             <Submit
+              checkUserAccount={false}
               inputText={playgroundAttempt.input_text}
               userInputLength={playgroundAttempt.input_text.length}
               maxUserInput={maxInput}

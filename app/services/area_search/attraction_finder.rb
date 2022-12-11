@@ -17,7 +17,11 @@ module AreaSearch
         find_restaurants
         found
       else
-        AreaSearch::MockData.new.london
+        AreaSearch::MockData.new.london.transform_values do |attraction_array|
+          attraction_array.map do |attraction_hash|
+            Attraction.from_hash(attraction_hash.stringify_keys)
+          end
+        end
       end
     end
 
@@ -127,6 +131,8 @@ module AreaSearch
     end
 
     def attractions_from(response, search_type)
+      return [] if response['results'].blank?
+
       response['results'].map do |result|
         result_with_search_type = result.merge({ 'search_type' => search_type })
         Attraction.from_remote_object(result_with_search_type)

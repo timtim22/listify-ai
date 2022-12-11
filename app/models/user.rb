@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :registerable, :recoverable, :rememberable, :validatable, :masqueradable
+  devise :registerable, :recoverable, :rememberable, :validatable, :masqueradable, :confirmable
 
   has_one :team_role, required: false, dependent: :destroy
   has_one :team, through: :team_role
@@ -150,6 +150,14 @@ class User < ApplicationRecord
       logger.info "User #{email} is using the old password hashing method, updating attribute."
       self.password = password
       true
+    end
+  end
+
+  def after_confirmation
+    if ['@co-host.me.uk', '@loadbuyplus.com'].any? { |domain| email.include? domain }
+      lock_account!
+    else
+      UserMailer.welcome(self).deliver_now
     end
   end
 end

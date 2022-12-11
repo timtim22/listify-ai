@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { UserContext } from '../listings/New';
 import Filter from 'bad-words';
@@ -6,7 +6,8 @@ import Filter from 'bad-words';
 const profanityFilter = new Filter();
 profanityFilter.removeWords('spac');
 
-const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText, location }) => {
+const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInput, buttonText, location, checkUserAccount = true }) => {
+  const [mockLoading, setMockLoading] = useState(false);
   const user = useContext(UserContext);
 
   const inputLengthWarning = () => {
@@ -47,9 +48,21 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
     )
   }
 
+  const mockSubmitButton = () => {
+    return (
+      <button
+        type="button"
+        onClick={() => setMockLoading(true)}
+        disabled={loading || mockLoading}
+        className={`${loading || mockLoading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
+        {buttonText ? buttonText : 'Generate'}
+      </button>
+    )
+  };
+
   const submitButton = () => {
     return (
-      <button disabled={loading} className={`${loading ? "cursor-not-allowed opacity-50" : ""} primary-button`}>
+      <button disabled={loading} className={`primary-button ${loading ? "cursor-not-allowed opacity-50" : ""}`}>
         {buttonText ? buttonText : 'Generate'}
       </button>
     )
@@ -62,8 +75,8 @@ const Submit = ({ inputText, loading, runsRemaining, userInputLength, maxUserInp
   if (runsRemaining < 1 || noSpinsForForm()) { return requestLimitWarning(); }
   if (invalidInputLength()) { return inputLengthWarning(); }
   if (isProfane()) { return profanityWarning(); }
+  if (checkUserAccount && user.account_locked) { return mockSubmitButton(); }
   return submitButton();
-
 }
 
 Submit.propTypes = {

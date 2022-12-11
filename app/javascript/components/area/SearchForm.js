@@ -138,8 +138,8 @@ const SearchForm = ({ canCloseSearch, loading, setLoading, initialSearchTerm, se
       <div className="flex justify-start items-center my-4 w-full">
         <label className="flex-shrink-0 w-1/3 text-sm">Radius</label>
         <div className="flex items-center justify-start mx-4">
+          {radiusCheckbox(2000, '2km')}
           {radiusCheckbox(5000, '5km')}
-          {radiusCheckbox(10000, '10km')}
           {radiusCheckbox(25000, '25km')}
         </div>
       </div>

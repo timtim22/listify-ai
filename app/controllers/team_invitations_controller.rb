@@ -9,11 +9,9 @@ class TeamInvitationsController < ApplicationController
   end
 
   def create
-    @team_invitation = @team.team_invitations.new(
-      team_invitation_params.merge(
-        status: 'pending', expired_at: Time.zone.now + 7.days, invited_by: current_user.email
-      )
-    )
+    @team_invitation = @team.team_invitations.new(team_invitation_params.merge(
+      status: 'pending', expired_at: Time.zone.now + 7.days, invited_by: current_user.email
+    ))
     respond_to do |format|
       if @team_invitation.save
         if @team.send("add_#{@team_invitation.role}", @team_invitation.email)

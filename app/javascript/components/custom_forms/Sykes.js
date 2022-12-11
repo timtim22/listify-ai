@@ -69,6 +69,7 @@ const Sykes = ({ loading, setLoading, onResult, runsRemaining }) => {
             {textArea('Key Features', 'key_features')}
             <div className="flex flex-col items-center justify-center py-8 w-full">
               <Submit
+                checkUserAccount={false}
                 inputText={joinedInputs()}
                 userInputLength={trueUserInputLength()}
                 maxUserInput={maxInput}

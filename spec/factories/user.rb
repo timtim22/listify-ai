@@ -12,5 +12,6 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     admin { false }
+    confirmed_at { Time.zone.now }
   end
 end

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const bannerForUser = (user) => {
-  if (user.recently_subscribed) {
+  if (user.enabled_modules.includes('payment_dispute')) {
+    return <AccountLockedBanner />;
+  } else if (user.recently_subscribed) {
     return <NewSubscriptionBanner />;
   } else if (user.account_status === "active_trial") {
     return <TrialActiveBanner endDate={new Date(user.trial_end_date)} />;
@@ -51,6 +53,16 @@ export const TrialExpiredBanner = () => {
     />
   )
 }
+
+export const AccountLockedBanner = () => {
+  return (
+    <Banner
+      title="There is an issue with your account"
+      text="We have been notified that a payment to Listify from your card is disputed. Please contact us at hello@listify.ai to resolve this issue. Your access to the app has been limited as a precaution."
+      noticeLevel='warning'
+    />
+  )
+};
 
 const Banner = ({ title, text, noticeLevel = 'info' }) => {
   const borderColor = noticeLevel === 'warning' ? 'border-orange-500' : 'border-teal-500';

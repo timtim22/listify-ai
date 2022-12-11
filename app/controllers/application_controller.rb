@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :masquerade_user!
+  before_action do
+    Honeybadger.context({ user_id: current_user&.id })
+  end
 
   rescue_from Errors::ShortRequest, with: :render_error_response
   rescue_from Errors::NoSpinsRemaining, with: :render_error_response
@@ -24,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_error_response(error)
-    render json: { message: error.message }, status: error.http_status
+    render json: { message: [error.message] }, status: error.http_status
   end
 
   def after_sign_out_path_for(resource_or_scope)

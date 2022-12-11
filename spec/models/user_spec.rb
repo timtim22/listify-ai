@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'false if trial expired' do
-      user = create(:user, created_at: Date.today - 15.days)
+      user = create(:user, created_at: Time.zone.today - 15.days)
       expect(user.on_trial?).to eq false
     end
   end

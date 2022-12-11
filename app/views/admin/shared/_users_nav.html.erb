@@ -23,5 +23,11 @@
       admin_admins_path,
       class: active == 'admins' ? 'secondary-link' : ''
     ) %>
+    <span class="mx-1">|<span>
+    <%= link_to(
+      'Modules',
+      admin_modules_path,
+      class: active == 'modules' ? 'secondary-link' : ''
+    ) %>
   </div>
 </div>

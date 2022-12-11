@@ -127,6 +127,6 @@ Rails.application.routes.draw do
     resources :teams, only: [:index]
     resources :trials, only: [:index]
     resources :user_locks, only: [:create, :destroy]
+    resources :modules, only: [:index]
   end
 end
- 

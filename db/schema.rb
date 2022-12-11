@@ -236,6 +236,17 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
     t.index ["user_id"], name: "index_inputs_on_user_id"
   end
 
+  create_table "intermediate_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
+    t.string "error"
+    t.jsonb "input"
+    t.jsonb "output"
+    t.uuid "task_run_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_run_id"], name: "index_intermediate_results_on_task_run_id"
+  end
+
   create_table "legacy_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
@@ -313,6 +324,13 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "procedures", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "tag"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "prompt_sets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "request_type"
@@ -381,6 +399,17 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
     t.index ["user_id"], name: "index_recorded_searches_on_user_id"
   end
 
+  create_table "registered_steps", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
+    t.uuid "procedure_id", null: false
+    t.string "step_type", null: false
+    t.uuid "step_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["procedure_id"], name: "index_registered_steps_on_procedure_id"
+    t.index ["step_type", "step_id"], name: "index_registered_steps_on_step"
+  end
+
   create_table "room_descriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "input_text"
     t.string "request_type"
@@ -403,6 +432,25 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["search_location_id"], name: "index_search_results_on_search_location_id"
+  end
+
+  create_table "step_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content", null: false
+    t.string "stop"
+    t.float "temperature", null: false
+    t.integer "max_tokens", default: 100
+    t.float "top_p", null: false
+    t.float "frequency_penalty", null: false
+    t.float "presence_penalty", null: false
+    t.string "engine", null: false
+    t.integer "remote_model_id"
+    t.integer "number_of_results", default: 1
+    t.string "labels"
+    t.string "service"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "output"
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -445,13 +493,16 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
     t.boolean "failed_custom_filter", default: false
     t.boolean "user_copied", default: false
     t.string "service"
+    t.string "step_prompt_id"
+    t.bigint "procedure_id"
+    t.index ["procedure_id"], name: "index_task_results_on_procedure_id"
     t.index ["prompt_id"], name: "index_task_results_on_prompt_id"
     t.index ["task_run_id"], name: "index_task_results_on_task_run_id"
   end
 
   create_table "task_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.uuid "prompt_set_id", null: false
+    t.uuid "prompt_set_id"
     t.string "input_object_type"
     t.uuid "input_object_id"
     t.datetime "created_at", precision: 6, null: false
@@ -583,6 +634,7 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
   add_foreign_key "feedbacks", "legacy_task_runs", column: "task_run_id"
   add_foreign_key "full_listings", "users"
   add_foreign_key "inputs", "users"
+  add_foreign_key "intermediate_results", "task_runs"
   add_foreign_key "legacy_task_runs", "legacy_prompts"
   add_foreign_key "legacy_task_runs", "users"
   add_foreign_key "listing_fragments", "full_listings"
@@ -592,6 +644,7 @@ ActiveRecord::Schema.define(version: 2022_12_01_103322) do
   add_foreign_key "recorded_completions", "users"
   add_foreign_key "recorded_searches", "search_locations"
   add_foreign_key "recorded_searches", "users"
+  add_foreign_key "registered_steps", "procedures"
   add_foreign_key "search_results", "search_locations"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "task_results", "prompts"

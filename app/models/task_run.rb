@@ -1,13 +1,24 @@
 class TaskRun < ApplicationRecord
   belongs_to :user
-  belongs_to :prompt_set
+  belongs_to :prompt_set, optional: true
   belongs_to :input_object, polymorphic: true
   has_many :task_results, dependent: :destroy
+  has_many :intermediate_results, dependent: :destroy
   has_many :text_results, dependent: :destroy
   has_many :translation_requests, dependent: :destroy
   has_many :recorded_completions, dependent: :nullify
 
   scope :today, -> { where(created_at: [DateTime.current.beginning_of_day..DateTime.current]) }
+
+  def self.create_for(user, input_object, api_request, procedure_count)
+    task_run = TaskRun.create!(
+      user: user,
+      input_object: input_object,
+      expected_results: procedure_count,
+      api_request: api_request
+    )
+    task_run
+  end
 
   def self.with_results(ids)
     where(id: ids).includes(:task_results)

@@ -1,0 +1,13 @@
+<div class="w-full">
+  <%= react_component(
+    'step_prompts/Form',
+    {
+      actionType: locals[:action_type],
+      promptProps: @step_prompt,
+      procedure: @procedure,
+      serviceOptions: @service_options,
+      serviceConstraints: Prompt::SERVICE_CONSTRAINTS,
+      engines: Prompt::ENGINES
+    }
+  ) %>
+</div>

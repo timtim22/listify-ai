@@ -3,7 +3,7 @@ class Completions::TwoStepRequestWorker
   sidekiq_options retry: 0
 
   def perform(task_run_id, prompt_id, task_run_2_id, prompt_set_2_id)
-    first_result = CompletionRequestRunner.new.for(task_run_id, prompt_id)
+    first_result = CompletionRequestRunner.new.for(task_run_id, prompt_id, false)
     prompt_set_2 = PromptSet.find(prompt_set_2_id)
     task_run_2 = TaskRun.find(task_run_2_id)
     if first_result.success

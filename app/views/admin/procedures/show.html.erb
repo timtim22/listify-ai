@@ -1,0 +1,34 @@
+<div class="px-10 w-full">
+  <div class="flex justify-between items-center my-4 w-full">
+    <h1 class="text-xl font-medium text-gray-900">Steps</h1>
+    <%= link_to 'Add Step', new_admin_procedure_registered_step_path(@procedure), class: "add-button" %>
+  </div>
+
+  <div class="overflow-scroll bg-white rounded-lg border border-gray-200 shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr class="text-xs font-medium tracking-wider text-left uppercase">
+          <th class="py-3 px-6">Title</th>
+          <th class="py-3 px-6">Type</th>
+          <th class="py-3 px-6">Action</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <% @procedure_steps.each do |procedure_step| %>
+          <tr class="text-xs">
+            <td class="py-3 px-6"><%= procedure_step.step.title %></td>
+            <td class="py-3 px-6"><%= procedure_step.step_type %></td>
+            <td> <%= link_to 'EDIT', edit_admin_procedure_registered_step_path(procedure_step, procedure_step.step), class: 'ml-2 text-xs text-green-800' %> | <%= link_to 'SHOW', admin_procedure_registered_step_path(procedure_step, procedure_step.step), class: 'ml-2 text-xs text-green-800' %> | <%= link_to 'DELETE', admin_procedure_step_path(procedure_step, procedure_step.step), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ml-2 text-xs text-red-800' %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <div class="px-4 flex justify-between items-center text-sm">
+    <%== pagy_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
+  </div>
+</div>
+

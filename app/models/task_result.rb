@@ -1,6 +1,7 @@
 class TaskResult < ApplicationRecord
   belongs_to :task_run
   belongs_to :prompt, optional: true
+  belongs_to :procedure, optional: true
 
   has_one :recorded_completion, dependent: :nullify
   has_many :content_filter_results, dependent: :destroy
@@ -17,6 +18,26 @@ class TaskResult < ApplicationRecord
       result_text
     else
       'This result was flagged as sensitive or unsafe. This may be a mistake - we are looking into it.'
+    end
+  end
+
+  def self.create_for(task_run, response, prompt, procedure)
+    if procedure
+      task_run.task_results.create!(
+        service: response[:service],
+        success: response[:success],
+        procedure: procedure,
+        result_text: response[:result_text],
+        error: response[:error]
+      )
+    else
+      task_run.task_results.create!(
+        service: response[:service],
+        success: response[:success],
+        prompt: prompt,
+        result_text: response[:result_text],
+        error: response[:error]
+      )
     end
   end
 
